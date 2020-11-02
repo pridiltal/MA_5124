@@ -29,8 +29,8 @@
 }
 \usepackage{hyperref}
 \hypersetup{
-            pdftitle={A Minimal Book Example},
-            pdfauthor={Yihui Xie},
+            pdftitle={MA 5124 Financial Time Series Analysis \& Forecasting},
+            pdfauthor={Dr.~Priyanga D. Talagala},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -116,8 +116,8 @@
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
-\title{A Minimal Book Example}
-\author{Yihui Xie}
+\title{MA 5124 Financial Time Series Analysis \& Forecasting}
+\author{Dr.~Priyanga D. Talagala}
 \date{2020-11-02}
 
 \begin{document}
@@ -127,24 +127,84 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{prerequisites}{%
-\chapter{Prerequisites}\label{prerequisites}}
+\hypertarget{course-syllabus}{%
+\chapter*{Course Syllabus}\label{course-syllabus}}
+\addcontentsline{toc}{chapter}{Course Syllabus}
 
-This is a \emph{sample} book written in \textbf{Markdown}. You can use anything that Pandoc's Markdown supports, e.g., a math equation \(a^2 + b^2 = c^2\).
+\pagenumbering{arabic}
 
-The \textbf{bookdown} package can be installed from CRAN or Github:
+\textbf{Module Code:} MA 5124
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{install.packages}\NormalTok{(}\StringTok{"bookdown"}\NormalTok{)}
-\CommentTok{# or the development version}
-\CommentTok{# devtools::install_github("rstudio/bookdown")}
-\end{Highlighting}
-\end{Shaded}
+\textbf{Title:} Financial Time Series Analysis \& Forecasting
 
-Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading \texttt{\#}.
+\textbf{Credits:} 4
 
-To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): \url{https://yihui.name/tinytex/}.
+\hypertarget{pre-requiites}{%
+\section*{Pre-requiites}\label{pre-requiites}}
+\addcontentsline{toc}{section}{Pre-requiites}
+
+None
+
+\hypertarget{learning-objectives}{%
+\section*{Learning Objectives}\label{learning-objectives}}
+\addcontentsline{toc}{section}{Learning Objectives}
+
+\begin{itemize}
+\tightlist
+\item
+  The purpose of this course is to provide students with introductory tools for the time series analysis of financial time series.
+\item
+  Analyze of data series based on stochastic and non stochastic models
+\end{itemize}
+
+\hypertarget{learning-outcomes}{%
+\section*{Learning Outcomes}\label{learning-outcomes}}
+\addcontentsline{toc}{section}{Learning Outcomes}
+
+\begin{itemize}
+\tightlist
+\item
+  On successful completion of this course, students will be able to provide more than an introductory treatment of the topics.
+\item
+  Students are encouraged to pursue further study in this area if they find that the topics covered in this course.
+\end{itemize}
+
+\hypertarget{outline-syllabus}{%
+\section*{Outline Syllabus}\label{outline-syllabus}}
+\addcontentsline{toc}{section}{Outline Syllabus}
+
+\begin{itemize}
+\tightlist
+\item
+  Definition and examples of time series
+\item
+  back-shift and differencing-operators, - strong and weak stationarity, definition of ACF, PACF.
+\item
+  Definitions and properties of the \(MA(q), MA(\infty), AR(p), AR(\infty)\)
+  and \(ARMA(p,q)\),in particualr their acf's
+\item
+  causal stationarity of AR
+\item
+  invertibility of MA models and causal stationarity and invertibility of ARMA; - concept of spectral density function and its applications
+\item
+  definition and properties of integrated \(ARIMA(p,d,q)\) processes
+\item
+  definition and properties of random walks with or without drift.
+\item
+  Model selection following the AIC and BIC
+\item
+  brief introduction to linear prediction and calculation of forecasting intervals for normal ARMA models
+\item
+  point and interval forecasts for normal random walks with or without drift.
+\item
+  Definition and properties of the VAR (vector autoregressive) model, arrange a univariate time series as a multivariate Markov model.
+\item
+  Nonlinear properties of financial time series
+\item
+  definition and properties of the well known ARCH, GARCH etc.
+\item
+  Cointegration in Single Equations, Modeling and Forecasting Financial Time Series.
+\end{itemize}
 
 \hypertarget{intro}{%
 \chapter{Introduction}\label{intro}}
