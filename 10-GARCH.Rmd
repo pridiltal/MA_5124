@@ -1,0 +1,3 @@
+# Volatality Models 
+
+- (ARCH, GARCH)

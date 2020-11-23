@@ -24,15 +24,15 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2020-11-02" />
+<meta name="date" content="2020-11-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="literature.html"/>
-<link rel="next" href="applications.html"/>
+<link rel="prev" href="time-series-graphics.html"/>
+<link rel="next" href="exponential-smoothing.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -143,14 +143,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#copyright-notice"><i class="fa fa-check"></i>Copyright Notice</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>2</b> Literature</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Intordution to Time Series Forecasting</a></li>
+<li class="chapter" data-level="2" data-path="time-series-graphics.html"><a href="time-series-graphics.html"><i class="fa fa-check"></i><b>2</b> Time Series Graphics</a></li>
 <li class="chapter" data-level="3" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>3</b> Methods</a></li>
-<li class="chapter" data-level="4" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>4</b> Applications</a><ul>
-<li class="chapter" data-level="4.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>4.1</b> Example one</a></li>
-<li class="chapter" data-level="4.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>4.2</b> Example two</a></li>
+<li class="chapter" data-level="4" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html"><i class="fa fa-check"></i><b>4</b> Exponential Smoothing</a></li>
+<li class="chapter" data-level="5" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>5</b> ARIMA models</a></li>
+<li class="chapter" data-level="6" data-path="multiple-regression-and-forecasting.html"><a href="multiple-regression-and-forecasting.html"><i class="fa fa-check"></i><b>6</b> Multiple Regression and Forecasting</a></li>
+<li class="chapter" data-level="7" data-path="dynamic-regression-models.html"><a href="dynamic-regression-models.html"><i class="fa fa-check"></i><b>7</b> Dynamic Regression Models</a></li>
+<li class="chapter" data-level="8" data-path="multivariate-time-series-models.html"><a href="multivariate-time-series-models.html"><i class="fa fa-check"></i><b>8</b> Multivariate Time Series Models</a></li>
+<li class="chapter" data-level="9" data-path="cointegration.html"><a href="cointegration.html"><i class="fa fa-check"></i><b>9</b> Cointegration</a></li>
+<li class="chapter" data-level="10" data-path="volatality-models.html"><a href="volatality-models.html"><i class="fa fa-check"></i><b>10</b> Volatality Models</a></li>
+<li class="chapter" data-level="11" data-path="time-series-with-r.html"><a href="time-series-with-r.html"><i class="fa fa-check"></i><b>11</b> Time series with R</a><ul>
+<li class="chapter" data-level="11.1" data-path="time-series-with-r.html"><a href="time-series-with-r.html#lesson-1-introduction-to-r"><i class="fa fa-check"></i><b>11.1</b> Lesson 1: Introduction to R</a></li>
+<li class="chapter" data-level="11.2" data-path="time-series-with-r.html"><a href="time-series-with-r.html#lesson-2-time-series-graphic"><i class="fa fa-check"></i><b>11.2</b> Lesson 2: Time series graphic</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>5</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -179,8 +185,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="literature.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="applications.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="time-series-graphics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exponential-smoothing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -211,7 +217,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-method.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-tsdecomp.Rmd",
 "text": "Edit"
 },
 "history": {
