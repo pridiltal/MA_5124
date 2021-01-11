@@ -1,0 +1,202 @@
+# ARIMA models 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
+options(digits=4, width=60)
+library(fpp3)
+library(patchwork)
+library(purrr)
+library(tidyverse)
+
+```
+
+- **AR**: autoregressive (lagged observations as inputs)
+- **I**: integrated (differencing to make series stationary)
+- **MA**: moving average (lagged errors as inputs)
+
+An ARIMA model is rarely interpretable in terms of visible data structures like trend and seasonality. But it can capture a huge range of time series patterns.
+
+## Stationarity and differencing
+
+### Stationarity
+
+
+**Definition**
+
+If $\{y_t\}$ is a stationary time series, then for all $s$, the distribution of $(y_t,\dots,y_{t+s})$ does not depend on $t$.
+
+A **stationary series** is:
+
+* roughly horizontal
+* constant variance
+* no patterns predictable in the long-term
+
+
+- Transformations help to stabilize the variance.
+- For ARIMA modelling, we also need to stabilize the mean.
+
+**Identifying non-stationary series**
+
+- time plot.
+- The ACF of stationary data drops to zero relatively quickly
+- The ACF of non-stationary data decreases slowly. 
+- For non-stationary data, the value of r1 is often large and positive.
+
+```{r fig.height=20, fig.width=15, message=FALSE, comment=NA, results=FALSE}
+p1 <- gafa_stock %>%
+  filter(Symbol == "GOOG", year(Date) == 2018) %>%
+  autoplot(Close) + ylab("Google closing stock price") + xlab("Day")
+
+
+google_2018 <- gafa_stock %>%
+  filter(Symbol == "GOOG", year(Date) == 2018) %>%
+  mutate(trading_day = row_number()) %>%
+  update_tsibble(index = trading_day, regular = TRUE)
+pa <- google_2018 %>%
+  ACF(Close) %>% autoplot()
+
+p2 <- gafa_stock %>%
+  filter(Symbol == "GOOG", year(Date) == 2018) %>%
+  autoplot(difference(Close)) + ylab("Google closing stock price") + xlab("Day")
+
+
+data <- gafa_stock %>%
+  filter(Symbol == "GOOG", year(Date) == 2018) %>%
+  mutate(diff = difference(Close), trading_day = row_number()) %>%
+    update_tsibble(index = trading_day, regular = TRUE)
+
+pb <- data %>%
+  ACF(diff) %>% autoplot()
+
+p3 <- as_tsibble(fma::strikes) %>% autoplot(value) +
+  ylab("Number of strikes") + xlab("Year")
+
+pc<- as_tsibble(fma::strikes) %>%
+  ACF(value) %>% autoplot()
+
+p4 <- as_tsibble(fma::hsales) %>% autoplot(value) + xlab("Year") + ylab("Total sales") +
+  ggtitle("Sales of new one-family houses, USA")
+
+pd <- as_tsibble(fma::hsales) %>%
+  ACF(value) %>% autoplot()
+
+p5 <- as_tsibble(fma::eggs) %>% autoplot(value) + xlab("Year") + ylab("$") +
+  ggtitle("Price of a dozen eggs in 1993 dollars")
+
+pe <- as_tsibble(fma::eggs) %>%
+  ACF(value) %>% autoplot()
+
+p6 <- aus_livestock %>%
+  filter(
+    Animal == "Pigs",
+    State == "Victoria",
+    year(Month) >= 2010
+  ) %>%
+  autoplot(Count/1e3) + xlab("Year") + ylab("thousands") +
+  ggtitle("Number of pigs slaughtered in Victoria")
+
+
+pf <- aus_livestock %>%
+  filter(
+    Animal == "Pigs",
+    State == "Victoria",
+    year(Month) >= 2010
+  )  %>%
+  ACF(Count/1e3) %>% autoplot()
+
+p7 <- pelt %>% autoplot(Lynx) + xlab("Year") + ylab("Number trapped") +
+  ggtitle("Annual Canadian Lynx Trappings")
+
+pg <-  pelt %>%
+  ACF(Lynx) %>% autoplot()
+
+p<- gridExtra::grid.arrange(p1, pa, p2, pb, p3, pc, p4, pd, p5, pe, p6, pf, p7, pg, ncol = 2)
+
+print(p)
+```
+
+
+### Differencing
+
+* Differencing helps to **stabilize the mean**.
+* The differenced series is the *change* between each observation in the original series: $y'_t = y_t - y_{t-1}$.
+* The differenced series will have only $T-1$ values since it is not possible to calculate a difference $y_1'$ for the first observation.
+
+### Second-order differencing
+
+Occasionally the differenced data will not appear stationary and it may be necessary to difference the data a second time:
+
+$$y''_{t} = y'_{t} - y'_{t - 1}$$
+$$= (y_t - y_{t-1}) - (y_{t-1}-y_{t-2})$$
+$$= y_t - 2y_{t-1} +y_{t-2}.$$
+
+* $y_t''$ will have $T-2$ values.
+* In practice, it is almost never necessary to go beyond second-order differences.
+
+
+### Seasonal differencing
+
+A seasonal difference is the difference between an observation and the corresponding observation from the previous year.
+
+$$y'_t = y_t - y_{t-m}$$
+
+where $m=$ number of seasons.
+
+* For monthly data $m=12$.
+* For quarterly data $m=4$.
+
+**Example : Electricity production**
+
+```{r}
+
+usmelec <- as_tsibble(fpp2::usmelec) %>%
+  rename(Month = index, Generation = value)
+```
+
+```{r echo = TRUE}
+usmelec %>% autoplot( Generation
+)
+```
+
+```{r echo = TRUE}
+usmelec %>% autoplot( log(Generation)
+)
+```
+
+```{r echo = TRUE}
+usmelec %>% autoplot( log(Generation) %>% difference(12)
+) 
+
+```
+
+
+```{r echo = TRUE}
+ usmelec %>% autoplot(
+log(Generation) %>% difference(12) %>% difference()
+)
+```
+
+
+* Seasonally differenced series is closer to being stationary.
+* Remaining non-stationarity can be removed with further first difference.
+
+If $y'_t = y_t - y_{t-12}$ denotes seasonally differenced series, then twice-differenced series is
+
+
+$$y^*_t = y'_t - y'_{t-1}$$
+$$= (y_t - y_{t-12}) - (y_{t-1} - y_{t-13})$$
+$$= y_t - y_{t-1} - y_{t-12} + y_{t-13}.$$
+
+
+When both seasonal and first differences are applied $\dots$
+- it makes no difference which is done first—the result will be the same.
+- If seasonality is strong, we recommend that seasonal differencing be done first because sometimes the resulting series will be stationary and there will be no need for further first difference.
+
+It is important that if differencing is used, the differences are interpretable.
+
+### Interpretation of differencing
+
+- first differences are the change between one observation and the next;
+- seasonal differences are the change between one year to the next.
+
+But taking lag 3 differences for yearly data, for example, results in a model which cannot be sensibly interpreted.

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 ARIMA models | MA 5124 Financial Time Series Analysis &amp; Forecasting</title>
-  <meta name="description" content="Chapter 5 ARIMA models | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  <title>Chapter 2 ARIMA models | MA 5124 Financial Time Series Analysis &amp; Forecasting</title>
+  <meta name="description" content="Chapter 2 ARIMA models | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
   <meta name="generator" content="bookdown 0.21.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 ARIMA models | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  <meta property="og:title" content="Chapter 2 ARIMA models | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 ARIMA models | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  <meta name="twitter:title" content="Chapter 2 ARIMA models | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
   
   
   
@@ -24,15 +24,15 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2020-11-23" />
+<meta name="date" content="2021-01-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="exponential-smoothing.html"/>
-<link rel="next" href="multiple-regression-and-forecasting.html"/>
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="exponential-smoothing.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,8 +50,6 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -144,19 +142,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#copyright-notice"><i class="fa fa-check"></i>Copyright Notice</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Intordution to Time Series Forecasting</a></li>
-<li class="chapter" data-level="2" data-path="time-series-graphics.html"><a href="time-series-graphics.html"><i class="fa fa-check"></i><b>2</b> Time Series Graphics</a></li>
-<li class="chapter" data-level="3" data-path="time-series-decomposition.html"><a href="time-series-decomposition.html"><i class="fa fa-check"></i><b>3</b> Time Series Decomposition</a></li>
-<li class="chapter" data-level="4" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html"><i class="fa fa-check"></i><b>4</b> Exponential Smoothing</a></li>
-<li class="chapter" data-level="5" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>5</b> ARIMA models</a></li>
-<li class="chapter" data-level="6" data-path="multiple-regression-and-forecasting.html"><a href="multiple-regression-and-forecasting.html"><i class="fa fa-check"></i><b>6</b> Multiple Regression and Forecasting</a></li>
-<li class="chapter" data-level="7" data-path="dynamic-regression-models.html"><a href="dynamic-regression-models.html"><i class="fa fa-check"></i><b>7</b> Dynamic Regression Models</a></li>
-<li class="chapter" data-level="8" data-path="multivariate-time-series-models.html"><a href="multivariate-time-series-models.html"><i class="fa fa-check"></i><b>8</b> Multivariate Time Series Models</a></li>
-<li class="chapter" data-level="9" data-path="cointegration.html"><a href="cointegration.html"><i class="fa fa-check"></i><b>9</b> Cointegration</a></li>
-<li class="chapter" data-level="10" data-path="volatality-models.html"><a href="volatality-models.html"><i class="fa fa-check"></i><b>10</b> Volatality Models</a></li>
-<li class="chapter" data-level="11" data-path="time-series-with-r.html"><a href="time-series-with-r.html"><i class="fa fa-check"></i><b>11</b> Time series with R</a><ul>
-<li class="chapter" data-level="11.1" data-path="time-series-with-r.html"><a href="time-series-with-r.html#lesson-1-introduction-to-r"><i class="fa fa-check"></i><b>11.1</b> Lesson 1: Introduction to R</a></li>
-<li class="chapter" data-level="11.2" data-path="time-series-with-r.html"><a href="time-series-with-r.html#lesson-2-time-series-graphic"><i class="fa fa-check"></i><b>11.2</b> Lesson 2: Time series graphic</a></li>
+<li class="chapter" data-level="2" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>2</b> ARIMA models</a><ul>
+<li class="chapter" data-level="2.1" data-path="arima-models.html"><a href="arima-models.html#stationarity-and-differencing"><i class="fa fa-check"></i><b>2.1</b> Stationarity and differencing</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="arima-models.html"><a href="arima-models.html#stationarity"><i class="fa fa-check"></i><b>2.1.1</b> Stationarity</a></li>
+<li class="chapter" data-level="2.1.2" data-path="arima-models.html"><a href="arima-models.html#differencing"><i class="fa fa-check"></i><b>2.1.2</b> Differencing</a></li>
+<li class="chapter" data-level="2.1.3" data-path="arima-models.html"><a href="arima-models.html#second-order-differencing"><i class="fa fa-check"></i><b>2.1.3</b> Second-order differencing</a></li>
+<li class="chapter" data-level="2.1.4" data-path="arima-models.html"><a href="arima-models.html#seasonal-differencing"><i class="fa fa-check"></i><b>2.1.4</b> Seasonal differencing</a></li>
+<li class="chapter" data-level="2.1.5" data-path="arima-models.html"><a href="arima-models.html#interpretation-of-differencing"><i class="fa fa-check"></i><b>2.1.5</b> Interpretation of differencing</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html"><i class="fa fa-check"></i><b>3</b> Exponential Smoothing</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -176,16 +171,109 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="arima-models" class="section level1">
-<h1><span class="header-section-number">Chapter 5</span> ARIMA models</h1>
+<h1><span class="header-section-number">Chapter 2</span> ARIMA models</h1>
+<ul>
+<li><strong>AR</strong>: autoregressive (lagged observations as inputs)</li>
+<li><strong>I</strong>: integrated (differencing to make series stationary)</li>
+<li><strong>MA</strong>: moving average (lagged errors as inputs)</li>
+</ul>
+<p>An ARIMA model is rarely interpretable in terms of visible data structures like trend and seasonality. But it can capture a huge range of time series patterns.</p>
+<div id="stationarity-and-differencing" class="section level2">
+<h2><span class="header-section-number">2.1</span> Stationarity and differencing</h2>
+<div id="stationarity" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Stationarity</h3>
+<p><strong>Definition</strong></p>
+<p>If <span class="math inline">\(\{y_t\}\)</span> is a stationary time series, then for all <span class="math inline">\(s\)</span>, the distribution of <span class="math inline">\((y_t,\dots,y_{t+s})\)</span> does not depend on <span class="math inline">\(t\)</span>.</p>
+<p>A <strong>stationary series</strong> is:</p>
+<ul>
+<li>roughly horizontal</li>
+<li>constant variance</li>
+<li><p>no patterns predictable in the long-term</p></li>
+<li>Transformations help to stabilize the variance.</li>
+<li><p>For ARIMA modelling, we also need to stabilize the mean.</p></li>
+</ul>
+<p><strong>Identifying non-stationary series</strong></p>
+<ul>
+<li>time plot.</li>
+<li>The ACF of stationary data drops to zero relatively quickly</li>
+<li>The ACF of non-stationary data decreases slowly.</li>
+<li>For non-stationary data, the value of r1 is often large and positive.</li>
+</ul>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-1-1.png" width="1440" /></p>
+</div>
+<div id="differencing" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Differencing</h3>
+<ul>
+<li>Differencing helps to <strong>stabilize the mean</strong>.</li>
+<li>The differenced series is the <em>change</em> between each observation in the original series: <span class="math inline">\(y&#39;_t = y_t - y_{t-1}\)</span>.</li>
+<li>The differenced series will have only <span class="math inline">\(T-1\)</span> values since it is not possible to calculate a difference <span class="math inline">\(y_1&#39;\)</span> for the first observation.</li>
+</ul>
+</div>
+<div id="second-order-differencing" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> Second-order differencing</h3>
+<p>Occasionally the differenced data will not appear stationary and it may be necessary to difference the data a second time:</p>
+<p><span class="math display">\[y&#39;&#39;_{t} = y&#39;_{t} - y&#39;_{t - 1}\]</span>
+<span class="math display">\[= (y_t - y_{t-1}) - (y_{t-1}-y_{t-2})\]</span>
+<span class="math display">\[= y_t - 2y_{t-1} +y_{t-2}.\]</span></p>
+<ul>
+<li><span class="math inline">\(y_t&#39;&#39;\)</span> will have <span class="math inline">\(T-2\)</span> values.</li>
+<li>In practice, it is almost never necessary to go beyond second-order differences.</li>
+</ul>
+</div>
+<div id="seasonal-differencing" class="section level3">
+<h3><span class="header-section-number">2.1.4</span> Seasonal differencing</h3>
+<p>A seasonal difference is the difference between an observation and the corresponding observation from the previous year.</p>
+<p><span class="math display">\[y&#39;_t = y_t - y_{t-m}\]</span></p>
+<p>where <span class="math inline">\(m=\)</span> number of seasons.</p>
+<ul>
+<li>For monthly data <span class="math inline">\(m=12\)</span>.</li>
+<li>For quarterly data <span class="math inline">\(m=4\)</span>.</li>
+</ul>
+<p><strong>Example : Electricity production</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">usmelec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>( Generation</a>
+<a class="sourceLine" id="cb1-2" title="2">)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">usmelec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>( <span class="kw">log</span>(Generation)</a>
+<a class="sourceLine" id="cb2-2" title="2">)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">usmelec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>( <span class="kw">log</span>(Generation) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">difference</span>(<span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2">) </a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"> usmelec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="kw">log</span>(Generation) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">difference</span>(<span class="dv">12</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">difference</span>()</a>
+<a class="sourceLine" id="cb4-3" title="3">)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<ul>
+<li>Seasonally differenced series is closer to being stationary.</li>
+<li>Remaining non-stationarity can be removed with further first difference.</li>
+</ul>
+<p>If <span class="math inline">\(y&#39;_t = y_t - y_{t-12}\)</span> denotes seasonally differenced series, then twice-differenced series is</p>
+<p><span class="math display">\[y^*_t = y&#39;_t - y&#39;_{t-1}\]</span>
+<span class="math display">\[= (y_t - y_{t-12}) - (y_{t-1} - y_{t-13})\]</span>
+<span class="math display">\[= y_t - y_{t-1} - y_{t-12} + y_{t-13}.\]</span></p>
+<p>When both seasonal and first differences are applied <span class="math inline">\(\dots\)</span>
+- it makes no difference which is done first—the result will be the same.
+- If seasonality is strong, we recommend that seasonal differencing be done first because sometimes the resulting series will be stationary and there will be no need for further first difference.</p>
+<p>It is important that if differencing is used, the differences are interpretable.</p>
+</div>
+<div id="interpretation-of-differencing" class="section level3">
+<h3><span class="header-section-number">2.1.5</span> Interpretation of differencing</h3>
+<ul>
+<li>first differences are the change between one observation and the next;</li>
+<li>seasonal differences are the change between one year to the next.</li>
+</ul>
+<p>But taking lag 3 differences for yearly data, for example, results in a model which cannot be sensibly interpreted.</p>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="exponential-smoothing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="multiple-regression-and-forecasting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exponential-smoothing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -216,7 +304,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-ARIMA.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-ARIMA.Rmd",
 "text": "Edit"
 },
 "history": {

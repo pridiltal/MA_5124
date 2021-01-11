@@ -1,5 +1,0 @@
-# Multivariate Time Series Models 
-
-- Unit root tets
-- multivariate time series) 
-- (VAR )
