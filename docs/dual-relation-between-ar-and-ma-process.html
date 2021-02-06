@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Dual relation between AR and MA process | MA 5124 Financial Time Series Analysis &amp; Forecasting</title>
+  <meta name="description" content="Chapter 4 Dual relation between AR and MA process | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Dual relation between AR and MA process | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Dual relation between AR and MA process | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  
+  
+  
+
+<meta name="author" content="Dr. Priyanga D. Talagala" />
+
+
+<meta name="date" content="2021-02-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="moving-average-ma-models-1.html"/>
+<link rel="next" href="autoregressive-and-moving-average-arma-models.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MA 5124 Financial Time Series Analysis & Forecasting</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Syllabus</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-requiites"><i class="fa fa-check"></i>Pre-requiites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-objectives"><i class="fa fa-check"></i>Learning Objectives</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-outcomes"><i class="fa fa-check"></i>Learning Outcomes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#outline-syllabus"><i class="fa fa-check"></i>Outline Syllabus</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#method-of-assessment"><i class="fa fa-check"></i>Method of Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#lecturer"><i class="fa fa-check"></i>Lecturer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#copyright-notice"><i class="fa fa-check"></i>Copyright Notice</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Intordution to Time Series Forecasting</a></li>
+<li class="chapter" data-level="2" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>2</b> ARIMA models</a><ul>
+<li class="chapter" data-level="2.1" data-path="arima-models.html"><a href="arima-models.html#stationarity-and-differencing"><i class="fa fa-check"></i><b>2.1</b> Stationarity and differencing</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="arima-models.html"><a href="arima-models.html#stationarity"><i class="fa fa-check"></i><b>2.1.1</b> Stationarity</a></li>
+<li class="chapter" data-level="2.1.2" data-path="arima-models.html"><a href="arima-models.html#differencing"><i class="fa fa-check"></i><b>2.1.2</b> Differencing</a></li>
+<li class="chapter" data-level="2.1.3" data-path="arima-models.html"><a href="arima-models.html#backshift-notation"><i class="fa fa-check"></i><b>2.1.3</b> Backshift notation</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="arima-models.html"><a href="arima-models.html#non-seasonal-arima-models"><i class="fa fa-check"></i><b>2.2</b> Non-seasonal ARIMA models</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="arima-models.html"><a href="arima-models.html#autoregressive-models"><i class="fa fa-check"></i><b>2.2.1</b> Autoregressive models</a></li>
+<li class="chapter" data-level="2.2.2" data-path="arima-models.html"><a href="arima-models.html#moving-average-ma-models"><i class="fa fa-check"></i><b>2.2.2</b> Moving Average (MA) models</a></li>
+<li class="chapter" data-level="2.2.3" data-path="arima-models.html"><a href="arima-models.html#invertibility"><i class="fa fa-check"></i><b>2.2.3</b> Invertibility</a></li>
+<li class="chapter" data-level="2.2.4" data-path="arima-models.html"><a href="arima-models.html#arima-models-1"><i class="fa fa-check"></i><b>2.2.4</b> ARIMA models</a></li>
+<li class="chapter" data-level="2.2.5" data-path="arima-models.html"><a href="arima-models.html#backshift-notation-for-arima"><i class="fa fa-check"></i><b>2.2.5</b> Backshift notation for ARIMA</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="arima-models.html"><a href="arima-models.html#estimation-and-order-selection"><i class="fa fa-check"></i><b>2.3</b> Estimation and order selection</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="arima-models.html"><a href="arima-models.html#maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.3.1</b> Maximum likelihood estimation</a></li>
+<li class="chapter" data-level="2.3.2" data-path="arima-models.html"><a href="arima-models.html#partial-autocorrelations"><i class="fa fa-check"></i><b>2.3.2</b> Partial autocorrelations</a></li>
+<li class="chapter" data-level="2.3.3" data-path="arima-models.html"><a href="arima-models.html#acf-and-pacf-interpretation"><i class="fa fa-check"></i><b>2.3.3</b> ACF and PACF interpretation</a></li>
+<li class="chapter" data-level="2.3.4" data-path="arima-models.html"><a href="arima-models.html#information-criteria"><i class="fa fa-check"></i><b>2.3.4</b> Information criteria</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="arima-models.html"><a href="arima-models.html#seasonal-arima-models"><i class="fa fa-check"></i><b>2.4</b> Seasonal ARIMA models</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="arima-models.html"><a href="arima-models.html#common-arima-models"><i class="fa fa-check"></i><b>2.4.1</b> Common ARIMA models</a></li>
+<li class="chapter" data-level="2.4.2" data-path="arima-models.html"><a href="arima-models.html#seasonal-arima-models-1"><i class="fa fa-check"></i><b>2.4.2</b> Seasonal ARIMA models</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="arima-models.html"><a href="arima-models.html#theoretical-properties-of-the-models"><i class="fa fa-check"></i><b>2.5</b> Theoretical properties of the models</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="arima-models.html"><a href="arima-models.html#autoregressive-ar-models"><i class="fa fa-check"></i><b>2.5.1</b> Autoregressive (AR) models</a></li>
+<li class="chapter" data-level="2.5.2" data-path="arima-models.html"><a href="arima-models.html#variance-and-the-stationary-condition-of-ar-1-process"><i class="fa fa-check"></i><b>2.5.2</b> Variance and the stationary condition of AR (1) process</a></li>
+<li class="chapter" data-level="2.5.3" data-path="arima-models.html"><a href="arima-models.html#covariance"><i class="fa fa-check"></i><b>2.5.3</b> Covariance</a></li>
+<li class="chapter" data-level="2.5.4" data-path="arima-models.html"><a href="arima-models.html#autocorrelation-function-of-an-ar1-process"><i class="fa fa-check"></i><b>2.5.4</b> Autocorrelation function of an AR(1) process</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="arima-models.html"><a href="arima-models.html#properties-of-ar2-model"><i class="fa fa-check"></i><b>2.6</b> Properties of AR(2) model</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="arima-models.html"><a href="arima-models.html#mean"><i class="fa fa-check"></i><b>2.6.1</b> Mean</a></li>
+<li class="chapter" data-level="2.6.2" data-path="arima-models.html"><a href="arima-models.html#variance"><i class="fa fa-check"></i><b>2.6.2</b> Variance</a></li>
+<li class="chapter" data-level="2.6.3" data-path="arima-models.html"><a href="arima-models.html#stationarity-of-ar2-process"><i class="fa fa-check"></i><b>2.6.3</b> Stationarity of AR(2) process</a></li>
+<li class="chapter" data-level="2.6.4" data-path="arima-models.html"><a href="arima-models.html#autocorrelation-function-of-an-ar2-process"><i class="fa fa-check"></i><b>2.6.4</b> Autocorrelation function of an AR(2) process</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="arima-models.html"><a href="arima-models.html#properties-of-arp-model"><i class="fa fa-check"></i><b>2.7</b> Properties of AR(p) model</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="arima-models.html"><a href="arima-models.html#mean-1"><i class="fa fa-check"></i><b>2.7.1</b> Mean</a></li>
+<li class="chapter" data-level="2.7.2" data-path="arima-models.html"><a href="arima-models.html#variance-1"><i class="fa fa-check"></i><b>2.7.2</b> Variance</a></li>
+<li class="chapter" data-level="2.7.3" data-path="arima-models.html"><a href="arima-models.html#autocorrelation-function-acf-of-an-arp-process"><i class="fa fa-check"></i><b>2.7.3</b> Autocorrelation function (ACF) of an AR(p) process</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="arima-models.html"><a href="arima-models.html#the-partial-autocorrelation-function-pacf"><i class="fa fa-check"></i><b>2.8</b> The partial autocorrelation function (PACF)</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="arima-models.html"><a href="arima-models.html#pacf-for-ar1-models"><i class="fa fa-check"></i><b>2.8.1</b> PACF for AR(1) models</a></li>
+<li class="chapter" data-level="2.8.2" data-path="arima-models.html"><a href="arima-models.html#pacf-for-ar2-model"><i class="fa fa-check"></i><b>2.8.2</b> PACF for AR(2) model</a></li>
+<li class="chapter" data-level="2.8.3" data-path="arima-models.html"><a href="arima-models.html#pacf-for-arp-model"><i class="fa fa-check"></i><b>2.8.3</b> PACF for AR(P) model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html"><i class="fa fa-check"></i><b>3</b> Moving average (MA) models</a><ul>
+<li class="chapter" data-level="3.1" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#properties-of-ma1-model"><i class="fa fa-check"></i><b>3.1</b> Properties of MA(1) model</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#mean-2"><i class="fa fa-check"></i><b>3.1.1</b> Mean</a></li>
+<li class="chapter" data-level="3.1.2" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#variance-2"><i class="fa fa-check"></i><b>3.1.2</b> Variance</a></li>
+<li class="chapter" data-level="3.1.3" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#autocorrelation-function-of-an-ma1-process"><i class="fa fa-check"></i><b>3.1.3</b> Autocorrelation function of an MA(1) process</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#properties-of-ma2-model"><i class="fa fa-check"></i><b>3.2</b> Properties of MA(2) model</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#mean-3"><i class="fa fa-check"></i><b>3.2.1</b> Mean</a></li>
+<li class="chapter" data-level="3.2.2" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#variance-3"><i class="fa fa-check"></i><b>3.2.2</b> Variance</a></li>
+<li class="chapter" data-level="3.2.3" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#autocorrelation-function-of-an-ma2-process"><i class="fa fa-check"></i><b>3.2.3</b> Autocorrelation function of an MA(2) process</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#properties-of-maq-model"><i class="fa fa-check"></i><b>3.3</b> Properties of MA(q) model</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#mean-4"><i class="fa fa-check"></i><b>3.3.1</b> Mean</a></li>
+<li class="chapter" data-level="3.3.2" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#variance-4"><i class="fa fa-check"></i><b>3.3.2</b> Variance</a></li>
+<li class="chapter" data-level="3.3.3" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#autocorrelation-function-of-an-maq-process"><i class="fa fa-check"></i><b>3.3.3</b> Autocorrelation function of an MA(q) process</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="moving-average-ma-models-1.html"><a href="moving-average-ma-models-1.html#partial-autocorrelation-function-of-an-maq-process"><i class="fa fa-check"></i><b>3.4</b> Partial autocorrelation function of an MA(q) process</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dual-relation-between-ar-and-ma-process.html"><a href="dual-relation-between-ar-and-ma-process.html"><i class="fa fa-check"></i><b>4</b> Dual relation between AR and MA process</a></li>
+<li class="chapter" data-level="5" data-path="autoregressive-and-moving-average-arma-models.html"><a href="autoregressive-and-moving-average-arma-models.html"><i class="fa fa-check"></i><b>5</b> Autoregressive and Moving-average (ARMA) models</a><ul>
+<li class="chapter" data-level="5.1" data-path="autoregressive-and-moving-average-arma-models.html"><a href="autoregressive-and-moving-average-arma-models.html#stationary-condition"><i class="fa fa-check"></i><b>5.1</b> Stationary condition</a></li>
+<li class="chapter" data-level="5.2" data-path="autoregressive-and-moving-average-arma-models.html"><a href="autoregressive-and-moving-average-arma-models.html#invertible-condition"><i class="fa fa-check"></i><b>5.2</b> Invertible condition</a></li>
+<li class="chapter" data-level="5.3" data-path="autoregressive-and-moving-average-arma-models.html"><a href="autoregressive-and-moving-average-arma-models.html#autocorrelation-function-and-partial-autocorrelation-function"><i class="fa fa-check"></i><b>5.3</b> Autocorrelation function and Partial autocorrelation function</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="theoretical-acf-and-pacf-for-ar-ma-and-arma-models.html"><a href="theoretical-acf-and-pacf-for-ar-ma-and-arma-models.html"><i class="fa fa-check"></i><b>6</b> Theoretical ACF and PACF for AR, MA and ARMA models</a><ul>
+<li class="chapter" data-level="6.1" data-path="theoretical-acf-and-pacf-for-ar-ma-and-arma-models.html"><a href="theoretical-acf-and-pacf-for-ar-ma-and-arma-models.html#thiyanga-section-2.3.4"><i class="fa fa-check"></i><b>6.1</b> Thiyanga Section 2.3.4</a></li>
+<li class="chapter" data-level="6.2" data-path="theoretical-acf-and-pacf-for-ar-ma-and-arma-models.html"><a href="theoretical-acf-and-pacf-for-ar-ma-and-arma-models.html#unit-root-test"><i class="fa fa-check"></i><b>6.2</b> Unit Root Test</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html"><i class="fa fa-check"></i><b>7</b> Exponential Smoothing</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MA 5124 Financial Time Series Analysis &amp; Forecasting</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dual-relation-between-ar-and-ma-process" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Dual relation between AR and MA process</h1>
+<p><strong>Dual relation 1</strong></p>
+<p><strong>First we consider the relation AR(p) &lt;–&gt; MA(</strong><span class="math inline">\(\infty\)</span><strong>)</strong></p>
+<p>Let <span class="math inline">\(AR(p)\)</span> be a <strong>stationary</strong> <span class="math inline">\(AR\)</span> model with order <span class="math inline">\(p\)</span>. Then,</p>
+<p><span class="math display">\[Y_t = \phi_1Y_{t-1}+ \phi_2Y_{t-2}+...+ \phi_pY_{t-p}+\epsilon_t,\]</span>
+where <span class="math inline">\(\epsilon_t \sim WN(0, \sigma^2).\)</span></p>
+<p>Using the backshift operator we can write the <span class="math inline">\(AR(p)\)</span> model as</p>
+<p><span class="math display">\[(1-\phi_1B-\phi_2B^2-...-\phi_pB^P)Y_t=\epsilon_t.\]</span>
+Then</p>
+<p><span class="math display">\[\phi(B)Y_t=\epsilon_t,\]</span>
+where <span class="math inline">\(\phi(B)=1-\phi_1B-\phi_2B^2-...-\phi_pB^p.\)</span> Furthermore, <span class="math inline">\(Y_t\)</span> can be written as infinite sum of previous <span class="math inline">\(\epsilon\)</span>’s as below</p>
+<p><span class="math display">\[Y_t = \phi^{-1}(B)\epsilon_t,\]</span>
+where <span class="math inline">\(\phi(B)\psi(B)=1\)</span> and <span class="math inline">\(\psi(B)=1+\Psi_1B+\psi_2B^2+...\)</span> Then <span class="math display">\[Y_t=\psi(B)\epsilon_t.\]</span>
+This is a representation of <span class="math inline">\(MA(\infty)\)</span> process.</p>
+<p><strong>Next, we consider the relation MA(q) &lt;–&gt; AR(</strong><span class="math inline">\(\infty\)</span><strong>)</strong></p>
+<p>Let <span class="math inline">\(MA(q)\)</span> be <strong>invertible</strong> moving average process</p>
+<p><span class="math display">\[Y_t = \epsilon_t + \theta_t\epsilon_{t-1}+\theta_2\epsilon_{t-2}+...+\theta_p\epsilon_{t-q}.\]</span></p>
+<p>Using the backshift operator we can write the <span class="math inline">\(MA(q)\)</span> process as</p>
+<p><span class="math display">\[Y_t = (1+\theta_1B+\theta_2B^2-...+\theta_qB^q)\epsilon_t.\]</span></p>
+<p>Then,</p>
+<p><span class="math display">\[Y_t = \theta(B)\epsilon_t,\]</span></p>
+<p>where <span class="math inline">\(\theta(B)=1+\theta_1B+\theta_2B^2+...+\theta_1B^q.\)</span> Hence, for an <strong>invertible</strong> moving average process, <span class="math inline">\(Y_t\)</span> can be represented as a finite weighted sum of previous error terms, <span class="math inline">\(\epsilon\)</span>. Furthermore, since the process is invertible <span class="math inline">\(\epsilon_t\)</span> can be represented as an infinite weighted sum of previous <span class="math inline">\(Y\)</span>’s as below</p>
+<p><span class="math display">\[\epsilon_t=\theta^{-1}(B)Y_t,\]</span>
+where <span class="math inline">\(\pi(B)\theta(B)=1\)</span>, and <span class="math inline">\(\pi(B) = 1+\pi_1B+\pi B^2+...\)</span>. Hence,</p>
+<p><span class="math display">\[\epsilon_t = \pi(B)Y_t.\]</span> This is an representation of a <span class="math inline">\(AR(\infty)\)</span> process.</p>
+<p><strong>Dual relation 2</strong></p>
+<p>An <span class="math inline">\(MA(q)\)</span> process has an ACF function that is zero beyond lag <span class="math inline">\(q\)</span> and its PACF is decays exponentially to 0. Consequently, an <span class="math inline">\(AR(p)\)</span> process has an PACF that is zero beyond lag-<span class="math inline">\(p\)</span>, but its ACF decays exponentially to 0.</p>
+<p><strong>Dual relation 3</strong></p>
+<p>For an <span class="math inline">\(AR(p)\)</span> process the roots of <span class="math inline">\(\phi(B)=0\)</span> must lie outside the unit circle to satisfy the condition of stationarity. However, the parameters of the <span class="math inline">\(AR(p)\)</span> are not required to satisfy any conditions to ensure invertibility. Conversely, the parameters of the <span class="math inline">\(MA\)</span> process are not required to satisfy any condition to ensure stationarity. However, to ensure the condition of invertibility, the roots of <span class="math inline">\(\theta(B)=0\)</span> must lie outside the unit circle.</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="moving-average-ma-models-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="autoregressive-and-moving-average-arma-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-ARIMA.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
