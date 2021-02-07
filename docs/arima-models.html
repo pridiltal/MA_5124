@@ -771,18 +771,18 @@ Y_t=\phi_0+\phi_1Y_{t-1}+\phi_2Y_{t-2}+\epsilon_t.
 <h5><span class="header-section-number">2.5.1.2.4</span> Autocorrelation function of an AR(2) process</h5>
 <p>To derive autocorrelation function of an AR(2) process we first multiply both sides of Equation <a href="#eq:ar2">(<strong>??</strong>)</a> by <span class="math inline">\(Y_{t-k}\)</span> and take expected values:</p>
 <p><span class="math display">\[\begin{align}
-E(Y_tY_{t-k}) &amp;= E(\phi_0Y_{t-k}+\theta_1Y_{t-1}Y_{t-k}+\theta_2Y_{t-2}Y_{t-k})+\epsilon_tY_{t-k} \\
+E(Y_tY_{t-k}) &amp;= E(\phi_0Y_{t-k}+\theta_1Y_{t-1}Y_{t-k}+\theta_2Y_{t-2}Y_{t-k}+\epsilon_tY_{t-k} )\\
 &amp;= \phi_0 E(Y_{t-k})+\phi_{1}E(Y_{t-1}Y_{t-k}) + \phi_2 E(Y_{t-2} Y_{t-k}) + E(\epsilon_tY_{t-k}).
 \end{align}\]</span></p>
 <p>Using the independence between <span class="math inline">\(\epsilon_t\)</span> and <span class="math inline">\(Y_{t-1}\)</span>, <span class="math inline">\(E(\epsilon_t Y_{t-k})=0\)</span> and the results in Equation <a href="#eq:3">(<strong>??</strong>)</a> (This is valid for AR(2)) we have</p>
-<p><span class="math display">\[\gamma_k + \mu^2 = \gamma_0 \mu + \theta_1 (\gamma_{k-1}+\mu^2)+\phi_2 (\gamma_{k-2}+\mu^2).\]</span></p>
+<p><span class="math display">\[\gamma_k + \mu^2 = \phi_0 \mu + \theta_1 (\gamma_{k-1}+\mu^2)+\phi_2 (\gamma_{k-2}+\mu^2).\]</span></p>
 <p>(Note that <span class="math inline">\(E(X_{t-1}X_{t-k})=E(X_{t-1}X_{(t-1)-(k-1)}=\gamma_{k-1})\)</span>)</p>
 <p>Solving for <span class="math inline">\(\gamma_k\)</span> we get</p>
 <p><span class="math display">\[\begin{align}
 \label{eq:eq9}
  \gamma_k=\phi_1\gamma_{k-1}+\phi_2\gamma_{k-2}.
 \end{align}\]</span></p>
-<p>By dividing the both sides of Equation <a href="#eq:eq9">(<strong>??</strong>)</a> by <span class="math inline">\(\gamma_0\)</span>, we have</p>
+<p>By dividing both sides of Equation <a href="#eq:eq9">(<strong>??</strong>)</a> by <span class="math inline">\(\gamma_0\)</span>, we have</p>
 <p><span class="math display">\[\begin{align}
 \label{eq:yule2}
  \rho_k=\phi_1\rho_{k-1}+\phi_2\rho_{k-2}.
@@ -857,7 +857,7 @@ Y_t = \phi_0 + \phi_1Y_{t-1}+\phi_2 Y_{t-2}+ ... + \phi_p Y_{t-p}+\epsilon_t.
 \end{array}\right]
 \]</span></p>
 <p>or</p>
-<p><span class="math display">\[\mathbf{\rho_p}=\mathbf{P_p\phi}.\]</span></p>
+<p><span class="math display">\[\symbf{{\rho_{p}}}  = \symbf{{P_{p}\phi}}.\]</span></p>
 <p>where,</p>
 <p><span class="math display">\[\mathbf{\rho_p} = \left[\begin{array}
 {r}
@@ -875,7 +875,7 @@ Y_t = \phi_0 + \phi_1Y_{t-1}+\phi_2 Y_{t-2}+ ... + \phi_p Y_{t-p}+\epsilon_t.
 . &amp; . &amp; . &amp; .&amp;.&amp;.&amp; . \\
 . &amp; . &amp; . &amp; .&amp;.&amp;.&amp; . \\
 \rho_{p-1} &amp; \rho_{p-2} &amp; \rho_{p-3} &amp; .&amp;.&amp;.&amp; 1 \\
-\end{array}\right], \mathbf{\phi} = \left[\begin{array}
+\end{array}\right], \symbf{{\phi}} = \left[\begin{array}
 {r}
 \phi_1  \\
 \phi_2  \\
@@ -885,12 +885,12 @@ Y_t = \phi_0 + \phi_1Y_{t-1}+\phi_2 Y_{t-2}+ ... + \phi_p Y_{t-p}+\epsilon_t.
 \phi_p
 \end{array}\right]\]</span></p>
 <p>The parameters can be estimated using</p>
-<p><span class="math display">\[\mathbf{\phi}=\mathbf{P_p^{-1}\rho_p}.\]</span></p>
+<p><span class="math display">\[\symbf{\phi}=\symbf{P_p^{-1}\rho_p}.\]</span></p>
 <p><strong>Question 6:</strong> Obtain the parameters of an <span class="math inline">\(AR(3)\)</span> process whose first autocorrelations are <span class="math inline">\(\rho_1=0.9\)</span>; <span class="math inline">\(\rho_2=0.9\)</span>; <span class="math inline">\(\rho_3=0.5\)</span>. Is the process stationary?</p>
 </div>
 <div id="the-partial-autocorrelation-function-pacf" class="section level5">
 <h5><span class="header-section-number">2.5.1.3.4</span> The partial autocorrelation function (PACF)</h5>
-<p>Let <span class="math inline">\(\phi_{ki}\)</span>, the <span class="math inline">\(j\)</span>th coefficient in an <span class="math inline">\(AR(k)\)</span> model. Then, <span class="math inline">\(\phi_{kk}\)</span> is the last coefficient. From Equation <a href="#eq:yulep">(<strong>??</strong>)</a>, the <span class="math inline">\(\phi_{kj}\)</span> satisfy the set of equations</p>
+<p>Let <span class="math inline">\(\phi_{kj}\)</span>, the <span class="math inline">\(j\)</span>th coefficient in an <span class="math inline">\(AR(k)\)</span> model. Then, <span class="math inline">\(\phi_{kk}\)</span> is the last coefficient. From Equation <a href="#eq:yulep">(<strong>??</strong>)</a>, the <span class="math inline">\(\phi_{kj}\)</span> satisfy the set of equations</p>
 <p><span class="math display">\[\begin{equation}
 \label{eq:pacf}
 \rho_j=\phi_{k1}\rho_{j-1}+...+\phi_{k(k-1)}\rho_{j-k+1}+\phi_{kk}\rho_{j-k},
@@ -925,9 +925,9 @@ Y_t = \phi_0 + \phi_1Y_{t-1}+\phi_2 Y_{t-2}+ ... + \phi_p Y_{t-p}+\epsilon_t.
 \end{array}\right]
 \end{equation}\]</span></p>
 <p>or</p>
-<p><span class="math display">\[\mathbf{\rho_k}=\mathbf{P_k\phi_k}.\]</span></p>
+<p><span class="math display">\[\symbf{\rho_k}=\symbf{P_k\phi_k}.\]</span></p>
 <p>where</p>
-<p><span class="math display">\[\mathbf{\rho_k} = \left[\begin{array}
+<p><span class="math display">\[\symbf{\rho_k} = \left[\begin{array}
 {r}
 \rho_1  \\
 \rho_2  \\
@@ -943,7 +943,7 @@ Y_t = \phi_0 + \phi_1Y_{t-1}+\phi_2 Y_{t-2}+ ... + \phi_p Y_{t-p}+\epsilon_t.
 . &amp; . &amp; . &amp; .&amp;.&amp;.&amp; . \\
 . &amp; . &amp; . &amp; .&amp;.&amp;.&amp; . \\
 \rho_{k-1} &amp; \rho_{k-2} &amp; \rho_{k-3} &amp; .&amp;.&amp;.&amp; 1 \\
-\end{array}\right], \mathbf{\phi_k} = \left[\begin{array}
+\end{array}\right], \symbf{\phi_k} = \left[\begin{array}
 {r}
 \phi_{k1}  \\
 \phi_{k2}  \\
@@ -963,7 +963,7 @@ Y_t = \phi_0 + \phi_1Y_{t-1}+\phi_2 Y_{t-2}+ ... + \phi_p Y_{t-p}+\epsilon_t.
 \label{eq:p2}
 \phi_{22}=\frac{\left[\begin{array}
 {rr}
-1 &amp; \rho_2  \\
+1 &amp; \rho_1  \\
 \rho_1 &amp; \rho_2  \\
 \end{array}\right]}{\left[\begin{array}
 {rr}
@@ -989,7 +989,7 @@ Y_t = \phi_0 + \phi_1Y_{t-1}+\phi_2 Y_{t-2}+ ... + \phi_p Y_{t-p}+\epsilon_t.
 <p>The quantity <span class="math inline">\(\phi_{kk}\)</span> is called the partial autocorrelation at lag <span class="math inline">\(k\)</span> and can be defined as
 <span class="math display">\[\phi_{kk}=Corr(Y_tY_{t-k}|Y_{t-1}, Y_{t-2},..., Y_{t-k+1}).\]</span>
 The partial autocorrelation between <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-k}\)</span> is the correlation between <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-k}\)</span> after removing the effect of the intermediate variables <span class="math inline">\(Y_{t-1}, Y_{t-2}, ..., Y_{t-k+1}\)</span>.</p>
-<p>In general the determinant in the numerator of Equations <a href="#eq:p1">(<strong>??</strong>)</a>, <a href="#eq:p2">(<strong>??</strong>)</a> and <a href="#eq:p3">(<strong>??</strong>)</a> has the same elements as that in the denominator, but replacing the last column with <span class="math inline">\(\mathbf{\rho_k}= (\rho_1, \rho_2,...\rho_k).\)</span></p>
+<p>In general the determinant in the numerator of Equations <a href="#eq:p1">(<strong>??</strong>)</a>, <a href="#eq:p2">(<strong>??</strong>)</a> and <a href="#eq:p3">(<strong>??</strong>)</a> has the same elements as that in the denominator, but replacing the last column with <span class="math inline">\(\symbf{\rho_k}= (\rho_1, \rho_2,...\rho_k).\)</span></p>
 </div>
 <div id="pacf-for-ar1-models" class="section level5">
 <h5><span class="header-section-number">2.5.1.3.5</span> PACF for AR(1) models</h5>
@@ -1089,7 +1089,7 @@ E(\epsilon_{t-1}Y_{t-1}) &amp;= E(\epsilon_{t-1}^2)=\sigma^2\\
 <p>Substituting <a href="#eq:covma5">(<strong>??</strong>)</a> in <a href="#eq:covma3">(<strong>??</strong>)</a> we get</p>
 <p><span class="math display">\[\gamma_1=\theta_1\sigma^2\]</span>.</p>
 <p>Furthermore, <span class="math inline">\(\gamma_0 = Var(Y_t)= (1+\theta_1^2)\sigma^2\)</span>. Hence</p>
-<p><span class="math display">\[\rho_1=\frac{\gamma_1}{\gamma_0}=\frac{\theta}{1+\theta_1^2}.\]</span></p>
+<p><span class="math display">\[\rho_1=\frac{\gamma_1}{\gamma_0}=\frac{\theta_1}{1+\theta_1^2}.\]</span></p>
 <p>When <span class="math inline">\(k=2\)</span>, from Equation <a href="#eq:covma3">(<strong>??</strong>)</a> and <span class="math inline">\(E(\epsilon_{t-1}Y_{k-2}) = 0\)</span> (future error and past observation) we get <span class="math inline">\(\gamma_2=0\)</span>. Hence <span class="math inline">\(\rho_2=0\)</span>. Similarly, we can show that</p>
 <p><span class="math display">\[\gamma_k = \rho_k=0\]</span> for all <span class="math inline">\(k \geq 2\)</span>.</p>
 <p>We can see that the ACF of <span class="math inline">\(MA(1)\)</span> process is zero, beyond the order of 1 of the process.</p>
@@ -1125,7 +1125,7 @@ Y_t = \theta_0 + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \epsilon_t
 <p>where <span class="math inline">\(\theta_0\)</span> is a constant and <span class="math inline">\({\epsilon_t}\)</span> is a white noise series.</p>
 <div id="mean-4" class="section level5">
 <h5><span class="header-section-number">2.5.2.2.1</span> Mean</h5>
-<p><strong>Question 10: </strong> Show that <span class="math inline">\(E(Y_t) = \theta_0.\)</span></p>
+<p><strong>Question 10:</strong> Show that <span class="math inline">\(E(Y_t) = \theta_0.\)</span></p>
 </div>
 <div id="variance-3" class="section level5">
 <h5><span class="header-section-number">2.5.2.2.2</span> Variance</h5>

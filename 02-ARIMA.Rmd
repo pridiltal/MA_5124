@@ -832,14 +832,14 @@ To derive autocorrelation function of an AR(2) process we first multiply both si
 
 
 \begin{align}
-E(Y_tY_{t-k}) &= E(\phi_0Y_{t-k}+\theta_1Y_{t-1}Y_{t-k}+\theta_2Y_{t-2}Y_{t-k})+\epsilon_tY_{t-k} \\
+E(Y_tY_{t-k}) &= E(\phi_0Y_{t-k}+\theta_1Y_{t-1}Y_{t-k}+\theta_2Y_{t-2}Y_{t-k}+\epsilon_tY_{t-k} )\\
 &= \phi_0 E(Y_{t-k})+\phi_{1}E(Y_{t-1}Y_{t-k}) + \phi_2 E(Y_{t-2} Y_{t-k}) + E(\epsilon_tY_{t-k}).
 \end{align}
 
 
 Using the independence between $\epsilon_t$ and $Y_{t-1}$, $E(\epsilon_t Y_{t-k})=0$ and the results in Equation \@ref(eq:3) (This is valid for AR(2)) we have
 
-$$\gamma_k + \mu^2 = \gamma_0 \mu + \theta_1 (\gamma_{k-1}+\mu^2)+\phi_2 (\gamma_{k-2}+\mu^2).$$
+$$\gamma_k + \mu^2 = \phi_0 \mu + \theta_1 (\gamma_{k-1}+\mu^2)+\phi_2 (\gamma_{k-2}+\mu^2).$$
 
 (Note that $E(X_{t-1}X_{t-k})=E(X_{t-1}X_{(t-1)-(k-1)}=\gamma_{k-1})$)
 
@@ -850,7 +850,7 @@ Solving for $\gamma_k$ we get
  \gamma_k=\phi_1\gamma_{k-1}+\phi_2\gamma_{k-2}.
 \end{align}
 
-By dividing the both sides of Equation \@ref(eq:eq9) by $\gamma_0$, we have
+By dividing both sides of Equation \@ref(eq:eq9) by $\gamma_0$, we have
 
 \begin{align}
 \label{eq:yule2}
@@ -946,7 +946,7 @@ $$
 
 or 
 
-$$\mathbf{\rho_p}=\mathbf{P_p\phi}.$$
+$$\symbf{{\rho_{p}}}  = \symbf{{P_{p}\phi}}.$$
 
 where,
 
@@ -966,7 +966,7 @@ $$\mathbf{\rho_p} = \left[\begin{array}
 . & . & . & .&.&.& . \\
 . & . & . & .&.&.& . \\
 \rho_{p-1} & \rho_{p-2} & \rho_{p-3} & .&.&.& 1 \\
-\end{array}\right], \mathbf{\phi} = \left[\begin{array}
+\end{array}\right], \symbf{{\phi}} = \left[\begin{array}
 {r}
 \phi_1  \\
 \phi_2  \\
@@ -978,13 +978,13 @@ $$\mathbf{\rho_p} = \left[\begin{array}
 
 The parameters can be estimated using 
 
-$$\mathbf{\phi}=\mathbf{P_p^{-1}\rho_p}.$$
+$$\symbf{\phi}=\symbf{P_p^{-1}\rho_p}.$$
 
 **Question 6:** Obtain the parameters of an $AR(3)$ process whose first autocorrelations are $\rho_1=0.9$; $\rho_2=0.9$; $\rho_3=0.5$. Is the process stationary?
 
 ##### The partial autocorrelation function (PACF)
 
-Let $\phi_{ki}$, the $j$th coefficient in an $AR(k)$ model. Then, $\phi_{kk}$ is the last coefficient. From Equation \@ref(eq:yulep), the $\phi_{kj}$ satisfy the set of equations
+Let $\phi_{kj}$, the $j$th coefficient in an $AR(k)$ model. Then, $\phi_{kk}$ is the last coefficient. From Equation \@ref(eq:yulep), the $\phi_{kj}$ satisfy the set of equations
 
 \begin{equation}
 \label{eq:pacf}
@@ -1024,11 +1024,11 @@ for $j=1, 2, ...k$, leading to the Yule-Walker equations which may be written
 
 or 
 
-$$\mathbf{\rho_k}=\mathbf{P_k\phi_k}.$$
+$$\symbf{\rho_k}=\symbf{P_k\phi_k}.$$
 
 where
 
-$$\mathbf{\rho_k} = \left[\begin{array}
+$$\symbf{\rho_k} = \left[\begin{array}
 {r}
 \rho_1  \\
 \rho_2  \\
@@ -1044,7 +1044,7 @@ $$\mathbf{\rho_k} = \left[\begin{array}
 . & . & . & .&.&.& . \\
 . & . & . & .&.&.& . \\
 \rho_{k-1} & \rho_{k-2} & \rho_{k-3} & .&.&.& 1 \\
-\end{array}\right], \mathbf{\phi_k} = \left[\begin{array}
+\end{array}\right], \symbf{\phi_k} = \left[\begin{array}
 {r}
 \phi_{k1}  \\
 \phi_{k2}  \\
@@ -1069,7 +1069,7 @@ For $k=2$,
 \label{eq:p2}
 \phi_{22}=\frac{\left[\begin{array}
 {rr}
-1 & \rho_2  \\
+1 & \rho_1  \\
 \rho_1 & \rho_2  \\
 \end{array}\right]}{\left[\begin{array}
 {rr}
@@ -1100,7 +1100,7 @@ $$\phi_{kk}=Corr(Y_tY_{t-k}|Y_{t-1}, Y_{t-2},..., Y_{t-k+1}).$$
 The partial autocorrelation between $Y_t$ and $Y_{t-k}$ is the correlation between $Y_t$ and $Y_{t-k}$ after removing the effect of the intermediate variables $Y_{t-1}, Y_{t-2}, ..., Y_{t-k+1}$.
 
 
-In general the determinant in the numerator of Equations \@ref(eq:p1), \@ref(eq:p2) and \@ref(eq:p3) has the same elements as that in the denominator, but replacing the last column with $\mathbf{\rho_k}= (\rho_1, \rho_2,...\rho_k).$
+In general the determinant in the numerator of Equations \@ref(eq:p1), \@ref(eq:p2) and \@ref(eq:p3) has the same elements as that in the denominator, but replacing the last column with $\symbf{\rho_k}= (\rho_1, \rho_2,...\rho_k).$
 
 ##### PACF for AR(1) models
 
@@ -1232,7 +1232,7 @@ $$\gamma_1=\theta_1\sigma^2$$.
 
 Furthermore, $\gamma_0 = Var(Y_t)=  (1+\theta_1^2)\sigma^2$. Hence
 
-$$\rho_1=\frac{\gamma_1}{\gamma_0}=\frac{\theta}{1+\theta_1^2}.$$
+$$\rho_1=\frac{\gamma_1}{\gamma_0}=\frac{\theta_1}{1+\theta_1^2}.$$
 
 When $k=2$, from Equation \@ref(eq:covma3)  and $E(\epsilon_{t-1}Y_{k-2}) = 0$ (future error and past observation) we get $\gamma_2=0$. Hence $\rho_2=0$. Similarly, we can show that
 
@@ -1282,7 +1282,7 @@ where $\theta_0$ is a constant and ${\epsilon_t}$ is a white noise series.
 
 ##### Mean
 
-**Question 10: ** Show that $E(Y_t) = \theta_0.$
+**Question 10:** Show that $E(Y_t) = \theta_0.$
 
 ##### Variance
 
