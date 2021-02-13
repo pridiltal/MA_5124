@@ -122,7 +122,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-02-07}
+\date{2021-02-13}
 
 \begin{document}
 \maketitle
@@ -328,7 +328,7 @@ The \textbf{covariance function} of \(\{Y_t\}\) is
 
 \[\gamma_Y(r,s)=Cov(Y_r, Y_s)=E[(Y_r-\mu_Y(r))(Y_s-\mu_Y(s))]\]
 
-for all intergers \(r\) and \(s\).
+for all integers \(r\) and \(s\).
 
 \textbf{Definition: Weakly stationary} (in \citep{brockwell2016introduction}, p.~15; the notations have been changed for consistency within this note)
 
@@ -1309,7 +1309,7 @@ or
 
 where,
 
-\[\mathbf{\rho_p} = \left[\begin{array}
+\[\symbf{\rho_p} = \left[\begin{array}
 {r}
 \rho_1  \\
 \rho_2  \\
@@ -1475,7 +1475,7 @@ From \eqref{eq:p2} for \(k=2\), the second partial autocorrelation coefficient i
 
 \[\phi_{22}=\frac{\rho_2-\rho_1^2}{1-\rho_1^2}=\frac{\phi_1^2-\phi_1^2}{1-\phi_1^2} = 0\].
 
-Similarly, for \(AR(1)\) we can show that \(\phi_{kk}=0\) for all \(k > 0\). Hence, for \(AR(1)\) process the partial autocorrelation is non-zero for lag \(1\) which is the order of the process, but is zero for lags beyond the order 1.
+Similarly, for \(AR(1)\) we can show that \(\phi_{kk}=0\) for all \(k > 1\). Hence, for \(AR(1)\) process the partial autocorrelation is non-zero for lag \(1\) which is the order of the process, but is zero for lags beyond the order 1.
 
 \hypertarget{pacf-for-ar2-model}{%
 \paragraph{PACF for AR(2) model}\label{pacf-for-ar2-model}}
@@ -1485,7 +1485,7 @@ Similarly, for \(AR(1)\) we can show that \(\phi_{kk}=0\) for all \(k > 0\). Hen
 \hypertarget{pacf-for-arp-model}{%
 \paragraph{PACF for AR(P) model}\label{pacf-for-arp-model}}
 
-In general for \(AR(p)\) precess, the partial autocorrelation function \(\phi_{kk}\) is non-zero for \(k\) less than or equal to \(p\) (the order of the process) and zero for all \(k\) greater than \(p\). In other words, the partial autocorrelation function of a \(AR(p)\) process has a cut-off after lag \(p\).
+In general for \(AR(p)\) process, the partial autocorrelation function \(\phi_{kk}\) is non-zero for \(k\) less than or equal to \(p\) (the order of the process) and zero for all \(k\) greater than \(p\). In other words, the partial autocorrelation function of a \(AR(p)\) process has a cut-off after lag \(p\).
 
 \hypertarget{moving-average-ma-models-1}{%
 \subsection{Moving average (MA) models}\label{moving-average-ma-models-1}}
@@ -1597,7 +1597,7 @@ Furthermore, \(\gamma_0 = Var(Y_t)= (1+\theta_1^2)\sigma^2\). Hence
 
 \[\rho_1=\frac{\gamma_1}{\gamma_0}=\frac{\theta_1}{1+\theta_1^2}.\]
 
-When \(k=2\), from Equation \eqref{eq:covma3} and \(E(\epsilon_{t-1}Y_{k-2}) = 0\) (future error and past observation) we get \(\gamma_2=0\). Hence \(\rho_2=0\). Similarly, we can show that
+When \(k=2\), from Equation \eqref{eq:covma3} and \(E(\epsilon_{t-1}Y_{t-2}) = 0\) (future error and past observation) we get \(\gamma_2=0\). Hence \(\rho_2=0\). Similarly, we can show that
 
 \[\gamma_k = \rho_k=0\] for all \(k \geq 2\).
 
@@ -1787,22 +1787,612 @@ The ACF of an ARMA model exhibits a pattern similar to that of an AR model. The 
 
 \newpage
 
-\hypertarget{thiyanga-section-2.3.4}{%
-\section{Thiyanga Section 2.3.4}\label{thiyanga-section-2.3.4}}
-
-\hypertarget{unit-root-test}{%
-\section{Unit Root Test}\label{unit-root-test}}
-
-slide 29 to 33
-
-\textbf{Note: Test whwre to put}
-
-References:
+\hypertarget{unit-root-tests}{%
+\section{Unit root tests}\label{unit-root-tests}}
 
 \begin{itemize}
 \tightlist
 \item
+  Many financial time series are with trending behavior or nonstationarity in the mean.
+\item
+  Two common trend removal or de-trending procedures
+
+  \begin{itemize}
+  \tightlist
+  \item
+    First differencing (appropriate for \(I(1)\) time series).
+  \item
+    time-trend regression (appropriate for trend stationary
+    \(I(0)\) time series).
+  \end{itemize}
+\item
+  Unit root tests are statistical tests to determine the required order of differencing or whether it should be regressed on deterministic functions of time to render the data stationary.
+\end{itemize}
+
+\hypertarget{dickey-fuller-test}{%
+\subsection{Dickey-Fuller test}\label{dickey-fuller-test}}
+
+\begin{itemize}
+\item
+  Consider the model
+  \[\Delta y_t = c+ \beta y_{t-1}+\epsilon_{t}\]
+\item
+  Hypothesis to be tested
+  \(H_0: \beta = 0\) and \(H_1: \beta<0\)
+\item
+  Test statistics = \(\frac{\hat{\beta}}{SE(\hat{\beta})}\)
+\end{itemize}
+
+\hypertarget{augmented-dickey-fuller-test}{%
+\subsection{Augmented Dickey-Fuller test}\label{augmented-dickey-fuller-test}}
+
+\begin{itemize}
+\item
+  The Dickey-Fuller Unit Root Test is valid if the time series \(y_t\) is well characterized by an AR(1) model with white noise errors.
+\item
+  Many financial time series have a more complicated dynamic structures
+\item
+  The Augmented Dickey-Fuller (ADF) test allows for higher-order autoregressive processes by including \(\Delta y_{t−p}\) in the model.
+\item
+  The number of lags included in the model should be just sufficient to remove any autocorrelation in errors.
+\item
+  Consider the model:
+  \[\Delta y_t = c+ \beta y_{t-1}+ \alpha_1 \Delta y_{t-1}+\dots + \alpha_p \Delta y_{t-p} +\epsilon_{t}\]
+\end{itemize}
+
+\begin{itemize}
+\item
+  Hypothesis to be tested
+  \(H_0: \beta = 0\) and \(H_1: \beta<0\)
+\item
+  ADF test: null hypothesis is that the data are non-stationary and non-seasonal.
+\item
+  DF and ADF tests are not suitable when there is a deterministic trend
+\item
+  Alternative tests:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Phillips-Perron Unit Root Tests
+  \end{itemize}
+\item
+  The main difference between Phillips-Perron (PP) unit root tests and the ADF tests is in the way they deal with serial correlation and heteroskedasticity in the errors.
+\end{itemize}
+
+\hypertarget{stationarity-tests}{%
+\subsection{Stationarity Tests}\label{stationarity-tests}}
+
+\begin{itemize}
+\tightlist
+\item
+  The ADF unit root test tests the null hypothesis that a time series \(y_t\) is \(I(1)\).
+\item
+  In contrast, Stationarity tests are for the null that \(y_t\) is \(I(0)\).
+\item
+  Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test is the most commonly used stationarity test that tests the null hypothesis that the data are stationary and non-seasonal.
+\item
+  Other tests available for seasonal data
+\end{itemize}
+
+\hypertarget{kwiatkowski-phillips-schmidt-shin-kpss-test}{%
+\subsubsection{Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test}\label{kwiatkowski-phillips-schmidt-shin-kpss-test}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{google_}\DecValTok{2018} \OperatorTok{%>%}
+\StringTok{  }\KeywordTok{features}\NormalTok{(Close, unitroot_kpss)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 3
+##   Symbol kpss_stat kpss_pvalue
+##   <chr>      <dbl>       <dbl>
+## 1 GOOG       0.573      0.0252
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{google_}\DecValTok{2018} \OperatorTok{%>%}
+\StringTok{  }\KeywordTok{features}\NormalTok{(Close, unitroot_ndiffs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##   Symbol ndiffs
+##   <chr>   <int>
+## 1 GOOG        1
+\end{verbatim}
+
+\hypertarget{automatically-selecting-differences}{%
+\subsubsection{Automatically selecting differences}\label{automatically-selecting-differences}}
+
+STL decomposition: \(y_t = T_t+S_t+R_t\)
+
+Seasonal strength \(F_s = \max\big(0, 1-\frac{\text{Var}(R_t)}{\text{Var}(S_t+R_t)}\big)\)
+
+If \(F_s > 0.64\), do one seasonal difference.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usmelec }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{log_gen =} \KeywordTok{log}\NormalTok{(Generation)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{features}\NormalTok{(log_gen, }\KeywordTok{list}\NormalTok{(unitroot_nsdiffs, feat_stl))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 10
+##   nsdiffs trend_strength seasonal_streng~ seasonal_peak_y~
+##     <int>          <dbl>            <dbl>            <dbl>
+## 1       1          0.994            0.941                7
+## # ... with 6 more variables: seasonal_trough_year <dbl>,
+## #   spikiness <dbl>, linearity <dbl>, curvature <dbl>,
+## #   stl_e_acf1 <dbl>, stl_e_acf10 <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usmelec }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{log_gen =} \KeywordTok{log}\NormalTok{(Generation)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{features}\NormalTok{(log_gen, unitroot_nsdiffs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 1
+##   nsdiffs
+##     <int>
+## 1       1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usmelec }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{d_log_gen =} \KeywordTok{difference}\NormalTok{(}\KeywordTok{log}\NormalTok{(Generation), }\DecValTok{12}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{features}\NormalTok{(d_log_gen, unitroot_ndiffs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 1
+##   ndiffs
+##    <int>
+## 1      1
+\end{verbatim}
+
+\hypertarget{arima-modelling-in-r}{%
+\section{ARIMA modelling in R}\label{arima-modelling-in-r}}
+
+\hypertarget{how-does-arima-work}{%
+\subsection{How does ARIMA() work?}\label{how-does-arima-work}}
+
+\textbf{A non-seasonal ARIMA process}
+
+\[\phi(B)(1-B)^dy_{t} = c + \theta(B)\varepsilon_t\]
+Need to select appropriate orders: \(p,q, d\)
+
+\textbf{Hyndman and Khandakar (JSS, 2008) algorithm:}
+
+\begin{itemize}
+\tightlist
+\item
+  Select no. differences \(d\) and \(D\) via KPSS test and seasonal strength measure.
+\item
+  Select \(p,q\) by minimising AICc.
+\item
+  Use step-wise search to traverse model space.
+\end{itemize}
+
+\[\text{AICc} = -2 \log(L) + 2(p+q+k+1)\left[1 +
+\frac{(p+q+k+2)}{T-p-q-k-2}\right].\]
+
+where \(L\) is the maximised likelihood fitted to the \emph{differenced} data, \(k=1\) if \(c\neq 0\) and \(k=0\) otherwise.
+
+\textbf{Step1:} Select current model (with smallest AICc) from:\newline
+ARIMA\((2,d,2)\)\newline
+ARIMA\((0,d,0)\)\newline
+ARIMA\((1,d,0)\)\newline
+ARIMA\((0,d,1)\)
+
+\textbf{Step 2: Consider variations of current model:}
+
+\begin{itemize}
+\tightlist
+\item
+  vary one of \(p,q,\) from current model by \(\pm1\);
+\item
+  \(p,q\) both vary from current model by \(\pm1\);
+\item
+  Include/exclude \(c\) from current model.
+\end{itemize}
+
+Model with lowest AICc becomes current model.
+
+\textbf{Repeat Step 2 until no lower AICc can be found.}
+
+\hypertarget{choosing-your-own-model}{%
+\subsection{Choosing your own model}\label{choosing-your-own-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{web_usage <-}\StringTok{ }\KeywordTok{as_tsibble}\NormalTok{(WWWusage)}
+\NormalTok{web_usage }\OperatorTok{%>%}\StringTok{ }\KeywordTok{gg_tsdisplay}\NormalTok{(value, }\DataTypeTok{plot_type =} \StringTok{'partial'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{web_usage }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{diff =} \KeywordTok{difference}\NormalTok{(value)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{gg_tsdisplay}\NormalTok{(diff, }\DataTypeTok{plot_type =} \StringTok{'partial'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit <-}\StringTok{ }\NormalTok{web_usage }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\DataTypeTok{arima =} \KeywordTok{ARIMA}\NormalTok{(value }\OperatorTok{~}\StringTok{ }\KeywordTok{pdq}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)))}
+\KeywordTok{report}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: value 
+## Model: ARIMA(3,1,0) 
+## 
+## Coefficients:
+##         ar1      ar2     ar3
+##       1.151  -0.6612  0.3407
+## s.e.  0.095   0.1353  0.0941
+## 
+## sigma^2 estimated as 9.656:  log likelihood=-252
+## AIC=512   AICc=512.4   BIC=522.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{web_usage }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\KeywordTok{ARIMA}\NormalTok{(value }\OperatorTok{~}\StringTok{ }\KeywordTok{pdq}\NormalTok{(}\DataTypeTok{d=}\DecValTok{1}\NormalTok{))) }\OperatorTok{%>%}
+\KeywordTok{report}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: value 
+## Model: ARIMA(1,1,1) 
+## 
+## Coefficients:
+##          ar1     ma1
+##       0.6504  0.5256
+## s.e.  0.0842  0.0896
+## 
+## sigma^2 estimated as 9.995:  log likelihood=-254.2
+## AIC=514.3   AICc=514.5   BIC=522.1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{web_usage }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\KeywordTok{ARIMA}\NormalTok{(value }\OperatorTok{~}\StringTok{ }\KeywordTok{pdq}\NormalTok{(}\DataTypeTok{d=}\DecValTok{1}\NormalTok{),}
+    \DataTypeTok{stepwise =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{approximation =} \OtherTok{FALSE}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{report}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: value 
+## Model: ARIMA(3,1,0) 
+## 
+## Coefficients:
+##         ar1      ar2     ar3
+##       1.151  -0.6612  0.3407
+## s.e.  0.095   0.1353  0.0941
+## 
+## sigma^2 estimated as 9.656:  log likelihood=-252
+## AIC=512   AICc=512.4   BIC=522.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{gg_tsresiduals}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{augment}\NormalTok{(fit) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{features}\NormalTok{(.resid, ljung_box, }\DataTypeTok{lag =} \DecValTok{10}\NormalTok{, }\DataTypeTok{dof =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 3
+##   .model lb_stat lb_pvalue
+##   <chr>    <dbl>     <dbl>
+## 1 arima     4.49     0.722
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}\StringTok{ }\KeywordTok{forecast}\NormalTok{(}\DataTypeTok{h =} \DecValTok{10}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{autoplot}\NormalTok{(web_usage)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\newpage
+
+\hypertarget{modelling-procedure-with-arima}{%
+\subsection{\texorpdfstring{Modelling procedure with \texttt{ARIMA()}}{Modelling procedure with ARIMA()}}\label{modelling-procedure-with-arima}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Plot the data. Identify any unusual observations.
+\item
+  If necessary, transform the data (using a Box-Cox transformation) to stabilize the variance.
+\item
+  If the data are non-stationary: take first differences of the data until the data are stationary.
+\item
+  Examine the ACF/PACF: Is an AR(\(p\)) or MA(\(q\)) model appropriate?
+\item
+  Try your chosen model(s), and use the \(AICc\) to search for a better model.
+\item
+  Check the residuals from your chosen model by plotting the ACF of the residuals, and doing a portmanteau test of the residuals. If they do not look like white noise, try a modified model.
+\item
+  Once the residuals look like white noise, calculate forecasts.
+\end{enumerate}
+
+\hypertarget{automatic-modelling-procedure-with-arima}{%
+\subsection{\texorpdfstring{Automatic modelling procedure with \texttt{ARIMA()}}{Automatic modelling procedure with ARIMA()}}\label{automatic-modelling-procedure-with-arima}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Plot the data. Identify any unusual observations.
+\item
+  If necessary, transform the data (using a Box-Cox transformation) to stabilize the variance.
+\end{enumerate}
+
+\vspace*{0.15cm}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Use \texttt{ARIMA} to automatically select a model.
+\end{enumerate}
+
+\vspace*{0.15cm}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Check the residuals from your chosen model by plotting the ACF of the residuals, and doing a portmanteau test of the residuals. If they do not look like white noise, try a modified model.
+\item
+  Once the residuals look like white noise, calculate forecasts.
+\end{enumerate}
+
+\hypertarget{example-in-r}{%
+\subsection{Example in R}\label{example-in-r}}
+
+\textbf{Seasonally adjusted electrical equipment}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{elecequip <-}\StringTok{ }\KeywordTok{as_tsibble}\NormalTok{(fpp2}\OperatorTok{::}\NormalTok{elecequip)}
+\NormalTok{dcmp <-}\StringTok{ }\NormalTok{elecequip }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\KeywordTok{STL}\NormalTok{(value }\OperatorTok{~}\StringTok{ }\KeywordTok{season}\NormalTok{(}\DataTypeTok{window =} \StringTok{"periodic"}\NormalTok{))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{components}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{.model)}
+\NormalTok{dcmp }\OperatorTok{%>%}\StringTok{ }\NormalTok{as_tsibble }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{autoplot}\NormalTok{(season_adjust) }\OperatorTok{+}\StringTok{ }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Year"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Seasonally adjusted new orders index"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/ee1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dcmp }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{diff =} \KeywordTok{difference}\NormalTok{(season_adjust)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{gg_tsdisplay}\NormalTok{(diff, }\DataTypeTok{plot_type =} \StringTok{'partial'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/ee2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit <-}\StringTok{ }\NormalTok{dcmp }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\DataTypeTok{arima =} \KeywordTok{ARIMA}\NormalTok{(season_adjust))}
+\KeywordTok{report}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: season_adjust 
+## Model: ARIMA(3,1,0) 
+## 
+## Coefficients:
+##           ar1      ar2     ar3
+##       -0.3418  -0.0426  0.3185
+## s.e.   0.0681   0.0725  0.0682
+## 
+## sigma^2 estimated as 9.639:  log likelihood=-493.8
+## AIC=995.6   AICc=995.8   BIC=1009
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit <-}\StringTok{ }\NormalTok{dcmp }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\DataTypeTok{arima =} \KeywordTok{ARIMA}\NormalTok{(season_adjust, }\DataTypeTok{approximation=}\OtherTok{FALSE}\NormalTok{))}
+\KeywordTok{report}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: season_adjust 
+## Model: ARIMA(3,1,1) 
+## 
+## Coefficients:
+##          ar1     ar2     ar3      ma1
+##       0.0044  0.0916  0.3698  -0.3921
+## s.e.  0.2201  0.0984  0.0669   0.2426
+## 
+## sigma^2 estimated as 9.577:  log likelihood=-492.7
+## AIC=995.4   AICc=995.7   BIC=1012
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{gg_tsresiduals}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-27-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{augment}\NormalTok{(fit) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{features}\NormalTok{(.resid, ljung_box, }\DataTypeTok{lag =} \DecValTok{24}\NormalTok{, }\DataTypeTok{dof =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 3
+##   .model lb_stat lb_pvalue
+##   <chr>    <dbl>     <dbl>
+## 1 arima     24.0     0.241
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}\StringTok{ }\NormalTok{forecast }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(dcmp)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-29-1.pdf}
+
+\hypertarget{forecasting}{%
+\section{Forecasting}\label{forecasting}}
+
+\hypertarget{point-forecasts}{%
+\subsection{Point forecasts}\label{point-forecasts}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Rearrange ARIMA equation so \(y_t\) is on LHS.
+\item
+  Rewrite equation by replacing \(t\) by \(T+h\).
+\item
+  On RHS, replace future observations by their forecasts, future errors by zero, and past errors by corresponding residuals.
+\end{enumerate}
+
+Start with \(h=1\). Repeat for \(h=2,3,\dots\).
+
+\textbf{Example:}
+
+\textbf{ARIMA(3,1,1) forecasts: Step 1}
+
+\[(1-\phi_1B -\phi_2B^2-\phi_3B^3)(1-B) y_t = (1+\theta_1B)\varepsilon_{t},\]
+
+\[[1-(1+\phi_1)B +(\phi_1-\phi_2)B^2 + (\phi_2-\phi_3)B^3 +\phi_3B^4] y_t = (1+\theta_1B)\varepsilon_{t}\]
+
+\[y_t - (1+\phi_1)y_{t-1} +(\phi_1-\phi_2)y_{t-2} + (\phi_2-\phi_3)y_{t-3} \mbox{}+\phi_3y_{t-4} = \varepsilon_t+\theta_1\varepsilon_{t-1}.\]
+
+\[y_t = (1+\phi_1)y_{t-1} -(\phi_1-\phi_2)y_{t-2} - (\phi_2-\phi_3)y_{t-3}\\\mbox{} -\phi_3y_{t-4} + \varepsilon_t+\theta_1\varepsilon_{t-1}.\]
+
+\hypertarget{point-forecasts-h1}{%
+\subsubsection{Point forecasts (h=1)}\label{point-forecasts-h1}}
+
+\[y_t = (1+\phi_1)y_{t-1} -(\phi_1-\phi_2)y_{t-2} - (\phi_2-\phi_3)y_{t-3}\\\mbox{} -\phi_3y_{t-4} + \varepsilon_t+\theta_1\varepsilon_{t-1}.\]
+
+\textbf{ARIMA(3,1,1) forecasts: Step 2}
+
+\[y_{T+1} = (1+\phi_1)y_{T} -(\phi_1-\phi_2)y_{T-1} - (\phi_2-\phi_3)y_{T-2}\\\mbox{} -\phi_3y_{T-3} + \varepsilon_{T+1}+\theta_1\varepsilon_{T}.\]
+
+\textbf{ARIMA(3,1,1) forecasts: Step 3}
+
+\[\hat{y}_{T+1|T} = (1+\phi_1)y_{T} -(\phi_1-\phi_2)y_{T-1} - (\phi_2-\phi_3)y_{T-2}\\\mbox{} -\phi_3y_{T-3} + \theta_1 e_{T}.\]
+\#\#\#\# Point forecasts (h=2)
+
+\[y_t = (1+\phi_1)y_{t-1} -(\phi_1-\phi_2)y_{t-2} - (\phi_2-\phi_3)y_{t-3}\\\mbox{} -\phi_3y_{t-4} + \varepsilon_t+\theta_1\varepsilon_{t-1}.\]
+
+\textbf{ARIMA(3,1,1) forecasts: Step 2}
+
+\[y_{T+2} = (1+\phi_1)y_{T+1} -(\phi_1-\phi_2)y_{T} - (\phi_2-\phi_3)y_{T-1}\\\mbox{} -\phi_3y_{T-2} + \varepsilon_{T+2}+\theta_1\varepsilon_{T+1}.\]
+
+\textbf{ARIMA(3,1,1) forecasts: Step 3}
+
+\[\hat{y}_{T+2|T} = (1+\phi_1)\hat{y}_{T+1|T} -(\phi_1-\phi_2)y_{T} - (\phi_2-\phi_3)y_{T-1}\\\mbox{} -\phi_3y_{T-2}.\]
+
+\hypertarget{prediction-intervals}{%
+\subsection{Prediction intervals}\label{prediction-intervals}}
+
+\textbf{95\% prediction interval}
+\[\hat{y}_{T+h|T} \pm 1.96\sqrt{v_{T+h|T}}\]
+
+where \(v_{T+h|T}\) is estimated forecast variance.
+
+\begin{itemize}
+\tightlist
+\item
+  \(v_{T+1|T}=\hat{\sigma}^2\) for all ARIMA models regardless of parameters and orders.
+\item
+  Multi-step prediction intervals for \(ARIMA(0,0,q)\)):
+\end{itemize}
+
+\[y_t = \varepsilon_t + \sum_{i=1}^q \theta_i \varepsilon_{t-i}.\]
+
+\[v_{T|T+h} = \hat{\sigma}^2 \left[ 1 + \sum_{i=1}^{h-1} \theta_i^2\right], \qquad\text{for~} h=2,3,\dots.\]
+* AR(1): Rewrite as MA(\(\infty\)) and use above result.
+* Other models beyond scope of this subject.
+
+\begin{itemize}
+\tightlist
+\item
+  Prediction intervals \textbf{increase in size with forecast horizon}.
+\item
+  Prediction intervals can be difficult to calculate by hand
+\item
+  Calculations assume residuals are \textbf{uncorrelated} and \textbf{normally distributed}.
+\item
+  Prediction intervals tend to be too narrow.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the uncertainty in the parameter estimates has not been accounted for.
+  \item
+    the ARIMA model assumes historical patterns will not change during the forecast period.
+  \item
+    the ARIMA model assumes uncorrelated future errors.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{references}{%
+\section{References:}\label{references}}
+
+\begin{itemize}
+\item
   Brockwell, P. J., Brockwell, P. J., Davis, R. A., \& Davis, R. A. (2016). Introduction to time series and forecasting. springer.
+\item
+  Hyndman, R. J., \& Athanasopoulos, G. (2018). Forecasting: principles and practice. OTexts.
+\item
+  Zivot, E., \& Wang, J. (2006). Unit root tests. Modeling Financial Time Series with S-PLUS®, 111-139.
 \end{itemize}
 
 \hypertarget{exponential-smoothing}{%

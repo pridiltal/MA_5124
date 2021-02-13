@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-02-07" />
+<meta name="date" content="2021-02-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -171,11 +171,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.5.3" data-path="arima-models.html"><a href="arima-models.html#dual-relation-between-ar-and-ma-process"><i class="fa fa-check"></i><b>2.5.3</b> Dual relation between AR and MA process</a></li>
 <li class="chapter" data-level="2.5.4" data-path="arima-models.html"><a href="arima-models.html#autoregressive-and-moving-average-arma-models"><i class="fa fa-check"></i><b>2.5.4</b> Autoregressive and Moving-average (ARMA) models</a></li>
 </ul></li>
-<li class="chapter" data-level="2.6" data-path="arima-models.html"><a href="arima-models.html#thiyanga-section-2.3.4"><i class="fa fa-check"></i><b>2.6</b> Thiyanga Section 2.3.4</a></li>
-<li class="chapter" data-level="2.7" data-path="arima-models.html"><a href="arima-models.html#unit-root-test"><i class="fa fa-check"></i><b>2.7</b> Unit Root Test</a></li>
+<li class="chapter" data-level="2.6" data-path="arima-models.html"><a href="arima-models.html#unit-root-tests"><i class="fa fa-check"></i><b>2.6</b> Unit root tests</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="arima-models.html"><a href="arima-models.html#dickey-fuller-test"><i class="fa fa-check"></i><b>2.6.1</b> Dickey-Fuller test</a></li>
+<li class="chapter" data-level="2.6.2" data-path="arima-models.html"><a href="arima-models.html#augmented-dickey-fuller-test"><i class="fa fa-check"></i><b>2.6.2</b> Augmented Dickey-Fuller test</a></li>
+<li class="chapter" data-level="2.6.3" data-path="arima-models.html"><a href="arima-models.html#stationarity-tests"><i class="fa fa-check"></i><b>2.6.3</b> Stationarity Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="arima-models.html"><a href="arima-models.html#arima-modelling-in-r"><i class="fa fa-check"></i><b>2.7</b> ARIMA modelling in R</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="arima-models.html"><a href="arima-models.html#how-does-arima-work"><i class="fa fa-check"></i><b>2.7.1</b> How does ARIMA() work?</a></li>
+<li class="chapter" data-level="2.7.2" data-path="arima-models.html"><a href="arima-models.html#choosing-your-own-model"><i class="fa fa-check"></i><b>2.7.2</b> Choosing your own model</a></li>
+<li class="chapter" data-level="2.7.3" data-path="arima-models.html"><a href="arima-models.html#modelling-procedure-with-arima"><i class="fa fa-check"></i><b>2.7.3</b> Modelling procedure with <code>ARIMA()</code></a></li>
+<li class="chapter" data-level="2.7.4" data-path="arima-models.html"><a href="arima-models.html#automatic-modelling-procedure-with-arima"><i class="fa fa-check"></i><b>2.7.4</b> Automatic modelling procedure with <code>ARIMA()</code></a></li>
+<li class="chapter" data-level="2.7.5" data-path="arima-models.html"><a href="arima-models.html#example-in-r"><i class="fa fa-check"></i><b>2.7.5</b> Example in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="arima-models.html"><a href="arima-models.html#forecasting"><i class="fa fa-check"></i><b>2.8</b> Forecasting</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="arima-models.html"><a href="arima-models.html#point-forecasts"><i class="fa fa-check"></i><b>2.8.1</b> Point forecasts</a></li>
+<li class="chapter" data-level="2.8.2" data-path="arima-models.html"><a href="arima-models.html#prediction-intervals"><i class="fa fa-check"></i><b>2.8.2</b> Prediction intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="arima-models.html"><a href="arima-models.html#references"><i class="fa fa-check"></i><b>2.9</b> References:</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html"><i class="fa fa-check"></i><b>3</b> Exponential Smoothing</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -236,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[\mu_Y(t)= E(Y_t)\]</span></p>
 <p>The <strong>covariance function</strong> of <span class="math inline">\(\{Y_t\}\)</span> is</p>
 <p><span class="math display">\[\gamma_Y(r,s)=Cov(Y_r, Y_s)=E[(Y_r-\mu_Y(r))(Y_s-\mu_Y(s))]\]</span></p>
-<p>for all intergers <span class="math inline">\(r\)</span> and <span class="math inline">\(s\)</span>.</p>
+<p>for all integers <span class="math inline">\(r\)</span> and <span class="math inline">\(s\)</span>.</p>
 <p><strong>Definition: Weakly stationary</strong> (in <span class="citation">(Brockwell et al. <a href="#ref-brockwell2016introduction">2016</a>)</span>, p. 15; the notations have been changed for consistency within this note)</p>
 <p><span class="math inline">\(\{Y_t\}\)</span> is <strong>weakly stationary</strong> if</p>
 <ol style="list-style-type: decimal">
@@ -859,7 +874,7 @@ Y_t = \phi_0 + \phi_1Y_{t-1}+\phi_2 Y_{t-2}+ ... + \phi_p Y_{t-p}+\epsilon_t.
 <p>or</p>
 <p><span class="math display">\[\symbf{{\rho_{p}}}  = \symbf{{P_{p}\phi}}.\]</span></p>
 <p>where,</p>
-<p><span class="math display">\[\mathbf{\rho_p} = \left[\begin{array}
+<p><span class="math display">\[\symbf{\rho_p} = \left[\begin{array}
 {r}
 \rho_1  \\
 \rho_2  \\
@@ -999,7 +1014,7 @@ The partial autocorrelation between <span class="math inline">\(Y_t\)</span> and
 <p><span class="math display">\[\phi_{11}=\rho_1=\phi_1.\]</span>
 From <a href="#eq:p2">(<strong>??</strong>)</a> for <span class="math inline">\(k=2\)</span>, the second partial autocorrelation coefficient is</p>
 <p><span class="math display">\[\phi_{22}=\frac{\rho_2-\rho_1^2}{1-\rho_1^2}=\frac{\phi_1^2-\phi_1^2}{1-\phi_1^2} = 0\]</span>.</p>
-<p>Similarly, for <span class="math inline">\(AR(1)\)</span> we can show that <span class="math inline">\(\phi_{kk}=0\)</span> for all <span class="math inline">\(k &gt; 0\)</span>. Hence, for <span class="math inline">\(AR(1)\)</span> process the partial autocorrelation is non-zero for lag <span class="math inline">\(1\)</span> which is the order of the process, but is zero for lags beyond the order 1.</p>
+<p>Similarly, for <span class="math inline">\(AR(1)\)</span> we can show that <span class="math inline">\(\phi_{kk}=0\)</span> for all <span class="math inline">\(k &gt; 1\)</span>. Hence, for <span class="math inline">\(AR(1)\)</span> process the partial autocorrelation is non-zero for lag <span class="math inline">\(1\)</span> which is the order of the process, but is zero for lags beyond the order 1.</p>
 </div>
 <div id="pacf-for-ar2-model" class="section level5">
 <h5><span class="header-section-number">2.5.1.3.6</span> PACF for AR(2) model</h5>
@@ -1007,7 +1022,7 @@ From <a href="#eq:p2">(<strong>??</strong>)</a> for <span class="math inline">\(
 </div>
 <div id="pacf-for-arp-model" class="section level5">
 <h5><span class="header-section-number">2.5.1.3.7</span> PACF for AR(P) model</h5>
-<p>In general for <span class="math inline">\(AR(p)\)</span> precess, the partial autocorrelation function <span class="math inline">\(\phi_{kk}\)</span> is non-zero for <span class="math inline">\(k\)</span> less than or equal to <span class="math inline">\(p\)</span> (the order of the process) and zero for all <span class="math inline">\(k\)</span> greater than <span class="math inline">\(p\)</span>. In other words, the partial autocorrelation function of a <span class="math inline">\(AR(p)\)</span> process has a cut-off after lag <span class="math inline">\(p\)</span>.</p>
+<p>In general for <span class="math inline">\(AR(p)\)</span> process, the partial autocorrelation function <span class="math inline">\(\phi_{kk}\)</span> is non-zero for <span class="math inline">\(k\)</span> less than or equal to <span class="math inline">\(p\)</span> (the order of the process) and zero for all <span class="math inline">\(k\)</span> greater than <span class="math inline">\(p\)</span>. In other words, the partial autocorrelation function of a <span class="math inline">\(AR(p)\)</span> process has a cut-off after lag <span class="math inline">\(p\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1090,7 +1105,7 @@ E(\epsilon_{t-1}Y_{t-1}) &amp;= E(\epsilon_{t-1}^2)=\sigma^2\\
 <p><span class="math display">\[\gamma_1=\theta_1\sigma^2\]</span>.</p>
 <p>Furthermore, <span class="math inline">\(\gamma_0 = Var(Y_t)= (1+\theta_1^2)\sigma^2\)</span>. Hence</p>
 <p><span class="math display">\[\rho_1=\frac{\gamma_1}{\gamma_0}=\frac{\theta_1}{1+\theta_1^2}.\]</span></p>
-<p>When <span class="math inline">\(k=2\)</span>, from Equation <a href="#eq:covma3">(<strong>??</strong>)</a> and <span class="math inline">\(E(\epsilon_{t-1}Y_{k-2}) = 0\)</span> (future error and past observation) we get <span class="math inline">\(\gamma_2=0\)</span>. Hence <span class="math inline">\(\rho_2=0\)</span>. Similarly, we can show that</p>
+<p>When <span class="math inline">\(k=2\)</span>, from Equation <a href="#eq:covma3">(<strong>??</strong>)</a> and <span class="math inline">\(E(\epsilon_{t-1}Y_{t-2}) = 0\)</span> (future error and past observation) we get <span class="math inline">\(\gamma_2=0\)</span>. Hence <span class="math inline">\(\rho_2=0\)</span>. Similarly, we can show that</p>
 <p><span class="math display">\[\gamma_k = \rho_k=0\]</span> for all <span class="math inline">\(k \geq 2\)</span>.</p>
 <p>We can see that the ACF of <span class="math inline">\(MA(1)\)</span> process is zero, beyond the order of 1 of the process.</p>
 <p><strong>Method 2: By using the definition of covariance</strong></p>
@@ -1223,16 +1238,349 @@ where <span class="math inline">\(\phi(.)\)</span> and <span class="math inline"
 </div>
 </div>
 </div>
-<div id="thiyanga-section-2.3.4" class="section level2">
-<h2><span class="header-section-number">2.6</span> Thiyanga Section 2.3.4</h2>
-</div>
-<div id="unit-root-test" class="section level2">
-<h2><span class="header-section-number">2.7</span> Unit Root Test</h2>
-<p>slide 29 to 33</p>
-<p><strong>Note: Test whwre to put</strong></p>
-<p>References:</p>
+<div id="unit-root-tests" class="section level2">
+<h2><span class="header-section-number">2.6</span> Unit root tests</h2>
+<!-- http://faculty.washington.edu/ezivot/econ584/notes/unitroot.pdf-->
 <ul>
-<li>Brockwell, P. J., Brockwell, P. J., Davis, R. A., &amp; Davis, R. A. (2016). Introduction to time series and forecasting. springer.</li>
+<li>Many financial time series are with trending behavior or nonstationarity in the mean.</li>
+<li>Two common trend removal or de-trending procedures
+<ul>
+<li>First differencing (appropriate for <span class="math inline">\(I(1)\)</span> time series).</li>
+<li>time-trend regression (appropriate for trend stationary
+<span class="math inline">\(I(0)\)</span> time series).</li>
+</ul></li>
+<li>Unit root tests are statistical tests to determine the required order of differencing or whether it should be regressed on deterministic functions of time to render the data stationary.</li>
+</ul>
+<!--https://nwfsc-timeseries.github.io/atsa-labs/sec-boxjenkins-aug-dickey-fuller.html-->
+<div id="dickey-fuller-test" class="section level3">
+<h3><span class="header-section-number">2.6.1</span> Dickey-Fuller test</h3>
+<ul>
+<li><p>Consider the model
+<span class="math display">\[\Delta y_t = c+ \beta y_{t-1}+\epsilon_{t}\]</span></p></li>
+<li><p>Hypothesis to be tested
+<span class="math inline">\(H_0: \beta = 0\)</span> and <span class="math inline">\(H_1: \beta&lt;0\)</span></p></li>
+<li><p>Test statistics = <span class="math inline">\(\frac{\hat{\beta}}{SE(\hat{\beta})}\)</span></p></li>
+</ul>
+<!-- 4 year lecture note slides-->
+</div>
+<div id="augmented-dickey-fuller-test" class="section level3">
+<h3><span class="header-section-number">2.6.2</span> Augmented Dickey-Fuller test</h3>
+<ul>
+<li><p>The Dickey-Fuller Unit Root Test is valid if the time series <span class="math inline">\(y_t\)</span> is well characterized by an AR(1) model with white noise errors.</p></li>
+<li><p>Many financial time series have a more complicated dynamic structures</p></li>
+<li><p>The Augmented Dickey-Fuller (ADF) test allows for higher-order autoregressive processes by including <span class="math inline">\(\Delta y_{t−p}\)</span> in the model.</p></li>
+<li><p>The number of lags included in the model should be just sufficient to remove any autocorrelation in errors.</p></li>
+<li><p>Consider the model:
+<span class="math display">\[\Delta y_t = c+ \beta y_{t-1}+ \alpha_1 \Delta y_{t-1}+\dots + \alpha_p \Delta y_{t-p} +\epsilon_{t}\]</span></p></li>
+</ul>
+<!--But our test is still if-->
+<ul>
+<li><p>Hypothesis to be tested
+<span class="math inline">\(H_0: \beta = 0\)</span> and <span class="math inline">\(H_1: \beta&lt;0\)</span></p></li>
+<li><p>ADF test: null hypothesis is that the data are non-stationary and non-seasonal.</p></li>
+<li><p>DF and ADF tests are not suitable when there is a deterministic trend</p></li>
+<li>Alternative tests:
+<ul>
+<li>Phillips-Perron Unit Root Tests</li>
+</ul></li>
+<li><p>The main difference between Phillips-Perron (PP) unit root tests and the ADF tests is in the way they deal with serial correlation and heteroskedasticity in the errors.</p></li>
+</ul>
+</div>
+<div id="stationarity-tests" class="section level3">
+<h3><span class="header-section-number">2.6.3</span> Stationarity Tests</h3>
+<ul>
+<li>The ADF unit root test tests the null hypothesis that a time series <span class="math inline">\(y_t\)</span> is <span class="math inline">\(I(1)\)</span>.</li>
+<li>In contrast, Stationarity tests are for the null that <span class="math inline">\(y_t\)</span> is <span class="math inline">\(I(0)\)</span>.</li>
+<li>Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test is the most commonly used stationarity test that tests the null hypothesis that the data are stationary and non-seasonal.</li>
+<li>Other tests available for seasonal data</li>
+</ul>
+<div id="kwiatkowski-phillips-schmidt-shin-kpss-test" class="section level4">
+<h4><span class="header-section-number">2.6.3.1</span> Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">google_<span class="dv">2018</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">features</span>(Close, unitroot_kpss)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   Symbol kpss_stat kpss_pvalue
+##   &lt;chr&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+## 1 GOOG       0.573      0.0252</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">google_<span class="dv">2018</span> <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">features</span>(Close, unitroot_ndiffs)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   Symbol ndiffs
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 GOOG        1</code></pre>
+</div>
+<div id="automatically-selecting-differences" class="section level4">
+<h4><span class="header-section-number">2.6.3.2</span> Automatically selecting differences</h4>
+<p>STL decomposition: <span class="math inline">\(y_t = T_t+S_t+R_t\)</span></p>
+<p>Seasonal strength <span class="math inline">\(F_s = \max\big(0, 1-\frac{\text{Var}(R_t)}{\text{Var}(S_t+R_t)}\big)\)</span></p>
+<p>If <span class="math inline">\(F_s &gt; 0.64\)</span>, do one seasonal difference.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">usmelec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">log_gen =</span> <span class="kw">log</span>(Generation)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">features</span>(log_gen, <span class="kw">list</span>(unitroot_nsdiffs, feat_stl))</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 10
+##   nsdiffs trend_strength seasonal_streng… seasonal_peak_y…
+##     &lt;int&gt;          &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1       1          0.994            0.941                7
+## # … with 6 more variables: seasonal_trough_year &lt;dbl&gt;,
+## #   spikiness &lt;dbl&gt;, linearity &lt;dbl&gt;, curvature &lt;dbl&gt;,
+## #   stl_e_acf1 &lt;dbl&gt;, stl_e_acf10 &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">usmelec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">log_gen =</span> <span class="kw">log</span>(Generation)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw">features</span>(log_gen, unitroot_nsdiffs)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   nsdiffs
+##     &lt;int&gt;
+## 1       1</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">usmelec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">d_log_gen =</span> <span class="kw">difference</span>(<span class="kw">log</span>(Generation), <span class="dv">12</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">features</span>(d_log_gen, unitroot_ndiffs)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   ndiffs
+##    &lt;int&gt;
+## 1      1</code></pre>
+</div>
+</div>
+</div>
+<div id="arima-modelling-in-r" class="section level2">
+<h2><span class="header-section-number">2.7</span> ARIMA modelling in R</h2>
+<div id="how-does-arima-work" class="section level3">
+<h3><span class="header-section-number">2.7.1</span> How does ARIMA() work?</h3>
+<p><strong>A non-seasonal ARIMA process</strong></p>
+<p><span class="math display">\[\phi(B)(1-B)^dy_{t} = c + \theta(B)\varepsilon_t\]</span>
+Need to select appropriate orders: <span class="math inline">\(p,q, d\)</span></p>
+<p><strong>Hyndman and Khandakar (JSS, 2008) algorithm:</strong></p>
+<ul>
+<li>Select no. differences <span class="math inline">\(d\)</span> and <span class="math inline">\(D\)</span> via KPSS test and seasonal strength measure.</li>
+<li>Select <span class="math inline">\(p,q\)</span> by minimising AICc.</li>
+<li>Use step-wise search to traverse model space.</li>
+</ul>
+<p><span class="math display">\[\text{AICc} = -2 \log(L) + 2(p+q+k+1)\left[1 +
+\frac{(p+q+k+2)}{T-p-q-k-2}\right].\]</span></p>
+<p>where <span class="math inline">\(L\)</span> is the maximised likelihood fitted to the <em>differenced</em> data, <span class="math inline">\(k=1\)</span> if <span class="math inline">\(c\neq 0\)</span> and <span class="math inline">\(k=0\)</span> otherwise.</p>
+<p><strong>Step1:</strong> Select current model (with smallest AICc) from:
+ARIMA<span class="math inline">\((2,d,2)\)</span>
+ARIMA<span class="math inline">\((0,d,0)\)</span>
+ARIMA<span class="math inline">\((1,d,0)\)</span>
+ARIMA<span class="math inline">\((0,d,1)\)</span></p>
+<p><strong>Step 2: Consider variations of current model:</strong></p>
+<ul>
+<li>vary one of <span class="math inline">\(p,q,\)</span> from current model by <span class="math inline">\(\pm1\)</span>;</li>
+<li><span class="math inline">\(p,q\)</span> both vary from current model by <span class="math inline">\(\pm1\)</span>;</li>
+<li>Include/exclude <span class="math inline">\(c\)</span> from current model.</li>
+</ul>
+<p>Model with lowest AICc becomes current model.</p>
+<p><strong>Repeat Step 2 until no lower AICc can be found.</strong></p>
+</div>
+<div id="choosing-your-own-model" class="section level3">
+<h3><span class="header-section-number">2.7.2</span> Choosing your own model</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">web_usage &lt;-<span class="st"> </span><span class="kw">as_tsibble</span>(WWWusage)</a>
+<a class="sourceLine" id="cb16-2" title="2">web_usage <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gg_tsdisplay</span>(value, <span class="dt">plot_type =</span> <span class="st">&#39;partial&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">web_usage <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">diff =</span> <span class="kw">difference</span>(value)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="st">  </span><span class="kw">gg_tsdisplay</span>(diff, <span class="dt">plot_type =</span> <span class="st">&#39;partial&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">fit &lt;-<span class="st"> </span>web_usage <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="dt">arima =</span> <span class="kw">ARIMA</span>(value <span class="op">~</span><span class="st"> </span><span class="kw">pdq</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">0</span>)))</a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="kw">report</span>(fit)</a></code></pre></div>
+<pre><code>## Series: value 
+## Model: ARIMA(3,1,0) 
+## 
+## Coefficients:
+##         ar1      ar2     ar3
+##       1.151  -0.6612  0.3407
+## s.e.  0.095   0.1353  0.0941
+## 
+## sigma^2 estimated as 9.656:  log likelihood=-252
+## AIC=512   AICc=512.4   BIC=522.4</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">web_usage <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="kw">ARIMA</span>(value <span class="op">~</span><span class="st"> </span><span class="kw">pdq</span>(<span class="dt">d=</span><span class="dv">1</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-3" title="3"><span class="kw">report</span>()</a></code></pre></div>
+<pre><code>## Series: value 
+## Model: ARIMA(1,1,1) 
+## 
+## Coefficients:
+##          ar1     ma1
+##       0.6504  0.5256
+## s.e.  0.0842  0.0896
+## 
+## sigma^2 estimated as 9.995:  log likelihood=-254.2
+## AIC=514.3   AICc=514.5   BIC=522.1</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">web_usage <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="kw">ARIMA</span>(value <span class="op">~</span><span class="st"> </span><span class="kw">pdq</span>(<span class="dt">d=</span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb22-3" title="3">    <span class="dt">stepwise =</span> <span class="ot">FALSE</span>, <span class="dt">approximation =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-4" title="4"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
+<pre><code>## Series: value 
+## Model: ARIMA(3,1,0) 
+## 
+## Coefficients:
+##         ar1      ar2     ar3
+##       1.151  -0.6612  0.3407
+## s.e.  0.095   0.1353  0.0941
+## 
+## sigma^2 estimated as 9.656:  log likelihood=-252
+## AIC=512   AICc=512.4   BIC=522.4</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">gg_tsresiduals</span>(fit)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">augment</span>(fit) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="st">  </span><span class="kw">features</span>(.resid, ljung_box, <span class="dt">lag =</span> <span class="dv">10</span>, <span class="dt">dof =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .model lb_stat lb_pvalue
+##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 arima     4.49     0.722</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">fit <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">forecast</span>(<span class="dt">h =</span> <span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="st">  </span><span class="kw">autoplot</span>(web_usage)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="modelling-procedure-with-arima" class="section level3">
+<h3><span class="header-section-number">2.7.3</span> Modelling procedure with <code>ARIMA()</code></h3>
+<ol style="list-style-type: decimal">
+<li>Plot the data. Identify any unusual observations.</li>
+<li>If necessary, transform the data (using a Box-Cox transformation) to stabilize the variance.</li>
+<li>If the data are non-stationary: take first differences of the data until the data are stationary.</li>
+<li>Examine the ACF/PACF: Is an AR(<span class="math inline">\(p\)</span>) or MA(<span class="math inline">\(q\)</span>) model appropriate?</li>
+<li>Try your chosen model(s), and use the <span class="math inline">\(AICc\)</span> to search for a better model.</li>
+<li>Check the residuals from your chosen model by plotting the ACF of the residuals, and doing a portmanteau test of the residuals. If they do not look like white noise, try a modified model.</li>
+<li>Once the residuals look like white noise, calculate forecasts.</li>
+</ol>
+</div>
+<div id="automatic-modelling-procedure-with-arima" class="section level3">
+<h3><span class="header-section-number">2.7.4</span> Automatic modelling procedure with <code>ARIMA()</code></h3>
+<ol style="list-style-type: decimal">
+<li>Plot the data. Identify any unusual observations.</li>
+<li>If necessary, transform the data (using a Box-Cox transformation) to stabilize the variance.</li>
+</ol>
+
+<ol start="3" style="list-style-type: decimal">
+<li>Use <code>ARIMA</code> to automatically select a model.</li>
+</ol>
+
+<ol start="6" style="list-style-type: decimal">
+<li>Check the residuals from your chosen model by plotting the ACF of the residuals, and doing a portmanteau test of the residuals. If they do not look like white noise, try a modified model.</li>
+<li>Once the residuals look like white noise, calculate forecasts.</li>
+</ol>
+<!-- Discuss the diagram-->
+</div>
+<div id="example-in-r" class="section level3">
+<h3><span class="header-section-number">2.7.5</span> Example in R</h3>
+<p><strong>Seasonally adjusted electrical equipment</strong></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">elecequip &lt;-<span class="st"> </span><span class="kw">as_tsibble</span>(fpp2<span class="op">::</span>elecequip)</a>
+<a class="sourceLine" id="cb28-2" title="2">dcmp &lt;-<span class="st"> </span>elecequip <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb28-3" title="3"><span class="st">  </span><span class="kw">model</span>(<span class="kw">STL</span>(value <span class="op">~</span><span class="st"> </span><span class="kw">season</span>(<span class="dt">window =</span> <span class="st">&quot;periodic&quot;</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb28-4" title="4"><span class="st">  </span><span class="kw">components</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>.model)</a>
+<a class="sourceLine" id="cb28-5" title="5">dcmp <span class="op">%&gt;%</span><span class="st"> </span>as_tsibble <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb28-6" title="6"><span class="st">  </span><span class="kw">autoplot</span>(season_adjust) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb28-7" title="7"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Seasonally adjusted new orders index&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/ee1-1.png" width="672" /></p>
+<!-- Description
+
+1. Time plot shows sudden changes, particularly big drop in 2008/2009 due to global economic environment. Otherwise nothing unusual and no need for data adjustments.
+2. No evidence of changing variance, so no Box-Cox transformation.
+3. Data are clearly non-stationary, so we take first differences.
+-->
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">dcmp <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">diff =</span> <span class="kw">difference</span>(season_adjust)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="st">  </span><span class="kw">gg_tsdisplay</span>(diff, <span class="dt">plot_type =</span> <span class="st">&#39;partial&#39;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/ee2-1.png" width="672" /></p>
+<!--4. PACF is suggestive of AR(3). So initial candidate model is ARIMA(3,1,0). No other obvious candidates.
+5. Fit ARIMA(3,1,0) model along with variations: ARIMA(4,1,0), ARIMA(2,1,0), ARIMA(3,1,1), etc. ARIMA(3,1,1) has smallest \text{AICc} value.-->
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">fit &lt;-<span class="st"> </span>dcmp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="dt">arima =</span> <span class="kw">ARIMA</span>(season_adjust))</a>
+<a class="sourceLine" id="cb30-3" title="3"><span class="kw">report</span>(fit)</a></code></pre></div>
+<pre><code>## Series: season_adjust 
+## Model: ARIMA(3,1,0) 
+## 
+## Coefficients:
+##           ar1      ar2     ar3
+##       -0.3418  -0.0426  0.3185
+## s.e.   0.0681   0.0725  0.0682
+## 
+## sigma^2 estimated as 9.639:  log likelihood=-493.8
+## AIC=995.6   AICc=995.8   BIC=1009</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">fit &lt;-<span class="st"> </span>dcmp <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="dt">arima =</span> <span class="kw">ARIMA</span>(season_adjust, <span class="dt">approximation=</span><span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb32-3" title="3"><span class="kw">report</span>(fit)</a></code></pre></div>
+<pre><code>## Series: season_adjust 
+## Model: ARIMA(3,1,1) 
+## 
+## Coefficients:
+##          ar1     ar2     ar3      ma1
+##       0.0044  0.0916  0.3698  -0.3921
+## s.e.  0.2201  0.0984  0.0669   0.2426
+## 
+## sigma^2 estimated as 9.577:  log likelihood=-492.7
+## AIC=995.4   AICc=995.7   BIC=1012</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">gg_tsresiduals</span>(fit)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">augment</span>(fit) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="st">  </span><span class="kw">features</span>(.resid, ljung_box, <span class="dt">lag =</span> <span class="dv">24</span>, <span class="dt">dof =</span> <span class="dv">4</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .model lb_stat lb_pvalue
+##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 arima     24.0     0.241</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">fit <span class="op">%&gt;%</span><span class="st"> </span>forecast <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(dcmp)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+</div>
+<div id="forecasting" class="section level2">
+<h2><span class="header-section-number">2.8</span> Forecasting</h2>
+<div id="point-forecasts" class="section level3">
+<h3><span class="header-section-number">2.8.1</span> Point forecasts</h3>
+<ol style="list-style-type: decimal">
+<li>Rearrange ARIMA equation so <span class="math inline">\(y_t\)</span> is on LHS.</li>
+<li>Rewrite equation by replacing <span class="math inline">\(t\)</span> by <span class="math inline">\(T+h\)</span>.</li>
+<li>On RHS, replace future observations by their forecasts, future errors by zero, and past errors by corresponding residuals.</li>
+</ol>
+<p>Start with <span class="math inline">\(h=1\)</span>. Repeat for <span class="math inline">\(h=2,3,\dots\)</span>.</p>
+<p><strong>Example:</strong></p>
+<p><strong>ARIMA(3,1,1) forecasts: Step 1</strong></p>
+<p><span class="math display">\[(1-\phi_1B -\phi_2B^2-\phi_3B^3)(1-B) y_t = (1+\theta_1B)\varepsilon_{t},\]</span></p>
+<p><span class="math display">\[[1-(1+\phi_1)B +(\phi_1-\phi_2)B^2 + (\phi_2-\phi_3)B^3 +\phi_3B^4] y_t = (1+\theta_1B)\varepsilon_{t}\]</span></p>
+<p><span class="math display">\[y_t - (1+\phi_1)y_{t-1} +(\phi_1-\phi_2)y_{t-2} + (\phi_2-\phi_3)y_{t-3} \mbox{}+\phi_3y_{t-4} = \varepsilon_t+\theta_1\varepsilon_{t-1}.\]</span></p>
+<p><span class="math display">\[y_t = (1+\phi_1)y_{t-1} -(\phi_1-\phi_2)y_{t-2} - (\phi_2-\phi_3)y_{t-3}\\\mbox{} -\phi_3y_{t-4} + \varepsilon_t+\theta_1\varepsilon_{t-1}.\]</span></p>
+<div id="point-forecasts-h1" class="section level4">
+<h4><span class="header-section-number">2.8.1.1</span> Point forecasts (h=1)</h4>
+<p><span class="math display">\[y_t = (1+\phi_1)y_{t-1} -(\phi_1-\phi_2)y_{t-2} - (\phi_2-\phi_3)y_{t-3}\\\mbox{} -\phi_3y_{t-4} + \varepsilon_t+\theta_1\varepsilon_{t-1}.\]</span></p>
+<p><strong>ARIMA(3,1,1) forecasts: Step 2</strong></p>
+<p><span class="math display">\[y_{T+1} = (1+\phi_1)y_{T} -(\phi_1-\phi_2)y_{T-1} - (\phi_2-\phi_3)y_{T-2}\\\mbox{} -\phi_3y_{T-3} + \varepsilon_{T+1}+\theta_1\varepsilon_{T}.\]</span></p>
+<p><strong>ARIMA(3,1,1) forecasts: Step 3</strong></p>
+<p><span class="math display">\[\hat{y}_{T+1|T} = (1+\phi_1)y_{T} -(\phi_1-\phi_2)y_{T-1} - (\phi_2-\phi_3)y_{T-2}\\\mbox{} -\phi_3y_{T-3} + \theta_1 e_{T}.\]</span>
+#### Point forecasts (h=2)</p>
+<p><span class="math display">\[y_t = (1+\phi_1)y_{t-1} -(\phi_1-\phi_2)y_{t-2} - (\phi_2-\phi_3)y_{t-3}\\\mbox{} -\phi_3y_{t-4} + \varepsilon_t+\theta_1\varepsilon_{t-1}.\]</span></p>
+<p><strong>ARIMA(3,1,1) forecasts: Step 2</strong></p>
+<p><span class="math display">\[y_{T+2} = (1+\phi_1)y_{T+1} -(\phi_1-\phi_2)y_{T} - (\phi_2-\phi_3)y_{T-1}\\\mbox{} -\phi_3y_{T-2} + \varepsilon_{T+2}+\theta_1\varepsilon_{T+1}.\]</span></p>
+<p><strong>ARIMA(3,1,1) forecasts: Step 3</strong></p>
+<p><span class="math display">\[\hat{y}_{T+2|T} = (1+\phi_1)\hat{y}_{T+1|T} -(\phi_1-\phi_2)y_{T} - (\phi_2-\phi_3)y_{T-1}\\\mbox{} -\phi_3y_{T-2}.\]</span></p>
+</div>
+</div>
+<div id="prediction-intervals" class="section level3">
+<h3><span class="header-section-number">2.8.2</span> Prediction intervals</h3>
+<p><strong>95% prediction interval</strong>
+<span class="math display">\[\hat{y}_{T+h|T} \pm 1.96\sqrt{v_{T+h|T}}\]</span></p>
+<p>where <span class="math inline">\(v_{T+h|T}\)</span> is estimated forecast variance.</p>
+<ul>
+<li><span class="math inline">\(v_{T+1|T}=\hat{\sigma}^2\)</span> for all ARIMA models regardless of parameters and orders.</li>
+<li>Multi-step prediction intervals for <span class="math inline">\(ARIMA(0,0,q)\)</span>):</li>
+</ul>
+<p><span class="math display">\[y_t = \varepsilon_t + \sum_{i=1}^q \theta_i \varepsilon_{t-i}.\]</span></p>
+<p><span class="math display">\[v_{T|T+h} = \hat{\sigma}^2 \left[ 1 + \sum_{i=1}^{h-1} \theta_i^2\right], \qquad\text{for~} h=2,3,\dots.\]</span>
+* AR(1): Rewrite as MA(<span class="math inline">\(\infty\)</span>) and use above result.
+* Other models beyond scope of this subject.</p>
+<ul>
+<li>Prediction intervals <strong>increase in size with forecast horizon</strong>.</li>
+<li>Prediction intervals can be difficult to calculate by hand</li>
+<li>Calculations assume residuals are <strong>uncorrelated</strong> and <strong>normally distributed</strong>.</li>
+<li>Prediction intervals tend to be too narrow.
+<ul>
+<li>the uncertainty in the parameter estimates has not been accounted for.</li>
+<li>the ARIMA model assumes historical patterns will not change during the forecast period.</li>
+<li>the ARIMA model assumes uncorrelated future errors.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="references" class="section level2">
+<h2><span class="header-section-number">2.9</span> References:</h2>
+<ul>
+<li><p>Brockwell, P. J., Brockwell, P. J., Davis, R. A., &amp; Davis, R. A. (2016). Introduction to time series and forecasting. springer.</p></li>
+<li><p>Hyndman, R. J., &amp; Athanasopoulos, G. (2018). Forecasting: principles and practice. OTexts.</p></li>
+<li><p>Zivot, E., &amp; Wang, J. (2006). Unit root tests. Modeling Financial Time Series with S-PLUS®, 111-139.</p></li>
 </ul>
 
 </div>
