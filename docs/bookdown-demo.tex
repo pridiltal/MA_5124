@@ -2398,6 +2398,397 @@ where \(v_{T+h|T}\) is estimated forecast variance.
 \hypertarget{exponential-smoothing}{%
 \chapter{Exponential Smoothing}\label{exponential-smoothing}}
 
+\pagenumbering{arabic}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+\hypertarget{historical-perspective}{%
+\subsection{Historical perspective}\label{historical-perspective}}
+
+\begin{itemize}
+\tightlist
+\item
+  Developed in the 1950s and 1960s as methods (algorithms) to produce point forecasts.
+\item
+  Combine a ``level'', ``trend'' (slope) and ``seasonal'' component to describe a time series.
+\item
+  The rate of change of the components are controlled by ``smoothing parameters'':\newline \(\alpha\), \(\beta\) and \(\gamma\) respectively.
+\item
+  Need to choose best values for the smoothing parameters (and initial states).
+\item
+  Equivalent ETS state space models developed in the 1990s and 2000s.
+\end{itemize}
+
+\hypertarget{big-idea-control-the-rate-of-change}{%
+\subsection{Big idea: control the rate of change}\label{big-idea-control-the-rate-of-change}}
+
+\(\alpha\) controls the flexibility of the \textbf{level}
+
+\begin{itemize}
+\tightlist
+\item
+  If \(\alpha = 0\), the level never updates (mean)
+\item
+  If \(\alpha = 1\), the level updates completely (naive)
+\end{itemize}
+
+\(\beta\) controls the flexibility of the \textbf{trend}
+
+\begin{itemize}
+\tightlist
+\item
+  If \(\beta = 0\), the trend is linear (regression trend)
+\item
+  If \(\beta = 1\), the trend updates every observation
+\end{itemize}
+
+\(\gamma\) controls the flexibility of the \textbf{seasonality}
+
+\begin{itemize}
+\tightlist
+\item
+  If \(\gamma = 0\), the seasonality is fixed (seasonal means)
+\item
+  If \(\gamma = 1\), the seasonality updates completely (seasonal naive)
+\end{itemize}
+
+\hypertarget{a-model-for-levels-trends-and-seasonalities}{%
+\subsection{A model for levels, trends, and seasonalities}\label{a-model-for-levels-trends-and-seasonalities}}
+
+We want a model that captures the level (\(\ell_t\)), trend (\(b_t\)) and seasonality (\(s_t\)).
+
+\textbf{How do we combine these elements?}
+
+\begin{itemize}
+\tightlist
+\item
+  Additively?
+\end{itemize}
+
+\[y_t = \ell_{t-1} + b_{t-1} + s_{t-m} + \varepsilon_t\]
+
+\begin{itemize}
+\tightlist
+\item
+  Multiplicatively?
+\end{itemize}
+
+\[y_t = \ell_{t-1}b_{t-1}s_{t-m}(1 + \varepsilon_t)\]
+
+\begin{itemize}
+\tightlist
+\item
+  Perhaps a mix of both?
+\end{itemize}
+
+\[y_t = (\ell_{t-1} + b_{t-1}) s_{t-m} + \varepsilon_t\]
+
+\textbf{How do the level, trend and seasonal components evolve over time?}
+
+General notation:
+
+\[\text{ETS: } \textbf{E}\text{xponen}\textbf{T}\text{ial}\textbf{ S}\text{moothing}\]
+
+\textbf{E}rror: Additive (\texttt{"A"}) or multiplicative (\texttt{"M"})
+
+\textbf{T}rend: None (\texttt{"N"}), additive (\texttt{"A"}), multiplicative (\texttt{"M"}), or damped (\texttt{"Ad"} or \texttt{"Md"}).
+
+\textbf{S}easonality: None (\texttt{"N"}), additive (\texttt{"A"}) or multiplicative (\texttt{"M"})
+
+\hypertarget{simple-exponential-smoothing}{%
+\section{Simple exponential smoothing}\label{simple-exponential-smoothing}}
+
+Time series \(y_1,y_2,\dots,y_T\).
+
+\textbf{Random walk forecasts}
+\[\hat{y}_{T+h|T} = y_T\]
+
+\textbf{Average forecasts}
+
+\[\hat{y}_{T+h|T} = \frac1T\sum_{t=1}^T y_t\]
+
+\begin{itemize}
+\tightlist
+\item
+  Want something in between these methods.
+\item
+  Most recent data should have more weight.
+\end{itemize}
+
+\textbf{Forecast equation}
+
+\[\hat{y}_{T+1|T} = \alpha y_T + \alpha(1-\alpha) y_{T-1} + \alpha(1-\alpha)^2 y_{T-2}+ \cdots\]
+
+where \(0 \le \alpha \le1\)
+
+\small
+
+\begin{tabular}{lllll}
+\toprule
+& \multicolumn{4}{l}{Weights assigned to observations for:}\\
+Observation  &   $\alpha = 0.2$   &   $\alpha = 0.4$  &   $\alpha = 0.6$  & $\alpha = 0.8$ \\
+\midrule
+$y_{T}$      & 0.2         & 0.4          & 0.6         & 0.8\\
+$y_{T-1}$    & 0.16        & 0.24         & 0.24        & 0.16\\
+$y_{T-2}$    & 0.128       & 0.144        & 0.096       & 0.032\\
+$y_{T-3}$    & 0.1024      & 0.0864       & 0.0384      & 0.0064\\
+$y_{T-4}$    & $(0.2)(0.8)^4$  & $(0.4)(0.6)^4$   & $(0.6)(0.4)^4$  & $(0.8)(0.2)^4$\\
+$y_{T-5}$    & $(0.2)(0.8)^5$  & $(0.4)(0.6)^5$   & $(0.6)(0.4)^5$  & $(0.8)(0.2)^5$\\
+\bottomrule
+\end{tabular}
+
+\textbf{Component form}
+
+\begin{itemize}
+\item
+  Forecast equation \(\hat{y}_{t+h|t} = \ell_{t}\)
+\item
+  Smoothing equation \(\ell_{t} = \alpha y_{t} + (1 - \alpha)\ell_{t-1}\)
+\item
+  \(\ell_t\) is the level (or the smoothed value) of the series at time t.
+\item
+  \(\hat{y}_{t+1|t} = \alpha y_t + (1-\alpha) \hat{y}_{t|t-1}\)\newline
+  Iterate to get exponentially weighted moving average form.
+\end{itemize}
+
+\textbf{Weighted average form}
+
+\[\hat{y}_{T+1|T}=\sum_{j=0}^{T-1} \alpha(1-\alpha)^j y_{T-j}+(1-\alpha)^T \ell_{0}\]
+
+\hypertarget{optimising-smoothing-parameters}{%
+\subsection{Optimising smoothing parameters}\label{optimising-smoothing-parameters}}
+
+\begin{itemize}
+\tightlist
+\item
+  Need to choose best values for \(\alpha\) and \(\ell_0\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Similarly to regression, choose optimal parameters by minimising SSE:
+  \end{itemize}
+\end{itemize}
+
+\[\text{SSE}=\sum_{t=1}^T(y_t-\hat{y}_{t|t-1})^2.\]
+
+\begin{itemize}
+\item
+  Unlike regression there is no closed form solution --- use numerical optimization.
+\item
+  For Algerian Exports example:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(\hat\alpha = 0.8400\)
+  \item
+    \(\hat\ell_0 = 39.54\)
+  \end{itemize}
+
+  \includegraphics{bookdown-demo_files/figure-latex/alpha-static-1.pdf}
+\end{itemize}
+
+\hypertarget{models-and-methods}{%
+\subsection{Models and methods}\label{models-and-methods}}
+
+\hypertarget{methods}{%
+\subsubsection{Methods}\label{methods}}
+
+\begin{itemize}
+\tightlist
+\item
+  Algorithms that return point forecasts.
+\end{itemize}
+
+\hypertarget{models}{%
+\subsubsection{Models}\label{models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Generate same point forecasts but can also generate forecast distributions.
+\item
+  A stochastic (or random) data generating process that can generate an entire forecast distribution.
+\item
+  Allow for ``proper'' model selection.
+\end{itemize}
+
+\hypertarget{etsann-a-model-for-ses}{%
+\subsection{ETS(A,N,N): A model for SES}\label{etsann-a-model-for-ses}}
+
+\textbf{Component form}
+
+\begin{itemize}
+\item
+  Forecast equation: \(\hat{y}_{t+h|t} = \ell_{t}\)
+\item
+  Smoothing equation: \(\ell_{t} = \alpha y_{t} + (1 - \alpha)\ell_{t-1}\)
+\end{itemize}
+
+Forecast error: \(e_t = y_t - \hat{y}_{t|t-1} = y_t - \ell_{t-1}\)
+
+\textbf{Error correction form}
+
+\[y_t = \ell_{t-1} + e_t\]
+\[\ell_{t}= \ell_{t-1}+\alpha( y_{t}-\ell_{t-1})\]
+
+\(\ell_{t}=\ell_{t-1}+\alpha e_{t}\)
+
+Specify probability distribution for \(e_t\), we assume \(e_t = \varepsilon_t\sim\text{NID}(0,\sigma^2)\).
+
+\hypertarget{etsann}{%
+\subsection{ETS(A,N,N)}\label{etsann}}
+
+\begin{itemize}
+\item
+  Measurement equation: \(y_t = \ell_{t-1} + \varepsilon_t\)
+\item
+  State equation: \(\ell_t=\ell_{t-1}+\alpha \varepsilon_t\)
+\end{itemize}
+
+where \(\varepsilon_t\sim\text{NID}(0,\sigma^2)\).
+
+\begin{itemize}
+\tightlist
+\item
+  ``innovations'' or ``single source of error'' because equations have the same error process, \(\varepsilon_t\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Measurement equation: relationship between observations and states.
+  \item
+    State equation(s): evolution of the state(s) through time.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{etsmnn}{%
+\subsection{ETS(M,N,N)}\label{etsmnn}}
+
+SES with multiplicative errors.
+
+\begin{itemize}
+\item
+  Specify relative errors \(\varepsilon_t=\frac{y_t-\hat{y}_{t|t-1}}{\hat{y}_{t|t-1}}\sim \text{NID}(0,\sigma^2)\)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Substituting \(\hat{y}_{t|t-1}=\ell_{t-1}\) gives:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \(y_t = \ell_{t-1}+\ell_{t-1}\varepsilon_t\)
+    \item
+      \(e_t = y_t - \hat{y}_{t|t-1} = \ell_{t-1}\varepsilon_t\)
+    \end{itemize}
+  \end{itemize}
+\item
+  Measurement equation: \(y_t = \ell_{t-1}(1 + \varepsilon_t)\)
+\item
+  State equation: \(\ell_t=\ell_{t-1}(1+\alpha \varepsilon_t)\)
+\item
+  Models with additive and multiplicative errors with the same parameters generate the same point forecasts but different prediction intervals.
+\end{itemize}
+
+\hypertarget{etsann-specifying-the-model}{%
+\subsection{ETS(A,N,N): Specifying the model}\label{etsann-specifying-the-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ETS}\NormalTok{(y }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"N"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"N"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+By default, an optimal value for \(\alpha\) and \(\ell_0\) is used.
+
+\(\alpha\) can be chosen manually in \texttt{trend()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{trend}\NormalTok{(}\StringTok{"N"}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.5}\NormalTok{)}
+\KeywordTok{trend}\NormalTok{(}\StringTok{"N"}\NormalTok{, }\DataTypeTok{alpha_range =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.8}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{example-algerian-exports}{%
+\subsection{Example: Algerian Exports}\label{example-algerian-exports}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{algeria_economy <-}\StringTok{ }\NormalTok{global_economy }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Country }\OperatorTok{==}\StringTok{ "Algeria"}\NormalTok{)}
+\NormalTok{fit <-}\StringTok{ }\NormalTok{algeria_economy }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\DataTypeTok{ANN =} \KeywordTok{ETS}\NormalTok{(Exports }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"N"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"N"}\NormalTok{)))}
+\KeywordTok{report}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: Exports 
+## Model: ETS(A,N,N) 
+##   Smoothing parameters:
+##     alpha = 0.84 
+## 
+##   Initial states:
+##      l
+##  39.54
+## 
+##   sigma^2:  35.63
+## 
+##   AIC  AICc   BIC 
+## 446.7 447.2 452.9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{components}\NormalTok{(fit) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/ses-cmp0-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{components}\NormalTok{(fit) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{left_join}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(fit), }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{".model"}\NormalTok{, }\StringTok{"Year"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A dable:                  59 x 7 [1Y]
+## # Key:                      Country, .model [1]
+## # ETS(A,N,N) Decomposition: Exports = lag(level, 1) +
+## #   remainder
+##    Country .model  Year Exports level remainder .fitted
+##    <fct>   <chr>  <dbl>   <dbl> <dbl>     <dbl>   <dbl>
+##  1 Algeria ANN     1959    NA    39.5    NA        NA  
+##  2 Algeria ANN     1960    39.0  39.1    -0.496    39.5
+##  3 Algeria ANN     1961    46.2  45.1     7.12     39.1
+##  4 Algeria ANN     1962    19.8  23.8   -25.3      45.1
+##  5 Algeria ANN     1963    24.7  24.6     0.841    23.8
+##  6 Algeria ANN     1964    25.1  25.0     0.534    24.6
+##  7 Algeria ANN     1965    22.6  23.0    -2.39     25.0
+##  8 Algeria ANN     1966    26.0  25.5     3.00     23.0
+##  9 Algeria ANN     1967    23.4  23.8    -2.07     25.5
+## 10 Algeria ANN     1968    23.1  23.2    -0.630    23.8
+## # ... with 49 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{forecast}\NormalTok{(}\DataTypeTok{h =} \DecValTok{5}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{autoplot}\NormalTok{(algeria_economy) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Exports (% of GDP)"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Year"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/ses-fc-1.pdf}
+
 \bibliography{book.bib,packages.bib}
 
 \end{document}

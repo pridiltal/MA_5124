@@ -86,3 +86,17 @@ point-forecasts-h1
 prediction-intervals
 references
 exponential-smoothing
+introduction
+historical-perspective
+big-idea-control-the-rate-of-change
+a-model-for-levels-trends-and-seasonalities
+simple-exponential-smoothing
+optimising-smoothing-parameters
+models-and-methods
+methods
+models
+etsann-a-model-for-ses
+etsann
+etsmnn
+etsann-specifying-the-model
+example-algerian-exports

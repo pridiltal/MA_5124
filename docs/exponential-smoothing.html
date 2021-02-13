@@ -189,7 +189,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.9" data-path="arima-models.html"><a href="arima-models.html#references"><i class="fa fa-check"></i><b>2.9</b> References:</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html"><i class="fa fa-check"></i><b>3</b> Exponential Smoothing</a></li>
+<li class="chapter" data-level="3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html"><i class="fa fa-check"></i><b>3</b> Exponential Smoothing</a><ul>
+<li class="chapter" data-level="3.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#historical-perspective"><i class="fa fa-check"></i><b>3.1.1</b> Historical perspective</a></li>
+<li class="chapter" data-level="3.1.2" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#big-idea-control-the-rate-of-change"><i class="fa fa-check"></i><b>3.1.2</b> Big idea: control the rate of change</a></li>
+<li class="chapter" data-level="3.1.3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#a-model-for-levels-trends-and-seasonalities"><i class="fa fa-check"></i><b>3.1.3</b> A model for levels, trends, and seasonalities</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#simple-exponential-smoothing"><i class="fa fa-check"></i><b>3.2</b> Simple exponential smoothing</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#optimising-smoothing-parameters"><i class="fa fa-check"></i><b>3.2.1</b> Optimising smoothing parameters</a></li>
+<li class="chapter" data-level="3.2.2" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#models-and-methods"><i class="fa fa-check"></i><b>3.2.2</b> Models and methods</a></li>
+<li class="chapter" data-level="3.2.3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsann-a-model-for-ses"><i class="fa fa-check"></i><b>3.2.3</b> ETS(A,N,N): A model for SES</a></li>
+<li class="chapter" data-level="3.2.4" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsann"><i class="fa fa-check"></i><b>3.2.4</b> ETS(A,N,N)</a></li>
+<li class="chapter" data-level="3.2.5" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsmnn"><i class="fa fa-check"></i><b>3.2.5</b> ETS(M,N,N)</a></li>
+<li class="chapter" data-level="3.2.6" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsann-specifying-the-model"><i class="fa fa-check"></i><b>3.2.6</b> ETS(A,N,N): Specifying the model</a></li>
+<li class="chapter" data-level="3.2.7" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-algerian-exports"><i class="fa fa-check"></i><b>3.2.7</b> Example: Algerian Exports</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -211,6 +226,227 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="exponential-smoothing" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Exponential Smoothing</h1>
 
+<div id="introduction" class="section level2">
+<h2><span class="header-section-number">3.1</span> Introduction</h2>
+<div id="historical-perspective" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Historical perspective</h3>
+<ul>
+<li>Developed in the 1950s and 1960s as methods (algorithms) to produce point forecasts.</li>
+<li>Combine a “level”, “trend” (slope) and “seasonal” component to describe a time series.</li>
+<li>The rate of change of the components are controlled by “smoothing parameters”:<span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\gamma\)</span> respectively.</li>
+<li>Need to choose best values for the smoothing parameters (and initial states).</li>
+<li>Equivalent ETS state space models developed in the 1990s and 2000s.</li>
+</ul>
+</div>
+<div id="big-idea-control-the-rate-of-change" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Big idea: control the rate of change</h3>
+<p><span class="math inline">\(\alpha\)</span> controls the flexibility of the <strong>level</strong></p>
+<ul>
+<li>If <span class="math inline">\(\alpha = 0\)</span>, the level never updates (mean)</li>
+<li>If <span class="math inline">\(\alpha = 1\)</span>, the level updates completely (naive)</li>
+</ul>
+<p><span class="math inline">\(\beta\)</span> controls the flexibility of the <strong>trend</strong></p>
+<ul>
+<li>If <span class="math inline">\(\beta = 0\)</span>, the trend is linear (regression trend)</li>
+<li>If <span class="math inline">\(\beta = 1\)</span>, the trend updates every observation</li>
+</ul>
+<p><span class="math inline">\(\gamma\)</span> controls the flexibility of the <strong>seasonality</strong></p>
+<ul>
+<li>If <span class="math inline">\(\gamma = 0\)</span>, the seasonality is fixed (seasonal means)</li>
+<li>If <span class="math inline">\(\gamma = 1\)</span>, the seasonality updates completely (seasonal naive)</li>
+</ul>
+</div>
+<div id="a-model-for-levels-trends-and-seasonalities" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> A model for levels, trends, and seasonalities</h3>
+<p>We want a model that captures the level (<span class="math inline">\(\ell_t\)</span>), trend (<span class="math inline">\(b_t\)</span>) and seasonality (<span class="math inline">\(s_t\)</span>).</p>
+<p><strong>How do we combine these elements?</strong></p>
+<ul>
+<li>Additively?</li>
+</ul>
+<p><span class="math display">\[y_t = \ell_{t-1} + b_{t-1} + s_{t-m} + \varepsilon_t\]</span></p>
+<ul>
+<li>Multiplicatively?</li>
+</ul>
+<p><span class="math display">\[y_t = \ell_{t-1}b_{t-1}s_{t-m}(1 + \varepsilon_t)\]</span></p>
+<ul>
+<li>Perhaps a mix of both?</li>
+</ul>
+<p><span class="math display">\[y_t = (\ell_{t-1} + b_{t-1}) s_{t-m} + \varepsilon_t\]</span></p>
+<p><strong>How do the level, trend and seasonal components evolve over time?</strong></p>
+<p>General notation:</p>
+<p><span class="math display">\[\text{ETS: } \textbf{E}\text{xponen}\textbf{T}\text{ial}\textbf{ S}\text{moothing}\]</span></p>
+<p><strong>E</strong>rror: Additive (<code>"A"</code>) or multiplicative (<code>"M"</code>)</p>
+<p><strong>T</strong>rend: None (<code>"N"</code>), additive (<code>"A"</code>), multiplicative (<code>"M"</code>), or damped (<code>"Ad"</code> or <code>"Md"</code>).</p>
+<p><strong>S</strong>easonality: None (<code>"N"</code>), additive (<code>"A"</code>) or multiplicative (<code>"M"</code>)</p>
+</div>
+</div>
+<div id="simple-exponential-smoothing" class="section level2">
+<h2><span class="header-section-number">3.2</span> Simple exponential smoothing</h2>
+<p>Time series <span class="math inline">\(y_1,y_2,\dots,y_T\)</span>.</p>
+<p><strong>Random walk forecasts</strong>
+<span class="math display">\[\hat{y}_{T+h|T} = y_T\]</span></p>
+<p><strong>Average forecasts</strong></p>
+<p><span class="math display">\[\hat{y}_{T+h|T} = \frac1T\sum_{t=1}^T y_t\]</span></p>
+<ul>
+<li>Want something in between these methods.</li>
+<li>Most recent data should have more weight.</li>
+</ul>
+<!-- * Simple exponential smoothing uses a weighted moving average with weights that decrease exponentially. -->
+<p><strong>Forecast equation</strong></p>
+<p><span class="math display">\[\hat{y}_{T+1|T} = \alpha y_T + \alpha(1-\alpha) y_{T-1} + \alpha(1-\alpha)^2 y_{T-2}+ \cdots\]</span></p>
+<p>where <span class="math inline">\(0 \le \alpha \le1\)</span></p>
+
+
+<!-- animation-->
+<p><strong>Component form</strong></p>
+<ul>
+<li><p>Forecast equation <span class="math inline">\(\hat{y}_{t+h|t} = \ell_{t}\)</span></p></li>
+<li><p>Smoothing equation <span class="math inline">\(\ell_{t} = \alpha y_{t} + (1 - \alpha)\ell_{t-1}\)</span></p></li>
+<li><span class="math inline">\(\ell_t\)</span> is the level (or the smoothed value) of the series at time t.</li>
+<li><p><span class="math inline">\(\hat{y}_{t+1|t} = \alpha y_t + (1-\alpha) \hat{y}_{t|t-1}\)</span>
+Iterate to get exponentially weighted moving average form.</p></li>
+</ul>
+<p><strong>Weighted average form</strong></p>
+<p><span class="math display">\[\hat{y}_{T+1|T}=\sum_{j=0}^{T-1} \alpha(1-\alpha)^j y_{T-j}+(1-\alpha)^T \ell_{0}\]</span></p>
+<div id="optimising-smoothing-parameters" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Optimising smoothing parameters</h3>
+<ul>
+<li>Need to choose best values for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\ell_0\)</span>.
+<ul>
+<li>Similarly to regression, choose optimal parameters by minimising SSE:</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[\text{SSE}=\sum_{t=1}^T(y_t-\hat{y}_{t|t-1})^2.\]</span></p>
+<ul>
+<li><p>Unlike regression there is no closed form solution — use numerical optimization.</p></li>
+<li>For Algerian Exports example:
+<ul>
+<li><span class="math inline">\(\hat\alpha = 0.8400\)</span></li>
+<li><span class="math inline">\(\hat\ell_0 = 39.54\)</span></li>
+</ul>
+<p><img src="bookdown-demo_files/figure-html/alpha-static-1.png" width="768" /></p></li>
+</ul>
+</div>
+<div id="models-and-methods" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Models and methods</h3>
+<div id="methods" class="section level4">
+<h4><span class="header-section-number">3.2.2.1</span> Methods</h4>
+<ul>
+<li>Algorithms that return point forecasts.</li>
+</ul>
+</div>
+<div id="models" class="section level4">
+<h4><span class="header-section-number">3.2.2.2</span> Models</h4>
+<ul>
+<li>Generate same point forecasts but can also generate forecast distributions.</li>
+<li>A stochastic (or random) data generating process that can generate an entire forecast distribution.</li>
+<li>Allow for “proper” model selection.</li>
+</ul>
+</div>
+</div>
+<div id="etsann-a-model-for-ses" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> ETS(A,N,N): A model for SES</h3>
+<p><strong>Component form</strong></p>
+<ul>
+<li><p>Forecast equation: <span class="math inline">\(\hat{y}_{t+h|t} = \ell_{t}\)</span></p></li>
+<li><p>Smoothing equation: <span class="math inline">\(\ell_{t} = \alpha y_{t} + (1 - \alpha)\ell_{t-1}\)</span></p></li>
+</ul>
+<p>Forecast error: <span class="math inline">\(e_t = y_t - \hat{y}_{t|t-1} = y_t - \ell_{t-1}\)</span></p>
+<p><strong>Error correction form</strong></p>
+<p><span class="math display">\[y_t = \ell_{t-1} + e_t\]</span>
+<span class="math display">\[\ell_{t}= \ell_{t-1}+\alpha( y_{t}-\ell_{t-1})\]</span></p>
+<p><span class="math inline">\(\ell_{t}=\ell_{t-1}+\alpha e_{t}\)</span></p>
+<p>Specify probability distribution for <span class="math inline">\(e_t\)</span>, we assume <span class="math inline">\(e_t = \varepsilon_t\sim\text{NID}(0,\sigma^2)\)</span>.</p>
+</div>
+<div id="etsann" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> ETS(A,N,N)</h3>
+<ul>
+<li><p>Measurement equation: <span class="math inline">\(y_t = \ell_{t-1} + \varepsilon_t\)</span></p></li>
+<li><p>State equation: <span class="math inline">\(\ell_t=\ell_{t-1}+\alpha \varepsilon_t\)</span></p></li>
+</ul>
+<p>where <span class="math inline">\(\varepsilon_t\sim\text{NID}(0,\sigma^2)\)</span>.</p>
+<ul>
+<li>“innovations” or “single source of error” because equations have the same error process, <span class="math inline">\(\varepsilon_t\)</span>.
+<ul>
+<li>Measurement equation: relationship between observations and states.</li>
+<li>State equation(s): evolution of the state(s) through time.</li>
+</ul></li>
+</ul>
+</div>
+<div id="etsmnn" class="section level3">
+<h3><span class="header-section-number">3.2.5</span> ETS(M,N,N)</h3>
+<p>SES with multiplicative errors.</p>
+<ul>
+<li>Specify relative errors <span class="math inline">\(\varepsilon_t=\frac{y_t-\hat{y}_{t|t-1}}{\hat{y}_{t|t-1}}\sim \text{NID}(0,\sigma^2)\)</span>
+<ul>
+<li>Substituting <span class="math inline">\(\hat{y}_{t|t-1}=\ell_{t-1}\)</span> gives:
+<ul>
+<li><span class="math inline">\(y_t = \ell_{t-1}+\ell_{t-1}\varepsilon_t\)</span></li>
+<li><span class="math inline">\(e_t = y_t - \hat{y}_{t|t-1} = \ell_{t-1}\varepsilon_t\)</span></li>
+</ul></li>
+</ul></li>
+<li>Measurement equation: <span class="math inline">\(y_t = \ell_{t-1}(1 + \varepsilon_t)\)</span></li>
+<li><p>State equation: <span class="math inline">\(\ell_t=\ell_{t-1}(1+\alpha \varepsilon_t)\)</span></p></li>
+<li><p>Models with additive and multiplicative errors with the same parameters generate the same point forecasts but different prediction intervals.</p></li>
+</ul>
+</div>
+<div id="etsann-specifying-the-model" class="section level3">
+<h3><span class="header-section-number">3.2.6</span> ETS(A,N,N): Specifying the model</h3>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">ETS</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>))</a></code></pre></div>
+<p>By default, an optimal value for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\ell_0\)</span> is used.</p>
+<p><span class="math inline">\(\alpha\)</span> can be chosen manually in <code>trend()</code>.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb39-2" title="2"><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>, <span class="dt">alpha_range =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>))</a></code></pre></div>
+</div>
+<div id="example-algerian-exports" class="section level3">
+<h3><span class="header-section-number">3.2.7</span> Example: Algerian Exports</h3>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">algeria_economy &lt;-<span class="st"> </span>global_economy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb40-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Country <span class="op">==</span><span class="st"> &quot;Algeria&quot;</span>)</a>
+<a class="sourceLine" id="cb40-3" title="3">fit &lt;-<span class="st"> </span>algeria_economy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb40-4" title="4"><span class="st">  </span><span class="kw">model</span>(<span class="dt">ANN =</span> <span class="kw">ETS</span>(Exports <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>)))</a>
+<a class="sourceLine" id="cb40-5" title="5"><span class="kw">report</span>(fit)</a></code></pre></div>
+<pre><code>## Series: Exports 
+## Model: ETS(A,N,N) 
+##   Smoothing parameters:
+##     alpha = 0.84 
+## 
+##   Initial states:
+##      l
+##  39.54
+## 
+##   sigma^2:  35.63
+## 
+##   AIC  AICc   BIC 
+## 446.7 447.2 452.9</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">components</span>(fit) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/ses-cmp0-1.png" width="672" /></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">components</span>(fit) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb43-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">fitted</span>(fit), <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;Country&quot;</span>, <span class="st">&quot;.model&quot;</span>, <span class="st">&quot;Year&quot;</span>))</a></code></pre></div>
+<pre><code>## # A dable:                  59 x 7 [1Y]
+## # Key:                      Country, .model [1]
+## # ETS(A,N,N) Decomposition: Exports = lag(level, 1) +
+## #   remainder
+##    Country .model  Year Exports level remainder .fitted
+##    &lt;fct&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Algeria ANN     1959    NA    39.5    NA        NA  
+##  2 Algeria ANN     1960    39.0  39.1    -0.496    39.5
+##  3 Algeria ANN     1961    46.2  45.1     7.12     39.1
+##  4 Algeria ANN     1962    19.8  23.8   -25.3      45.1
+##  5 Algeria ANN     1963    24.7  24.6     0.841    23.8
+##  6 Algeria ANN     1964    25.1  25.0     0.534    24.6
+##  7 Algeria ANN     1965    22.6  23.0    -2.39     25.0
+##  8 Algeria ANN     1966    26.0  25.5     3.00     23.0
+##  9 Algeria ANN     1967    23.4  23.8    -2.07     25.5
+## 10 Algeria ANN     1968    23.1  23.2    -0.630    23.8
+## # … with 49 more rows</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">fit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb45-2" title="2"><span class="st">  </span><span class="kw">forecast</span>(<span class="dt">h =</span> <span class="dv">5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb45-3" title="3"><span class="st">  </span><span class="kw">autoplot</span>(algeria_economy) <span class="op">+</span></a>
+<a class="sourceLine" id="cb45-4" title="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Exports (% of GDP)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/ses-fc-1.png" width="672" /></p>
+
+</div>
+</div>
 </div>
             </section>
 
