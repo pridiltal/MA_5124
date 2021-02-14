@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.8)  14 FEB 2021 09:17
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.8)  14 FEB 2021 12:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1097,13 +1097,14 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 File: bookdown-demo_files/figure-latex/alpha-static-1.pdf Graphic file (type pd
 f)
 <use bookdown-demo_files/figure-latex/alpha-static-1.pdf>
-[4] [5]
+[4]
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 2721.
+[5]
 File: bookdown-demo_files/figure-latex/ses-cmp0-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/ses-cmp0-1.pdf>
 
-Underfull \vbox (badness 7704) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [6]
 File: bookdown-demo_files/figure-latex/ses-fc-1.pdf Graphic file (type pdf)
