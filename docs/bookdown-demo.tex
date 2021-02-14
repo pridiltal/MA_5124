@@ -122,7 +122,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-02-13}
+\date{2021-02-14}
 
 \begin{document}
 \maketitle
@@ -1895,6 +1895,21 @@ The ACF of an ARMA model exhibits a pattern similar to that of an AR model. The 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{google_}\DecValTok{2018} \OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{diff_close =} \KeywordTok{difference}\NormalTok{(Close)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{features}\NormalTok{(diff_close, unitroot_kpss)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 3
+##   Symbol kpss_stat kpss_pvalue
+##   <chr>      <dbl>       <dbl>
+## 1 GOOG      0.0955         0.1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{google_}\DecValTok{2018} \OperatorTok{%>%}
 \StringTok{  }\KeywordTok{features}\NormalTok{(Close, unitroot_ndiffs)}
 \end{Highlighting}
 \end{Shaded}
@@ -2020,7 +2035,7 @@ Model with lowest AICc becomes current model.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2029,7 +2044,7 @@ Model with lowest AICc becomes current model.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-20-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2101,7 +2116,7 @@ Model with lowest AICc becomes current model.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-22-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-23-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2124,7 +2139,7 @@ Model with lowest AICc becomes current model.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-24-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-25-1.pdf}
 
 \newpage
 
@@ -2260,7 +2275,7 @@ Model with lowest AICc becomes current model.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-27-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-28-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2282,7 +2297,7 @@ Model with lowest AICc becomes current model.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-29-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-30-1.pdf}
 
 \hypertarget{forecasting}{%
 \section{Forecasting}\label{forecasting}}
@@ -2327,7 +2342,9 @@ Start with \(h=1\). Repeat for \(h=2,3,\dots\).
 \textbf{ARIMA(3,1,1) forecasts: Step 3}
 
 \[\hat{y}_{T+1|T} = (1+\phi_1)y_{T} -(\phi_1-\phi_2)y_{T-1} - (\phi_2-\phi_3)y_{T-2}\\\mbox{} -\phi_3y_{T-3} + \theta_1 e_{T}.\]
-\#\#\#\# Point forecasts (h=2)
+
+\hypertarget{point-forecasts-h2}{%
+\subsubsection{Point forecasts (h=2)}\label{point-forecasts-h2}}
 
 \[y_t = (1+\phi_1)y_{t-1} -(\phi_1-\phi_2)y_{t-2} - (\phi_2-\phi_3)y_{t-3}\\\mbox{} -\phi_3y_{t-4} + \varepsilon_t+\theta_1\varepsilon_{t-1}.\]
 
@@ -2357,12 +2374,14 @@ where \(v_{T+h|T}\) is estimated forecast variance.
 
 \[y_t = \varepsilon_t + \sum_{i=1}^q \theta_i \varepsilon_{t-i}.\]
 
-\[v_{T|T+h} = \hat{\sigma}^2 \left[ 1 + \sum_{i=1}^{h-1} \theta_i^2\right], \qquad\text{for~} h=2,3,\dots.\]
-* AR(1): Rewrite as MA(\(\infty\)) and use above result.
-* Other models beyond scope of this subject.
+\[\hat{\sigma}_h = \hat{\sigma}^2 \left[ 1 + \sum_{i=1}^{h-1} \theta_i^2\right], \qquad\text{for~} h=2,3,\dots.\]
 
 \begin{itemize}
 \tightlist
+\item
+  AR(1): Rewrite as MA(\(\infty\)) and use above result.
+\item
+  Other models beyond scope of this subject.
 \item
   Prediction intervals \textbf{increase in size with forecast horizon}.
 \item

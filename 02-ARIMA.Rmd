@@ -1485,6 +1485,12 @@ google_2018 %>%
 
 ```{r, echo=TRUE}
 google_2018 %>%
+  mutate(diff_close = difference(Close)) %>%
+  features(diff_close, unitroot_kpss)
+```
+
+```{r, echo=TRUE}
+google_2018 %>%
   features(Close, unitroot_ndiffs)
 ```
 
@@ -1713,6 +1719,7 @@ $$y_{T+1} = (1+\phi_1)y_{T} -(\phi_1-\phi_2)y_{T-1} - (\phi_2-\phi_3)y_{T-2}\\\m
 **ARIMA(3,1,1) forecasts: Step 3**
 
 $$\hat{y}_{T+1|T} = (1+\phi_1)y_{T} -(\phi_1-\phi_2)y_{T-1} - (\phi_2-\phi_3)y_{T-2}\\\mbox{} -\phi_3y_{T-3} + \theta_1 e_{T}.$$
+
 ####  Point forecasts (h=2)
 
 $$y_t = (1+\phi_1)y_{t-1} -(\phi_1-\phi_2)y_{t-2} - (\phi_2-\phi_3)y_{t-3}\\\mbox{} -\phi_3y_{t-4} + \varepsilon_t+\theta_1\varepsilon_{t-1}.$$
@@ -1738,10 +1745,11 @@ where $v_{T+h|T}$ is estimated forecast variance.
 
 $$y_t = \varepsilon_t + \sum_{i=1}^q \theta_i \varepsilon_{t-i}.$$
 
-$$v_{T|T+h} = \hat{\sigma}^2 \left[ 1 + \sum_{i=1}^{h-1} \theta_i^2\right], \qquad\text{for~} h=2,3,\dots.$$
+$$\hat{\sigma}_h = \hat{\sigma}^2 \left[ 1 + \sum_{i=1}^{h-1} \theta_i^2\right], \qquad\text{for~} h=2,3,\dots.$$
+
+
 * AR(1): Rewrite as MA($\infty$) and use above result.
 * Other models beyond scope of this subject.
-
 * Prediction intervals **increase in size with forecast horizon**.
 * Prediction intervals can be difficult to calculate by hand
 * Calculations assume residuals are **uncorrelated** and **normally distributed**.

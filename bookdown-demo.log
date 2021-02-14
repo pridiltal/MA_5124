@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.8)  13 FEB 2021 13:35
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.8)  14 FEB 2021 09:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1048,58 +1048,58 @@ relation be-
  []
 
 [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38]
-File: bookdown-demo_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (typ
-e pdf)
-<use bookdown-demo_files/figure-latex/unnamed-chunk-18-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[39]
 File: bookdown-demo_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (typ
 e pdf)
 <use bookdown-demo_files/figure-latex/unnamed-chunk-19-1.pdf>
+
+Underfull \vbox (badness 1184) has occurred while \output is active []
+
+[39]
+File: bookdown-demo_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (typ
+e pdf)
+<use bookdown-demo_files/figure-latex/unnamed-chunk-20-1.pdf>
 [40]
-File: bookdown-demo_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (typ
+File: bookdown-demo_files/figure-latex/unnamed-chunk-23-1.pdf Graphic file (typ
 e pdf)
-<use bookdown-demo_files/figure-latex/unnamed-chunk-22-1.pdf>
+<use bookdown-demo_files/figure-latex/unnamed-chunk-23-1.pdf>
 [41]
-File: bookdown-demo_files/figure-latex/unnamed-chunk-24-1.pdf Graphic file (typ
+File: bookdown-demo_files/figure-latex/unnamed-chunk-25-1.pdf Graphic file (typ
 e pdf)
-<use bookdown-demo_files/figure-latex/unnamed-chunk-24-1.pdf>
+<use bookdown-demo_files/figure-latex/unnamed-chunk-25-1.pdf>
 [42]
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 2132.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 2147.
 File: bookdown-demo_files/figure-latex/ee1-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/ee1-1.pdf>
 [43]
 File: bookdown-demo_files/figure-latex/ee2-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/ee2-1.pdf>
 [44]
-File: bookdown-demo_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (typ
+File: bookdown-demo_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (typ
 e pdf)
-<use bookdown-demo_files/figure-latex/unnamed-chunk-27-1.pdf>
+<use bookdown-demo_files/figure-latex/unnamed-chunk-28-1.pdf>
 [45]
-File: bookdown-demo_files/figure-latex/unnamed-chunk-29-1.pdf Graphic file (typ
+File: bookdown-demo_files/figure-latex/unnamed-chunk-30-1.pdf Graphic file (typ
 e pdf)
-<use bookdown-demo_files/figure-latex/unnamed-chunk-29-1.pdf>
+<use bookdown-demo_files/figure-latex/unnamed-chunk-30-1.pdf>
 [46] [47] [48]
 Chapter 3.
 [1
 
 ] [2]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 9.0pt on input line 2527.
+(Font)              scaled to size 9.0pt on input line 2546.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 9.00082pt on input line 2527.
+(Font)              scaled to size 9.00082pt on input line 2546.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 8.99904pt on input line 2527.
+(Font)              scaled to size 8.99904pt on input line 2546.
 [3]
 File: bookdown-demo_files/figure-latex/alpha-static-1.pdf Graphic file (type pd
 f)
 <use bookdown-demo_files/figure-latex/alpha-static-1.pdf>
 [4] [5]
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 2702.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 2721.
 File: bookdown-demo_files/figure-latex/ses-cmp0-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/ses-cmp0-1.pdf>
 
@@ -1118,10 +1118,10 @@ Package rerunfilecheck Info: File `bookdown-demo.out' has not changed.
 (rerunfilecheck)             Checksum: 38B85037DC4D6AA5A0C3AD50E1FDDF3D;3518.
  ) 
 Here is how much of TeX's memory you used:
- 17778 strings out of 479210
- 329489 string characters out of 5873875
- 817759 words of memory out of 5000000
- 37018 multiletter control sequences out of 15000+600000
+ 17779 strings out of 479210
+ 329509 string characters out of 5873875
+ 817822 words of memory out of 5000000
+ 37019 multiletter control sequences out of 15000+600000
  410954 words of font info for 100 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  98i,12n,122p,484b,516s stack positions out of 5000i,500n,10000p,200000b,80000s

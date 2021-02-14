@@ -83,6 +83,7 @@ example-in-r
 forecasting
 point-forecasts
 point-forecasts-h1
+point-forecasts-h2
 prediction-intervals
 references
 exponential-smoothing
