@@ -117,6 +117,7 @@
 \pagestyle{fancy}
 \fancyfoot[CO,CE]{Prepared by Dr. Priyanga D. Talagala  (Copyright 2021 Priyanga D. Talagala)}
 \fancyfoot[LE,RO]{\thepage}
+\usepackage{float}
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
@@ -2808,8 +2809,6 @@ By default, an optimal value for \(\alpha\) and \(\ell_0\) is used.
 
 \includegraphics{bookdown-demo_files/figure-latex/ses-fc-1.pdf}
 
-\newpage
-
 \hypertarget{models-with-trend}{%
 \section{Models with trend}\label{models-with-trend}}
 
@@ -2827,16 +2826,12 @@ By default, an optimal value for \(\alpha\) and \(\ell_0\) is used.
   Trend \(b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)b_{t-1}\)
 \item
   Two smoothing parameters \(\alpha\) and \(\beta^*\) (\(0\le\alpha,\beta^*\le1\)).
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \(\ell_t\) level: weighted average between \(y_t\) and one-step ahead forecast for time \(t\), \((\ell_{t-1} + b_{t-1}=\hat{y}_{t|t-1})\)
-  \item
-    \(b_t\) slope: weighted average of \((\ell_{t} - \ell_{t-1})\) and \(b_{t-1}\), current and previous estimate of slope.
-  \item
-    Choose \(\alpha, \beta^*, \ell_0, b_0\) to minimise SSE.
-  \end{itemize}
+\item
+  \(\ell_t\) level: weighted average between \(y_t\) and one-step ahead forecast for time \(t\), \((\ell_{t-1} + b_{t-1}=\hat{y}_{t|t-1})\)
+\item
+  \(b_t\) slope: weighted average of \((\ell_{t} - \ell_{t-1})\) and \(b_{t-1}\), current and previous estimate of slope.
+\item
+  Choose \(\alpha, \beta^*, \ell_0, b_0\) to minimise SSE.
 \end{itemize}
 
 \hypertarget{etsaan}{%
@@ -3235,7 +3230,7 @@ Often the single most accurate forecasting method for seasonal data:
 \hypertarget{exponential-smoothing-methods}{%
 \subsection{Exponential smoothing methods}\label{exponential-smoothing-methods}}
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{tabular}{lllll}
       &                          & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
       & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
@@ -3318,7 +3313,7 @@ $A_d$ &  (Additive damped)                         &       $(M,A_d,N)$    &     
 
 Let \(\mathbf{x}_t = (\ell_t, b_t, s_t, s_{t-1}, \dots, s_{t-m+1})\) and \(\varepsilon_t\stackrel{\mbox{\scriptsize iid}}{\sim} \mbox{N}(0,\sigma^2)\).
 
-\begin{table}
+\begin{table}[H]
 \begin{tabular}{lcl}
 $y_t$ &=& $\underbrace{h(\mathbf{x}_{t-1})} +
 \underbrace{k(\mathbf{x}_{t-1})\varepsilon_t}$\\
@@ -3592,7 +3587,7 @@ Method performed very well in M3 competition.
 
 \textbf{Additive Error}
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{tabular}{lllll}
  &                         & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
       & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
@@ -3602,9 +3597,11 @@ $A_d$ &  (Additive damped)                         &       $(A,A_d,N)$    &     
 \end{tabular}
 \end{table}
 
+\newpage
+
 \textbf{Multiplicative Error}
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{tabular}{lllll}
   &                       & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
       & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
@@ -3631,6 +3628,272 @@ Multiplicative error model:
 
 \hypertarget{example-australian-holiday-tourism-2}{%
 \subsection{Example: Australian holiday tourism}\label{example-australian-holiday-tourism-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{aus_holidays <-}\StringTok{ }\NormalTok{tourism }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Purpose }\OperatorTok{==}\StringTok{ "Holiday"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{Trips =} \KeywordTok{sum}\NormalTok{(Trips))}
+\NormalTok{fit <-}\StringTok{ }\NormalTok{aus_holidays }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\DataTypeTok{ets =} \KeywordTok{ETS}\NormalTok{(Trips)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{report}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: Trips 
+## Model: ETS(M,N,M) 
+##   Smoothing parameters:
+##     alpha = 0.3578 
+##     gamma = 0.0009686 
+## 
+##   Initial states:
+##     l    s1     s2     s3    s4
+##  9667 0.943 0.9268 0.9684 1.162
+## 
+##   sigma^2:  0.0022
+## 
+##  AIC AICc  BIC 
+## 1331 1333 1348
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{residuals}\NormalTok{(fit)}
+\KeywordTok{residuals}\NormalTok{(fit, }\DataTypeTok{type =} \StringTok{"response"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-39-1.pdf}
+
+\hypertarget{forecasting-with-exponential-smoothing}{%
+\section{Forecasting with exponential smoothing}\label{forecasting-with-exponential-smoothing}}
+
+\hypertarget{forecasting-with-ets-models}{%
+\subsection{Forecasting with ETS models}\label{forecasting-with-ets-models}}
+
+\textbf{Point forecasts:} iterate the equations for \(t=T+1,T+2,\dots,T+h\) and set all \(\varepsilon_t=0\) for \(t>T\).
+
+\begin{itemize}
+\tightlist
+\item
+  Not the same as \(\text{E}(y_{t+h} | \mathbf{x}_t)\) unless trend and seasonality are both additive.
+\item
+  Point forecasts for ETS(A,\emph{,}) are identical to ETS(M,\emph{,}) if the parameters are the same.
+\end{itemize}
+
+\hypertarget{example-etsaan}{%
+\subsection{Example: ETS(A,A,N)}\label{example-etsaan}}
+
+\[y_{T+1} = \ell_T + b_T  + \varepsilon_{T+1}\]
+\[\hat{y}_{T+1|T} = \ell_{T}+b_{T}\]
+\[y_{T+2}       = \ell_{T+1} + b_{T+1} + \varepsilon_{T+2}\]
+\[=
+                      (\ell_T + b_T + \alpha\varepsilon_{T+1}) +
+                      (b_T + \beta \varepsilon_{T+1}) +
+        \varepsilon_{T+2}\]
+\[\hat{y}_{T+2|T} = \ell_{T}+2b_{T}\]
+etc.
+
+\hypertarget{example-etsman}{%
+\subsection{Example: ETS(M,A,N)}\label{example-etsman}}
+
+\[y_{T+1} = (\ell_T + b_T )(1+ \varepsilon_{T+1})\]
+\[\hat{y}_{T+1|T} = \ell_{T}+b_{T}.\]
+\[y_{T+2}         = (\ell_{T+1} + b_{T+1})(1 + \varepsilon_{T+2})\]
+\[= \left\{
+                    (\ell_T + b_T) (1+ \alpha\varepsilon_{T+1}) +
+                    \left[b_T + \beta (\ell_T + b_T)\varepsilon_{T+1}\right]
+                    \right\}
+                   (1 + \varepsilon_{T+2})\]
+\[\hat{y}_{T+2|T} = \ell_{T}+2b_{T}\]
+etc.
+
+\hypertarget{forecasting-with-ets-models-1}{%
+\subsection{Forecasting with ETS models}\label{forecasting-with-ets-models-1}}
+
+\textbf{Prediction intervals:} can only generated using the models.
+
+\begin{itemize}
+\tightlist
+\item
+  The prediction intervals will differ between models with additive and multiplicative errors.
+\item
+  Exact formulae for some models.
+\item
+  More general to simulate future sample paths, conditional on the last estimate of the states, and to obtain prediction intervals from the percentiles of these simulated future paths.
+\end{itemize}
+
+\hypertarget{prediction-intervals-1}{%
+\subsection{Prediction intervals}\label{prediction-intervals-1}}
+
+PI for most ETS models: \(\hat{y}_{T+h|T} \pm c \sigma_h\), where \(c\) depends on coverage probability and \(\sigma_h\) is forecast standard deviation.
+
+\begin{tabular}{ll}
+\hline
+(A,N,N) & $\sigma_h = \sigma^2\big[1 + \alpha^2(h-1)\big]$\\
+(A,A,N) & $\sigma_h = \sigma^2\Big[1 + (h-1)\big\{\alpha^2 + \alpha\beta h + \frac16\beta^2h(2h-1)\big\}\Big]$\\
+(A,A$_d$,N) & $\sigma_h = \sigma^2\biggl[1 + \alpha^2(h-1) + \frac{\beta\phi h}{(1-\phi)^2} \left\{2\alpha(1-\phi) +\beta\phi\right\}$\\
+      & \hspace*{1.5cm}$\mbox{} - \frac{\beta\phi(1-\phi^h)}{(1-\phi)^2(1-\phi^2)} \left\{ 2\alpha(1-\phi^2)+ \beta\phi(1+2\phi-\phi^h)\right\}\biggr]$\\
+(A,N,A) &              $\sigma_h = \sigma^2\Big[1 + \alpha^2(h-1) + \gamma k(2\alpha+\gamma)\Big]$\\
+(A,A,A) &              $\sigma_h = \sigma^2\Big[1 + (h-1)\big\{\alpha^2 + \alpha\beta h + \frac16\beta^2h(2h-1)\big\} + \gamma k \big\{2\alpha+ \gamma + \beta m (k+1)\big\} \Big]$\\
+(A,A$_d$,A) &  $\sigma_h = \sigma^2\biggl[1 + \alpha^2(h-1) +\frac{\beta\phi h}{(1-\phi)^2} \left\{2\alpha(1-\phi)  + \beta\phi \right\}$\\
+  & \hspace*{1.5cm}$\mbox{} - \frac{\beta\phi(1-\phi^h)}{(1-\phi)^2(1-\phi^2)} \left\{ 2\alpha(1-\phi^2)+ \beta\phi(1+2\phi-\phi^h)\right\}$ \\
+  & \hspace*{1.5cm}$\mbox{} + \gamma k(2\alpha+\gamma)  + \frac{2\beta\gamma\phi}{(1-\phi)(1-\phi^m)}\left\{k(1-\phi^m) - \phi^m(1-\phi^{mk})\right\}\biggr]$
+\end{tabular}
+
+\newpage
+
+\hypertarget{example-corticosteroid-drug-sales}{%
+\subsection{Example: Corticosteroid drug sales}\label{example-corticosteroid-drug-sales}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{h02 <-}\StringTok{ }\NormalTok{PBS }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(ATC2 }\OperatorTok{==}\StringTok{ "H02"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{Cost =} \KeywordTok{sum}\NormalTok{(Cost))}
+\NormalTok{h02 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{autoplot}\NormalTok{(Cost)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/h02-plot-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{h02 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\KeywordTok{ETS}\NormalTok{(Cost)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{report}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: Cost 
+## Model: ETS(M,Ad,M) 
+##   Smoothing parameters:
+##     alpha = 0.3071 
+##     beta  = 0.0001007 
+##     gamma = 0.0001007 
+##     phi   = 0.9775 
+## 
+##   Initial states:
+##       l    b     s1    s2     s3     s4     s5    s6    s7
+##  417269 8206 0.8717 0.826 0.7563 0.7733 0.6872 1.284 1.325
+##    s8    s9   s10   s11    s12
+##  1.18 1.164 1.105 1.048 0.9806
+## 
+##   sigma^2:  0.0046
+## 
+##  AIC AICc  BIC 
+## 5515 5519 5575
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{h02 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\KeywordTok{ETS}\NormalTok{(Cost }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"A"}\NormalTok{))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{report}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: Cost 
+## Model: ETS(A,A,A) 
+##   Smoothing parameters:
+##     alpha = 0.1702 
+##     beta  = 0.006311 
+##     gamma = 0.4546 
+## 
+##   Initial states:
+##       l    b     s1      s2      s3      s4      s5     s6
+##  409706 9097 -99075 -136602 -191496 -174531 -241437 210644
+##      s7     s8     s9   s10   s11    s12
+##  244644 145368 130570 84458 39132 -11674
+## 
+##   sigma^2:  3.499e+09
+## 
+##  AIC AICc  BIC 
+## 5585 5589 5642
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{h02 }\OperatorTok{%>%}\StringTok{ }\KeywordTok{model}\NormalTok{(}\KeywordTok{ETS}\NormalTok{(Cost)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{forecast}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(h02)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-42-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{h02 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}
+    \DataTypeTok{auto =} \KeywordTok{ETS}\NormalTok{(Cost),}
+    \DataTypeTok{AAA =} \KeywordTok{ETS}\NormalTok{(Cost }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"A"}\NormalTok{))}
+\NormalTok{  ) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{accuracy}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lrrrrr}
+\toprule
+Model & ME & MAE & RMSE & MAPE & MASE\\
+\midrule
+auto & 2461 & 38649 & 51102 & 4.989 & 0.6376\\
+AAA & -5780 & 43378 & 56784 & 6.048 & 0.7156\\
+\bottomrule
+\end{tabular}
+
+\hypertarget{arima-vs-ets}{%
+\section{ARIMA vs ETS}\label{arima-vs-ets}}
+
+\begin{itemize}
+\item
+  Myth that ARIMA models are more general than exponential smoothing.
+\item
+  Linear exponential smoothing models all special cases of ARIMA models.
+\item
+  Non-linear exponential smoothing models have no equivalent ARIMA counterparts.
+\item
+  Many ARIMA models have no exponential smoothing counterparts.
+\item
+  ETS models all non-stationary. Models with seasonality or non-damped trend (or both) have two unit roots; all other models have one unit \rlap{root.}
+\end{itemize}
+
+\includegraphics{bookdown-demo_files/figure-latex/venn-1.pdf}
+
+\newpage
+
+\hypertarget{equivalences}{%
+\subsection{Equivalences}\label{equivalences}}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\textbf{ETS model} & \textbf{ARIMA model} & \textbf{Parameters}\tabularnewline
+\midrule
+\endhead
+ETS(A,N,N) & ARIMA(0,1,1) & \(\theta_1 = \alpha-1\)\tabularnewline
+ETS(A,A,N) & ARIMA(0,2,2) & \(\theta_1 = \alpha+\beta-2\)\tabularnewline
+& & \(\theta_2 = 1-\alpha\)\tabularnewline
+ETS(A,\(A_d\),N) & ARIMA(1,1,2) & \(\phi_1=\phi\)\tabularnewline
+& & \(\theta_1 = \alpha+\phi\beta-1-\phi\)\tabularnewline
+& & \(\theta_2 = (1-\alpha)\phi\)\tabularnewline
+ETS(A,N,A) & ARIMA(0,0,\(m\))(0,1,0)\(_m\) &\tabularnewline
+ETS(A,A,A) & ARIMA(0,1,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
+ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{references-1}{%
+\section{References:}\label{references-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Hyndman, R. J., \& Athanasopoulos, G. (2018). Forecasting: principles and practice. OTexts.
+\end{itemize}
+
+\newpage
 
 \bibliography{book.bib,packages.bib}
 

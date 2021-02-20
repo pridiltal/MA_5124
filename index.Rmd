@@ -17,6 +17,7 @@ header-includes:
 #- \fancyhead[CO,CE]{This is fancy header}
 - \fancyfoot[CO,CE]{Prepared by Dr. Priyanga D. Talagala  (Copyright 2021 Priyanga D. Talagala)}
 - \fancyfoot[LE,RO]{\thepage}
+- \usepackage{float}
 ---
 
 # Course Syllabus {-}

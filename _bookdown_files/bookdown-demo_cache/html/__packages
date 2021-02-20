@@ -16,3 +16,4 @@ tidyverse
 readr
 stringr
 forcats
+latex2exp

@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="arima-models.html"/>
-<link rel="next" href="references-1.html"/>
+<link rel="next" href="references-2.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -241,8 +241,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5.16" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#residuals"><i class="fa fa-check"></i><b>3.5.16</b> Residuals</a></li>
 <li class="chapter" data-level="3.5.17" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-australian-holiday-tourism-2"><i class="fa fa-check"></i><b>3.5.17</b> Example: Australian holiday tourism</a></li>
 </ul></li>
+<li class="chapter" data-level="3.6" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#forecasting-with-exponential-smoothing"><i class="fa fa-check"></i><b>3.6</b> Forecasting with exponential smoothing</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#forecasting-with-ets-models"><i class="fa fa-check"></i><b>3.6.1</b> Forecasting with ETS models</a></li>
+<li class="chapter" data-level="3.6.2" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-etsaan"><i class="fa fa-check"></i><b>3.6.2</b> Example: ETS(A,A,N)</a></li>
+<li class="chapter" data-level="3.6.3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-etsman"><i class="fa fa-check"></i><b>3.6.3</b> Example: ETS(M,A,N)</a></li>
+<li class="chapter" data-level="3.6.4" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#forecasting-with-ets-models-1"><i class="fa fa-check"></i><b>3.6.4</b> Forecasting with ETS models</a></li>
+<li class="chapter" data-level="3.6.5" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#prediction-intervals-1"><i class="fa fa-check"></i><b>3.6.5</b> Prediction intervals</a></li>
+<li class="chapter" data-level="3.6.6" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-corticosteroid-drug-sales"><i class="fa fa-check"></i><b>3.6.6</b> Example: Corticosteroid drug sales</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="3.7" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#arima-vs-ets"><i class="fa fa-check"></i><b>3.7</b> ARIMA vs ETS</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#equivalences"><i class="fa fa-check"></i><b>3.7.1</b> Equivalences</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#references-1"><i class="fa fa-check"></i><b>3.8</b> References:</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-2.html"><a href="references-2.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -481,7 +493,6 @@ Iterate to get exponentially weighted moving average form.</p></li>
 <a class="sourceLine" id="cb47-3" title="3"><span class="st">  </span><span class="kw">autoplot</span>(algeria_economy) <span class="op">+</span></a>
 <a class="sourceLine" id="cb47-4" title="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Exports (% of GDP)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ses-fc-1.png" width="672" /></p>
-<div style="page-break-after: always;"></div>
 </div>
 </div>
 <div id="models-with-trend" class="section level2">
@@ -493,12 +504,10 @@ Iterate to get exponentially weighted moving average form.</p></li>
 <li>Forecast <span class="math inline">\(\hat{y}_{t+h|t} = \ell_{t} + hb_{t}\)</span></li>
 <li>Level <span class="math inline">\(\ell_{t} = \alpha y_{t} + (1 - \alpha)(\ell_{t-1} + b_{t-1})\)</span></li>
 <li><p>Trend <span class="math inline">\(b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)b_{t-1}\)</span></p></li>
-<li>Two smoothing parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta^*\)</span> (<span class="math inline">\(0\le\alpha,\beta^*\le1\)</span>).
-<ul>
+<li>Two smoothing parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta^*\)</span> (<span class="math inline">\(0\le\alpha,\beta^*\le1\)</span>).</li>
 <li><span class="math inline">\(\ell_t\)</span> level: weighted average between <span class="math inline">\(y_t\)</span> and one-step ahead forecast for time <span class="math inline">\(t\)</span>, <span class="math inline">\((\ell_{t-1} + b_{t-1}=\hat{y}_{t|t-1})\)</span></li>
 <li><span class="math inline">\(b_t\)</span> slope: weighted average of <span class="math inline">\((\ell_{t} - \ell_{t-1})\)</span> and <span class="math inline">\(b_{t-1}\)</span>, current and previous estimate of slope.</li>
-<li>Choose <span class="math inline">\(\alpha, \beta^*, \ell_0, b_0\)</span> to minimise SSE.</li>
-</ul></li>
+<li><p>Choose <span class="math inline">\(\alpha, \beta^*, \ell_0, b_0\)</span> to minimise SSE.</p></li>
 </ul>
 </div>
 <div id="etsaan" class="section level3">
@@ -1033,6 +1042,7 @@ criterion).</li>
 <h3><span class="header-section-number">3.5.15</span> Exponential smoothing models</h3>
 <p><strong>Additive Error</strong></p>
 
+<div style="page-break-after: always;"></div>
 <p><strong>Multiplicative Error</strong></p>
 
 </div>
@@ -1048,8 +1058,248 @@ criterion).</li>
 </div>
 <div id="example-australian-holiday-tourism-2" class="section level3">
 <h3><span class="header-section-number">3.5.17</span> Example: Australian holiday tourism</h3>
-
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">aus_holidays &lt;-<span class="st"> </span>tourism <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Purpose <span class="op">==</span><span class="st"> &quot;Holiday&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Trips =</span> <span class="kw">sum</span>(Trips))</a>
+<a class="sourceLine" id="cb71-4" title="4">fit &lt;-<span class="st"> </span>aus_holidays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-5" title="5"><span class="st">  </span><span class="kw">model</span>(<span class="dt">ets =</span> <span class="kw">ETS</span>(Trips)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-6" title="6"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
+<pre><code>## Series: Trips 
+## Model: ETS(M,N,M) 
+##   Smoothing parameters:
+##     alpha = 0.3578 
+##     gamma = 0.0009686 
+## 
+##   Initial states:
+##     l    s1     s2     s3    s4
+##  9667 0.943 0.9268 0.9684 1.162
+## 
+##   sigma^2:  0.0022
+## 
+##  AIC AICc  BIC 
+## 1331 1333 1348</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1"><span class="kw">residuals</span>(fit)</a>
+<a class="sourceLine" id="cb73-2" title="2"><span class="kw">residuals</span>(fit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 </div>
+</div>
+<div id="forecasting-with-exponential-smoothing" class="section level2">
+<h2><span class="header-section-number">3.6</span> Forecasting with exponential smoothing</h2>
+<div id="forecasting-with-ets-models" class="section level3">
+<h3><span class="header-section-number">3.6.1</span> Forecasting with ETS models</h3>
+<p><strong>Point forecasts:</strong> iterate the equations for <span class="math inline">\(t=T+1,T+2,\dots,T+h\)</span> and set all <span class="math inline">\(\varepsilon_t=0\)</span> for <span class="math inline">\(t&gt;T\)</span>.</p>
+<ul>
+<li>Not the same as <span class="math inline">\(\text{E}(y_{t+h} | \mathbf{x}_t)\)</span> unless trend and seasonality are both additive.</li>
+<li>Point forecasts for ETS(A,<em>,</em>) are identical to ETS(M,<em>,</em>) if the parameters are the same.</li>
+</ul>
+</div>
+<div id="example-etsaan" class="section level3">
+<h3><span class="header-section-number">3.6.2</span> Example: ETS(A,A,N)</h3>
+<p><span class="math display">\[y_{T+1} = \ell_T + b_T  + \varepsilon_{T+1}\]</span>
+<span class="math display">\[\hat{y}_{T+1|T} = \ell_{T}+b_{T}\]</span>
+<span class="math display">\[y_{T+2}       = \ell_{T+1} + b_{T+1} + \varepsilon_{T+2}\]</span>
+<span class="math display">\[=
+                      (\ell_T + b_T + \alpha\varepsilon_{T+1}) +
+                      (b_T + \beta \varepsilon_{T+1}) +
+        \varepsilon_{T+2}\]</span>
+<span class="math display">\[\hat{y}_{T+2|T} = \ell_{T}+2b_{T}\]</span>
+etc.</p>
+</div>
+<div id="example-etsman" class="section level3">
+<h3><span class="header-section-number">3.6.3</span> Example: ETS(M,A,N)</h3>
+<p><span class="math display">\[y_{T+1} = (\ell_T + b_T )(1+ \varepsilon_{T+1})\]</span>
+<span class="math display">\[\hat{y}_{T+1|T} = \ell_{T}+b_{T}.\]</span>
+<span class="math display">\[y_{T+2}         = (\ell_{T+1} + b_{T+1})(1 + \varepsilon_{T+2})\]</span>
+<span class="math display">\[= \left\{
+                    (\ell_T + b_T) (1+ \alpha\varepsilon_{T+1}) +
+                    \left[b_T + \beta (\ell_T + b_T)\varepsilon_{T+1}\right]
+                    \right\}
+                   (1 + \varepsilon_{T+2})\]</span>
+<span class="math display">\[\hat{y}_{T+2|T} = \ell_{T}+2b_{T}\]</span>
+etc.</p>
+</div>
+<div id="forecasting-with-ets-models-1" class="section level3">
+<h3><span class="header-section-number">3.6.4</span> Forecasting with ETS models</h3>
+<p><strong>Prediction intervals:</strong> can only generated using the models.</p>
+<ul>
+<li>The prediction intervals will differ between models with additive and multiplicative errors.</li>
+<li>Exact formulae for some models.</li>
+<li>More general to simulate future sample paths, conditional on the last estimate of the states, and to obtain prediction intervals from the percentiles of these simulated future paths.</li>
+</ul>
+</div>
+<div id="prediction-intervals-1" class="section level3">
+<h3><span class="header-section-number">3.6.5</span> Prediction intervals</h3>
+<p>PI for most ETS models: <span class="math inline">\(\hat{y}_{T+h|T} \pm c \sigma_h\)</span>, where <span class="math inline">\(c\)</span> depends on coverage probability and <span class="math inline">\(\sigma_h\)</span> is forecast standard deviation.</p>
+
+<div style="page-break-after: always;"></div>
+</div>
+<div id="example-corticosteroid-drug-sales" class="section level3">
+<h3><span class="header-section-number">3.6.6</span> Example: Corticosteroid drug sales</h3>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1">h02 &lt;-<span class="st"> </span>PBS <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb74-2" title="2"><span class="st">  </span><span class="kw">filter</span>(ATC2 <span class="op">==</span><span class="st"> &quot;H02&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb74-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cost =</span> <span class="kw">sum</span>(Cost))</a>
+<a class="sourceLine" id="cb74-4" title="4">h02 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb74-5" title="5"><span class="st">  </span><span class="kw">autoplot</span>(Cost)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/h02-plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1">h02 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-3" title="3"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
+<pre><code>## Series: Cost 
+## Model: ETS(M,Ad,M) 
+##   Smoothing parameters:
+##     alpha = 0.3071 
+##     beta  = 0.0001007 
+##     gamma = 0.0001007 
+##     phi   = 0.9775 
+## 
+##   Initial states:
+##       l    b     s1    s2     s3     s4     s5    s6    s7
+##  417269 8206 0.8717 0.826 0.7563 0.7733 0.6872 1.284 1.325
+##    s8    s9   s10   s11    s12
+##  1.18 1.164 1.105 1.048 0.9806
+## 
+##   sigma^2:  0.0046
+## 
+##  AIC AICc  BIC 
+## 5515 5519 5575</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1">h02 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb77-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb77-3" title="3"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
+<pre><code>## Series: Cost 
+## Model: ETS(A,A,A) 
+##   Smoothing parameters:
+##     alpha = 0.1702 
+##     beta  = 0.006311 
+##     gamma = 0.4546 
+## 
+##   Initial states:
+##       l    b     s1      s2      s3      s4      s5     s6
+##  409706 9097 -99075 -136602 -191496 -174531 -241437 210644
+##      s7     s8     s9   s10   s11    s12
+##  244644 145368 130570 84458 39132 -11674
+## 
+##   sigma^2:  3.499e+09
+## 
+##  AIC AICc  BIC 
+## 5585 5589 5642</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1">h02 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">forecast</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(h02)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" title="1">h02 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb80-2" title="2"><span class="st">  </span><span class="kw">model</span>(</a>
+<a class="sourceLine" id="cb80-3" title="3">    <span class="dt">auto =</span> <span class="kw">ETS</span>(Cost),</a>
+<a class="sourceLine" id="cb80-4" title="4">    <span class="dt">AAA =</span> <span class="kw">ETS</span>(Cost <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>))</a>
+<a class="sourceLine" id="cb80-5" title="5">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb80-6" title="6"><span class="st">  </span><span class="kw">accuracy</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Model</th>
+<th align="right">ME</th>
+<th align="right">MAE</th>
+<th align="right">RMSE</th>
+<th align="right">MAPE</th>
+<th align="right">MASE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">auto</td>
+<td align="right">2461</td>
+<td align="right">38649</td>
+<td align="right">51102</td>
+<td align="right">4.989</td>
+<td align="right">0.6376</td>
+</tr>
+<tr class="even">
+<td align="left">AAA</td>
+<td align="right">-5780</td>
+<td align="right">43378</td>
+<td align="right">56784</td>
+<td align="right">6.048</td>
+<td align="right">0.7156</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="arima-vs-ets" class="section level2">
+<h2><span class="header-section-number">3.7</span> ARIMA vs ETS</h2>
+<ul>
+<li><p>Myth that ARIMA models are more general than exponential smoothing.</p></li>
+<li><p>Linear exponential smoothing models all special cases of ARIMA models.</p></li>
+<li><p>Non-linear exponential smoothing models have no equivalent ARIMA counterparts.</p></li>
+<li><p>Many ARIMA models have no exponential smoothing counterparts.</p></li>
+<li><p>ETS models all non-stationary. Models with seasonality or non-damped trend (or both) have two unit roots; all other models have one unit </p></li>
+</ul>
+<p><img src="bookdown-demo_files/figure-html/venn-1.png" width="672" /></p>
+<div style="page-break-after: always;"></div>
+<div id="equivalences" class="section level3">
+<h3><span class="header-section-number">3.7.1</span> Equivalences</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>ETS model</strong></th>
+<th align="left"><strong>ARIMA model</strong></th>
+<th align="left"><strong>Parameters</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ETS(A,N,N)</td>
+<td align="left">ARIMA(0,1,1)</td>
+<td align="left"><span class="math inline">\(\theta_1 = \alpha-1\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">ETS(A,A,N)</td>
+<td align="left">ARIMA(0,2,2)</td>
+<td align="left"><span class="math inline">\(\theta_1 = \alpha+\beta-2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\theta_2 = 1-\alpha\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">ETS(A,<span class="math inline">\(A_d\)</span>,N)</td>
+<td align="left">ARIMA(1,1,2)</td>
+<td align="left"><span class="math inline">\(\phi_1=\phi\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\theta_1 = \alpha+\phi\beta-1-\phi\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\theta_2 = (1-\alpha)\phi\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">ETS(A,N,A)</td>
+<td align="left">ARIMA(0,0,<span class="math inline">\(m\)</span>)(0,1,0)<span class="math inline">\(_m\)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">ETS(A,A,A)</td>
+<td align="left">ARIMA(0,1,<span class="math inline">\(m+1\)</span>)(0,1,0)<span class="math inline">\(_m\)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">ETS(A,<span class="math inline">\(A_d\)</span>,A)</td>
+<td align="left">ARIMA(1,0,<span class="math inline">\(m+1\)</span>)(0,1,0)<span class="math inline">\(_m\)</span></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="references-1" class="section level2">
+<h2><span class="header-section-number">3.8</span> References:</h2>
+<ul>
+<li>Hyndman, R. J., &amp; Athanasopoulos, G. (2018). Forecasting: principles and practice. OTexts.</li>
+</ul>
+<div style="page-break-after: always;"></div>
+
 </div>
 </div>
             </section>
@@ -1058,7 +1308,7 @@ criterion).</li>
         </div>
       </div>
 <a href="arima-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="references-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

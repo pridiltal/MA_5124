@@ -263,7 +263,6 @@ fit %>%
   ylab("Exports (% of GDP)") + xlab("Year")
 ```
 
-\newpage
 
 ## Models with trend
 
@@ -276,9 +275,9 @@ fit %>%
 - Trend $b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)b_{t-1}$
 
 * Two smoothing parameters $\alpha$ and $\beta^*$ ($0\le\alpha,\beta^*\le1$).
-  * $\ell_t$ level: weighted average between $y_t$ and one-step ahead forecast for time $t$, $(\ell_{t-1} + b_{t-1}=\hat{y}_{t|t-1})$
-  * $b_t$ slope: weighted average of $(\ell_{t} - \ell_{t-1})$ and $b_{t-1}$, current and previous estimate of slope.
-  * Choose $\alpha, \beta^*, \ell_0, b_0$ to minimise SSE.
+* $\ell_t$ level: weighted average between $y_t$ and one-step ahead forecast for time $t$, $(\ell_{t-1} + b_{t-1}=\hat{y}_{t|t-1})$
+* $b_t$ slope: weighted average of $(\ell_{t} - \ell_{t-1})$ and $b_{t-1}$, current and previous estimate of slope.
+* Choose $\alpha, \beta^*, \ell_0, b_0$ to minimise SSE.
 
 ### ETS(A,A,N)
 
@@ -702,7 +701,7 @@ $$s_{t} = \gamma \frac{y_{t}}{(\ell_{t-1} + \phi b_{t-1})} + (1 - \gamma)s_{t-m}
 
 ### Exponential smoothing methods
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{tabular}{lllll}
       &                          & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
       & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
@@ -711,6 +710,7 @@ A     &     (Additive)                     &  $(A,N)$          &     $(A,A)$    
 $A_d$ &  (Additive damped)                         &       $(A_d,N)$    &      $(A_d,A)$          &    $(A_d,M)$                 
 \end{tabular}
 \end{table}
+
 
 - $(N,N)$: Simple exponential smoothing
 - $(A,N)$: Holt's linear method
@@ -767,7 +767,7 @@ Let $\mathbf{x}_t = (\ell_t, b_t, s_t, s_{t-1}, \dots, s_{t-m+1})$ and $\varepsi
 \mbox{N}(0,\sigma^2)$.
 
 
-\begin{table}
+\begin{table}[H]
 \begin{tabular}{lcl}
 $y_t$ &=& $\underbrace{h(\mathbf{x}_{t-1})} +
 \underbrace{k(\mathbf{x}_{t-1})\varepsilon_t}$\\
@@ -919,7 +919,7 @@ fit %>%
 
 **Additive Error**
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{tabular}{lllll}
  &                         & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
       & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
@@ -929,9 +929,11 @@ $A_d$ &  (Additive damped)                         &       $(A,A_d,N)$    &     
 \end{tabular}
 \end{table}
 
+\newpage
+
 **Multiplicative Error**
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{tabular}{lllll}
   &                       & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
       & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
@@ -940,6 +942,8 @@ A     &     (Additive)                     &  $(M,A,N)$          &     $(M,A,A)$
 $A_d$ &  (Additive damped)                         &       $(M,A_d,N)$    &      $(M,A_d,A)$          &    $(M,A_d,M)$                 
 \end{tabular}
 \end{table}
+
+
 
 ### Residuals
 
@@ -957,3 +961,194 @@ $$\hat\varepsilon_t = \frac{y_t - \hat{y}_{t|t-1}}{\hat{y}_{t|t-1}}$$
 
 ### Example: Australian holiday tourism
 
+```{r, echo = TRUE}
+aus_holidays <- tourism %>%
+  filter(Purpose == "Holiday") %>%
+  summarise(Trips = sum(Trips))
+fit <- aus_holidays %>%
+  model(ets = ETS(Trips)) %>%
+  report()
+```
+
+```{r, echo = TRUE, results = "hide"}
+residuals(fit)
+residuals(fit, type = "response")
+```
+
+```{r, echo=FALSE}
+residuals(fit) %>%
+  as_tibble() %>%
+  mutate(Type = "Innovation residuals") %>%
+  bind_rows(residuals(fit, type = "response")  %>% 
+    mutate(Type = "Response residuals")) %>%
+  ggplot(aes(x = Quarter, y = .resid)) +
+  geom_line() +
+  facet_grid(Type ~ ., scales = "free_y") +
+  ylab(NULL)
+```
+
+## Forecasting with exponential smoothing
+
+### Forecasting with ETS models
+
+**Point forecasts:** iterate the equations for $t=T+1,T+2,\dots,T+h$ and set all $\varepsilon_t=0$ for $t>T$.
+
+* Not the same as $\text{E}(y_{t+h} | \mathbf{x}_t)$ unless trend and seasonality are both additive.
+* Point forecasts for ETS(A,*,*) are identical to ETS(M,*,*) if the parameters are the same.
+
+### Example: ETS(A,A,N)
+
+$$y_{T+1} = \ell_T + b_T  + \varepsilon_{T+1}$$
+$$\hat{y}_{T+1|T} = \ell_{T}+b_{T}$$
+$$y_{T+2}       = \ell_{T+1} + b_{T+1} + \varepsilon_{T+2}$$
+$$=
+                      (\ell_T + b_T + \alpha\varepsilon_{T+1}) +
+                      (b_T + \beta \varepsilon_{T+1}) +
+        \varepsilon_{T+2}$$
+$$\hat{y}_{T+2|T} = \ell_{T}+2b_{T}$$
+etc.
+
+### Example: ETS(M,A,N)
+
+
+$$y_{T+1} = (\ell_T + b_T )(1+ \varepsilon_{T+1})$$
+$$\hat{y}_{T+1|T} = \ell_{T}+b_{T}.$$
+$$y_{T+2}         = (\ell_{T+1} + b_{T+1})(1 + \varepsilon_{T+2})$$
+$$= \left\{
+                    (\ell_T + b_T) (1+ \alpha\varepsilon_{T+1}) +
+                    \left[b_T + \beta (\ell_T + b_T)\varepsilon_{T+1}\right]
+                    \right\}
+                   (1 + \varepsilon_{T+2})$$
+$$\hat{y}_{T+2|T} = \ell_{T}+2b_{T}$$
+etc.
+
+### Forecasting with ETS models
+
+**Prediction intervals:** can only generated using the models.
+
+  * The prediction intervals will differ between models with additive and multiplicative errors.
+  * Exact formulae for some models.
+  * More general to simulate future sample paths, conditional on the last estimate of the states, and to obtain prediction intervals from the percentiles of these simulated future paths.
+
+### Prediction intervals
+
+PI for most ETS models: $\hat{y}_{T+h|T} \pm c \sigma_h$, where $c$ depends on coverage probability and $\sigma_h$ is forecast standard deviation.
+
+\begin{tabular}{ll}
+\hline
+(A,N,N) & $\sigma_h = \sigma^2\big[1 + \alpha^2(h-1)\big]$\\
+(A,A,N) & $\sigma_h = \sigma^2\Big[1 + (h-1)\big\{\alpha^2 + \alpha\beta h + \frac16\beta^2h(2h-1)\big\}\Big]$\\
+(A,A$_d$,N) & $\sigma_h = \sigma^2\biggl[1 + \alpha^2(h-1) + \frac{\beta\phi h}{(1-\phi)^2} \left\{2\alpha(1-\phi) +\beta\phi\right\}$\\
+      & \hspace*{1.5cm}$\mbox{} - \frac{\beta\phi(1-\phi^h)}{(1-\phi)^2(1-\phi^2)} \left\{ 2\alpha(1-\phi^2)+ \beta\phi(1+2\phi-\phi^h)\right\}\biggr]$\\
+(A,N,A) &              $\sigma_h = \sigma^2\Big[1 + \alpha^2(h-1) + \gamma k(2\alpha+\gamma)\Big]$\\
+(A,A,A) &              $\sigma_h = \sigma^2\Big[1 + (h-1)\big\{\alpha^2 + \alpha\beta h + \frac16\beta^2h(2h-1)\big\} + \gamma k \big\{2\alpha+ \gamma + \beta m (k+1)\big\} \Big]$\\
+(A,A$_d$,A) &  $\sigma_h = \sigma^2\biggl[1 + \alpha^2(h-1) +\frac{\beta\phi h}{(1-\phi)^2} \left\{2\alpha(1-\phi)  + \beta\phi \right\}$\\
+  & \hspace*{1.5cm}$\mbox{} - \frac{\beta\phi(1-\phi^h)}{(1-\phi)^2(1-\phi^2)} \left\{ 2\alpha(1-\phi^2)+ \beta\phi(1+2\phi-\phi^h)\right\}$ \\
+  & \hspace*{1.5cm}$\mbox{} + \gamma k(2\alpha+\gamma)  + \frac{2\beta\gamma\phi}{(1-\phi)(1-\phi^m)}\left\{k(1-\phi^m) - \phi^m(1-\phi^{mk})\right\}\biggr]$
+\end{tabular}
+
+\newpage
+### Example: Corticosteroid drug sales
+
+```{r h02-plot, echo = TRUE}
+h02 <- PBS %>%
+  filter(ATC2 == "H02") %>%
+  summarise(Cost = sum(Cost))
+h02 %>%
+  autoplot(Cost)
+```
+
+```{r, echo=TRUE}
+h02 %>%
+  model(ETS(Cost)) %>%
+  report()
+```
+
+```{r, echo=TRUE}
+h02 %>%
+  model(ETS(Cost ~ error("A") + trend("A") + season("A"))) %>%
+  report()
+```
+
+```{r, echo=TRUE, fig.height=4}
+h02 %>% model(ETS(Cost)) %>% forecast() %>% autoplot(h02)
+```
+
+```{r, echo=TRUE, results = "hide"}
+h02 %>%
+  model(
+    auto = ETS(Cost),
+    AAA = ETS(Cost ~ error("A") + trend("A") + season("A"))
+  ) %>%
+  accuracy()
+```
+
+```{r echo=FALSE}
+h02 %>%
+  model(
+    auto = ETS(Cost),
+    AAA = ETS(Cost ~ error("A") + trend("A") + season("A"))
+  ) %>%
+  accuracy() %>%
+  transmute(Model = .model, ME, MAE, RMSE, MAPE, MASE) %>%
+  knitr::kable(booktabs = TRUE)
+```
+
+## ARIMA vs ETS
+
+  * Myth that ARIMA models are more general than exponential smoothing.
+
+  * Linear exponential smoothing models all special cases of ARIMA models.
+
+  * Non-linear exponential smoothing models have no equivalent ARIMA counterparts.
+
+  * Many ARIMA models have no exponential smoothing counterparts.
+
+  * ETS models all non-stationary. Models with seasonality or non-damped trend (or both) have two unit roots; all other models have one unit \rlap{root.}
+
+```{r venn}
+library(latex2exp)
+cols = c(ets = "#e41a1c", arima = "#377eb8")
+tibble(
+    x = c(-0.866, 0.866),
+    y = c(-0.5, -0.5),
+    labels = c("ets", "arima"),
+  ) %>%
+  ggplot(aes(color = labels, fill=labels)) +
+  ggforce::geom_circle(aes(x0 = x, y0 = y, r = 1.5), alpha = 0.3, size = 1) +
+  scale_color_manual(values=cols) + scale_fill_manual(values=cols) +
+  coord_fixed() + guides(fill = FALSE) +
+  geom_text(aes(label = "ETS models", x = -1.5, y = 1.1), col = cols["ets"], fontface = "bold") +
+  geom_text(aes(label = "Combination\n of components", x = -1.5, y = 0.3), col = cols["ets"]) +
+  geom_text(aes(label = "9 non-additive\n ETS models", x = -1.5, y = -0.6), col = cols["ets"]) +
+  geom_text(aes(label = "All ETS models\n with M components", x = -.95, y = -1.6), col = cols["ets"]) +
+  geom_text(aes(label = "ARIMA models", x = 1.5, y = 1.1), col = cols["arima"], fontface = "bold") +
+  geom_text(aes(label = "Modelling\n autocorrelations", x = 1.5, y = 0.3), col = cols["arima"]) +
+  annotate("text", label = TeX("Potentially $\\infty$ models"), x = 1.5, y = -0.6, col = cols["arima"]) +
+  geom_text(aes(label = "All stationary models\n Many large models", x = 1.01, y = -1.6), col = cols["arima"]) +
+  geom_text(aes(label = "6 additive\n ETS models", x = 0, y = -0.6), col = "#715D84") +
+  guides(col=FALSE, fill=FALSE) +  theme_void()
+```
+
+\newpage
+
+### Equivalences
+
+|**ETS model**  | **ARIMA model**             | **Parameters**                       |
+| :------------ | :-------------------------- | :----------------------------------- |
+| ETS(A,N,N)    | ARIMA(0,1,1)                | $\theta_1 = \alpha-1$                |
+| ETS(A,A,N)    | ARIMA(0,2,2)                | $\theta_1 = \alpha+\beta-2$          |
+|               |                             | $\theta_2 = 1-\alpha$                |
+| ETS(A,$A_d$,N)    | ARIMA(1,1,2)                | $\phi_1=\phi$                        |
+|               |                             | $\theta_1 = \alpha+\phi\beta-1-\phi$ |
+|               |                             | $\theta_2 = (1-\alpha)\phi$          |
+| ETS(A,N,A)    | ARIMA(0,0,$m$)(0,1,0)$_m$   |                                      |
+| ETS(A,A,A)    | ARIMA(0,1,$m+1$)(0,1,0)$_m$ |                                      |
+| ETS(A,$A_d$,A)    | ARIMA(1,0,$m+1$)(0,1,0)$_m$ |   |
+
+
+## References:
+
+- Hyndman, R. J., & Athanasopoulos, G. (2018). Forecasting: principles and practice. OTexts.
+
+\newpage

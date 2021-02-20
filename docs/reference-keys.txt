@@ -137,3 +137,13 @@ some-unstable-models
 exponential-smoothing-models
 residuals
 example-australian-holiday-tourism-2
+forecasting-with-exponential-smoothing
+forecasting-with-ets-models
+example-etsaan
+example-etsman
+forecasting-with-ets-models-1
+prediction-intervals-1
+example-corticosteroid-drug-sales
+arima-vs-ets
+equivalences
+references-1
