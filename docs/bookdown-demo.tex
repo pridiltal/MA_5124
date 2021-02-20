@@ -122,7 +122,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-02-14}
+\date{2021-02-20}
 
 \begin{document}
 \maketitle
@@ -2807,6 +2807,488 @@ By default, an optimal value for \(\alpha\) and \(\ell_0\) is used.
 \end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/ses-fc-1.pdf}
+
+\newpage
+
+\hypertarget{models-with-trend}{%
+\section{Models with trend}\label{models-with-trend}}
+
+\hypertarget{holts-linear-trend}{%
+\subsection{Holt's linear trend}\label{holts-linear-trend}}
+
+\textbf{Component form}
+
+\begin{itemize}
+\item
+  Forecast \(\hat{y}_{t+h|t} = \ell_{t} + hb_{t}\)
+\item
+  Level \(\ell_{t} = \alpha y_{t} + (1 - \alpha)(\ell_{t-1} + b_{t-1})\)
+\item
+  Trend \(b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)b_{t-1}\)
+\item
+  Two smoothing parameters \(\alpha\) and \(\beta^*\) (\(0\le\alpha,\beta^*\le1\)).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(\ell_t\) level: weighted average between \(y_t\) and one-step ahead forecast for time \(t\), \((\ell_{t-1} + b_{t-1}=\hat{y}_{t|t-1})\)
+  \item
+    \(b_t\) slope: weighted average of \((\ell_{t} - \ell_{t-1})\) and \(b_{t-1}\), current and previous estimate of slope.
+  \item
+    Choose \(\alpha, \beta^*, \ell_0, b_0\) to minimise SSE.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{etsaan}{%
+\subsection{ETS(A,A,N)}\label{etsaan}}
+
+Holt's linear method with additive errors.
+
+\begin{itemize}
+\item
+  Assume \(\varepsilon_t=y_t-\ell_{t-1}-b_{t-1} \sim\text{NID}(0,\sigma^2)\).
+\item
+  Substituting into the error correction equations for Holt's linear method
+
+  \[y_t=\ell_{t-1}+b_{t-1}+\varepsilon_t\]
+  \[\ell_t=\ell_{t-1}+b_{t-1}+\alpha \varepsilon_t\]
+  \[b_t=b_{t-1}+\alpha\beta^* \varepsilon_t\]
+\item
+  For simplicity, set \(\beta=\alpha \beta^*\).
+\end{itemize}
+
+\hypertarget{exponential-smoothing-trendslope}{%
+\subsection{Exponential smoothing: trend/slope}\label{exponential-smoothing-trendslope}}
+
+\includegraphics{bookdown-demo_files/figure-latex/beta-static1-1.pdf}
+
+\includegraphics{bookdown-demo_files/figure-latex/beta-static2-1.pdf}
+
+\includegraphics{bookdown-demo_files/figure-latex/beta-static3-1.pdf}
+
+\hypertarget{etsman}{%
+\subsection{ETS(M,A,N)}\label{etsman}}
+
+Holt's linear method with multiplicative errors.
+
+\begin{itemize}
+\item
+  Assume \(\varepsilon_t=\frac{y_t-(\ell_{t-1}+b_{t-1})}{(\ell_{t-1}+b_{t-1})}\)
+\item
+  Following a similar approach as above, the innovations state space model underlying Holt's linear method with multiplicative errors is specified as
+
+  \[y_t=(\ell_{t-1}+b_{t-1})(1+\varepsilon_t)\]
+  \[\ell_t=(\ell_{t-1}+b_{t-1})(1+\alpha \varepsilon_t)\]
+  \[b_t=b_{t-1}+\beta(\ell_{t-1}+b_{t-1}) \varepsilon_t\]
+\end{itemize}
+
+where again \(\beta=\alpha \beta^*\) and \(\varepsilon_t \sim \text{NID}(0,\sigma^2)\).
+
+\hypertarget{etsaan-specifying-the-model}{%
+\subsection{ETS(A,A,N): Specifying the model}\label{etsaan-specifying-the-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ETS}\NormalTok{(y }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"N"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+By default, optimal values for \(\beta\) and \(b_0\) are used.
+
+\(\beta\) can be chosen manually in \texttt{trend()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\DataTypeTok{beta =} \FloatTok{0.004}\NormalTok{)}
+\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\DataTypeTok{beta_range =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{example-australian-population}{%
+\subsection{Example: Australian population}\label{example-australian-population}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{aus_economy <-}\StringTok{ }\NormalTok{global_economy }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(Code }\OperatorTok{==}\StringTok{ "AUS"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Pop =}\NormalTok{ Population}\OperatorTok{/}\FloatTok{1e6}\NormalTok{)}
+\NormalTok{fit <-}\StringTok{ }\NormalTok{aus_economy }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\DataTypeTok{AAN =} \KeywordTok{ETS}\NormalTok{(Pop }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"N"}\NormalTok{)))}
+\KeywordTok{report}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: Pop 
+## Model: ETS(A,A,N) 
+##   Smoothing parameters:
+##     alpha = 0.9999 
+##     beta  = 0.3266 
+## 
+##   Initial states:
+##      l      b
+##  10.05 0.2225
+## 
+##   sigma^2:  0.0041
+## 
+##    AIC   AICc    BIC 
+## -76.99 -75.83 -66.68
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{components}\NormalTok{(fit) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/holt-cmp-plot-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{components}\NormalTok{(fit) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{left_join}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(fit), }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{".model"}\NormalTok{, }\StringTok{"Year"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A dable:                  59 x 8 [1Y]
+## # Key:                      Country, .model [1]
+## # ETS(A,A,N) Decomposition: Pop = lag(level, 1) +
+## #   lag(slope, 1) + remainder
+##    Country  .model  Year   Pop level slope remainder .fitted
+##    <fct>    <chr>  <dbl> <dbl> <dbl> <dbl>     <dbl>   <dbl>
+##  1 Austral~ AAN     1959  NA    10.1 0.222 NA           NA  
+##  2 Austral~ AAN     1960  10.3  10.3 0.222 -0.000145    10.3
+##  3 Austral~ AAN     1961  10.5  10.5 0.217 -0.0159      10.5
+##  4 Austral~ AAN     1962  10.7  10.7 0.231  0.0418      10.7
+##  5 Austral~ AAN     1963  11.0  11.0 0.223 -0.0229      11.0
+##  6 Austral~ AAN     1964  11.2  11.2 0.221 -0.00641     11.2
+##  7 Austral~ AAN     1965  11.4  11.4 0.221 -0.000314    11.4
+##  8 Austral~ AAN     1966  11.7  11.7 0.235  0.0418      11.6
+##  9 Austral~ AAN     1967  11.8  11.8 0.206 -0.0869      11.9
+## 10 Austral~ AAN     1968  12.0  12.0 0.208  0.00350     12.0
+## # ... with 49 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{forecast}\NormalTok{(}\DataTypeTok{h =} \DecValTok{10}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{autoplot}\NormalTok{(aus_economy) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Population"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Year"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/holt-fc-1.pdf}
+
+\hypertarget{damped-trend-method}{%
+\subsection{Damped trend method}\label{damped-trend-method}}
+
+\textbf{Component form}
+
+\[\hat{y}_{t+h|t} = \ell_{t} + (\phi+\phi^2 + \dots + \phi^{h})b_{t}\]
+\[\ell_{t} = \alpha y_{t} + (1 - \alpha)(\ell_{t-1} + \phi b_{t-1})\]
+\[b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)\phi b_{t-1}.\]
+
+\begin{itemize}
+\tightlist
+\item
+  Damping parameter \(0<\phi<1\).
+\item
+  If \(\phi=1\), identical to Holt's linear trend.
+\item
+  As \(h\rightarrow\infty\), \(\hat{y}_{T+h|T}\rightarrow \ell_T+\phi b_T/(1-\phi)\).
+\item
+  Short-run forecasts trended, long-run forecasts constant.
+\end{itemize}
+
+\hypertarget{example-australian-population-1}{%
+\subsection{Example: Australian population}\label{example-australian-population-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Write down the model for ETS(A,\(A_d\),N)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{aus_economy }\OperatorTok{%>%}
+\StringTok{ }\KeywordTok{model}\NormalTok{(}\DataTypeTok{holt =} \KeywordTok{ETS}\NormalTok{(Pop }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"Ad"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"N"}\NormalTok{))) }\OperatorTok{%>%}
+\StringTok{ }\KeywordTok{forecast}\NormalTok{(}\DataTypeTok{h =} \DecValTok{20}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{ }\KeywordTok{autoplot}\NormalTok{(aus_economy)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-31-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit <-}\StringTok{ }\NormalTok{aus_economy }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Year }\OperatorTok{<=}\StringTok{ }\DecValTok{2010}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}
+    \DataTypeTok{ses =} \KeywordTok{ETS}\NormalTok{(Pop }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"N"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"N"}\NormalTok{)),}
+    \DataTypeTok{holt =} \KeywordTok{ETS}\NormalTok{(Pop }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"N"}\NormalTok{)),}
+    \DataTypeTok{damped =} \KeywordTok{ETS}\NormalTok{(Pop }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"Ad"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"N"}\NormalTok{))}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tidy}\NormalTok{(fit)}
+\KeywordTok{accuracy}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{rrrr}
+\toprule
+term & SES & Linear trend & Damped trend\\
+\midrule
+alpha & 1.00 & 1.00 & 1.00\\
+beta\textasciicircum{}* &  & 0.30 & 0.40\\
+phi &  &  & 0.98\\
+l\_0 & 10.28 & 10.05 & 10.04\\
+b\_0 &  & 0.22 & 0.25\\
+\addlinespace
+Training RMSE & 0.24 & 0.06 & 0.07\\
+Test RMSE & 1.63 & 0.15 & 0.21\\
+Test MASE & 6.18 & 0.55 & 0.75\\
+Test MAPE & 6.09 & 0.55 & 0.74\\
+Test MAE & 1.45 & 0.13 & 0.18\\
+\bottomrule
+\end{tabular}
+
+\hypertarget{models-with-seasonality}{%
+\section{Models with seasonality}\label{models-with-seasonality}}
+
+\hypertarget{holt-winters-additive-method}{%
+\subsection{Holt-Winters additive method}\label{holt-winters-additive-method}}
+
+Holt and Winters extended Holt's method to capture seasonality.
+
+\textbf{Component form}
+
+\[\hat{y}_{t+h|t} = \ell_{t} + hb _{t} + s_{t+h-m(k+1)}\]
+\[\ell_{t} = \alpha(y_{t} - s_{t-m}) + (1 - \alpha)(\ell_{t-1} + b_{t-1})\]
+\[b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 - \beta^*)b_{t-1}\]
+\[s_{t} = \gamma (y_{t}-\ell_{t-1}-b_{t-1}) + (1-\gamma)s_{t-m}\]
+
+\begin{itemize}
+\item
+  \(k=\) integer part of \((h-1)/m\). Ensures estimates from the final year are used for forecasting.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Parameters:~ \(0\le \alpha\le 1\),~ \(0\le \beta^*\le 1\),~ \(0\le \gamma\le 1-\alpha\)~ and \(m=\) period of seasonality (e.g.~\(m=4\) for quarterly data).
+  \end{itemize}
+\item
+  Seasonal component is usually expressed as
+
+  \[s_{t} = \gamma^* (y_{t}-\ell_{t})+ (1-\gamma^*)s_{t-m}.\]
+\item
+  Substitute in for \(\ell_t\):
+
+  \[s_{t} = \gamma^*(1-\alpha) (y_{t}-\ell_{t-1}-b_{t-1})+ [1-\gamma^*(1-\alpha)]s_{t-m}\]
+\item
+  We set \(\gamma=\gamma^*(1-\alpha)\).
+\item
+  The usual parameter restriction is \(0\le\gamma^*\le1\), which translates to \(0\le\gamma\le(1-\alpha)\).
+\end{itemize}
+
+\includegraphics{bookdown-demo_files/figure-latex/gamma-static-1.pdf}
+
+\hypertarget{etsaaa}{%
+\subsection{ETS(A,A,A)}\label{etsaaa}}
+
+Holt-Winters additive method with additive errors.
+
+\begin{itemize}
+\item
+  Forecast equation\} \(\hat{y}_{t+h|t} = \ell_{t} + hb_{t} + s_{t+h-m(k+1)}\)
+\item
+  Observation equation\} \(y_t=\ell_{t-1}+b_{t-1}+s_{t-m} + \varepsilon_t\)
+\item
+  State equations\} \[\ell_t=\ell_{t-1}+b_{t-1}+\alpha \varepsilon_t\]
+  \[b_t=b_{t-1}+\beta \varepsilon_t\]
+  \[s_t = s_{t-m} + \gamma\varepsilon_t\]
+\item
+  Forecast errors: \(\varepsilon_{t} = y_t - \hat{y}_{t|t-1}\)
+\item
+  \(k\) is integer part of \((h-1)/m\)
+\end{itemize}
+
+\textbf{Activity}
+
+\begin{itemize}
+\tightlist
+\item
+  Write down the model for ETS(A,N,A)
+\end{itemize}
+
+\hypertarget{holt-winters-multiplicative-method}{%
+\subsection{Holt-Winters multiplicative method}\label{holt-winters-multiplicative-method}}
+
+For when seasonal variations are changing proportional to the level of the series.
+
+\textbf{Component form}
+
+\[\hat{y}{t+h}{t} = (\ell_{t} + hb_{t})s_{t+h-m(k+1)}\]
+\[\ell_{t} = \alpha \frac{y_{t}}{s_{t-m}} + (1 - \alpha)(\ell_{t-1} + b_{t-1})\]
+b\_\{t\} \&= \[\beta^*(\ell_{t}-\ell_{t-1}) + (1 - \beta^*)b_{t-1}\]
+\[s_{t} = \gamma \frac{y_{t}}{(\ell_{t-1} + b_{t-1})} + (1 - \gamma)s_{t-m}\]
+
+\begin{itemize}
+\tightlist
+\item
+  \(k\) is integer part of \((h-1)/m\).
+\item
+  With additive method \(s_t\) is in absolute terms:\newline within each year \(\sum_i s_i \approx 0\).
+\item
+  With multiplicative method \(s_t\) is in relative terms:\newline within each year \(\sum_i s_i \approx m\).
+\end{itemize}
+
+\hypertarget{etsmam}{%
+\subsection{ETS(M,A,M)}\label{etsmam}}
+
+Holt-Winters multiplicative method with multiplicative errors.
+
+\begin{itemize}
+\item
+  Forecast equation \(\hat{y}_{t+h|t} = (\ell_{t} + hb_{t}) s_{t+h-m(k+1)}\)
+\item
+  Observation equation \(y_t= (\ell_{t-1}+b_{t-1})s_{t-m}(1 + \varepsilon_t)\)
+\item
+  State equations \[\ell_t=(\ell_{t-1}+b_{t-1})(1+\alpha \varepsilon_t)\]
+  \[b_t=b_{t-1} +\beta(\ell_{t-1}+b_{t-1}) \varepsilon_t\]
+  \[s_t = s_{t-m}(1 + \gamma\varepsilon_t)\]
+\item
+  Forecast errors: \(\varepsilon_{t} = (y_t - \hat{y}_{t|t-1})/\hat{y}_{t|t-1}\)
+\item
+  \(k\) is integer part of \((h-1)/m\).
+\end{itemize}
+
+\hypertarget{example-australian-holiday-tourism}{%
+\subsection{Example: Australian holiday tourism}\label{example-australian-holiday-tourism}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{aus_holidays <-}\StringTok{ }\NormalTok{tourism }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Purpose }\OperatorTok{==}\StringTok{ "Holiday"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{Trips =} \KeywordTok{sum}\NormalTok{(Trips))}
+\NormalTok{fit <-}\StringTok{ }\NormalTok{aus_holidays }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}
+    \DataTypeTok{additive =} \KeywordTok{ETS}\NormalTok{(Trips }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"A"}\NormalTok{)),}
+    \DataTypeTok{multiplicative =} \KeywordTok{ETS}\NormalTok{(Trips }\OperatorTok{~}\StringTok{ }\KeywordTok{error}\NormalTok{(}\StringTok{"M"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{trend}\NormalTok{(}\StringTok{"A"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{season}\NormalTok{(}\StringTok{"M"}\NormalTok{))}
+\NormalTok{  )}
+\NormalTok{fc <-}\StringTok{ }\NormalTok{fit }\OperatorTok{%>%}\StringTok{ }\KeywordTok{forecast}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-35-1.pdf}
+
+\textbf{Estimated components}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{components}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A dable:                               168 x 7 [1Q]
+## # Key:                                   .model [2]
+## # ETS(A,A,A) & ETS(M,A,M) Decomposition: Trips = lag(level,
+## #   1) + lag(slope, 1) + lag(season, 4) + remainder
+##    .model   Quarter  Trips level slope season remainder
+##    <chr>      <qtr>  <dbl> <dbl> <dbl>  <dbl>     <dbl>
+##  1 additive 1997 Q1    NA    NA   NA    1512.      NA  
+##  2 additive 1997 Q2    NA    NA   NA    -290.      NA  
+##  3 additive 1997 Q3    NA    NA   NA    -684.      NA  
+##  4 additive 1997 Q4    NA  9899. -37.4  -538.      NA  
+##  5 additive 1998 Q1 11806. 9964. -24.5  1512.     433. 
+##  6 additive 1998 Q2  9276. 9851. -35.6  -290.    -374. 
+##  7 additive 1998 Q3  8642. 9700. -50.2  -684.    -489. 
+##  8 additive 1998 Q4  9300. 9694. -44.6  -538.     188. 
+##  9 additive 1999 Q1 11172. 9652. -44.3  1512.      10.7
+## 10 additive 1999 Q2  9608. 9676. -35.6  -290.     290. 
+## # ... with 158 more rows
+\end{verbatim}
+
+\includegraphics[width=1\linewidth]{bookdown-demo_files/figure-latex/fig-7-LevelTrendSeas-1}
+
+\hypertarget{holt-winters-damped-method}{%
+\subsection{Holt-Winters damped method}\label{holt-winters-damped-method}}
+
+Often the single most accurate forecasting method for seasonal data:
+
+\[\hat{y}_{t+h|t} = [\ell_{t} + (\phi+\phi^2 + \dots + \phi^{h})b_{t}]s_{t+h-m(k+1)}\]
+\[\ell_{t} = \alpha(y_{t} / s_{t-m}) + (1 - \alpha)(\ell_{t-1} + \phi b_{t-1})\]
+\[b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 - \beta^*)\phi b_{t-1}\]
+\[s_{t} = \gamma \frac{y_{t}}{(\ell_{t-1} + \phi b_{t-1})} + (1 - \gamma)s_{t-m}\]
+
+\newpage
+
+\hypertarget{innovations-state-space-models}{%
+\section{Innovations state space models}\label{innovations-state-space-models}}
+
+\hypertarget{exponential-smoothing-methods}{%
+\subsection{Exponential smoothing methods}\label{exponential-smoothing-methods}}
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+      &                          & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
+      & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
+N     &    (None)                      &  $(N,N)$          &  $(N,A)$              &       $(N,M)$               \\
+A     &     (Additive)                     &  $(A,N)$          &     $(A,A)$          &         $(A,M)$              \\
+$A_d$ &  (Additive damped)                         &       $(A_d,N)$    &      $(A_d,A)$          &    $(A_d,M)$                 
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+\tightlist
+\item
+  \((N,N)\): Simple exponential smoothing
+\item
+  \((A,N)\): Holt's linear method
+\item
+  \((A_d,N)\): Additive damped trend method
+\item
+  \((A,A)\): Additive Holt-Winters' method
+\item
+  \((A,M)\): Multiplicative Holt-Winters' method
+\item
+  \((A_d,M)\): Damped multiplicative Holt-Winters' method
+\end{itemize}
+
+There are also multiplicative trend methods (not recommended).
+
+\hypertarget{ets-models}{%
+\subsection{ETS models}\label{ets-models}}
+
+\textbf{Additive Error}
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+ &                         & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
+      & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
+N     &    (None)                      &  $(A,N,N)$          &  $(A,N,A)$              &       $(A,N,M)$               \\
+A     &     (Additive)                     &  $(A,A,N)$          &     $(A,A,A)$          &         $(A,A,M)$              \\
+$A_d$ &  (Additive damped)                         &       $(A,A_d,N)$    &      $(A,A_d,A)$          &    $(A,A_d,M)$                 
+\end{tabular}
+\end{table}
+
+\textbf{Multiplicative Error}
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+  &                       & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
+      & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
+N     &    (None)                      &  $(M,N,N)$          &  $(M,N,A)$              &       $(M,N,M)$               \\
+A     &     (Additive)                     &  $(M,A,N)$          &     $(M,A,A)$          &         $(M,A,M)$              \\
+$A_d$ &  (Additive damped)                         &       $(M,A_d,N)$    &      $(M,A_d,A)$          &    $(M,A_d,M)$                 
+\end{tabular}
+\end{table}
 
 \bibliography{book.bib,packages.bib}
 

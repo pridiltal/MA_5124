@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-02-14" />
+<meta name="date" content="2021-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -203,6 +203,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.5" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsmnn"><i class="fa fa-check"></i><b>3.2.5</b> ETS(M,N,N)</a></li>
 <li class="chapter" data-level="3.2.6" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsann-specifying-the-model"><i class="fa fa-check"></i><b>3.2.6</b> ETS(A,N,N): Specifying the model</a></li>
 <li class="chapter" data-level="3.2.7" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-algerian-exports"><i class="fa fa-check"></i><b>3.2.7</b> Example: Algerian Exports</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#models-with-trend"><i class="fa fa-check"></i><b>3.3</b> Models with trend</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#holts-linear-trend"><i class="fa fa-check"></i><b>3.3.1</b> Holt’s linear trend</a></li>
+<li class="chapter" data-level="3.3.2" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsaan"><i class="fa fa-check"></i><b>3.3.2</b> ETS(A,A,N)</a></li>
+<li class="chapter" data-level="3.3.3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#exponential-smoothing-trendslope"><i class="fa fa-check"></i><b>3.3.3</b> Exponential smoothing: trend/slope</a></li>
+<li class="chapter" data-level="3.3.4" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsman"><i class="fa fa-check"></i><b>3.3.4</b> ETS(M,A,N)</a></li>
+<li class="chapter" data-level="3.3.5" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsaan-specifying-the-model"><i class="fa fa-check"></i><b>3.3.5</b> ETS(A,A,N): Specifying the model</a></li>
+<li class="chapter" data-level="3.3.6" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-australian-population"><i class="fa fa-check"></i><b>3.3.6</b> Example: Australian population</a></li>
+<li class="chapter" data-level="3.3.7" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#damped-trend-method"><i class="fa fa-check"></i><b>3.3.7</b> Damped trend method</a></li>
+<li class="chapter" data-level="3.3.8" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-australian-population-1"><i class="fa fa-check"></i><b>3.3.8</b> Example: Australian population</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#models-with-seasonality"><i class="fa fa-check"></i><b>3.4</b> Models with seasonality</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#holt-winters-additive-method"><i class="fa fa-check"></i><b>3.4.1</b> Holt-Winters additive method</a></li>
+<li class="chapter" data-level="3.4.2" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsaaa"><i class="fa fa-check"></i><b>3.4.2</b> ETS(A,A,A)</a></li>
+<li class="chapter" data-level="3.4.3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#holt-winters-multiplicative-method"><i class="fa fa-check"></i><b>3.4.3</b> Holt-Winters multiplicative method</a></li>
+<li class="chapter" data-level="3.4.4" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#etsmam"><i class="fa fa-check"></i><b>3.4.4</b> ETS(M,A,M)</a></li>
+<li class="chapter" data-level="3.4.5" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-australian-holiday-tourism"><i class="fa fa-check"></i><b>3.4.5</b> Example: Australian holiday tourism</a></li>
+<li class="chapter" data-level="3.4.6" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#holt-winters-damped-method"><i class="fa fa-check"></i><b>3.4.6</b> Holt-Winters damped method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#innovations-state-space-models"><i class="fa fa-check"></i><b>3.5</b> Innovations state space models</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#exponential-smoothing-methods"><i class="fa fa-check"></i><b>3.5.1</b> Exponential smoothing methods</a></li>
+<li class="chapter" data-level="3.5.2" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#ets-models"><i class="fa fa-check"></i><b>3.5.2</b> ETS models</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
@@ -444,6 +466,350 @@ Iterate to get exponentially weighted moving average form.</p></li>
 <a class="sourceLine" id="cb47-3" title="3"><span class="st">  </span><span class="kw">autoplot</span>(algeria_economy) <span class="op">+</span></a>
 <a class="sourceLine" id="cb47-4" title="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Exports (% of GDP)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ses-fc-1.png" width="672" /></p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="models-with-trend" class="section level2">
+<h2><span class="header-section-number">3.3</span> Models with trend</h2>
+<div id="holts-linear-trend" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Holt’s linear trend</h3>
+<p><strong>Component form</strong></p>
+<ul>
+<li>Forecast <span class="math inline">\(\hat{y}_{t+h|t} = \ell_{t} + hb_{t}\)</span></li>
+<li>Level <span class="math inline">\(\ell_{t} = \alpha y_{t} + (1 - \alpha)(\ell_{t-1} + b_{t-1})\)</span></li>
+<li><p>Trend <span class="math inline">\(b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)b_{t-1}\)</span></p></li>
+<li>Two smoothing parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta^*\)</span> (<span class="math inline">\(0\le\alpha,\beta^*\le1\)</span>).
+<ul>
+<li><span class="math inline">\(\ell_t\)</span> level: weighted average between <span class="math inline">\(y_t\)</span> and one-step ahead forecast for time <span class="math inline">\(t\)</span>, <span class="math inline">\((\ell_{t-1} + b_{t-1}=\hat{y}_{t|t-1})\)</span></li>
+<li><span class="math inline">\(b_t\)</span> slope: weighted average of <span class="math inline">\((\ell_{t} - \ell_{t-1})\)</span> and <span class="math inline">\(b_{t-1}\)</span>, current and previous estimate of slope.</li>
+<li>Choose <span class="math inline">\(\alpha, \beta^*, \ell_0, b_0\)</span> to minimise SSE.</li>
+</ul></li>
+</ul>
+</div>
+<div id="etsaan" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> ETS(A,A,N)</h3>
+<p>Holt’s linear method with additive errors.</p>
+<ul>
+<li>Assume <span class="math inline">\(\varepsilon_t=y_t-\ell_{t-1}-b_{t-1} \sim\text{NID}(0,\sigma^2)\)</span>.</li>
+<li><p>Substituting into the error correction equations for Holt’s linear method</p>
+<span class="math display">\[y_t=\ell_{t-1}+b_{t-1}+\varepsilon_t\]</span>
+<span class="math display">\[\ell_t=\ell_{t-1}+b_{t-1}+\alpha \varepsilon_t\]</span>
+<span class="math display">\[b_t=b_{t-1}+\alpha\beta^* \varepsilon_t\]</span></li>
+<li><p>For simplicity, set <span class="math inline">\(\beta=\alpha \beta^*\)</span>.</p></li>
+</ul>
+</div>
+<div id="exponential-smoothing-trendslope" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Exponential smoothing: trend/slope</h3>
+<p><img src="bookdown-demo_files/figure-html/beta-static1-1.png" width="768" /></p>
+<p><img src="bookdown-demo_files/figure-html/beta-static2-1.png" width="768" /></p>
+<p><img src="bookdown-demo_files/figure-html/beta-static3-1.png" width="768" /></p>
+</div>
+<div id="etsman" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> ETS(M,A,N)</h3>
+<p>Holt’s linear method with multiplicative errors.</p>
+<ul>
+<li>Assume <span class="math inline">\(\varepsilon_t=\frac{y_t-(\ell_{t-1}+b_{t-1})}{(\ell_{t-1}+b_{t-1})}\)</span></li>
+<li><p>Following a similar approach as above, the innovations state space model underlying Holt’s linear method with multiplicative errors is specified as</p>
+<p><span class="math display">\[y_t=(\ell_{t-1}+b_{t-1})(1+\varepsilon_t)\]</span>
+<span class="math display">\[\ell_t=(\ell_{t-1}+b_{t-1})(1+\alpha \varepsilon_t)\]</span>
+<span class="math display">\[b_t=b_{t-1}+\beta(\ell_{t-1}+b_{t-1}) \varepsilon_t\]</span></p></li>
+</ul>
+<p>where again <span class="math inline">\(\beta=\alpha \beta^*\)</span> and <span class="math inline">\(\varepsilon_t \sim \text{NID}(0,\sigma^2)\)</span>.</p>
+</div>
+<div id="etsaan-specifying-the-model" class="section level3">
+<h3><span class="header-section-number">3.3.5</span> ETS(A,A,N): Specifying the model</h3>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">ETS</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>))</a></code></pre></div>
+<p>By default, optimal values for <span class="math inline">\(\beta\)</span> and <span class="math inline">\(b_0\)</span> are used.</p>
+<p><span class="math inline">\(\beta\)</span> can be chosen manually in <code>trend()</code>.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>, <span class="dt">beta =</span> <span class="fl">0.004</span>)</a>
+<a class="sourceLine" id="cb49-2" title="2"><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>, <span class="dt">beta_range =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>))</a></code></pre></div>
+</div>
+<div id="example-australian-population" class="section level3">
+<h3><span class="header-section-number">3.3.6</span> Example: Australian population</h3>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">aus_economy &lt;-<span class="st"> </span>global_economy <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Code <span class="op">==</span><span class="st"> &quot;AUS&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb50-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Pop =</span> Population<span class="op">/</span><span class="fl">1e6</span>)</a>
+<a class="sourceLine" id="cb50-3" title="3">fit &lt;-<span class="st"> </span>aus_economy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb50-4" title="4"><span class="st">  </span><span class="kw">model</span>(<span class="dt">AAN =</span> <span class="kw">ETS</span>(Pop <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>)))</a>
+<a class="sourceLine" id="cb50-5" title="5"><span class="kw">report</span>(fit)</a></code></pre></div>
+<pre><code>## Series: Pop 
+## Model: ETS(A,A,N) 
+##   Smoothing parameters:
+##     alpha = 0.9999 
+##     beta  = 0.3266 
+## 
+##   Initial states:
+##      l      b
+##  10.05 0.2225
+## 
+##   sigma^2:  0.0041
+## 
+##    AIC   AICc    BIC 
+## -76.99 -75.83 -66.68</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">components</span>(fit) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/holt-cmp-plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="kw">components</span>(fit) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb53-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">fitted</span>(fit), <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;Country&quot;</span>, <span class="st">&quot;.model&quot;</span>, <span class="st">&quot;Year&quot;</span>))</a></code></pre></div>
+<pre><code>## # A dable:                  59 x 8 [1Y]
+## # Key:                      Country, .model [1]
+## # ETS(A,A,N) Decomposition: Pop = lag(level, 1) +
+## #   lag(slope, 1) + remainder
+##    Country  .model  Year   Pop level slope remainder .fitted
+##    &lt;fct&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Austral… AAN     1959  NA    10.1 0.222 NA           NA  
+##  2 Austral… AAN     1960  10.3  10.3 0.222 -0.000145    10.3
+##  3 Austral… AAN     1961  10.5  10.5 0.217 -0.0159      10.5
+##  4 Austral… AAN     1962  10.7  10.7 0.231  0.0418      10.7
+##  5 Austral… AAN     1963  11.0  11.0 0.223 -0.0229      11.0
+##  6 Austral… AAN     1964  11.2  11.2 0.221 -0.00641     11.2
+##  7 Austral… AAN     1965  11.4  11.4 0.221 -0.000314    11.4
+##  8 Austral… AAN     1966  11.7  11.7 0.235  0.0418      11.6
+##  9 Austral… AAN     1967  11.8  11.8 0.206 -0.0869      11.9
+## 10 Austral… AAN     1968  12.0  12.0 0.208  0.00350     12.0
+## # … with 49 more rows</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">fit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb55-2" title="2"><span class="st">  </span><span class="kw">forecast</span>(<span class="dt">h =</span> <span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb55-3" title="3"><span class="st">  </span><span class="kw">autoplot</span>(aus_economy) <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-4" title="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Population&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/holt-fc-1.png" width="672" /></p>
+</div>
+<div id="damped-trend-method" class="section level3">
+<h3><span class="header-section-number">3.3.7</span> Damped trend method</h3>
+<p><strong>Component form</strong></p>
+<p><span class="math display">\[\hat{y}_{t+h|t} = \ell_{t} + (\phi+\phi^2 + \dots + \phi^{h})b_{t}\]</span>
+<span class="math display">\[\ell_{t} = \alpha y_{t} + (1 - \alpha)(\ell_{t-1} + \phi b_{t-1})\]</span>
+<span class="math display">\[b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)\phi b_{t-1}.\]</span></p>
+<ul>
+<li>Damping parameter <span class="math inline">\(0&lt;\phi&lt;1\)</span>.</li>
+<li>If <span class="math inline">\(\phi=1\)</span>, identical to Holt’s linear trend.</li>
+<li>As <span class="math inline">\(h\rightarrow\infty\)</span>, <span class="math inline">\(\hat{y}_{T+h|T}\rightarrow \ell_T+\phi b_T/(1-\phi)\)</span>.</li>
+<li>Short-run forecasts trended, long-run forecasts constant.</li>
+</ul>
+</div>
+<div id="example-australian-population-1" class="section level3">
+<h3><span class="header-section-number">3.3.8</span> Example: Australian population</h3>
+<ul>
+<li>Write down the model for ETS(A,<span class="math inline">\(A_d\)</span>,N)</li>
+</ul>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">aus_economy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-2" title="2"><span class="st"> </span><span class="kw">model</span>(<span class="dt">holt =</span> <span class="kw">ETS</span>(Pop <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;Ad&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-3" title="3"><span class="st"> </span><span class="kw">forecast</span>(<span class="dt">h =</span> <span class="dv">20</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-4" title="4"><span class="st"> </span><span class="kw">autoplot</span>(aus_economy)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1">fit &lt;-<span class="st"> </span>aus_economy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb57-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&lt;=</span><span class="st"> </span><span class="dv">2010</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb57-3" title="3"><span class="st">  </span><span class="kw">model</span>(</a>
+<a class="sourceLine" id="cb57-4" title="4">    <span class="dt">ses =</span> <span class="kw">ETS</span>(Pop <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>)),</a>
+<a class="sourceLine" id="cb57-5" title="5">    <span class="dt">holt =</span> <span class="kw">ETS</span>(Pop <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>)),</a>
+<a class="sourceLine" id="cb57-6" title="6">    <span class="dt">damped =</span> <span class="kw">ETS</span>(Pop <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;Ad&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>))</a>
+<a class="sourceLine" id="cb57-7" title="7">  )</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="kw">tidy</span>(fit)</a>
+<a class="sourceLine" id="cb58-2" title="2"><span class="kw">accuracy</span>(fit)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">term</th>
+<th align="right">SES</th>
+<th align="right">Linear trend</th>
+<th align="right">Damped trend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">alpha</td>
+<td align="right">1.00</td>
+<td align="right">1.00</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="even">
+<td align="right">beta^*</td>
+<td align="right"></td>
+<td align="right">0.30</td>
+<td align="right">0.40</td>
+</tr>
+<tr class="odd">
+<td align="right">phi</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">0.98</td>
+</tr>
+<tr class="even">
+<td align="right">l_0</td>
+<td align="right">10.28</td>
+<td align="right">10.05</td>
+<td align="right">10.04</td>
+</tr>
+<tr class="odd">
+<td align="right">b_0</td>
+<td align="right"></td>
+<td align="right">0.22</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="even">
+<td align="right">Training RMSE</td>
+<td align="right">0.24</td>
+<td align="right">0.06</td>
+<td align="right">0.07</td>
+</tr>
+<tr class="odd">
+<td align="right">Test RMSE</td>
+<td align="right">1.63</td>
+<td align="right">0.15</td>
+<td align="right">0.21</td>
+</tr>
+<tr class="even">
+<td align="right">Test MASE</td>
+<td align="right">6.18</td>
+<td align="right">0.55</td>
+<td align="right">0.75</td>
+</tr>
+<tr class="odd">
+<td align="right">Test MAPE</td>
+<td align="right">6.09</td>
+<td align="right">0.55</td>
+<td align="right">0.74</td>
+</tr>
+<tr class="even">
+<td align="right">Test MAE</td>
+<td align="right">1.45</td>
+<td align="right">0.13</td>
+<td align="right">0.18</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="models-with-seasonality" class="section level2">
+<h2><span class="header-section-number">3.4</span> Models with seasonality</h2>
+<div id="holt-winters-additive-method" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Holt-Winters additive method</h3>
+<p>Holt and Winters extended Holt’s method to capture seasonality.</p>
+<p><strong>Component form</strong></p>
+<p><span class="math display">\[\hat{y}_{t+h|t} = \ell_{t} + hb _{t} + s_{t+h-m(k+1)}\]</span>
+<span class="math display">\[\ell_{t} = \alpha(y_{t} - s_{t-m}) + (1 - \alpha)(\ell_{t-1} + b_{t-1})\]</span>
+<span class="math display">\[b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 - \beta^*)b_{t-1}\]</span>
+<span class="math display">\[s_{t} = \gamma (y_{t}-\ell_{t-1}-b_{t-1}) + (1-\gamma)s_{t-m}\]</span></p>
+<ul>
+<li><span class="math inline">\(k=\)</span> integer part of <span class="math inline">\((h-1)/m\)</span>. Ensures estimates from the final year are used for forecasting.
+<ul>
+<li>Parameters:  <span class="math inline">\(0\le \alpha\le 1\)</span>,  <span class="math inline">\(0\le \beta^*\le 1\)</span>,  <span class="math inline">\(0\le \gamma\le 1-\alpha\)</span>  and <span class="math inline">\(m=\)</span> period of seasonality (e.g. <span class="math inline">\(m=4\)</span> for quarterly data).</li>
+</ul></li>
+<li><p>Seasonal component is usually expressed as</p>
+<span class="math display">\[s_{t} = \gamma^* (y_{t}-\ell_{t})+ (1-\gamma^*)s_{t-m}.\]</span></li>
+<li><p>Substitute in for <span class="math inline">\(\ell_t\)</span>:</p>
+<span class="math display">\[s_{t} = \gamma^*(1-\alpha) (y_{t}-\ell_{t-1}-b_{t-1})+ [1-\gamma^*(1-\alpha)]s_{t-m}\]</span></li>
+<li>We set <span class="math inline">\(\gamma=\gamma^*(1-\alpha)\)</span>.</li>
+<li><p>The usual parameter restriction is <span class="math inline">\(0\le\gamma^*\le1\)</span>, which translates to <span class="math inline">\(0\le\gamma\le(1-\alpha)\)</span>.</p></li>
+</ul>
+<p><img src="bookdown-demo_files/figure-html/gamma-static-1.png" width="768" /></p>
+</div>
+<div id="etsaaa" class="section level3">
+<h3><span class="header-section-number">3.4.2</span> ETS(A,A,A)</h3>
+<p>Holt-Winters additive method with additive errors.</p>
+<ul>
+<li>Forecast equation} <span class="math inline">\(\hat{y}_{t+h|t} = \ell_{t} + hb_{t} + s_{t+h-m(k+1)}\)</span></li>
+<li>Observation equation} <span class="math inline">\(y_t=\ell_{t-1}+b_{t-1}+s_{t-m} + \varepsilon_t\)</span></li>
+<li><p>State equations} <span class="math display">\[\ell_t=\ell_{t-1}+b_{t-1}+\alpha \varepsilon_t\]</span>
+<span class="math display">\[b_t=b_{t-1}+\beta \varepsilon_t\]</span>
+<span class="math display">\[s_t = s_{t-m} + \gamma\varepsilon_t\]</span></p></li>
+<li>Forecast errors: <span class="math inline">\(\varepsilon_{t} = y_t - \hat{y}_{t|t-1}\)</span></li>
+<li><p><span class="math inline">\(k\)</span> is integer part of <span class="math inline">\((h-1)/m\)</span></p></li>
+</ul>
+<p><strong>Activity</strong></p>
+<ul>
+<li>Write down the model for ETS(A,N,A)</li>
+</ul>
+</div>
+<div id="holt-winters-multiplicative-method" class="section level3">
+<h3><span class="header-section-number">3.4.3</span> Holt-Winters multiplicative method</h3>
+<p>For when seasonal variations are changing proportional to the level of the series.</p>
+<p><strong>Component form</strong></p>
+<p><span class="math display">\[\hat{y}{t+h}{t} = (\ell_{t} + hb_{t})s_{t+h-m(k+1)}\]</span>
+<span class="math display">\[\ell_{t} = \alpha \frac{y_{t}}{s_{t-m}} + (1 - \alpha)(\ell_{t-1} + b_{t-1})\]</span>
+b_{t} &amp;= <span class="math display">\[\beta^*(\ell_{t}-\ell_{t-1}) + (1 - \beta^*)b_{t-1}\]</span>
+<span class="math display">\[s_{t} = \gamma \frac{y_{t}}{(\ell_{t-1} + b_{t-1})} + (1 - \gamma)s_{t-m}\]</span></p>
+<ul>
+<li><span class="math inline">\(k\)</span> is integer part of <span class="math inline">\((h-1)/m\)</span>.</li>
+<li>With additive method <span class="math inline">\(s_t\)</span> is in absolute terms:within each year <span class="math inline">\(\sum_i s_i \approx 0\)</span>.</li>
+<li>With multiplicative method <span class="math inline">\(s_t\)</span> is in relative terms:within each year <span class="math inline">\(\sum_i s_i \approx m\)</span>.</li>
+</ul>
+</div>
+<div id="etsmam" class="section level3">
+<h3><span class="header-section-number">3.4.4</span> ETS(M,A,M)</h3>
+<p>Holt-Winters multiplicative method with multiplicative errors.</p>
+<ul>
+<li>Forecast equation <span class="math inline">\(\hat{y}_{t+h|t} = (\ell_{t} + hb_{t}) s_{t+h-m(k+1)}\)</span></li>
+<li>Observation equation <span class="math inline">\(y_t= (\ell_{t-1}+b_{t-1})s_{t-m}(1 + \varepsilon_t)\)</span></li>
+<li><p>State equations <span class="math display">\[\ell_t=(\ell_{t-1}+b_{t-1})(1+\alpha \varepsilon_t)\]</span>
+<span class="math display">\[b_t=b_{t-1} +\beta(\ell_{t-1}+b_{t-1}) \varepsilon_t\]</span>
+<span class="math display">\[s_t = s_{t-m}(1 + \gamma\varepsilon_t)\]</span></p></li>
+<li>Forecast errors: <span class="math inline">\(\varepsilon_{t} = (y_t - \hat{y}_{t|t-1})/\hat{y}_{t|t-1}\)</span></li>
+<li><p><span class="math inline">\(k\)</span> is integer part of <span class="math inline">\((h-1)/m\)</span>.</p></li>
+</ul>
+</div>
+<div id="example-australian-holiday-tourism" class="section level3">
+<h3><span class="header-section-number">3.4.5</span> Example: Australian holiday tourism</h3>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1">aus_holidays &lt;-<span class="st"> </span>tourism <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb59-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Purpose <span class="op">==</span><span class="st"> &quot;Holiday&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb59-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Trips =</span> <span class="kw">sum</span>(Trips))</a>
+<a class="sourceLine" id="cb59-4" title="4">fit &lt;-<span class="st"> </span>aus_holidays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb59-5" title="5"><span class="st">  </span><span class="kw">model</span>(</a>
+<a class="sourceLine" id="cb59-6" title="6">    <span class="dt">additive =</span> <span class="kw">ETS</span>(Trips <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>)),</a>
+<a class="sourceLine" id="cb59-7" title="7">    <span class="dt">multiplicative =</span> <span class="kw">ETS</span>(Trips <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;M&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;M&quot;</span>))</a>
+<a class="sourceLine" id="cb59-8" title="8">  )</a>
+<a class="sourceLine" id="cb59-9" title="9">fc &lt;-<span class="st"> </span>fit <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">forecast</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><strong>Estimated components</strong></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">components</span>(fit)</a></code></pre></div>
+<pre><code>## # A dable:                               168 x 7 [1Q]
+## # Key:                                   .model [2]
+## # ETS(A,A,A) &amp; ETS(M,A,M) Decomposition: Trips = lag(level,
+## #   1) + lag(slope, 1) + lag(season, 4) + remainder
+##    .model   Quarter  Trips level slope season remainder
+##    &lt;chr&gt;      &lt;qtr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
+##  1 additive 1997 Q1    NA    NA   NA    1512.      NA  
+##  2 additive 1997 Q2    NA    NA   NA    -290.      NA  
+##  3 additive 1997 Q3    NA    NA   NA    -684.      NA  
+##  4 additive 1997 Q4    NA  9899. -37.4  -538.      NA  
+##  5 additive 1998 Q1 11806. 9964. -24.5  1512.     433. 
+##  6 additive 1998 Q2  9276. 9851. -35.6  -290.    -374. 
+##  7 additive 1998 Q3  8642. 9700. -50.2  -684.    -489. 
+##  8 additive 1998 Q4  9300. 9694. -44.6  -538.     188. 
+##  9 additive 1999 Q1 11172. 9652. -44.3  1512.      10.7
+## 10 additive 1999 Q2  9608. 9676. -35.6  -290.     290. 
+## # … with 158 more rows</code></pre>
+<p><img src="bookdown-demo_files/figure-html/fig-7-LevelTrendSeas-1.png" width="100%" /></p>
+</div>
+<div id="holt-winters-damped-method" class="section level3">
+<h3><span class="header-section-number">3.4.6</span> Holt-Winters damped method</h3>
+<p>Often the single most accurate forecasting method for seasonal data:</p>
+<p><span class="math display">\[\hat{y}_{t+h|t} = [\ell_{t} + (\phi+\phi^2 + \dots + \phi^{h})b_{t}]s_{t+h-m(k+1)}\]</span>
+<span class="math display">\[\ell_{t} = \alpha(y_{t} / s_{t-m}) + (1 - \alpha)(\ell_{t-1} + \phi b_{t-1})\]</span>
+<span class="math display">\[b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 - \beta^*)\phi b_{t-1}\]</span>
+<span class="math display">\[s_{t} = \gamma \frac{y_{t}}{(\ell_{t-1} + \phi b_{t-1})} + (1 - \gamma)s_{t-m}\]</span></p>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="innovations-state-space-models" class="section level2">
+<h2><span class="header-section-number">3.5</span> Innovations state space models</h2>
+<div id="exponential-smoothing-methods" class="section level3">
+<h3><span class="header-section-number">3.5.1</span> Exponential smoothing methods</h3>
+
+<ul>
+<li><span class="math inline">\((N,N)\)</span>: Simple exponential smoothing</li>
+<li><span class="math inline">\((A,N)\)</span>: Holt’s linear method</li>
+<li><span class="math inline">\((A_d,N)\)</span>: Additive damped trend method</li>
+<li><span class="math inline">\((A,A)\)</span>: Additive Holt-Winters’ method</li>
+<li><span class="math inline">\((A,M)\)</span>: Multiplicative Holt-Winters’ method</li>
+<li><span class="math inline">\((A_d,M)\)</span>: Damped multiplicative Holt-Winters’ method</li>
+</ul>
+<p>There are also multiplicative trend methods (not recommended).</p>
+</div>
+<div id="ets-models" class="section level3">
+<h3><span class="header-section-number">3.5.2</span> ETS models</h3>
+<p><strong>Additive Error</strong></p>
+
+<p><strong>Multiplicative Error</strong></p>
+
 
 </div>
 </div>

@@ -262,3 +262,487 @@ fit %>%
   autoplot(algeria_economy) +
   ylab("Exports (% of GDP)") + xlab("Year")
 ```
+
+\newpage
+
+## Models with trend
+
+### Holt's linear trend
+
+**Component form**
+
+- Forecast  $\hat{y}_{t+h|t} = \ell_{t} + hb_{t}$ 
+- Level $\ell_{t} = \alpha y_{t} + (1 - \alpha)(\ell_{t-1} + b_{t-1})$
+- Trend $b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)b_{t-1}$
+
+* Two smoothing parameters $\alpha$ and $\beta^*$ ($0\le\alpha,\beta^*\le1$).
+  * $\ell_t$ level: weighted average between $y_t$ and one-step ahead forecast for time $t$, $(\ell_{t-1} + b_{t-1}=\hat{y}_{t|t-1})$
+  * $b_t$ slope: weighted average of $(\ell_{t} - \ell_{t-1})$ and $b_{t-1}$, current and previous estimate of slope.
+  * Choose $\alpha, \beta^*, \ell_0, b_0$ to minimise SSE.
+
+### ETS(A,A,N)
+
+Holt's linear method with additive errors.
+
+  * Assume $\varepsilon_t=y_t-\ell_{t-1}-b_{t-1} \sim\text{NID}(0,\sigma^2)$.
+  * Substituting into the error correction equations for Holt's linear method
+  
+    $$y_t=\ell_{t-1}+b_{t-1}+\varepsilon_t$$
+      $$\ell_t=\ell_{t-1}+b_{t-1}+\alpha \varepsilon_t$$
+      $$b_t=b_{t-1}+\alpha\beta^* \varepsilon_t$$
+  * For simplicity, set $\beta=\alpha \beta^*$.
+  
+### Exponential smoothing: trend/slope
+
+```{r beta-anim, cache=TRUE, echo=FALSE, fig.show='animate', interval=1/10, message=FALSE, fig.height=5, fig.width=8, aniopts='controls,buttonsize=0.3cm,width=11.5cm', eval=FALSE}
+aus_economy <- global_economy %>%
+  filter(Code == "AUS") %>%
+  mutate(Pop = Population/1e6)
+beta_anim <- map_dfr(set_names(
+  seq(0, 0.5, length.out = 100),
+  seq(0, 0.5, length.out = 100)),
+  function(beta){
+    aus_economy %>%
+      model(ETS(Pop ~ error("A") +
+                  trend("A",
+                    alpha = 0.001,
+                    alpha_range = c(-1,1),
+                    beta = beta,
+                    beta_range = c(-1,1)) +
+                  season("N",
+                    gamma_range = c(-1,1)),
+                bounds = "admissible")
+      ) %>%
+      augment() %>%
+      as_tibble()
+    }, .id = "beta") %>%
+  mutate(beta = 0.005-as.numeric(beta))
+beta_anim %>%
+  left_join(select(aus_economy, Year), by = "Year") %>%
+  ggplot(aes(x = Year, y = Pop)) +
+  geom_line() +
+  geom_line(aes(y = .fitted), colour = "blue") +
+  transition_manual(beta) +
+  ylab("Population (millions)") +
+  ggtitle("Australian population: trend (beta = {format(0.005-as.numeric(as.character(current_frame)), nsmall=2)})")
+```
+
+```{r beta-static, fig.height=5, fig.width=8, eval=FALSE, echo=FALSE}
+aus_economy <- global_economy %>%
+  filter(Code == "AUS") %>%
+  mutate(Pop = Population/1e6)
+beta_static <- map_dfr(
+      list(0, 0.3,0.9),
+      function(beta) {
+        fit <- aus_economy %>%
+          model(ETS(Pop ~ error("A") +
+                      trend("A",
+                        alpha = 0.00001,
+                        alpha_range = c(-.1,1),
+                        beta = beta,
+                        beta_range = c(0,.99)) +
+                      season("N",
+                        gamma_range = c(-1,1)),
+                    bounds = "admissible")
+          )
+        fit %>%
+          augment() %>%
+          mutate(beta = tidy(fit)$estimate[tidy(fit)$term == "beta"]) %>%
+          as_tibble()
+      }
+  ) %>%
+  mutate(beta = factor(format(beta))) %>%
+  left_join(select(aus_economy, Year), by = "Year")
+aus_economy %>%
+  ggplot(aes(x = Year, y = Pop)) +
+  geom_line() +
+  geom_line(aes(y = .fitted, colour = beta), data = beta_static) +
+  ylab("Population (millions)") +
+  ggtitle("Australian population")
+```
+
+```{r beta-static1, fig.height=5, fig.width=8, echo=FALSE}
+beta <- 0
+global_economy %>%
+  filter(Code == "AUS") %>%
+  mutate(Pop = Population/1e6) %>%
+  model(ETS(Pop ~ error("A") +
+                   trend("A",
+                         alpha = 0.0001,
+                         beta =beta),
+             bounds = "admissible")
+          ) %>%
+  augment() %>%
+  mutate(beta = beta) %>%
+  as_tibble() %>%
+  ggplot(aes(x = Year, y = Pop)) +
+  geom_line() +
+  geom_line(aes(y = .fitted), colour = "blue") +
+  ylab("Population (millions)") +
+  ggtitle(paste("Australian population. beta =", beta))
+```
+
+```{r beta-static2, fig.height=5, fig.width=8, echo=FALSE}
+beta <- 0.15
+global_economy %>%
+  filter(Code == "AUS") %>%
+  mutate(Pop = Population/1e6) %>%
+  model(ETS(Pop ~ error("A") +
+                   trend("A",
+                         alpha = 0.0001,
+                         beta =beta),
+             bounds = "admissible")
+          ) %>%
+  augment() %>%
+  mutate(beta = beta) %>%
+  as_tibble() %>%
+  ggplot(aes(x = Year, y = Pop)) +
+  geom_line() +
+  geom_line(aes(y = .fitted), colour = "blue") +
+  ylab("Population (millions)") +
+  ggtitle(paste("Australian population. beta =", beta))
+```
+
+
+```{r beta-static3, fig.height=5, fig.width=8, echo=FALSE}
+beta <- 0.8
+global_economy %>%
+  filter(Code == "AUS") %>%
+  mutate(Pop = Population/1e6) %>%
+  model(ETS(Pop ~ error("A") +
+                   trend("A",
+                         alpha = 0.0001,
+                         beta =beta),
+             bounds = "admissible")
+          ) %>%
+  augment() %>%
+  mutate(beta = beta) %>%
+  as_tibble() %>%
+  ggplot(aes(x = Year, y = Pop)) +
+  geom_line() +
+  geom_line(aes(y = .fitted), colour = "blue") +
+  ylab("Population (millions)") +
+  ggtitle(paste("Australian population. beta =", beta))
+```
+
+
+### ETS(M,A,N)
+
+Holt's linear method with multiplicative errors.
+
+  * Assume $\varepsilon_t=\frac{y_t-(\ell_{t-1}+b_{t-1})}{(\ell_{t-1}+b_{t-1})}$
+  * Following a similar approach as above, the innovations state space model underlying Holt's linear method with multiplicative errors is specified as
+  
+      $$y_t=(\ell_{t-1}+b_{t-1})(1+\varepsilon_t)$$
+      $$\ell_t=(\ell_{t-1}+b_{t-1})(1+\alpha \varepsilon_t)$$
+      $$b_t=b_{t-1}+\beta(\ell_{t-1}+b_{t-1}) \varepsilon_t$$
+
+where again  $\beta=\alpha \beta^*$ and $\varepsilon_t \sim \text{NID}(0,\sigma^2)$.
+
+### ETS(A,A,N): Specifying the model
+
+
+```{r aan-spec, echo = TRUE, results = "hide"}
+ETS(y ~ error("A") + trend("A") + season("N"))
+```
+
+By default, optimal values for $\beta$ and $b_0$ are used.
+
+$\beta$ can be chosen manually in `trend()`.
+
+```{r beta-spec, echo = TRUE, eval = FALSE}
+trend("A", beta = 0.004)
+trend("A", beta_range = c(0, 0.1))
+```
+
+
+### Example: Australian population
+
+```{r holt-fit, echo=TRUE}
+aus_economy <- global_economy %>% filter(Code == "AUS") %>%
+  mutate(Pop = Population/1e6)
+fit <- aus_economy %>%
+  model(AAN = ETS(Pop ~ error("A") + trend("A") + season("N")))
+report(fit)
+```
+
+```{r holt-cmp-plot, echo=TRUE, dependson='holt-fit', fig.height=5}
+components(fit) %>% autoplot()
+```
+
+```{r holt-cmp, echo=TRUE, dependson='holt-fit'}
+components(fit) %>%
+  left_join(fitted(fit), by = c("Country", ".model", "Year"))
+```
+
+```{r holt-fc, echo=TRUE, cache=TRUE, dependson='holt-fit'}
+fit %>%
+  forecast(h = 10) %>%
+  autoplot(aus_economy) +
+  ylab("Population") + xlab("Year")
+```
+
+### Damped trend method
+
+**Component form**
+
+$$\hat{y}_{t+h|t} = \ell_{t} + (\phi+\phi^2 + \dots + \phi^{h})b_{t}$$
+$$\ell_{t} = \alpha y_{t} + (1 - \alpha)(\ell_{t-1} + \phi b_{t-1})$$
+$$b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)\phi b_{t-1}.$$
+
+  * Damping parameter $0<\phi<1$.
+  * If $\phi=1$, identical to Holt's linear trend.
+  * As $h\rightarrow\infty$, $\hat{y}_{T+h|T}\rightarrow \ell_T+\phi b_T/(1-\phi)$.
+  * Short-run forecasts trended, long-run forecasts constant.
+
+### Example: Australian population
+
+ * Write down the model for ETS(A,$A_d$,N)
+ 
+ ```{r, echo=TRUE, fig.height=3.6}
+aus_economy %>%
+  model(holt = ETS(Pop ~ error("A") + trend("Ad") + season("N"))) %>%
+  forecast(h = 20) %>%
+  autoplot(aus_economy)
+```
+
+```{r, echo=TRUE}
+fit <- aus_economy %>%
+  filter(Year <= 2010) %>%
+  model(
+    ses = ETS(Pop ~ error("A") + trend("N") + season("N")),
+    holt = ETS(Pop ~ error("A") + trend("A") + season("N")),
+    damped = ETS(Pop ~ error("A") + trend("Ad") + season("N"))
+  )
+```
+
+```{r, echo = TRUE, results = 'hide'}
+tidy(fit)
+accuracy(fit)
+```
+
+
+```{r echo=FALSE}
+fit_terms <- tidy(fit) %>%
+  spread(.model, estimate) %>%
+  mutate(term = factor(term, levels = c("alpha", "beta", "phi", "l", "b"), labels = c("alpha", "beta^*", "phi", "l_0", "b_0"))) %>%
+  arrange(term)
+
+fit_accuracy <- accuracy(fit) %>%
+  bind_rows(
+    forecast(fit, h = 9) %>%
+      accuracy(aus_economy)
+  ) %>%
+  gather(term, estimate, -Country, -.model, -.type) %>%
+  spread(.model, estimate) %>%
+  filter(term == "RMSE" | .type == "Test" & term %in% c("RMSE", "MAE", "MAPE", "MASE")) %>%
+  arrange(desc(.type), desc(term)) %>%
+  unite("term", .type, term, sep = " ")
+
+bind_rows(fit_terms, fit_accuracy) %>%
+  select(term, ses, holt, damped) %>%
+  rename(SES = ses, `Linear trend` = holt, `Damped trend` = damped) %>%
+  mutate_if(is.numeric, ~ ifelse(is.na(.), "", formatC(., format = "f", 2))) %>%
+  knitr::kable(booktabs = TRUE, align='r')
+```
+
+
+## Models with seasonality
+
+### Holt-Winters additive method
+
+
+Holt and Winters extended Holt's method to capture seasonality.
+
+**Component form**
+
+$$\hat{y}_{t+h|t} = \ell_{t} + hb _{t} + s_{t+h-m(k+1)}$$
+$$\ell_{t} = \alpha(y_{t} - s_{t-m}) + (1 - \alpha)(\ell_{t-1} + b_{t-1})$$
+$$b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 - \beta^*)b_{t-1}$$
+$$s_{t} = \gamma (y_{t}-\ell_{t-1}-b_{t-1}) + (1-\gamma)s_{t-m}$$
+
+* $k=$ integer part of $(h-1)/m$. Ensures estimates from the final year are used for forecasting.
+  * Parameters:&nbsp; $0\le \alpha\le 1$,&nbsp; $0\le \beta^*\le 1$,&nbsp; $0\le \gamma\le 1-\alpha$&nbsp;  and $m=$  period of seasonality (e.g. $m=4$ for quarterly data).
+
+
+ * Seasonal component is usually expressed as
+  
+   $$s_{t} = \gamma^* (y_{t}-\ell_{t})+ (1-\gamma^*)s_{t-m}.$$
+  * Substitute in for $\ell_t$:
+    
+    $$s_{t} = \gamma^*(1-\alpha) (y_{t}-\ell_{t-1}-b_{t-1})+ [1-\gamma^*(1-\alpha)]s_{t-m}$$
+  * We set $\gamma=\gamma^*(1-\alpha)$.
+  * The usual parameter restriction is $0\le\gamma^*\le1$, which translates to $0\le\gamma\le(1-\alpha)$.
+
+```{r gamma-static, fig.height=5, fig.width=8}
+j07 <- PBS %>%
+  filter(ATC2 == "J07") %>%
+  summarise(Cost = sum(Cost))
+
+gamma_static <- map_dfr(list(0, NULL, 1), function(gamma){
+  fit <- j07 %>%
+    model(ETS(Cost ~ error("A") + trend("N", alpha = 0.001, alpha_range = c(-1,1),
+              beta_range = c(-1,1)) + season("A", gamma = gamma, gamma_range = c(-1,1)), bounds = "admissible"))
+  fit %>%
+    augment() %>%
+    mutate(gamma = tidy(fit)$estimate[tidy(fit)$term == "gamma"]) %>%
+    as_tibble()
+}) %>%
+  mutate(gamma = factor(format(gamma)))
+j07 %>%
+  ggplot(aes(x = Month, y = Cost)) +
+  geom_line() +
+  geom_line(aes(y = .fitted, colour = gamma), data = gamma_static) +
+  ylab("Cost of scripts ($AUD)") +
+  ggtitle("Medicare Australia cost of vaccine scripts: seasonality")
+```
+
+### ETS(A,A,A)
+
+Holt-Winters additive method with additive errors.
+
+- Forecast equation}  $\hat{y}_{t+h|t} = \ell_{t} + hb_{t} + s_{t+h-m(k+1)}$
+- Observation equation}  $y_t=\ell_{t-1}+b_{t-1}+s_{t-m} + \varepsilon_t$
+- State equations} $$\ell_t=\ell_{t-1}+b_{t-1}+\alpha \varepsilon_t$$
+$$b_t=b_{t-1}+\beta \varepsilon_t$$
+$$s_t = s_{t-m} + \gamma\varepsilon_t$$
+
+* Forecast errors: $\varepsilon_{t} = y_t - \hat{y}_{t|t-1}$
+* $k$ is integer part of $(h-1)/m$
+
+**Activity**
+
+ * Write down the model for ETS(A,N,A)
+ 
+
+### Holt-Winters multiplicative method
+
+For when seasonal variations are changing proportional to the level of the series.
+
+**Component form**
+
+$$\hat{y}{t+h}{t} = (\ell_{t} + hb_{t})s_{t+h-m(k+1)}$$
+$$\ell_{t} = \alpha \frac{y_{t}}{s_{t-m}} + (1 - \alpha)(\ell_{t-1} + b_{t-1})$$
+        b_{t} &= $$\beta^*(\ell_{t}-\ell_{t-1}) + (1 - \beta^*)b_{t-1}$$
+      $$s_{t} = \gamma \frac{y_{t}}{(\ell_{t-1} + b_{t-1})} + (1 - \gamma)s_{t-m}$$
+
+
+  * $k$ is integer part of $(h-1)/m$.
+  * With additive method $s_t$ is in absolute terms:\newline within each year $\sum_i s_i \approx 0$.
+  * With multiplicative method $s_t$ is in relative terms:\newline within each year $\sum_i s_i \approx m$.
+  
+### ETS(M,A,M)
+
+Holt-Winters multiplicative method with multiplicative errors.
+
+- Forecast equation $\hat{y}_{t+h|t} = (\ell_{t} + hb_{t}) s_{t+h-m(k+1)}$
+- Observation equation $y_t= (\ell_{t-1}+b_{t-1})s_{t-m}(1 + \varepsilon_t)$
+- State equations  $$\ell_t=(\ell_{t-1}+b_{t-1})(1+\alpha \varepsilon_t)$$
+$$b_t=b_{t-1} +\beta(\ell_{t-1}+b_{t-1}) \varepsilon_t$$
+$$s_t = s_{t-m}(1 + \gamma\varepsilon_t)$$
+
+
+* Forecast errors: $\varepsilon_{t} = (y_t - \hat{y}_{t|t-1})/\hat{y}_{t|t-1}$
+* $k$ is integer part of $(h-1)/m$.
+
+### Example: Australian holiday tourism
+
+```{r 7-HW, echo=TRUE}
+aus_holidays <- tourism %>%
+  filter(Purpose == "Holiday") %>%
+  summarise(Trips = sum(Trips))
+fit <- aus_holidays %>%
+  model(
+    additive = ETS(Trips ~ error("A") + trend("A") + season("A")),
+    multiplicative = ETS(Trips ~ error("M") + trend("A") + season("M"))
+  )
+fc <- fit %>% forecast()
+```
+
+```{r, fig.height=2.6}
+fc %>%
+  autoplot(aus_holidays, level = NULL) + xlab("Year") +
+  ylab("Overnight trips (thousands)") +
+  scale_color_brewer(type = "qual", palette = "Dark2")
+```
+
+**Estimated components**
+
+```{r, echo = TRUE}
+components(fit)
+```
+
+```{r fig-7-LevelTrendSeas, fig.width=9, fig.height=6, out.width="100%"}
+components(fit) %>%
+  gather("state", "value", -.model, -Quarter, factor_key = TRUE) %>%
+  group_by(.model) %>%
+  group_split() %>%
+  purrr::map(
+    ~ ggplot(., aes(x = Quarter, y = value)) +
+      geom_line() +
+      facet_grid(state ~ ., scales = "free") +
+      xlab("Year") + ylab(NULL) +
+      ggtitle(stringr::str_to_title(unique(.$.model)) %>% paste("states"))
+  ) %>%
+  wrap_plots(ncol=2)
+```
+
+### Holt-Winters damped method
+
+Often the single most accurate forecasting method for seasonal data:
+
+$$\hat{y}_{t+h|t} = [\ell_{t} + (\phi+\phi^2 + \dots + \phi^{h})b_{t}]s_{t+h-m(k+1)}$$
+$$\ell_{t} = \alpha(y_{t} / s_{t-m}) + (1 - \alpha)(\ell_{t-1} + \phi b_{t-1})$$
+$$b_{t} = \beta^*(\ell_{t} - \ell_{t-1}) + (1 - \beta^*)\phi b_{t-1}$$
+$$s_{t} = \gamma \frac{y_{t}}{(\ell_{t-1} + \phi b_{t-1})} + (1 - \gamma)s_{t-m}$$
+
+\newpage
+
+## Innovations state space models
+
+### Exponential smoothing methods
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+      &                          & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
+      & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
+N     &    (None)                      &  $(N,N)$          &  $(N,A)$              &       $(N,M)$               \\
+A     &     (Additive)                     &  $(A,N)$          &     $(A,A)$          &         $(A,M)$              \\
+$A_d$ &  (Additive damped)                         &       $(A_d,N)$    &      $(A_d,A)$          &    $(A_d,M)$                 
+\end{tabular}
+\end{table}
+
+- $(N,N)$: Simple exponential smoothing
+- $(A,N)$: Holt's linear method
+- $(A_d,N)$: Additive damped trend method
+- $(A,A)$: Additive Holt-Winters' method
+- $(A,M)$: Multiplicative Holt-Winters' method
+- $(A_d,M)$: Damped multiplicative Holt-Winters' method
+
+There are also multiplicative trend methods (not recommended).
+
+### ETS models
+
+**Additive Error**
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+ &                         & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
+      & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
+N     &    (None)                      &  $(A,N,N)$          &  $(A,N,A)$              &       $(A,N,M)$               \\
+A     &     (Additive)                     &  $(A,A,N)$          &     $(A,A,A)$          &         $(A,A,M)$              \\
+$A_d$ &  (Additive damped)                         &       $(A,A_d,N)$    &      $(A,A_d,A)$          &    $(A,A_d,M)$                 
+\end{tabular}
+\end{table}
+
+**Multiplicative Error**
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+  &                       & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
+      & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
+N     &    (None)                      &  $(M,N,N)$          &  $(M,N,A)$              &       $(M,N,M)$               \\
+A     &     (Additive)                     &  $(M,A,N)$          &     $(M,A,A)$          &         $(M,A,M)$              \\
+$A_d$ &  (Additive damped)                         &       $(M,A_d,N)$    &      $(M,A_d,A)$          &    $(M,A_d,M)$                 
+\end{tabular}
+\end{table}
