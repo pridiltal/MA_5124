@@ -3290,6 +3290,348 @@ $A_d$ &  (Additive damped)                         &       $(M,A_d,N)$    &     
 \end{tabular}
 \end{table}
 
+\hypertarget{additive-error-models}{%
+\subsection{Additive error models}\label{additive-error-models}}
+
+\includegraphics[width=1\textwidth,height=1\textheight]{fig/fig_7_ets_add.png}
+
+\hypertarget{multiplicative-error-models}{%
+\subsection{Multiplicative error models}\label{multiplicative-error-models}}
+
+\includegraphics[width=1\textwidth,height=1\textheight]{fig/fig_7_ets_multi.png}
+
+\hypertarget{estimating-ets-models}{%
+\subsection{Estimating ETS models}\label{estimating-ets-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Smoothing parameters \(\alpha\), \(\beta\), \(\gamma\) and \(\phi\), and the initial states \(\ell_0\), \(b_0\), \(s_0,s_{-1},\dots,s_{-m+1}\) are estimated by maximising the ``likelihood'' = the probability of the data arising from the specified model.
+\item
+  For models with additive errors equivalent to minimising SSE.
+\item
+  For models with multiplicative errors, \textbf{not} equivalent to minimising SSE.
+\end{itemize}
+
+\hypertarget{innovations-state-space-models-1}{%
+\subsection{Innovations state space models}\label{innovations-state-space-models-1}}
+
+Let \(\mathbf{x}_t = (\ell_t, b_t, s_t, s_{t-1}, \dots, s_{t-m+1})\) and \(\varepsilon_t\stackrel{\mbox{\scriptsize iid}}{\sim} \mbox{N}(0,\sigma^2)\).
+
+\begin{table}
+\begin{tabular}{lcl}
+$y_t$ &=& $\underbrace{h(\mathbf{x}_{t-1})} +
+\underbrace{k(\mathbf{x}_{t-1})\varepsilon_t}$\\
+&& \hspace*{0.5cm}$\mu_t$ \hspace*{1.45cm} $e_t$ \\[0.2cm]
+$\mathbf{x}_t$ &=& $f(\mathbf{x}_{t-1}) +
+g(\mathbf{x}_{t-1})\varepsilon_t$\\
+\end{tabular}
+\end{table}
+
+\textbf{Additive errors}
+
+\[k(x)=1. \qquad y_t = \mu_{t} + \varepsilon_t.\]
+
+\textbf{Multiplicative errors}
+
+\[k(\mathbf{x}_{t-1}) = \mu_{t}.\qquad y_t = \mu_{t}(1 + \varepsilon_t).\]
+\[\varepsilon_t = (y_t - \mu_t)/\mu_t \text{  is  relative error}.\]
+
+\hypertarget{innovations-state-space-models-2}{%
+\subsection{Innovations state space models}\label{innovations-state-space-models-2}}
+
+\textbf{Estimation}
+
+\[L^*(\mathbf\theta,\mathbf{x}_0) = T\log\!\bigg(\sum_{t=1}^T \varepsilon^2_t\!\bigg) + 2\sum_{t=1}^T \log|k(\mathbf{x}_{t-1})|\]
+\[= -2\log(\text{Likelihood}) + \mbox{constant}\]
+
+\begin{itemize}
+\tightlist
+\item
+  Estimate parameters \(\mathbf\theta = (\alpha,\beta,\gamma,\phi)\) and
+  initial states \(\mathbf{x}_0 = (\ell_0,b_0,s_0,s_{-1},\dots,s_{-m+1})\) by
+  minimizing \(L^*\).
+\end{itemize}
+
+\hypertarget{parameter-restrictions}{%
+\subsection{Parameter restrictions}\label{parameter-restrictions}}
+
+\hypertarget{usual-region}{%
+\subsubsection{\texorpdfstring{\emph{Usual} region}{Usual region}}\label{usual-region}}
+
+\begin{itemize}
+\tightlist
+\item
+  Traditional restrictions in the methods \(0< \alpha,\beta^*,\gamma^*,\phi<1\)\newline (equations interpreted as weighted averages).
+\item
+  In models we set \(\beta=\alpha\beta^*\) and \(\gamma=(1-\alpha)\gamma^*\).
+\item
+  Therefore \(0< \alpha <1\), ~~ \(0 < \beta < \alpha\) ~~ and \(0< \gamma < 1-\alpha\).
+\item
+  \(0.8<\phi<0.98\) --- to prevent numerical difficulties.
+\end{itemize}
+
+\hypertarget{admissible-region}{%
+\subsubsection{\texorpdfstring{\emph{Admissible} region}{Admissible region}}\label{admissible-region}}
+
+\begin{itemize}
+\tightlist
+\item
+  To prevent observations in the distant past having a continuing effect on current forecasts.
+\item
+  Usually (but not always) less restrictive than the\emph{traditional} region.
+\item
+  For example for ETS(A,N,N): \newline \textit{traditional} \(0< \alpha <1\) --- \textit{admissible} is \(0< \alpha <2\).
+\end{itemize}
+
+\hypertarget{model-selection}{%
+\subsection{Model selection}\label{model-selection}}
+
+\textbf{Akaike's Information Criterion}
+
+\[\text{AIC} = -2\log(\text{L}) + 2k\]
+
+where \(L\) is the likelihood and \(k\) is the number of parameters initial states estimated in the model.
+
+\textbf{Corrected AIC}
+
+\[\text{AIC}_{\text{c}} = \text{AIC} + \frac{2(k+1)(k+2)}{T-k}\]
+which is the AIC corrected (for small sample bias).
+
+\textbf{Bayesian Information Criterion}
+
+\[\text{BIC} = \text{AIC} + k(\log(T)-2).\]
+
+\hypertarget{aic-and-cross-validation}{%
+\subsection{AIC and cross-validation}\label{aic-and-cross-validation}}
+
+Minimizing the AIC assuming Gaussian residuals is asymptotically equivalent to minimizing one-step time series cross validation MSE.
+
+\hypertarget{automatic-forecasting}{%
+\subsection{Automatic forecasting}\label{automatic-forecasting}}
+
+\textbf{From Hyndman et al.~(IJF, 2002):}
+
+\begin{itemize}
+\tightlist
+\item
+  Apply each model that is appropriate to the data.
+  Optimize parameters and initial values using MLE (or some other
+  criterion).
+\item
+  Select best method using AICc:
+\item
+  Produce forecasts using best method.
+\item
+  Obtain forecast intervals using underlying state space model.
+\end{itemize}
+
+Method performed very well in M3 competition.
+
+\hypertarget{example-national-populations}{%
+\subsection{Example: National populations}\label{example-national-populations}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit <-}\StringTok{ }\NormalTok{global_economy }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Pop =}\NormalTok{ Population }\OperatorTok{/}\StringTok{ }\FloatTok{1e6}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{model}\NormalTok{(}\DataTypeTok{ets =} \KeywordTok{ETS}\NormalTok{(Pop))}
+\NormalTok{fit}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A mable: 263 x 2
+## # Key:     Country [263]
+##    Country                      ets
+##    <fct>                    <model>
+##  1 Afghanistan         <ETS(A,A,N)>
+##  2 Albania             <ETS(M,A,N)>
+##  3 Algeria             <ETS(M,A,N)>
+##  4 American Samoa      <ETS(M,A,N)>
+##  5 Andorra             <ETS(M,A,N)>
+##  6 Angola              <ETS(M,A,N)>
+##  7 Antigua and Barbuda <ETS(M,A,N)>
+##  8 Arab World          <ETS(M,A,N)>
+##  9 Argentina           <ETS(A,A,N)>
+## 10 Armenia             <ETS(M,A,N)>
+## # ... with 253 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{forecast}\NormalTok{(}\DataTypeTok{h =} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A fable: 1,315 x 5 [1Y]
+## # Key:     Country, .model [263]
+##    Country     .model  Year             Pop .mean
+##    <fct>       <chr>  <dbl>          <dist> <dbl>
+##  1 Afghanistan ets     2018    N(36, 0.012) 36.4 
+##  2 Afghanistan ets     2019    N(37, 0.059) 37.3 
+##  3 Afghanistan ets     2020     N(38, 0.16) 38.2 
+##  4 Afghanistan ets     2021     N(39, 0.35) 39.0 
+##  5 Afghanistan ets     2022     N(40, 0.64) 39.9 
+##  6 Albania     ets     2018 N(2.9, 0.00012)  2.87
+##  7 Albania     ets     2019   N(2.9, 6e-04)  2.87
+##  8 Albania     ets     2020  N(2.9, 0.0017)  2.87
+##  9 Albania     ets     2021  N(2.9, 0.0036)  2.86
+## 10 Albania     ets     2022  N(2.9, 0.0066)  2.86
+## # ... with 1,305 more rows
+\end{verbatim}
+
+\hypertarget{example-australian-holiday-tourism-1}{%
+\subsection{Example: Australian holiday tourism}\label{example-australian-holiday-tourism-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{holidays <-}\StringTok{ }\NormalTok{tourism }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Purpose }\OperatorTok{==}\StringTok{ "Holiday"}\NormalTok{)}
+\NormalTok{fit <-}\StringTok{ }\NormalTok{holidays }\OperatorTok{%>%}\StringTok{ }\KeywordTok{model}\NormalTok{(}\DataTypeTok{ets =} \KeywordTok{ETS}\NormalTok{(Trips))}
+\NormalTok{fit}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A mable: 76 x 4
+## # Key:     Region, State, Purpose [76]
+##    Region                State          Purpose          ets
+##    <chr>                 <chr>          <chr>        <model>
+##  1 Adelaide              South Austral~ Holiday <ETS(A,N,A)>
+##  2 Adelaide Hills        South Austral~ Holiday <ETS(A,A,N)>
+##  3 Alice Springs         Northern Terr~ Holiday <ETS(M,N,A)>
+##  4 Australia's Coral Co~ Western Austr~ Holiday <ETS(M,N,A)>
+##  5 Australia's Golden O~ Western Austr~ Holiday <ETS(M,N,M)>
+##  6 Australia's North We~ Western Austr~ Holiday <ETS(A,N,A)>
+##  7 Australia's South We~ Western Austr~ Holiday <ETS(M,N,M)>
+##  8 Ballarat              Victoria       Holiday <ETS(M,N,A)>
+##  9 Barkly                Northern Terr~ Holiday <ETS(A,N,A)>
+## 10 Barossa               South Austral~ Holiday <ETS(A,N,N)>
+## # ... with 66 more rows
+\end{verbatim}
+
+\begin{verbatim}
+## Series: Trips 
+## Model: ETS(M,N,A) 
+##   Smoothing parameters:
+##     alpha = 0.1571 
+##     gamma = 0.0001001 
+## 
+##   Initial states:
+##      l     s1    s2     s3     s4
+##  141.7 -60.96 130.9 -42.24 -27.66
+## 
+##   sigma^2:  0.0388
+## 
+##   AIC  AICc   BIC 
+## 852.0 853.6 868.7
+\end{verbatim}
+
+\begin{verbatim}
+## # A dable:                  84 x 9 [1Q]
+## # Key:                      Region, State, Purpose, .model
+## #   [1]
+## # ETS(M,N,A) Decomposition: Trips = (lag(level, 1) +
+## #   lag(season, 4)) * (1 + remainder)
+##    Region State Purpose .model Quarter Trips level season
+##    <chr>  <chr> <chr>   <chr>    <qtr> <dbl> <dbl>  <dbl>
+##  1 Snowy~ New ~ Holiday ets    1997 Q1  NA     NA   -27.7
+##  2 Snowy~ New ~ Holiday ets    1997 Q2  NA     NA   -42.2
+##  3 Snowy~ New ~ Holiday ets    1997 Q3  NA     NA   131. 
+##  4 Snowy~ New ~ Holiday ets    1997 Q4  NA    142.  -61.0
+##  5 Snowy~ New ~ Holiday ets    1998 Q1 101.   140.  -27.7
+##  6 Snowy~ New ~ Holiday ets    1998 Q2 112.   142.  -42.2
+##  7 Snowy~ New ~ Holiday ets    1998 Q3 310.   148.  131. 
+##  8 Snowy~ New ~ Holiday ets    1998 Q4  89.8  148.  -61.0
+##  9 Snowy~ New ~ Holiday ets    1999 Q1 112.   147.  -27.7
+## 10 Snowy~ New ~ Holiday ets    1999 Q2 103.   147.  -42.2
+## # ... with 74 more rows, and 1 more variable:
+## #   remainder <dbl>
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/ausholidays-components-plot-1.pdf}
+
+\begin{verbatim}
+## # A fable: 608 x 7 [1Q]
+## # Key:     Region, State, Purpose, .model [76]
+##    Region   State   Purpose .model Quarter       Trips .mean
+##    <chr>    <chr>   <chr>   <chr>    <qtr>      <dist> <dbl>
+##  1 Adelaide South ~ Holiday ets    2018 Q1 N(210, 457) 210. 
+##  2 Adelaide South ~ Holiday ets    2018 Q2 N(173, 473) 173. 
+##  3 Adelaide South ~ Holiday ets    2018 Q3 N(169, 489) 169. 
+##  4 Adelaide South ~ Holiday ets    2018 Q4 N(186, 505) 186. 
+##  5 Adelaide South ~ Holiday ets    2019 Q1 N(210, 521) 210. 
+##  6 Adelaide South ~ Holiday ets    2019 Q2 N(173, 537) 173. 
+##  7 Adelaide South ~ Holiday ets    2019 Q3 N(169, 553) 169. 
+##  8 Adelaide South ~ Holiday ets    2019 Q4 N(186, 569) 186. 
+##  9 Adelaid~ South ~ Holiday ets    2018 Q1   N(19, 36)  19.4
+## 10 Adelaid~ South ~ Holiday ets    2018 Q2   N(20, 36)  19.6
+## # ... with 598 more rows
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/ausholidays-forecast-plot-1.pdf}
+
+\hypertarget{some-unstable-models}{%
+\subsection{Some unstable models}\label{some-unstable-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Some of the combinations of (Error, Trend, Seasonal) can lead to numerical difficulties; see equations with division by a state.
+\item
+  These are: ETS(A,N,M), ETS(A,A,M), ETS(A,\(A_d\),M).
+\item
+  Models with multiplicative errors are useful for strictly positive data, but are not numerically stable with data containing zeros or negative values. In that case only the six fully additive models will be applied.
+\end{itemize}
+
+\hypertarget{exponential-smoothing-models}{%
+\subsection{Exponential smoothing models}\label{exponential-smoothing-models}}
+
+\textbf{Additive Error}
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+ &                         & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
+      & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
+N     &    (None)                      &  $(A,N,N)$          &  $(A,N,A)$              &                 \\
+A     &     (Additive)                     &  $(A,A,N)$          &     $(A,A,A)$          &                  \\
+$A_d$ &  (Additive damped)                         &       $(A,A_d,N)$    &      $(A,A_d,A)$          &                 
+\end{tabular}
+\end{table}
+
+\textbf{Multiplicative Error}
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+  &                       & \multicolumn{3}{c}{\textbf{Seasonal Component}} \\
+      & \textbf{Trend Component} & N (None)  & A (Additive)  & M (Multiplicative)  \\
+N     &    (None)                      &  $(M,N,N)$          &  $(M,N,A)$              &       $(M,N,M)$               \\
+A     &     (Additive)                     &  $(M,A,N)$          &     $(M,A,A)$          &         $(M,A,M)$              \\
+$A_d$ &  (Additive damped)                         &       $(M,A_d,N)$    &      $(M,A_d,A)$          &    $(M,A_d,M)$                 
+\end{tabular}
+\end{table}
+
+\hypertarget{residuals}{%
+\subsection{Residuals}\label{residuals}}
+
+\textbf{Response residuals}
+
+\[\hat{e}_t = y_t - \hat{y}_{t|t-1}\]
+
+\textbf{Innovation residuals}
+
+Additive error model:
+\[\hat\varepsilon_t = y_t - \hat{y}_{t|t-1}\]
+
+Multiplicative error model:
+\[\hat\varepsilon_t = \frac{y_t - \hat{y}_{t|t-1}}{\hat{y}_{t|t-1}}\]
+
+\hypertarget{example-australian-holiday-tourism-2}{%
+\subsection{Example: Australian holiday tourism}\label{example-australian-holiday-tourism-2}}
+
 \bibliography{book.bib,packages.bib}
 
 \end{document}

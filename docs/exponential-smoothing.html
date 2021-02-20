@@ -225,6 +225,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#innovations-state-space-models"><i class="fa fa-check"></i><b>3.5</b> Innovations state space models</a><ul>
 <li class="chapter" data-level="3.5.1" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#exponential-smoothing-methods"><i class="fa fa-check"></i><b>3.5.1</b> Exponential smoothing methods</a></li>
 <li class="chapter" data-level="3.5.2" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#ets-models"><i class="fa fa-check"></i><b>3.5.2</b> ETS models</a></li>
+<li class="chapter" data-level="3.5.3" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#additive-error-models"><i class="fa fa-check"></i><b>3.5.3</b> Additive error models</a></li>
+<li class="chapter" data-level="3.5.4" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#multiplicative-error-models"><i class="fa fa-check"></i><b>3.5.4</b> Multiplicative error models</a></li>
+<li class="chapter" data-level="3.5.5" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#estimating-ets-models"><i class="fa fa-check"></i><b>3.5.5</b> Estimating ETS models</a></li>
+<li class="chapter" data-level="3.5.6" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#innovations-state-space-models-1"><i class="fa fa-check"></i><b>3.5.6</b> Innovations state space models</a></li>
+<li class="chapter" data-level="3.5.7" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#innovations-state-space-models-2"><i class="fa fa-check"></i><b>3.5.7</b> Innovations state space models</a></li>
+<li class="chapter" data-level="3.5.8" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#parameter-restrictions"><i class="fa fa-check"></i><b>3.5.8</b> Parameter restrictions</a></li>
+<li class="chapter" data-level="3.5.9" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#model-selection"><i class="fa fa-check"></i><b>3.5.9</b> Model selection</a></li>
+<li class="chapter" data-level="3.5.10" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#aic-and-cross-validation"><i class="fa fa-check"></i><b>3.5.10</b> AIC and cross-validation</a></li>
+<li class="chapter" data-level="3.5.11" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#automatic-forecasting"><i class="fa fa-check"></i><b>3.5.11</b> Automatic forecasting</a></li>
+<li class="chapter" data-level="3.5.12" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-national-populations"><i class="fa fa-check"></i><b>3.5.12</b> Example: National populations</a></li>
+<li class="chapter" data-level="3.5.13" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-australian-holiday-tourism-1"><i class="fa fa-check"></i><b>3.5.13</b> Example: Australian holiday tourism</a></li>
+<li class="chapter" data-level="3.5.14" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#some-unstable-models"><i class="fa fa-check"></i><b>3.5.14</b> Some unstable models</a></li>
+<li class="chapter" data-level="3.5.15" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#exponential-smoothing-models"><i class="fa fa-check"></i><b>3.5.15</b> Exponential smoothing models</a></li>
+<li class="chapter" data-level="3.5.16" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#residuals"><i class="fa fa-check"></i><b>3.5.16</b> Residuals</a></li>
+<li class="chapter" data-level="3.5.17" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#example-australian-holiday-tourism-2"><i class="fa fa-check"></i><b>3.5.17</b> Example: Australian holiday tourism</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
@@ -810,6 +825,229 @@ b_{t} &amp;= <span class="math display">\[\beta^*(\ell_{t}-\ell_{t-1}) + (1 - \b
 
 <p><strong>Multiplicative Error</strong></p>
 
+</div>
+<div id="additive-error-models" class="section level3">
+<h3><span class="header-section-number">3.5.3</span> Additive error models</h3>
+<p><img src="fig/fig_7_ets_add.png" id="id1" class="class" style="width:100.0%;height:100.0%" /></p>
+</div>
+<div id="multiplicative-error-models" class="section level3">
+<h3><span class="header-section-number">3.5.4</span> Multiplicative error models</h3>
+<p><img src="fig/fig_7_ets_multi.png" id="id1" class="class" style="width:100.0%;height:100.0%" /></p>
+</div>
+<div id="estimating-ets-models" class="section level3">
+<h3><span class="header-section-number">3.5.5</span> Estimating ETS models</h3>
+<ul>
+<li>Smoothing parameters <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\phi\)</span>, and the initial states <span class="math inline">\(\ell_0\)</span>, <span class="math inline">\(b_0\)</span>, <span class="math inline">\(s_0,s_{-1},\dots,s_{-m+1}\)</span> are estimated by maximising the “likelihood” = the probability of the data arising from the specified model.</li>
+<li>For models with additive errors equivalent to minimising SSE.</li>
+<li>For models with multiplicative errors, <strong>not</strong> equivalent to minimising SSE.</li>
+</ul>
+</div>
+<div id="innovations-state-space-models-1" class="section level3">
+<h3><span class="header-section-number">3.5.6</span> Innovations state space models</h3>
+<p>Let <span class="math inline">\(\mathbf{x}_t = (\ell_t, b_t, s_t, s_{t-1}, \dots, s_{t-m+1})\)</span> and <span class="math inline">\(\varepsilon_t\stackrel{\mbox{\scriptsize iid}}{\sim} \mbox{N}(0,\sigma^2)\)</span>.</p>
+
+<p><strong>Additive errors</strong></p>
+<p><span class="math display">\[k(x)=1. \qquad y_t = \mu_{t} + \varepsilon_t.\]</span></p>
+<p><strong>Multiplicative errors</strong></p>
+<p><span class="math display">\[k(\mathbf{x}_{t-1}) = \mu_{t}.\qquad y_t = \mu_{t}(1 + \varepsilon_t).\]</span>
+<span class="math display">\[\varepsilon_t = (y_t - \mu_t)/\mu_t \text{  is  relative error}.\]</span></p>
+</div>
+<div id="innovations-state-space-models-2" class="section level3">
+<h3><span class="header-section-number">3.5.7</span> Innovations state space models</h3>
+<p><strong>Estimation</strong></p>
+<p><span class="math display">\[L^*(\mathbf\theta,\mathbf{x}_0) = T\log\!\bigg(\sum_{t=1}^T \varepsilon^2_t\!\bigg) + 2\sum_{t=1}^T \log|k(\mathbf{x}_{t-1})|\]</span>
+<span class="math display">\[= -2\log(\text{Likelihood}) + \mbox{constant}\]</span></p>
+<ul>
+<li>Estimate parameters <span class="math inline">\(\mathbf\theta = (\alpha,\beta,\gamma,\phi)\)</span> and
+initial states <span class="math inline">\(\mathbf{x}_0 = (\ell_0,b_0,s_0,s_{-1},\dots,s_{-m+1})\)</span> by
+minimizing <span class="math inline">\(L^*\)</span>.</li>
+</ul>
+</div>
+<div id="parameter-restrictions" class="section level3">
+<h3><span class="header-section-number">3.5.8</span> Parameter restrictions</h3>
+<div id="usual-region" class="section level4">
+<h4><span class="header-section-number">3.5.8.1</span> <em>Usual</em> region</h4>
+<ul>
+<li>Traditional restrictions in the methods <span class="math inline">\(0&lt; \alpha,\beta^*,\gamma^*,\phi&lt;1\)</span>(equations interpreted as weighted averages).</li>
+<li>In models we set <span class="math inline">\(\beta=\alpha\beta^*\)</span> and <span class="math inline">\(\gamma=(1-\alpha)\gamma^*\)</span>.</li>
+<li>Therefore <span class="math inline">\(0&lt; \alpha &lt;1\)</span>,    <span class="math inline">\(0 &lt; \beta &lt; \alpha\)</span>    and <span class="math inline">\(0&lt; \gamma &lt; 1-\alpha\)</span>.</li>
+<li><span class="math inline">\(0.8&lt;\phi&lt;0.98\)</span> — to prevent numerical difficulties.</li>
+</ul>
+</div>
+<div id="admissible-region" class="section level4">
+<h4><span class="header-section-number">3.5.8.2</span> <em>Admissible</em> region</h4>
+<ul>
+<li>To prevent observations in the distant past having a continuing effect on current forecasts.</li>
+<li>Usually (but not always) less restrictive than the<em>traditional</em> region.</li>
+<li>For example for ETS(A,N,N):  <span class="math inline">\(0&lt; \alpha &lt;1\)</span> —  is <span class="math inline">\(0&lt; \alpha &lt;2\)</span>.</li>
+</ul>
+</div>
+</div>
+<div id="model-selection" class="section level3">
+<h3><span class="header-section-number">3.5.9</span> Model selection</h3>
+<p><strong>Akaike’s Information Criterion</strong></p>
+<p><span class="math display">\[\text{AIC} = -2\log(\text{L}) + 2k\]</span></p>
+<p>where <span class="math inline">\(L\)</span> is the likelihood and <span class="math inline">\(k\)</span> is the number of parameters initial states estimated in the model.</p>
+<p><strong>Corrected AIC</strong></p>
+<p><span class="math display">\[\text{AIC}_{\text{c}} = \text{AIC} + \frac{2(k+1)(k+2)}{T-k}\]</span>
+which is the AIC corrected (for small sample bias).</p>
+<p><strong>Bayesian Information Criterion</strong></p>
+<p><span class="math display">\[\text{BIC} = \text{AIC} + k(\log(T)-2).\]</span></p>
+</div>
+<div id="aic-and-cross-validation" class="section level3">
+<h3><span class="header-section-number">3.5.10</span> AIC and cross-validation</h3>
+<p>Minimizing the AIC assuming Gaussian residuals is asymptotically equivalent to minimizing one-step time series cross validation MSE.</p>
+</div>
+<div id="automatic-forecasting" class="section level3">
+<h3><span class="header-section-number">3.5.11</span> Automatic forecasting</h3>
+<p><strong>From Hyndman et al. (IJF, 2002):</strong></p>
+<ul>
+<li>Apply each model that is appropriate to the data.
+Optimize parameters and initial values using MLE (or some other
+criterion).</li>
+<li>Select best method using AICc:</li>
+<li>Produce forecasts using best method.</li>
+<li>Obtain forecast intervals using underlying state space model.</li>
+</ul>
+<p>Method performed very well in M3 competition.</p>
+</div>
+<div id="example-national-populations" class="section level3">
+<h3><span class="header-section-number">3.5.12</span> Example: National populations</h3>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1">fit &lt;-<span class="st"> </span>global_economy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb62-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Pop =</span> Population <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb62-3" title="3"><span class="st">  </span><span class="kw">model</span>(<span class="dt">ets =</span> <span class="kw">ETS</span>(Pop))</a>
+<a class="sourceLine" id="cb62-4" title="4">fit</a></code></pre></div>
+<pre><code>## # A mable: 263 x 2
+## # Key:     Country [263]
+##    Country                      ets
+##    &lt;fct&gt;                    &lt;model&gt;
+##  1 Afghanistan         &lt;ETS(A,A,N)&gt;
+##  2 Albania             &lt;ETS(M,A,N)&gt;
+##  3 Algeria             &lt;ETS(M,A,N)&gt;
+##  4 American Samoa      &lt;ETS(M,A,N)&gt;
+##  5 Andorra             &lt;ETS(M,A,N)&gt;
+##  6 Angola              &lt;ETS(M,A,N)&gt;
+##  7 Antigua and Barbuda &lt;ETS(M,A,N)&gt;
+##  8 Arab World          &lt;ETS(M,A,N)&gt;
+##  9 Argentina           &lt;ETS(A,A,N)&gt;
+## 10 Armenia             &lt;ETS(M,A,N)&gt;
+## # … with 253 more rows</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1">fit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb64-2" title="2"><span class="st">  </span><span class="kw">forecast</span>(<span class="dt">h =</span> <span class="dv">5</span>)</a></code></pre></div>
+<pre><code>## # A fable: 1,315 x 5 [1Y]
+## # Key:     Country, .model [263]
+##    Country     .model  Year             Pop .mean
+##    &lt;fct&gt;       &lt;chr&gt;  &lt;dbl&gt;          &lt;dist&gt; &lt;dbl&gt;
+##  1 Afghanistan ets     2018    N(36, 0.012) 36.4 
+##  2 Afghanistan ets     2019    N(37, 0.059) 37.3 
+##  3 Afghanistan ets     2020     N(38, 0.16) 38.2 
+##  4 Afghanistan ets     2021     N(39, 0.35) 39.0 
+##  5 Afghanistan ets     2022     N(40, 0.64) 39.9 
+##  6 Albania     ets     2018 N(2.9, 0.00012)  2.87
+##  7 Albania     ets     2019   N(2.9, 6e-04)  2.87
+##  8 Albania     ets     2020  N(2.9, 0.0017)  2.87
+##  9 Albania     ets     2021  N(2.9, 0.0036)  2.86
+## 10 Albania     ets     2022  N(2.9, 0.0066)  2.86
+## # … with 1,305 more rows</code></pre>
+</div>
+<div id="example-australian-holiday-tourism-1" class="section level3">
+<h3><span class="header-section-number">3.5.13</span> Example: Australian holiday tourism</h3>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1">holidays &lt;-<span class="st"> </span>tourism <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb66-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Purpose <span class="op">==</span><span class="st"> &quot;Holiday&quot;</span>)</a>
+<a class="sourceLine" id="cb66-3" title="3">fit &lt;-<span class="st"> </span>holidays <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">model</span>(<span class="dt">ets =</span> <span class="kw">ETS</span>(Trips))</a>
+<a class="sourceLine" id="cb66-4" title="4">fit</a></code></pre></div>
+<pre><code>## # A mable: 76 x 4
+## # Key:     Region, State, Purpose [76]
+##    Region                State          Purpose          ets
+##    &lt;chr&gt;                 &lt;chr&gt;          &lt;chr&gt;        &lt;model&gt;
+##  1 Adelaide              South Austral… Holiday &lt;ETS(A,N,A)&gt;
+##  2 Adelaide Hills        South Austral… Holiday &lt;ETS(A,A,N)&gt;
+##  3 Alice Springs         Northern Terr… Holiday &lt;ETS(M,N,A)&gt;
+##  4 Australia&#39;s Coral Co… Western Austr… Holiday &lt;ETS(M,N,A)&gt;
+##  5 Australia&#39;s Golden O… Western Austr… Holiday &lt;ETS(M,N,M)&gt;
+##  6 Australia&#39;s North We… Western Austr… Holiday &lt;ETS(A,N,A)&gt;
+##  7 Australia&#39;s South We… Western Austr… Holiday &lt;ETS(M,N,M)&gt;
+##  8 Ballarat              Victoria       Holiday &lt;ETS(M,N,A)&gt;
+##  9 Barkly                Northern Terr… Holiday &lt;ETS(A,N,A)&gt;
+## 10 Barossa               South Austral… Holiday &lt;ETS(A,N,N)&gt;
+## # … with 66 more rows</code></pre>
+<pre><code>## Series: Trips 
+## Model: ETS(M,N,A) 
+##   Smoothing parameters:
+##     alpha = 0.1571 
+##     gamma = 0.0001001 
+## 
+##   Initial states:
+##      l     s1    s2     s3     s4
+##  141.7 -60.96 130.9 -42.24 -27.66
+## 
+##   sigma^2:  0.0388
+## 
+##   AIC  AICc   BIC 
+## 852.0 853.6 868.7</code></pre>
+<pre><code>## # A dable:                  84 x 9 [1Q]
+## # Key:                      Region, State, Purpose, .model
+## #   [1]
+## # ETS(M,N,A) Decomposition: Trips = (lag(level, 1) +
+## #   lag(season, 4)) * (1 + remainder)
+##    Region State Purpose .model Quarter Trips level season
+##    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;qtr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Snowy… New … Holiday ets    1997 Q1  NA     NA   -27.7
+##  2 Snowy… New … Holiday ets    1997 Q2  NA     NA   -42.2
+##  3 Snowy… New … Holiday ets    1997 Q3  NA     NA   131. 
+##  4 Snowy… New … Holiday ets    1997 Q4  NA    142.  -61.0
+##  5 Snowy… New … Holiday ets    1998 Q1 101.   140.  -27.7
+##  6 Snowy… New … Holiday ets    1998 Q2 112.   142.  -42.2
+##  7 Snowy… New … Holiday ets    1998 Q3 310.   148.  131. 
+##  8 Snowy… New … Holiday ets    1998 Q4  89.8  148.  -61.0
+##  9 Snowy… New … Holiday ets    1999 Q1 112.   147.  -27.7
+## 10 Snowy… New … Holiday ets    1999 Q2 103.   147.  -42.2
+## # … with 74 more rows, and 1 more variable: remainder &lt;dbl&gt;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/ausholidays-components-plot-1.png" width="672" /></p>
+<pre><code>## # A fable: 608 x 7 [1Q]
+## # Key:     Region, State, Purpose, .model [76]
+##    Region   State   Purpose .model Quarter       Trips .mean
+##    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;qtr&gt;      &lt;dist&gt; &lt;dbl&gt;
+##  1 Adelaide South … Holiday ets    2018 Q1 N(210, 457) 210. 
+##  2 Adelaide South … Holiday ets    2018 Q2 N(173, 473) 173. 
+##  3 Adelaide South … Holiday ets    2018 Q3 N(169, 489) 169. 
+##  4 Adelaide South … Holiday ets    2018 Q4 N(186, 505) 186. 
+##  5 Adelaide South … Holiday ets    2019 Q1 N(210, 521) 210. 
+##  6 Adelaide South … Holiday ets    2019 Q2 N(173, 537) 173. 
+##  7 Adelaide South … Holiday ets    2019 Q3 N(169, 553) 169. 
+##  8 Adelaide South … Holiday ets    2019 Q4 N(186, 569) 186. 
+##  9 Adelaid… South … Holiday ets    2018 Q1   N(19, 36)  19.4
+## 10 Adelaid… South … Holiday ets    2018 Q2   N(20, 36)  19.6
+## # … with 598 more rows</code></pre>
+<p><img src="bookdown-demo_files/figure-html/ausholidays-forecast-plot-1.png" width="672" /></p>
+</div>
+<div id="some-unstable-models" class="section level3">
+<h3><span class="header-section-number">3.5.14</span> Some unstable models</h3>
+<ul>
+<li>Some of the combinations of (Error, Trend, Seasonal) can lead to numerical difficulties; see equations with division by a state.</li>
+<li>These are: ETS(A,N,M), ETS(A,A,M), ETS(A,<span class="math inline">\(A_d\)</span>,M).</li>
+<li>Models with multiplicative errors are useful for strictly positive data, but are not numerically stable with data containing zeros or negative values. In that case only the six fully additive models will be applied.</li>
+</ul>
+</div>
+<div id="exponential-smoothing-models" class="section level3">
+<h3><span class="header-section-number">3.5.15</span> Exponential smoothing models</h3>
+<p><strong>Additive Error</strong></p>
+
+<p><strong>Multiplicative Error</strong></p>
+
+</div>
+<div id="residuals" class="section level3">
+<h3><span class="header-section-number">3.5.16</span> Residuals</h3>
+<p><strong>Response residuals</strong></p>
+<p><span class="math display">\[\hat{e}_t = y_t - \hat{y}_{t|t-1}\]</span></p>
+<p><strong>Innovation residuals</strong></p>
+<p>Additive error model:
+<span class="math display">\[\hat\varepsilon_t = y_t - \hat{y}_{t|t-1}\]</span></p>
+<p>Multiplicative error model:
+<span class="math display">\[\hat\varepsilon_t = \frac{y_t - \hat{y}_{t|t-1}}{\hat{y}_{t|t-1}}\]</span></p>
+</div>
+<div id="example-australian-holiday-tourism-2" class="section level3">
+<h3><span class="header-section-number">3.5.17</span> Example: Australian holiday tourism</h3>
 
 </div>
 </div>
