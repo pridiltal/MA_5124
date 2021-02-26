@@ -1,0 +1,72 @@
+# Volatility Models
+
+```{r setup4, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
+options(digits=4, width=60)
+library(fpp3)
+library(patchwork)
+library(purrr)
+library(tidyverse)
+
+```
+
+\pagenumbering{arabic}
+
+## Introduction
+
+- Anything that is observed sequentially over time is a time series.
+
+<!--Tsay-->
+- **Financial time series** analysis focuses on the theory and practice of asset valuation over time.
+     
+<!--Asset valuation is the process of determining the current value of a company's assets, such as stocks, buildings, equipment, brands, goodwill, etc.
+
+https://www.quora.com/What-is-the-difference-between-time-series-methods-and-financial-time-series-methods
+As the names suggest, Financial TS methods are a subset of TS methods.
+
+At the end, Financial TS is times series analysis trying to capture different aspects of financial data that we do not see in general in other economics data.
+
+-->
+- In finance, the data can be collected much more frequently -- High frequency data.
+
+<!--Hence, we may need to use continuous time econometrics instead of discrete time.-->
+- Many financial time series also exhibit changing variance and this can have important consequences
+in formulating  financial decisions.
+
+<!--Another famous extension in finance is time varying variance and covariances (GARCH, Stochastic Volatility etc).-->
+
+
+**Example: Financial time series**
+
+- Typically, when we analyze assets, we look at the percentage change in prices or returns.
+
+```{r sp500, cache=TRUE, echo=TRUE, fig.cap="Daily returns of the adjusted closing prices of the S&P500 index from January 4, 1995 to February 25, 2021"}
+# Tidy financial analysis 
+library(tidyquant)
+
+sp500 <- tq_get("^GSPC", from = "1995-01-04", to = "2021-02-25" )
+print(sp500)
+
+# Convert each assets raw adjusted closing prices to returns
+sp500_return <- sp500 %>% 
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = "daily")
+
+sp500_return %>% 
+  as_tsibble(index = date) %>%
+  autoplot(daily.returns) +
+  labs(x = "Day", y= "Daily return")
+
+```
+
+
+
+
+
+
+## References:
+
+- Chatfield, C., & Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
+
+\newpage

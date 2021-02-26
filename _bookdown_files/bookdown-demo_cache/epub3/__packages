@@ -17,3 +17,9 @@ readr
 stringr
 forcats
 latex2exp
+zoo
+xts
+PerformanceAnalytics
+TTR
+quantmod
+tidyquant

@@ -875,30 +875,30 @@ fit
 ```
 
 
-```{r ausholidays-report}
+```{r ausholidays-report, echo =TRUE}
 fit %>%
   filter(Region == "Snowy Mountains") %>%
   report()
 ```
 
-```{r ausholidays-components}
+```{r ausholidays-components, echo = TRUE}
 fit %>%
   filter(Region == "Snowy Mountains") %>%
   components(fit)
 ```
 
-```{r ausholidays-components-plot, fig.height=4.3}
+```{r ausholidays-components-plot, fig.height=4.3, echo=TRUE}
 fit %>%
   filter(Region == "Snowy Mountains") %>%
   components(fit) %>%
   autoplot()
 ```
 
-```{r ausholidays-forecast}
+```{r ausholidays-forecast, echo=TRUE}
 fit %>% forecast()
 ```
 
-```{r ausholidays-forecast-plot}
+```{r ausholidays-forecast-plot,echo=TRUE}
 fit %>%
   forecast() %>%
   filter(Region == "Snowy Mountains") %>%

@@ -1,0 +1,20 @@
+# Multivariate Time Series Modeliing
+
+```{r setup5, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
+options(digits=4, width=60)
+library(fpp3)
+library(patchwork)
+library(purrr)
+library(tidyverse)
+
+```
+
+\pagenumbering{arabic}
+
+
+## References:
+
+- Chatfield, C., & Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
+
+

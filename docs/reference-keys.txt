@@ -1,3 +1,4 @@
+fig:sp500
 intro
 arima-models
 stationarity-and-differencing
@@ -147,3 +148,8 @@ example-corticosteroid-drug-sales
 arima-vs-ets
 equivalences
 references-1
+volatility-models
+introduction-1
+references-2
+multivariate-time-series-modeliing
+references-3

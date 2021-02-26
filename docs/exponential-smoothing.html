@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-02-20" />
+<meta name="date" content="2021-02-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="arima-models.html"/>
-<link rel="next" href="references-2.html"/>
+<link rel="next" href="volatility-models.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -254,7 +254,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.8" data-path="exponential-smoothing.html"><a href="exponential-smoothing.html#references-1"><i class="fa fa-check"></i><b>3.8</b> References:</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references-2.html"><a href="references-2.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="4" data-path="volatility-models.html"><a href="volatility-models.html"><i class="fa fa-check"></i><b>4</b> Volatility Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="volatility-models.html"><a href="volatility-models.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.2</b> References:</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html"><i class="fa fa-check"></i><b>5</b> Multivariate Time Series Modeliing</a><ul>
+<li class="chapter" data-level="5.1" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html#references-3"><i class="fa fa-check"></i><b>5.1</b> References:</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-4.html"><a href="references-4.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -980,6 +987,9 @@ criterion).</li>
 ##  9 Barkly                Northern Terr… Holiday &lt;ETS(A,N,A)&gt;
 ## 10 Barossa               South Austral… Holiday &lt;ETS(A,N,N)&gt;
 ## # … with 66 more rows</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1">fit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Region <span class="op">==</span><span class="st"> &quot;Snowy Mountains&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-3" title="3"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
 <pre><code>## Series: Trips 
 ## Model: ETS(M,N,A) 
 ##   Smoothing parameters:
@@ -994,6 +1004,9 @@ criterion).</li>
 ## 
 ##   AIC  AICc   BIC 
 ## 852.0 853.6 868.7</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1">fit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb70-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Region <span class="op">==</span><span class="st"> &quot;Snowy Mountains&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb70-3" title="3"><span class="st">  </span><span class="kw">components</span>(fit)</a></code></pre></div>
 <pre><code>## # A dable:                  84 x 9 [1Q]
 ## # Key:                      Region, State, Purpose, .model
 ## #   [1]
@@ -1012,7 +1025,12 @@ criterion).</li>
 ##  9 Snowy… New … Holiday ets    1999 Q1 112.   147.  -27.7
 ## 10 Snowy… New … Holiday ets    1999 Q2 103.   147.  -42.2
 ## # … with 74 more rows, and 1 more variable: remainder &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1">fit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb72-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Region <span class="op">==</span><span class="st"> &quot;Snowy Mountains&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb72-3" title="3"><span class="st">  </span><span class="kw">components</span>(fit) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb72-4" title="4"><span class="st">  </span><span class="kw">autoplot</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ausholidays-components-plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1">fit <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">forecast</span>()</a></code></pre></div>
 <pre><code>## # A fable: 608 x 7 [1Q]
 ## # Key:     Region, State, Purpose, .model [76]
 ##    Region   State   Purpose .model Quarter       Trips .mean
@@ -1028,6 +1046,11 @@ criterion).</li>
 ##  9 Adelaid… South … Holiday ets    2018 Q1   N(19, 36)  19.4
 ## 10 Adelaid… South … Holiday ets    2018 Q2   N(20, 36)  19.6
 ## # … with 598 more rows</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1">fit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-2" title="2"><span class="st">  </span><span class="kw">forecast</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-3" title="3"><span class="st">  </span><span class="kw">filter</span>(Region <span class="op">==</span><span class="st"> &quot;Snowy Mountains&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-4" title="4"><span class="st">  </span><span class="kw">autoplot</span>(holidays) <span class="op">+</span></a>
+<a class="sourceLine" id="cb75-5" title="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Overnight trips (thousands)&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ausholidays-forecast-plot-1.png" width="672" /></p>
 </div>
 <div id="some-unstable-models" class="section level3">
@@ -1058,12 +1081,12 @@ criterion).</li>
 </div>
 <div id="example-australian-holiday-tourism-2" class="section level3">
 <h3><span class="header-section-number">3.5.17</span> Example: Australian holiday tourism</h3>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">aus_holidays &lt;-<span class="st"> </span>tourism <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Purpose <span class="op">==</span><span class="st"> &quot;Holiday&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Trips =</span> <span class="kw">sum</span>(Trips))</a>
-<a class="sourceLine" id="cb71-4" title="4">fit &lt;-<span class="st"> </span>aus_holidays <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-5" title="5"><span class="st">  </span><span class="kw">model</span>(<span class="dt">ets =</span> <span class="kw">ETS</span>(Trips)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-6" title="6"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1">aus_holidays &lt;-<span class="st"> </span>tourism <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb76-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Purpose <span class="op">==</span><span class="st"> &quot;Holiday&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb76-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Trips =</span> <span class="kw">sum</span>(Trips))</a>
+<a class="sourceLine" id="cb76-4" title="4">fit &lt;-<span class="st"> </span>aus_holidays <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb76-5" title="5"><span class="st">  </span><span class="kw">model</span>(<span class="dt">ets =</span> <span class="kw">ETS</span>(Trips)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb76-6" title="6"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
 <pre><code>## Series: Trips 
 ## Model: ETS(M,N,M) 
 ##   Smoothing parameters:
@@ -1078,8 +1101,8 @@ criterion).</li>
 ## 
 ##  AIC AICc  BIC 
 ## 1331 1333 1348</code></pre>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1"><span class="kw">residuals</span>(fit)</a>
-<a class="sourceLine" id="cb73-2" title="2"><span class="kw">residuals</span>(fit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1"><span class="kw">residuals</span>(fit)</a>
+<a class="sourceLine" id="cb78-2" title="2"><span class="kw">residuals</span>(fit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 </div>
 </div>
@@ -1135,15 +1158,15 @@ etc.</p>
 </div>
 <div id="example-corticosteroid-drug-sales" class="section level3">
 <h3><span class="header-section-number">3.6.6</span> Example: Corticosteroid drug sales</h3>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1">h02 &lt;-<span class="st"> </span>PBS <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb74-2" title="2"><span class="st">  </span><span class="kw">filter</span>(ATC2 <span class="op">==</span><span class="st"> &quot;H02&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb74-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cost =</span> <span class="kw">sum</span>(Cost))</a>
-<a class="sourceLine" id="cb74-4" title="4">h02 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb74-5" title="5"><span class="st">  </span><span class="kw">autoplot</span>(Cost)</a></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1">h02 &lt;-<span class="st"> </span>PBS <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb79-2" title="2"><span class="st">  </span><span class="kw">filter</span>(ATC2 <span class="op">==</span><span class="st"> &quot;H02&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb79-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cost =</span> <span class="kw">sum</span>(Cost))</a>
+<a class="sourceLine" id="cb79-4" title="4">h02 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb79-5" title="5"><span class="st">  </span><span class="kw">autoplot</span>(Cost)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/h02-plot-1.png" width="672" /></p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1">h02 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb75-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb75-3" title="3"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" title="1">h02 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb80-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb80-3" title="3"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
 <pre><code>## Series: Cost 
 ## Model: ETS(M,Ad,M) 
 ##   Smoothing parameters:
@@ -1162,9 +1185,9 @@ etc.</p>
 ## 
 ##  AIC AICc  BIC 
 ## 5515 5519 5575</code></pre>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1">h02 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb77-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb77-3" title="3"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" title="1">h02 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb82-2" title="2"><span class="st">  </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb82-3" title="3"><span class="st">  </span><span class="kw">report</span>()</a></code></pre></div>
 <pre><code>## Series: Cost 
 ## Model: ETS(A,A,A) 
 ##   Smoothing parameters:
@@ -1182,14 +1205,14 @@ etc.</p>
 ## 
 ##  AIC AICc  BIC 
 ## 5585 5589 5642</code></pre>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1">h02 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">forecast</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(h02)</a></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" title="1">h02 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">model</span>(<span class="kw">ETS</span>(Cost)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">forecast</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(h02)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" title="1">h02 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb80-2" title="2"><span class="st">  </span><span class="kw">model</span>(</a>
-<a class="sourceLine" id="cb80-3" title="3">    <span class="dt">auto =</span> <span class="kw">ETS</span>(Cost),</a>
-<a class="sourceLine" id="cb80-4" title="4">    <span class="dt">AAA =</span> <span class="kw">ETS</span>(Cost <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>))</a>
-<a class="sourceLine" id="cb80-5" title="5">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb80-6" title="6"><span class="st">  </span><span class="kw">accuracy</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1">h02 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb85-2" title="2"><span class="st">  </span><span class="kw">model</span>(</a>
+<a class="sourceLine" id="cb85-3" title="3">    <span class="dt">auto =</span> <span class="kw">ETS</span>(Cost),</a>
+<a class="sourceLine" id="cb85-4" title="4">    <span class="dt">AAA =</span> <span class="kw">ETS</span>(Cost <span class="op">~</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>))</a>
+<a class="sourceLine" id="cb85-5" title="5">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb85-6" title="6"><span class="st">  </span><span class="kw">accuracy</span>()</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1308,7 +1331,7 @@ etc.</p>
         </div>
       </div>
 <a href="arima-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="volatility-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -123,7 +123,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-02-20}
+\date{2021-02-26}
 
 \begin{document}
 \maketitle
@@ -3508,6 +3508,14 @@ Method performed very well in M3 competition.
 ## # ... with 66 more rows
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Region }\OperatorTok{==}\StringTok{ "Snowy Mountains"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{report}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
 ## Series: Trips 
 ## Model: ETS(M,N,A) 
@@ -3524,6 +3532,14 @@ Method performed very well in M3 competition.
 ##   AIC  AICc   BIC 
 ## 852.0 853.6 868.7
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Region }\OperatorTok{==}\StringTok{ "Snowy Mountains"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{components}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## # A dable:                  84 x 9 [1Q]
@@ -3547,7 +3563,22 @@ Method performed very well in M3 competition.
 ## #   remainder <dbl>
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Region }\OperatorTok{==}\StringTok{ "Snowy Mountains"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{components}\NormalTok{(fit) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{autoplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{bookdown-demo_files/figure-latex/ausholidays-components-plot-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}\StringTok{ }\KeywordTok{forecast}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## # A fable: 608 x 7 [1Q]
@@ -3566,6 +3597,16 @@ Method performed very well in M3 competition.
 ## 10 Adelaid~ South ~ Holiday ets    2018 Q2   N(20, 36)  19.6
 ## # ... with 598 more rows
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{forecast}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Region }\OperatorTok{==}\StringTok{ "Snowy Mountains"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{autoplot}\NormalTok{(holidays) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Year"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Overnight trips (thousands)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/ausholidays-forecast-plot-1.pdf}
 
@@ -3894,6 +3935,120 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 \end{itemize}
 
 \newpage
+
+\hypertarget{volatility-models}{%
+\chapter{Volatility Models}\label{volatility-models}}
+
+\pagenumbering{arabic}
+
+\hypertarget{introduction-1}{%
+\section{Introduction}\label{introduction-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Anything that is observed sequentially over time is a time series.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Financial time series} analysis focuses on the theory and practice of asset valuation over time.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  In finance, the data can be collected much more frequently -- High frequency data.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  Many financial time series also exhibit changing variance and this can have important consequences
+  in formulating financial decisions.
+\end{itemize}
+
+\textbf{Example: Financial time series}
+
+\begin{itemize}
+\tightlist
+\item
+  Typically, when we analyze assets, we look at the percentage change in prices or returns.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Tidy financial analysis }
+\KeywordTok{library}\NormalTok{(tidyquant)}
+
+\NormalTok{sp500 <-}\StringTok{ }\KeywordTok{tq_get}\NormalTok{(}\StringTok{"^GSPC"}\NormalTok{, }\DataTypeTok{from =} \StringTok{"1995-01-04"}\NormalTok{, }\DataTypeTok{to =} \StringTok{"2021-02-25"}\NormalTok{ )}
+\KeywordTok{print}\NormalTok{(sp500)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6,582 x 8
+##    symbol date        open  high   low close volume adjusted
+##    <chr>  <date>     <dbl> <dbl> <dbl> <dbl>  <dbl>    <dbl>
+##  1 ^GSPC  1995-01-04  459.  461.  458.  461. 3.20e8     461.
+##  2 ^GSPC  1995-01-05  461.  461.  460.  460. 3.09e8     460.
+##  3 ^GSPC  1995-01-06  460.  462.  459.  461. 3.08e8     461.
+##  4 ^GSPC  1995-01-09  461.  462.  460.  461. 2.79e8     461.
+##  5 ^GSPC  1995-01-10  461.  465.  461.  462. 3.52e8     462.
+##  6 ^GSPC  1995-01-11  462.  464.  459.  462. 3.46e8     462.
+##  7 ^GSPC  1995-01-12  462.  462.  461.  462. 3.13e8     462.
+##  8 ^GSPC  1995-01-13  462.  466.  462.  466. 3.37e8     466.
+##  9 ^GSPC  1995-01-16  466.  470.  466.  469. 3.16e8     469.
+## 10 ^GSPC  1995-01-17  469.  470.  468.  470. 3.32e8     470.
+## # ... with 6,572 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Convert each assets raw adjusted closing prices to returns}
+\NormalTok{sp500_return <-}\StringTok{ }\NormalTok{sp500 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{tq_transmute}\NormalTok{(}\DataTypeTok{select     =}\NormalTok{ adjusted, }
+               \DataTypeTok{mutate_fun =}\NormalTok{ periodReturn, }
+               \DataTypeTok{period     =} \StringTok{"daily"}\NormalTok{)}
+
+\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{as_tsibble}\NormalTok{(}\DataTypeTok{index =}\NormalTok{ date) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{autoplot}\NormalTok{(daily.returns) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Day"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Daily return"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{bookdown-demo_files/figure-latex/sp500-1.pdf}
+\caption{\label{fig:sp500}Daily returns of the adjusted closing prices of the S\&P500 index from January 4, 1995 to February 25, 2021}
+\end{figure}
+
+\hypertarget{references-2}{%
+\section{References:}\label{references-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  Chatfield, C., \& Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
+\end{itemize}
+
+\newpage
+
+\hypertarget{multivariate-time-series-modeliing}{%
+\chapter{Multivariate Time Series Modeliing}\label{multivariate-time-series-modeliing}}
+
+\pagenumbering{arabic}
+
+\hypertarget{references-3}{%
+\section{References:}\label{references-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  Chatfield, C., \& Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
+\end{itemize}
 
 \bibliography{book.bib,packages.bib}
 
