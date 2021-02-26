@@ -1,4 +1,5 @@
 fig:sp500
+fig:acf
 intro
 arima-models
 stationarity-and-differencing
@@ -150,6 +151,7 @@ equivalences
 references-1
 volatility-models
 introduction-1
+structure-of-a-model-for-asset-returns
 references-2
 multivariate-time-series-modeliing
 references-3

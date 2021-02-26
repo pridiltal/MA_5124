@@ -256,7 +256,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="volatility-models.html"><a href="volatility-models.html"><i class="fa fa-check"></i><b>4</b> Volatility Models</a><ul>
 <li class="chapter" data-level="4.1" data-path="volatility-models.html"><a href="volatility-models.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
-<li class="chapter" data-level="4.2" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.2</b> References:</a></li>
+<li class="chapter" data-level="4.2" data-path="volatility-models.html"><a href="volatility-models.html#structure-of-a-model-for-asset-returns"><i class="fa fa-check"></i><b>4.2</b> Structure of a Model for Asset Returns</a></li>
+<li class="chapter" data-level="4.3" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.3</b> References:</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html"><i class="fa fa-check"></i><b>5</b> Multivariate Time Series Modeliing</a><ul>
 <li class="chapter" data-level="5.1" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html#references-3"><i class="fa fa-check"></i><b>5.1</b> References:</a></li>
@@ -282,6 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="volatility-models" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Volatility Models</h1>
 
+<p><strong>This chapter is heavily based on Chapter 12 of <span class="citation">Chatfield and Xing (<a href="#ref-chatfield2019analysis">2019</a>)</span>.</strong></p>
 <div id="introduction-1" class="section level2">
 <h2><span class="header-section-number">4.1</span> Introduction</h2>
 <ul>
@@ -300,12 +302,10 @@ At the end, Financial TS is times series analysis trying to capture different as
 
 -->
 <ul>
-<li>In finance, the data can be collected much more frequently – High frequency data.</li>
-</ul>
-<!--Hence, we may need to use continuous time econometrics instead of discrete time.-->
-<ul>
-<li>Many financial time series also exhibit changing variance and this can have important consequences
-in formulating financial decisions.</li>
+<li>In finance, the data can be collected much more frequently – High frequency data.
+<!-- High frequency data provide a rich source of information on the micro-structure of financial markets.-->
+<!--Hence, we may need to use continuous time econometrics instead of discrete time.--></li>
+<li>Many financial time series also exhibit changing variance and this can have important consequences in formulating financial decisions.</li>
 </ul>
 <!--Another famous extension in finance is time varying variance and covariances (GARCH, Stochastic Volatility etc).-->
 <p><strong>Example: Financial time series</strong></p>
@@ -342,19 +342,102 @@ in formulating financial decisions.</li>
 <a class="sourceLine" id="cb88-9" title="9"><span class="st">  </span><span class="kw">autoplot</span>(daily.returns) <span class="op">+</span></a>
 <a class="sourceLine" id="cb88-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Day&quot;</span>, <span class="dt">y=</span> <span class="st">&quot;Daily return&quot;</span>)</a></code></pre></div>
 <div class="figure"><span id="fig:sp500"></span>
-<img src="bookdown-demo_files/figure-html/sp500-1.png" alt="Daily returns of the adjusted closing prices of the S&amp;P500 index from January 4, 1995 to February 25, 2021" width="672" />
+<img src="bookdown-demo_files/figure-html/sp500-1.png" alt="Daily returns of the adjusted closing prices of the Standard &amp; Poor's 500 (S&amp;P500) index from January 4, 1995 to February 25, 2021" width="672" />
 <p class="caption">
-Figure 4.1: Daily returns of the adjusted closing prices of the S&amp;P500 index from January 4, 1995 to February 25, 2021
+Figure 4.1: Daily returns of the adjusted closing prices of the Standard &amp; Poor’s 500 (S&amp;P500) index from January 4, 1995 to February 25, 2021
 </p>
 </div>
+<ul>
+<li>The mean of the return series seems to be stable with an average return of approximately zero.</li>
+<li><p>The volatility of data changes over time.</p></li>
+<li>The focus of this chapter is to study some methods and econometric models for modeling the <strong>volatility</strong> (conditional standard deviation) of an asset return. <!--tsay Volatility means the conditional standard deviation of the underlying asset return.--></li>
+<li>These models are referred to as <strong>conditional heteroscedastic models</strong>.
+<!--https://stats.stackexchange.com/questions/41509/what-is-the-difference-between-garch-and-arma - What is the difference between GARCH and ARMA?--></li>
+<li>These models do not generally provide better point forecasts, but provides a better estimates of the (local) variance.</li>
+<li>As a result they allow to compute more reliable prediction intervals and therefore a better assessment of risk.</li>
+<li>Volatility models have many applications in economics and finance.</li>
+<li><p>This chapter discusses various types of <strong>univariate volatility models</strong></p></li>
+</ul>
+</div>
+<div id="structure-of-a-model-for-asset-returns" class="section level2">
+<h2><span class="header-section-number">4.2</span> Structure of a Model for Asset Returns</h2>
+<ul>
+<li><p>Let, <span class="math inline">\(\{P_T\}\)</span>, denotes a time series.</p></li>
+<li>Let, <span class="math inline">\(\{Y_T\}\)</span>, denotes a derived series from which any trend and seasonal effects have been removed and linear (short-term correlations) effects may also have been removed.
+<ul>
+<li>Examples : Let <span class="math inline">\(\{P_T\}\)</span> be share price at the <span class="math inline">\(t\)</span>th trading day.</li>
+</ul>
+<p><span class="math display">\[Y_t=log P_t - log P_{t-1} \text{  or  } Y_t = \frac{P_t-P_{t-1}}{P_{t-1} }\times100\%\]</span></p></li>
+</ul>
+<!--$\{Y_T\}$ might be the first differences (or percentage changes) of financial time series such as the natural log of a share price $\{P_T\}$
+-->
+<ul>
+<li>This is often called the <strong>return</strong> or the <strong>growth rate</strong> of a series.</li>
+</ul>
+<p><strong>Example</strong></p>
+<ul>
+<li>Let <span class="math inline">\(P_t\)</span> be the adjusted closing prices of the S&amp;P500 at the <span class="math inline">\(t\)</span>th trading day.</li>
+<li>Let <span class="math inline">\(Y_t\)</span> be the dialy returns of the S&amp;P500 Index at each day as shown in Figure <a href="volatility-models.html#fig:sp500">4.1</a>.</li>
+<li>The basic idea in volatility modelling is that the return series <span class="math inline">\(\{Y_t\}\)</span> has very few serial correlations, but it is a dependent series.</li>
+<li>Consider the sample ACFs and PACFs of <span class="math inline">\(Y_t\)</span>, <span class="math inline">\(|Y_t|\)</span> and <span class="math inline">\(Y_t^2\)</span> (Figure <a href="volatility-models.html#fig:acf">4.2</a>)</li>
+</ul>
+<div class="figure"><span id="fig:acf"></span>
+<img src="bookdown-demo_files/figure-html/acf-1.png" alt="Sample ACF (left) and sample PACF (right) of various functions of the daily returns, $Y_t$, of adjusted closing prices of S&amp;P500 Index from from January 4, 1995 to February 25, 2021. Top: Original series $Y_t$; Middle: Absolute value of $Y_t$; Bottom: Squared values of $Y_t$." width="672" />
+<p class="caption">
+Figure 4.2: Sample ACF (left) and sample PACF (right) of various functions of the daily returns, <span class="math inline">\(Y_t\)</span>, of adjusted closing prices of S&amp;P500 Index from from January 4, 1995 to February 25, 2021. Top: Original series <span class="math inline">\(Y_t\)</span>; Middle: Absolute value of <span class="math inline">\(Y_t\)</span>; Bottom: Squared values of <span class="math inline">\(Y_t\)</span>.
+</p>
+</div>
+<ul>
+<li>Sample ACFs the returns <span class="math inline">\(Y_t\)</span> suggest no significant serial correlations except for small ones at lags 1, 3 and 5.</li>
+<li>However, the sample ACFs of <span class="math inline">\(|Y_t|\)</span> and <span class="math inline">\(Y_t^2\)</span>, show strong dependence over all lags.</li>
+<li>Important feature: the returns may seem serially uncorrelated, but it is dependent.</li>
+<li>This is a common observations for daily returns series</li>
+</ul>
+<!-- 
+https://stats.stackexchange.com/questions/325390/serially-uncorrelated-but-dependence-in-arch-model
+
+Serially Uncorrelated but dependence in ARCH model
+
+On the first chart (of raw returns), the ACF does not appear to be significantly non-0 anywhere (other than at lag 1 of course). In other words, there is no serial correlation of the returns.
+
+On the second chart (of squared returns), the ACF does appear to be significantly non-0 at certain lags. So this gives us hope that we can use these squared returns to predict something by using them.
+
+(Interestingly, if you plotted the ACF for absolute returns, you would find something similar to the second chart. This is because the absolute value and the square both discard the sign to measure some sort of "deviation", in the non-technical sense of the word.)
+
+It's not just any series, it's a series of raw returns. And as you saw in the first chart, raw returns are not serially correlated.
+
+However, squared (and absolute) returns are, which is good news! This is because we can now use them to predict "volatility" (i.e. the conditional variance) using ARCH models. And this is what ARCH models do-->
+<!-- To focus our discussion on volatility of return series, we may further assume that Yt-->
+<p><strong>Volatility of a return series</strong></p>
+<ul>
+<li>Let <span class="math inline">\(Y_t\)</span> be the innovations in a linear time series model.
+<!--  the innovation is the difference between the observed value of a variable at time t and the optimal forecast of that value based on information available prior to time t.
+
+ I conclude that innovations are ok to interchange with errors. It's called innovations because in time series context the errors bring new information to the system.--></li>
+<li>Let <span class="math inline">\(X_t\)</span> follow an <span class="math inline">\(ARMA(p,q)\)</span> model,
+<span class="math display">\[\phi(B)X_t=\theta(B)Y_t,\]</span></li>
+</ul>
+<p>where <span class="math inline">\(\phi(B)\)</span> and <span class="math inline">\(\theta(B)\)</span> are polynomials of <span class="math inline">\(B\)</span> with order <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, respectively.
+- Let <span class="math inline">\(\mathcal{F}_t\)</span>, the set of observed data upto time <span class="math inline">\(t\)</span>, (i.e. <span class="math inline">\(\{X_1,X_2,\dots, X_t\}\)</span>).
+- Then the observation <span class="math inline">\(X_t\)</span> can be written as
+<span class="math display">\[X_t=\mu_t+Y_t,\]</span>
+where <span class="math inline">\(\mu_t\)</span> is the mean of <span class="math inline">\(X_t\)</span> conditional on observed data <span class="math inline">\(\mathcal{F}_{t-1},\)</span></p>
+<p><span class="math display">\[\mu_t=E(X_t|\mathcal{F}_{t-1})= \phi(B)X_t-(\theta(B)-1)Y_t\]</span></p>
 </div>
 <div id="references-2" class="section level2">
-<h2><span class="header-section-number">4.2</span> References:</h2>
+<h2><span class="header-section-number">4.3</span> References:</h2>
 <ul>
-<li>Chatfield, C., &amp; Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.</li>
+<li><p>Chatfield, C., &amp; Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.</p></li>
+<li><p>Tsay, R. S. (2005). Analysis of financial time series (Vol. 543). John wiley &amp; sons.
+</p></li>
 </ul>
-<div style="page-break-after: always;"></div>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-chatfield2019analysis">
+<p>Chatfield, Chris, and Haipeng Xing. 2019. <em>The Analysis of Time Series: An Introduction with R</em>. CRC press.</p>
 </div>
 </div>
             </section>

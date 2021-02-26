@@ -3941,6 +3941,8 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 
 \pagenumbering{arabic}
 
+\textbf{This chapter is heavily based on Chapter 12 of \citet{chatfield2019analysis}.}
+
 \hypertarget{introduction-1}{%
 \section{Introduction}\label{introduction-1}}
 
@@ -3960,13 +3962,8 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 \tightlist
 \item
   In finance, the data can be collected much more frequently -- High frequency data.
-\end{itemize}
-
-\begin{itemize}
-\tightlist
 \item
-  Many financial time series also exhibit changing variance and this can have important consequences
-  in formulating financial decisions.
+  Many financial time series also exhibit changing variance and this can have important consequences in formulating financial decisions.
 \end{itemize}
 
 \textbf{Example: Financial time series}
@@ -4022,19 +4019,113 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 \begin{figure}
 \centering
 \includegraphics{bookdown-demo_files/figure-latex/sp500-1.pdf}
-\caption{\label{fig:sp500}Daily returns of the adjusted closing prices of the S\&P500 index from January 4, 1995 to February 25, 2021}
+\caption{\label{fig:sp500}Daily returns of the adjusted closing prices of the Standard \& Poor's 500 (S\&P500) index from January 4, 1995 to February 25, 2021}
 \end{figure}
+
+\begin{itemize}
+\item
+  The mean of the return series seems to be stable with an average return of approximately zero.
+\item
+  The volatility of data changes over time.
+\item
+  The focus of this chapter is to study some methods and econometric models for modeling the \textbf{volatility} (conditional standard deviation) of an asset return. 
+\item
+  These models are referred to as \textbf{conditional heteroscedastic models}.
+\item
+  These models do not generally provide better point forecasts, but provides a better estimates of the (local) variance.
+\item
+  As a result they allow to compute more reliable prediction intervals and therefore a better assessment of risk.
+\item
+  Volatility models have many applications in economics and finance.
+\item
+  This chapter discusses various types of \textbf{univariate volatility models}
+\end{itemize}
+
+\hypertarget{structure-of-a-model-for-asset-returns}{%
+\section{Structure of a Model for Asset Returns}\label{structure-of-a-model-for-asset-returns}}
+
+\begin{itemize}
+\item
+  Let, \(\{P_T\}\), denotes a time series.
+\item
+  Let, \(\{Y_T\}\), denotes a derived series from which any trend and seasonal effects have been removed and linear (short-term correlations) effects may also have been removed.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Examples : Let \(\{P_T\}\) be share price at the \(t\)th trading day.
+  \end{itemize}
+
+  \[Y_t=log P_t - log P_{t-1} \text{  or  } Y_t = \frac{P_t-P_{t-1}}{P_{t-1} }\times100\%\]
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  This is often called the \textbf{return} or the \textbf{growth rate} of a series.
+\end{itemize}
+
+\textbf{Example}
+
+\begin{itemize}
+\tightlist
+\item
+  Let \(P_t\) be the adjusted closing prices of the S\&P500 at the \(t\)th trading day.
+\item
+  Let \(Y_t\) be the dialy returns of the S\&P500 Index at each day as shown in Figure \ref{fig:sp500}.
+\item
+  The basic idea in volatility modelling is that the return series \(\{Y_t\}\) has very few serial correlations, but it is a dependent series.
+\item
+  Consider the sample ACFs and PACFs of \(Y_t\), \(|Y_t|\) and \(Y_t^2\) (Figure \ref{fig:acf})
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics{bookdown-demo_files/figure-latex/acf-1.pdf}
+\caption{\label{fig:acf}Sample ACF (left) and sample PACF (right) of various functions of the daily returns, \(Y_t\), of adjusted closing prices of S\&P500 Index from from January 4, 1995 to February 25, 2021. Top: Original series \(Y_t\); Middle: Absolute value of \(Y_t\); Bottom: Squared values of \(Y_t\).}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  Sample ACFs the returns \(Y_t\) suggest no significant serial correlations except for small ones at lags 1, 3 and 5.
+\item
+  However, the sample ACFs of \(|Y_t|\) and \(Y_t^2\), show strong dependence over all lags.
+\item
+  Important feature: the returns may seem serially uncorrelated, but it is dependent.
+\item
+  This is a common observations for daily returns series
+\end{itemize}
+
+\textbf{Volatility of a return series}
+
+\begin{itemize}
+\tightlist
+\item
+  Let \(Y_t\) be the innovations in a linear time series model.
+\item
+  Let \(X_t\) follow an \(ARMA(p,q)\) model,
+  \[\phi(B)X_t=\theta(B)Y_t,\]
+\end{itemize}
+
+where \(\phi(B)\) and \(\theta(B)\) are polynomials of \(B\) with order \(p\) and \(q\), respectively.
+- Let \(\mathcal{F}_t\), the set of observed data upto time \(t\), (i.e.~\(\{X_1,X_2,\dots, X_t\}\)).
+- Then the observation \(X_t\) can be written as
+\[X_t=\mu_t+Y_t,\]
+where \(\mu_t\) is the mean of \(X_t\) conditional on observed data \(\mathcal{F}_{t-1},\)
+
+\[\mu_t=E(X_t|\mathcal{F}_{t-1})= \phi(B)X_t-(\theta(B)-1)Y_t\]
 
 \hypertarget{references-2}{%
 \section{References:}\label{references-2}}
 
 \begin{itemize}
-\tightlist
 \item
   Chatfield, C., \& Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
+\item
+  Tsay, R. S. (2005). Analysis of financial time series (Vol. 543). John wiley \& sons.
+  \newpage
 \end{itemize}
-
-\newpage
 
 \hypertarget{multivariate-time-series-modeliing}{%
 \chapter{Multivariate Time Series Modeliing}\label{multivariate-time-series-modeliing}}
