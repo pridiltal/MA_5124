@@ -266,7 +266,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.6.1" data-path="volatility-models.html"><a href="volatility-models.html#prediction-of-volatilities"><i class="fa fa-check"></i><b>4.6.1</b> Prediction of volatilities</a></li>
 <li class="chapter" data-level="4.6.2" data-path="volatility-models.html"><a href="volatility-models.html#example-building-a-garch-model"><i class="fa fa-check"></i><b>4.6.2</b> Example: Building a GARCH Model</a></li>
 </ul></li>
-<li class="chapter" data-level="4.7" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.7</b> References:</a></li>
+<li class="chapter" data-level="4.7" data-path="volatility-models.html"><a href="volatility-models.html#the-arma-garch-models"><i class="fa fa-check"></i><b>4.7</b> The ARMA-GARCH Models</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="volatility-models.html"><a href="volatility-models.html#example-building-an-arma-garch-model"><i class="fa fa-check"></i><b>4.7.1</b> Example: Building an ARMA-GARCH Model</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.8</b> References:</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html"><i class="fa fa-check"></i><b>5</b> Multivariate Time Series Modeliing</a><ul>
 <li class="chapter" data-level="5.1" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html#references-3"><i class="fa fa-check"></i><b>5.1</b> References:</a></li>
@@ -291,6 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="volatility-models" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Volatility Models</h1>
+<!-- Note GARCH model parameter order- I followed TSay book , chatfield2019analysis GARCh parameter order is different. I followed tsay because fGarch package also follows the same order -->
 
 <p><strong>This chapter is heavily based on Chapter 12 of <span class="citation">Chatfield and Xing (<a href="#ref-chatfield2019analysis">2019</a>)</span> and Chapter 3 of <span class="citation">Tsay (<a href="#ref-tsay2010analysis">2010</a>)</span> .</strong></p>
 <div id="introduction-1" class="section level2">
@@ -575,7 +579,7 @@ imply a large conditional variance σt2 for the innovation at . Consequently, at
 <p><strong>Plot the result</strong></p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">sp500_return &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb91-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vol =</span> <span class="kw">volatility</span>(fit1),</a>
-<a class="sourceLine" id="cb91-3" title="3">         <span class="dt">resid.st =</span> <span class="kw">residuals</span>(fit1) <span class="op">/</span><span class="st"> </span>vol) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb91-3" title="3">         <span class="dt">resid.st =</span> <span class="kw">residuals</span>(fit1, <span class="dt">standardize=</span>T)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb91-4" title="4"><span class="st">  </span><span class="kw">as_tsibble</span>(<span class="dt">index =</span> date, <span class="dt">regular =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb91-5" title="5"></a>
 <a class="sourceLine" id="cb91-6" title="6">p1 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(vol)</a>
@@ -682,10 +686,8 @@ where <span class="math inline">\(Y_h\)</span> and <span class="math inline">\(\
 <li>Figure <a href="volatility-models.html#fig:sp500">4.1</a> shows the daily return series from January 4, 1995 to February 25, 2021.</li>
 <li>The sample ACF and PACF of the squared returns in the bottom panel of Figure <a href="volatility-models.html#fig:acf">4.2</a>, show the existence of conditional heteroscedasticity.</li>
 </ul>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" title="1"><span class="co"># install.packages(&quot;fGarch&quot;)</span></a>
-<a class="sourceLine" id="cb92-2" title="2"><span class="kw">library</span>(fGarch)</a>
-<a class="sourceLine" id="cb92-3" title="3">fit2 &lt;-<span class="st"> </span><span class="kw">garchFit</span>(<span class="op">~</span><span class="kw">garch</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">data =</span>sp500_return<span class="op">$</span>daily.returns)</a>
-<a class="sourceLine" id="cb92-4" title="4"><span class="kw">summary</span>(fit2)</a></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" title="1">fit2 &lt;-<span class="st"> </span><span class="kw">garchFit</span>(<span class="op">~</span><span class="kw">garch</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">data =</span>sp500_return<span class="op">$</span>daily.returns)</a>
+<a class="sourceLine" id="cb92-2" title="2"><span class="kw">summary</span>(fit2)</a></code></pre></div>
 <pre><code>## 
 ## Title:
 ##  GARCH Modelling 
@@ -743,7 +745,7 @@ where <span class="math inline">\(Y_h\)</span> and <span class="math inline">\(\
 <p><strong>Plot the result</strong></p>
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1">sp500_return &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb94-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vol =</span> <span class="kw">volatility</span>(fit2),</a>
-<a class="sourceLine" id="cb94-3" title="3">         <span class="dt">resid.st =</span> <span class="kw">residuals</span>(fit2) <span class="op">/</span><span class="st"> </span>vol) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb94-3" title="3">         <span class="dt">resid.st =</span> <span class="kw">residuals</span>(fit2, <span class="dt">standardize=</span>T)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb94-4" title="4"><span class="st">  </span><span class="kw">as_tsibble</span>(<span class="dt">index =</span> date, <span class="dt">regular =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb94-5" title="5"></a>
 <a class="sourceLine" id="cb94-6" title="6">p1 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(vol)</a>
@@ -761,10 +763,124 @@ Figure 4.4: (a) Estimated volatility <span class="math inline">\(\hat{\sigma_t}\
 <ul>
 <li>Now the model is adequate as the standardized residuals in the fitted <span class="math inline">\(GARCH(1,1)\)</span> model show little conditional heteroscedasticity.</li>
 </ul>
+<!--https://www.rdocumentation.org/packages/fGarch/versions/3042.83.2/topics/predict-methods-->
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" title="1"><span class="co">## predict </span></a>
+<a class="sourceLine" id="cb95-2" title="2"><span class="kw">predict</span>(fit2, <span class="dt">n.ahead =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb95-3" title="3"></a>
+<a class="sourceLine" id="cb95-4" title="4"><span class="co">## predict with plotting</span></a>
+<a class="sourceLine" id="cb95-5" title="5"><span class="co">## 95% confidence level</span></a>
+<a class="sourceLine" id="cb95-6" title="6"><span class="kw">predict</span>(fit2, <span class="dt">n.ahead =</span> <span class="dv">10</span>, <span class="dt">plot=</span><span class="ot">TRUE</span>, <span class="dt">conf=</span>.<span class="dv">95</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+</div>
+</div>
+<div id="the-arma-garch-models" class="section level2">
+<h2><span class="header-section-number">4.7</span> The ARMA-GARCH Models</h2>
+<ul>
+<li>The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models discussed in Chapter 3.</li>
+<li>Let <span class="math inline">\(X_t\)</span> follows an ARMA model with GARCH innovations.</li>
+<li>Then, it yeilds the following <span class="math inline">\(ARMA(p,q)-GARCH(m,s)\)</span> model for <span class="math inline">\((X_t, \sigma_t):\)</span></li>
+</ul>
+<p><span class="math display">\[X_t=\mu+\sum_{i=1}^p\phi_iX_{t-i}+\sum_{j=1}^q\theta_jY_{t-j} + Y_t, \quad Y_t=\sigma_t\epsilon_t,\]</span></p>
+<p><span class="math display">\[\sigma^2_t=\alpha_0+
+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2.\]</span></p>
+<ul>
+<li>The <span class="math inline">\(\epsilon_t\)</span> are iid standard normal or Student-t random variables.</li>
+<li>The second equation can be replaced by other volatility models so that different spects of volatilities can be characterized.</li>
+</ul>
+<div id="example-building-an-arma-garch-model" class="section level3">
+<h3><span class="header-section-number">4.7.1</span> Example: Building an ARMA-GARCH Model</h3>
+<ul>
+<li>Let’s apply the modeling procedure to build an <span class="math inline">\(ARMA(1,1)-GARCH(1,1)\)</span> model for the daily returns, <span class="math inline">\(Y_t,\)</span> of adjusted closing prices of the S&amp;P500 index</li>
+</ul>
+<p><span class="math display">\[X_t = \mu + \phi X_{t-1}+\theta Y_{t-1},\]</span>
+<span class="math display">\[Y_t= \sigma_t\epsilon_t,\]</span></p>
+<p><span class="math display">\[\sigma_t^2=\alpha_0+\alpha Y_{t-1}^2+\beta\sigma_{t-1}^2.\]</span></p>
+<ul>
+<li>Let <span class="math inline">\(\epsilon_t\)</span> are iid standard normal.</li>
+</ul>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" title="1">fit3 &lt;-<span class="st"> </span><span class="kw">garchFit</span>(<span class="op">~</span><span class="kw">arma</span>(<span class="dv">1</span>,<span class="dv">1</span>)<span class="op">+</span><span class="kw">garch</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">data =</span>sp500_return<span class="op">$</span>daily.returns)</a>
+<a class="sourceLine" id="cb96-2" title="2"><span class="kw">summary</span>(fit3)</a></code></pre></div>
+<pre><code>## 
+## Title:
+##  GARCH Modelling 
+## 
+## Call:
+##  garchFit(formula = ~arma(1, 1) + garch(1, 1), data = sp500_return$daily.returns) 
+## 
+## Mean and Variance Equation:
+##  data ~ arma(1, 1) + garch(1, 1)
+## &lt;environment: 0x7fa4b68f4ad8&gt;
+##  [data = sp500_return$daily.returns]
+## 
+## Conditional Distribution:
+##  norm 
+## 
+## Coefficient(s):
+##          mu          ar1          ma1        omega  
+##  8.7477e-05   8.8353e-01  -9.1463e-01   2.0642e-06  
+##      alpha1        beta1  
+##  1.1989e-01   8.6645e-01  
+## 
+## Std. Errors:
+##  based on Hessian 
+## 
+## Error Analysis:
+##          Estimate  Std. Error  t value Pr(&gt;|t|)    
+## mu      8.748e-05   4.726e-05    1.851   0.0642 .  
+## ar1     8.835e-01   6.139e-02   14.392  &lt; 2e-16 ***
+## ma1    -9.146e-01   5.330e-02  -17.160  &lt; 2e-16 ***
+## omega   2.064e-06   2.603e-07    7.932 2.22e-15 ***
+## alpha1  1.199e-01   8.565e-03   13.997  &lt; 2e-16 ***
+## beta1   8.664e-01   8.736e-03   99.186  &lt; 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Log Likelihood:
+##  21335    normalized:  3.241 
+## 
+## Description:
+##  Sat Feb 27 20:47:32 2021 by user:  
+## 
+## 
+## Standardised Residuals Tests:
+##                                 Statistic p-Value
+##  Jarque-Bera Test   R    Chi^2  1279      0      
+##  Shapiro-Wilk Test  R    W      NA        NA     
+##  Ljung-Box Test     R    Q(10)  13.06     0.2206 
+##  Ljung-Box Test     R    Q(15)  22.45     0.09663
+##  Ljung-Box Test     R    Q(20)  28.44     0.09946
+##  Ljung-Box Test     R^2  Q(10)  14.88     0.1364 
+##  Ljung-Box Test     R^2  Q(15)  18.44     0.2403 
+##  Ljung-Box Test     R^2  Q(20)  19.64     0.4806 
+##  LM Arch Test       R    TR^2   15.35     0.2229 
+## 
+## Information Criterion Statistics:
+##    AIC    BIC    SIC   HQIC 
+## -6.481 -6.475 -6.481 -6.479</code></pre>
+<p><strong>Plot the result</strong></p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" title="1">sp500_return &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb98-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vol =</span> <span class="kw">volatility</span>(fit3),</a>
+<a class="sourceLine" id="cb98-3" title="3">         <span class="dt">resid.st =</span> <span class="kw">residuals</span>(fit3, <span class="dt">standardize=</span>T)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb98-4" title="4"><span class="st">  </span><span class="kw">as_tsibble</span>(<span class="dt">index =</span> date, <span class="dt">regular =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb98-5" title="5"></a>
+<a class="sourceLine" id="cb98-6" title="6">p1 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(vol)</a>
+<a class="sourceLine" id="cb98-7" title="7">p2 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(resid.st)  </a>
+<a class="sourceLine" id="cb98-8" title="8">p3 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ACF</span>(resid.st) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a>
+<a class="sourceLine" id="cb98-9" title="9">p4 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">PACF</span>(resid.st) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a>
+<a class="sourceLine" id="cb98-10" title="10">p5 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ACF</span>(resid.st<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a>
+<a class="sourceLine" id="cb98-11" title="11">p6 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">PACF</span>(resid.st<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a></code></pre></div>
+<div class="figure"><span id="fig:plotag2"></span>
+<img src="bookdown-demo_files/figure-html/plotag2-1.png" alt="(a) Estimated volatility $\hat{\sigma_t}$, (b) the standardized residual $\hat{\epsilon_t}$, (c) sample ACF of $\hat{\epsilon_t}$,  (d) sample PACF of $\hat{\epsilon_t}$, (e) sample ACF of $\hat{\epsilon_t^2}$,  (d) sample PACF of $\hat{\epsilon_t^2}$, in the ARMA(1,1)-GARCH(1,1) model for daily returns of adjusted closing prices of the S&amp;P500 Index from January 4, 1995 to February 25, 2021." width="672" />
+<p class="caption">
+Figure 4.5: (a) Estimated volatility <span class="math inline">\(\hat{\sigma_t}\)</span>, (b) the standardized residual <span class="math inline">\(\hat{\epsilon_t}\)</span>, (c) sample ACF of <span class="math inline">\(\hat{\epsilon_t}\)</span>, (d) sample PACF of <span class="math inline">\(\hat{\epsilon_t}\)</span>, (e) sample ACF of <span class="math inline">\(\hat{\epsilon_t^2}\)</span>, (d) sample PACF of <span class="math inline">\(\hat{\epsilon_t^2}\)</span>, in the ARMA(1,1)-GARCH(1,1) model for daily returns of adjusted closing prices of the S&amp;P500 Index from January 4, 1995 to February 25, 2021.
+</p>
+</div>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 <div id="references-2" class="section level2">
-<h2><span class="header-section-number">4.7</span> References:</h2>
+<h2><span class="header-section-number">4.8</span> References:</h2>
 <ul>
 <li><p>Chatfield, C., &amp; Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.</p></li>
 <li><p>Tsay, R. S. (2010). Analysis of Financial Time Series. John Wiley &amp; Sons..

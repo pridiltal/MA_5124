@@ -2,6 +2,7 @@ fig:sp500
 fig:acf
 fig:plot2
 fig:plot4
+fig:plotag2
 intro
 arima-models
 stationarity-and-differencing
@@ -161,6 +162,8 @@ example-building-an-arch-model
 generalized-arch-garch-models
 prediction-of-volatilities
 example-building-a-garch-model
+the-arma-garch-models
+example-building-an-arma-garch-model
 references-2
 multivariate-time-series-modeliing
 references-3

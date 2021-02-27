@@ -1,4 +1,6 @@
 # Volatility Models
+<!-- Note GARCH model parameter order- I followed TSay book , chatfield2019analysis GARCh parameter order is different. I followed tsay because fGarch package also follows the same order -->
+
 
 ```{r setup4, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,  warning=FALSE, message=FALSE, fig.pos='h')
@@ -379,8 +381,6 @@ $$\sigma_{h}^2(k) = \alpha_0+(\alpha_1+\beta_1)\sigma_h^2(k-1), \quad k>1.$$
 - The sample ACF and PACF of the squared returns in the bottom panel of Figure \@ref(fig:acf), show the existence of conditional heteroscedasticity.
 
 ```{r garch, echo=TRUE, results="hide", message=FALSE, warning=FALSE}
-# install.packages("fGarch")
-library(fGarch)
 fit2 <- garchFit(~garch(1,1), data =sp500_return$daily.returns)
 summary(fit2)
 ```
@@ -416,20 +416,84 @@ p +
   plot_annotation(tag_levels = 'a')
 ```
 
-```{r}
-## predict -
-   predict(fit2, n.ahead = 10)
-   predict(fit2, n.ahead = 10,mse="uncond")
 
-## predict with plotting: critical values = +- 2
-
-   predict(fit2, n.ahead = 10, plot=TRUE, crit_val=2)
-
-
-```
 - Now the model is adequate as the standardized residuals in the fitted $GARCH(1,1)$ model show little conditional heteroscedasticity.
 
+<!--https://www.rdocumentation.org/packages/fGarch/versions/3042.83.2/topics/predict-methods-->
+
+```{r echo=TRUE, results="hide"}
+## predict 
+predict(fit2, n.ahead = 10)
+
+## predict with plotting
+## 95% confidence level
+predict(fit2, n.ahead = 10, plot=TRUE, conf=.95)
+```
+
 ## The ARMA-GARCH Models
+
+
+- The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models  discussed in Chapter 3.
+- Let $X_t$ follows an ARMA model with GARCH innovations.
+- Then, it yeilds the following $ARMA(p,q)-GARCH(m,s)$ model for $(X_t, \sigma_t):$
+
+$$X_t=\mu+\sum_{i=1}^p\phi_iX_{t-i}+\sum_{j=1}^q\theta_jY_{t-j} + Y_t, \quad Y_t=\sigma_t\epsilon_t,$$
+
+$$\sigma^2_t=\alpha_0+
+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2.$$
+
+- The $\epsilon_t$ are iid standard normal or Student-t random variables. 
+- The second equation can be replaced by other volatility models so that different spects of volatilities can be characterized.
+
+### Example: Building an ARMA-GARCH Model
+
+- Let's apply the modeling procedure to build an $ARMA(1,1)-GARCH(1,1)$ model for the daily returns, $Y_t,$ of adjusted closing prices of the S&P500 index
+
+$$X_t = \mu + \phi X_{t-1}+\theta Y_{t-1},$$
+$$Y_t= \sigma_t\epsilon_t,$$
+
+$$\sigma_t^2=\alpha_0+\alpha Y_{t-1}^2+\beta\sigma_{t-1}^2.$$
+
+- Let $\epsilon_t$ are iid standard normal.
+
+
+```{r armagarch, echo=TRUE, results="hide", message=FALSE, warning=FALSE}
+fit3 <- garchFit(~arma(1,1)+garch(1,1), data =sp500_return$daily.returns)
+summary(fit3)
+```
+
+```{r armagarchprint, echo=FALSE}
+summary(fit3)
+```
+
+
+**Plot the result**
+
+```{r plotag, echo=TRUE}
+sp500_return <- sp500_return %>%
+  mutate(vol = volatility(fit3),
+         resid.st = residuals(fit3, standardize=T)) %>%
+  as_tsibble(index = date, regular = FALSE)
+
+p1 <- sp500_return %>% autoplot(vol)
+p2 <- sp500_return %>% autoplot(resid.st)  
+p3 <- sp500_return %>% ACF(resid.st) %>% autoplot()
+p4 <- sp500_return %>% PACF(resid.st) %>% autoplot()
+p5 <- sp500_return %>% ACF(resid.st^2) %>% autoplot()
+p6 <- sp500_return %>% PACF(resid.st^2) %>% autoplot()
+```
+
+```{r plotag2, echo=FALSE, fig.cap= "(a) Estimated volatility $\\hat{\\sigma_t}$, (b) the standardized residual $\\hat{\\epsilon_t}$, (c) sample ACF of $\\hat{\\epsilon_t}$,  (d) sample PACF of $\\hat{\\epsilon_t}$, (e) sample ACF of $\\hat{\\epsilon_t^2}$,  (d) sample PACF of $\\hat{\\epsilon_t^2}$, in the ARMA(1,1)-GARCH(1,1) model for daily returns of adjusted closing prices of the S&P500 Index from January 4, 1995 to February 25, 2021."  }
+p<- (p1 | p2) /
+  (p3 | p4) /
+  (p5 | p6)
+
+p +
+  plot_layout(guide = 'collect') +
+  plot_annotation(tag_levels = 'a')
+```
+
+\newpage
 
 ## References:
 

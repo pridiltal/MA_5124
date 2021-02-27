@@ -4317,7 +4317,7 @@ where \(\{\epsilon_t\}\) denotes is a sequence of iid random variables with mean
 \begin{Highlighting}[]
 \NormalTok{sp500_return <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{vol =} \KeywordTok{volatility}\NormalTok{(fit1),}
-         \DataTypeTok{resid.st =} \KeywordTok{residuals}\NormalTok{(fit1) }\OperatorTok{/}\StringTok{ }\NormalTok{vol) }\OperatorTok{%>%}
+         \DataTypeTok{resid.st =} \KeywordTok{residuals}\NormalTok{(fit1, }\DataTypeTok{standardize=}\NormalTok{T)) }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{as_tsibble}\NormalTok{(}\DataTypeTok{index =}\NormalTok{ date, }\DataTypeTok{regular =} \OtherTok{FALSE}\NormalTok{)}
 
 \NormalTok{p1 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(vol)}
@@ -4492,8 +4492,6 @@ where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# install.packages("fGarch")}
-\KeywordTok{library}\NormalTok{(fGarch)}
 \NormalTok{fit2 <-}\StringTok{ }\KeywordTok{garchFit}\NormalTok{(}\OperatorTok{~}\KeywordTok{garch}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DataTypeTok{data =}\NormalTok{sp500_return}\OperatorTok{$}\NormalTok{daily.returns)}
 \KeywordTok{summary}\NormalTok{(fit2)}
 \end{Highlighting}
@@ -4562,7 +4560,7 @@ where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
 \begin{Highlighting}[]
 \NormalTok{sp500_return <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{vol =} \KeywordTok{volatility}\NormalTok{(fit2),}
-         \DataTypeTok{resid.st =} \KeywordTok{residuals}\NormalTok{(fit2) }\OperatorTok{/}\StringTok{ }\NormalTok{vol) }\OperatorTok{%>%}
+         \DataTypeTok{resid.st =} \KeywordTok{residuals}\NormalTok{(fit2, }\DataTypeTok{standardize=}\NormalTok{T)) }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{as_tsibble}\NormalTok{(}\DataTypeTok{index =}\NormalTok{ date, }\DataTypeTok{regular =} \OtherTok{FALSE}\NormalTok{)}
 
 \NormalTok{p1 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(vol)}
@@ -4585,6 +4583,159 @@ where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
 \item
   Now the model is adequate as the standardized residuals in the fitted \(GARCH(1,1)\) model show little conditional heteroscedasticity.
 \end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{## predict }
+\KeywordTok{predict}\NormalTok{(fit2, }\DataTypeTok{n.ahead =} \DecValTok{10}\NormalTok{)}
+
+\CommentTok{## predict with plotting}
+\CommentTok{## 95% confidence level}
+\KeywordTok{predict}\NormalTok{(fit2, }\DataTypeTok{n.ahead =} \DecValTok{10}\NormalTok{, }\DataTypeTok{plot=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{conf=}\NormalTok{.}\DecValTok{95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-45-1.pdf}
+
+\hypertarget{the-arma-garch-models}{%
+\section{The ARMA-GARCH Models}\label{the-arma-garch-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models discussed in Chapter 3.
+\item
+  Let \(X_t\) follows an ARMA model with GARCH innovations.
+\item
+  Then, it yeilds the following \(ARMA(p,q)-GARCH(m,s)\) model for \((X_t, \sigma_t):\)
+\end{itemize}
+
+\[X_t=\mu+\sum_{i=1}^p\phi_iX_{t-i}+\sum_{j=1}^q\theta_jY_{t-j} + Y_t, \quad Y_t=\sigma_t\epsilon_t,\]
+
+\[\sigma^2_t=\alpha_0+
+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2.\]
+
+\begin{itemize}
+\tightlist
+\item
+  The \(\epsilon_t\) are iid standard normal or Student-t random variables.
+\item
+  The second equation can be replaced by other volatility models so that different spects of volatilities can be characterized.
+\end{itemize}
+
+\hypertarget{example-building-an-arma-garch-model}{%
+\subsection{Example: Building an ARMA-GARCH Model}\label{example-building-an-arma-garch-model}}
+
+\begin{itemize}
+\tightlist
+\item
+  Let's apply the modeling procedure to build an \(ARMA(1,1)-GARCH(1,1)\) model for the daily returns, \(Y_t,\) of adjusted closing prices of the S\&P500 index
+\end{itemize}
+
+\[X_t = \mu + \phi X_{t-1}+\theta Y_{t-1},\]
+\[Y_t= \sigma_t\epsilon_t,\]
+
+\[\sigma_t^2=\alpha_0+\alpha Y_{t-1}^2+\beta\sigma_{t-1}^2.\]
+
+\begin{itemize}
+\tightlist
+\item
+  Let \(\epsilon_t\) are iid standard normal.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit3 <-}\StringTok{ }\KeywordTok{garchFit}\NormalTok{(}\OperatorTok{~}\KeywordTok{arma}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)}\OperatorTok{+}\KeywordTok{garch}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DataTypeTok{data =}\NormalTok{sp500_return}\OperatorTok{$}\NormalTok{daily.returns)}
+\KeywordTok{summary}\NormalTok{(fit3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Title:
+##  GARCH Modelling 
+## 
+## Call:
+##  garchFit(formula = ~arma(1, 1) + garch(1, 1), data = sp500_return$daily.returns) 
+## 
+## Mean and Variance Equation:
+##  data ~ arma(1, 1) + garch(1, 1)
+## <environment: 0x7fc15d07ec18>
+##  [data = sp500_return$daily.returns]
+## 
+## Conditional Distribution:
+##  norm 
+## 
+## Coefficient(s):
+##          mu          ar1          ma1        omega  
+##  8.7477e-05   8.8353e-01  -9.1463e-01   2.0642e-06  
+##      alpha1        beta1  
+##  1.1989e-01   8.6645e-01  
+## 
+## Std. Errors:
+##  based on Hessian 
+## 
+## Error Analysis:
+##          Estimate  Std. Error  t value Pr(>|t|)    
+## mu      8.748e-05   4.726e-05    1.851   0.0642 .  
+## ar1     8.835e-01   6.139e-02   14.392  < 2e-16 ***
+## ma1    -9.146e-01   5.330e-02  -17.160  < 2e-16 ***
+## omega   2.064e-06   2.603e-07    7.932 2.22e-15 ***
+## alpha1  1.199e-01   8.565e-03   13.997  < 2e-16 ***
+## beta1   8.664e-01   8.736e-03   99.186  < 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Log Likelihood:
+##  21335    normalized:  3.241 
+## 
+## Description:
+##  Sat Feb 27 20:47:45 2021 by user:  
+## 
+## 
+## Standardised Residuals Tests:
+##                                 Statistic p-Value
+##  Jarque-Bera Test   R    Chi^2  1279      0      
+##  Shapiro-Wilk Test  R    W      NA        NA     
+##  Ljung-Box Test     R    Q(10)  13.06     0.2206 
+##  Ljung-Box Test     R    Q(15)  22.45     0.09663
+##  Ljung-Box Test     R    Q(20)  28.44     0.09946
+##  Ljung-Box Test     R^2  Q(10)  14.88     0.1364 
+##  Ljung-Box Test     R^2  Q(15)  18.44     0.2403 
+##  Ljung-Box Test     R^2  Q(20)  19.64     0.4806 
+##  LM Arch Test       R    TR^2   15.35     0.2229 
+## 
+## Information Criterion Statistics:
+##    AIC    BIC    SIC   HQIC 
+## -6.481 -6.475 -6.481 -6.479
+\end{verbatim}
+
+\textbf{Plot the result}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sp500_return <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{vol =} \KeywordTok{volatility}\NormalTok{(fit3),}
+         \DataTypeTok{resid.st =} \KeywordTok{residuals}\NormalTok{(fit3, }\DataTypeTok{standardize=}\NormalTok{T)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{as_tsibble}\NormalTok{(}\DataTypeTok{index =}\NormalTok{ date, }\DataTypeTok{regular =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{p1 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(vol)}
+\NormalTok{p2 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(resid.st)  }
+\NormalTok{p3 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ACF}\NormalTok{(resid.st) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p4 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{PACF}\NormalTok{(resid.st) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p5 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ACF}\NormalTok{(resid.st}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p6 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{PACF}\NormalTok{(resid.st}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{bookdown-demo_files/figure-latex/plotag2-1.pdf}
+\caption{\label{fig:plotag2}(a) Estimated volatility \(\hat{\sigma_t}\), (b) the standardized residual \(\hat{\epsilon_t}\), (c) sample ACF of \(\hat{\epsilon_t}\), (d) sample PACF of \(\hat{\epsilon_t}\), (e) sample ACF of \(\hat{\epsilon_t^2}\), (d) sample PACF of \(\hat{\epsilon_t^2}\), in the ARMA(1,1)-GARCH(1,1) model for daily returns of adjusted closing prices of the S\&P500 Index from January 4, 1995 to February 25, 2021.}
+\end{figure}
+
+\newpage
 
 \hypertarget{references-2}{%
 \section{References:}\label{references-2}}
