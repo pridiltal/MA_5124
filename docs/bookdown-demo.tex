@@ -123,7 +123,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-02-26}
+\date{2021-02-27}
 
 \begin{document}
 \maketitle
@@ -4072,7 +4072,7 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 \item
   Let \(P_t\) be the adjusted closing prices of the S\&P500 at the \(t\)th trading day.
 \item
-  Let \(Y_t\) be the dialy returns of the S\&P500 Index at each day as shown in Figure \ref{fig:sp500}.
+  Let \(Y_t\) be the daily returns of the S\&P500 Index at each day as shown in Figure \ref{fig:sp500}.
 \item
   The basic idea in volatility modelling is that the return series \(\{Y_t\}\) has very few serial correlations, but it is a dependent series.
 \item
@@ -4109,12 +4109,271 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 \end{itemize}
 
 where \(\phi(B)\) and \(\theta(B)\) are polynomials of \(B\) with order \(p\) and \(q\), respectively.
-- Let \(\mathcal{F}_t\), the set of observed data upto time \(t\), (i.e.~\(\{X_1,X_2,\dots, X_t\}\)).
+- Let \(\mathcal{F}_t\), the set of observed data up to time \(t\), (i.e.~\(\{X_1,X_2,\dots, X_t\}\)).
 - Then the observation \(X_t\) can be written as
 \[X_t=\mu_t+Y_t,\]
 where \(\mu_t\) is the mean of \(X_t\) conditional on observed data \(\mathcal{F}_{t-1},\)
 
 \[\mu_t=E(X_t|\mathcal{F}_{t-1})= \phi(B)X_t-(\theta(B)-1)Y_t\]
+
+and the innovation series \(Y_t\) has mean 0 and conditional variance
+
+\[\sigma_t^2=Var(X_t|\mathcal{F}_{t-1})=Var(Y_t|\mathcal{F}_{t-1})\]
+- The conditional heteroscedastic models of this chapter are concerned with the evolution of \(\sigma_t^2\) over time.
+- The model for \(\mu_t\) is referred to as the mean equation for \(X_t\) and the model for \(\sigma^2_t\) is the volatility equation for \(X_t.\)
+
+\hypertarget{model-building}{%
+\section{Model Building}\label{model-building}}
+
+The process of building a volatility model for an asset return series consists of four main steps \citep{tsay2010analysis}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Specify a mean equation by testing for serial dependence in the data and, if necessary, building an econometric model (e.g., an ARMA model) for the return series to remove any linear dependence.
+\item
+  Use the residuals of the mean equation to test for ARCH effects.
+\item
+  Specify a volatility model if ARCH effects are statistically significant, and perform a joint estimation of the mean and volatility equations.
+\item
+  Check the fitted model carefully and refine it if necessary.
+\end{enumerate}
+
+\hypertarget{testing-for-arch-effect}{%
+\section{Testing for ARCH Effect}\label{testing-for-arch-effect}}
+
+\begin{itemize}
+\tightlist
+\item
+  Let \(Y_t = X_t − \mu_t\) be the residuals of the mean equation.
+\item
+  The squared series \(Y_t^2\) is then used to check for \textbf{conditional heteroscedasticity} (also known as the \textbf{ARCH effects}).
+\item
+  Volatility clustering implies a strong autocorrelation in squared series.
+\item
+  There are two statistical tests for conditional heteroscedasticity
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Method 1: Apply the usual Ljung--Box statistics \(Q(m)\) to the \(Y_t^2\) (McLeod and Li, 1983).
+
+    \begin{itemize}
+    \tightlist
+    \item
+      The null hypothesis is that the first \(m\) lags of ACF of the \(Y_t^2\) series are zero.
+    \end{itemize}
+  \item
+    Method 2: The Lagrange multiplier test of Engle (1982).
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{autoregressive-conditional-heteroskedastic-arch-models}{%
+\section{Autoregressive Conditional Heteroskedastic (ARCH) Models}\label{autoregressive-conditional-heteroskedastic-arch-models}}
+
+\begin{itemize}
+\item
+  ARCH model of Engle (1982) is the first model that provides a systematic framework for volatility modeling.
+\item
+  Main idea:
+
+  \begin{enumerate}
+  \def\labelenumi{(\alph{enumi})}
+  \tightlist
+  \item
+    \(Y_t\) is serially uncorrelated, but dependent, (b) the dependence of \(Y_t\) can be described by a simple quadratic function of its lagged values.
+  \end{enumerate}
+\item
+  To better describe the idea, we represents \(Y_t\) having a zero means in the form
+\end{itemize}
+
+\begin{equation} \label{eq:1}
+Y_t=\sigma_t\epsilon_t,
+\end{equation}
+
+\begin{equation} \label{eq:2}
+\sigma_t^2 =\alpha_0+\alpha_1Y_{t-1}^2+\dots+\alpha_mY_{t-m}^2,
+\end{equation}
+
+where \(\{\epsilon_t\}\) denotes is a sequence of iid random variables with mean zero and variance 1.
+
+\begin{itemize}
+\tightlist
+\item
+  \(\sigma_t\) can be thought of as the local conditional standard deviation of the process.
+\item
+  \(\alpha_0>0\), and \(\alpha_i\geq0\) for \(i > 0\). - To ensure that the unconditional variance of \(Y_t\) is finite, coefficients \(\alpha_i\) must satisfy some regularity conditions.
+\item
+  The \(\epsilon_t\) may follow the standard normal or a standardized Student-t or a generalized error distribution.
+\end{itemize}
+
+\begin{itemize}
+\item
+  A model for \(Y_t\) satisfying Equations \ref{eq:1} and \ref{eq:2} is called an \textbf{autoregressive conditional heteroskedastic model} of order \(m\) (\(ARCH(m)\))
+\item
+  Note that Equation \ref{eq:2} does not include an `error' term and therefore does not define a stochastic process.
+\item
+  The ARCH model allows for volatility clustering as the conditional variance \(\sigma_t^2\) in Equation \ref{eq:2} depends on the lagged squared innovations \(Y^2_{t−1}\). A large (positive or negative) residual at time \(t − 1\) implies that \(Y^2_{t−1}\) is large and consequently the conditional variance \(\sigma_t^2\) will be large as \(\alpha_i ≥ 0\). Thereby, large shocks tend to be followed by large shocks (in absolute terms) and small shocks tend to be followed by small shocks (in absolute terms). This is the feature we call \textbf{volatility clustering}.
+\item
+  However, large variance does not necessarily produce a large \textbf{realization}. It only says that the \textbf{probability} of obtaining a large variate is greater than that of a smaller variance.
+\end{itemize}
+
+\hypertarget{example-building-an-arch-model}{%
+\subsection{Example: Building an ARCH Model}\label{example-building-an-arch-model}}
+
+\begin{itemize}
+\item
+  Let's apply the modeling procedure to build a simple ARCH model for the daily returns, \(Y_t,\) of adjusted closing prices of the S\&P500 index.
+\item
+  Figure \ref{fig:sp500} shows the daily return series from January 4, 1995 to February 25, 2021.
+\item
+  The sample ACF and PACF of the squared returns in the bottom panel of Figure \ref{fig:acf}, show the existence of conditional heteroscedasticity.
+\item
+  If an ARCH effect is found to be significant, one can use the PACF of \(Y_t^2\) to determine the ARCH order.
+\item
+  We consider an ARCH(2) model with the following specification for the daily return series
+\end{itemize}
+
+\[X_t=\mu+Y_t,\]
+\[Y_t=\sigma_t\epsilon_t,\]
+\[\sigma_t^2=\alpha_0+\alpha_1Y_{t-1}^2 + \alpha_2Y_{t-2}^2.\]
+
+\begin{itemize}
+\tightlist
+\item
+  We use the R function \texttt{garchFit} in the R package \texttt{fGarch} to estimate the model.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# install.packages("fGarch")}
+\KeywordTok{library}\NormalTok{(fGarch)}
+\NormalTok{fit1 <-}\StringTok{ }\KeywordTok{garchFit}\NormalTok{(}\OperatorTok{~}\KeywordTok{garch}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{), }\DataTypeTok{data =}\NormalTok{sp500_return}\OperatorTok{$}\NormalTok{daily.returns)}
+\KeywordTok{summary}\NormalTok{(fit1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Title:
+##  GARCH Modelling 
+## 
+## Call:
+##  garchFit(formula = ~garch(2, 0), data = sp500_return$daily.returns) 
+## 
+## Mean and Variance Equation:
+##  data ~ garch(2, 0)
+## <environment: 0x7fc089b5a9f0>
+##  [data = sp500_return$daily.returns]
+## 
+## Conditional Distribution:
+##  norm 
+## 
+## Coefficient(s):
+##         mu       omega      alpha1      alpha2  
+## 7.7804e-04  5.8828e-05  2.2118e-01  3.8733e-01  
+## 
+## Std. Errors:
+##  based on Hessian 
+## 
+## Error Analysis:
+##         Estimate  Std. Error  t value Pr(>|t|)    
+## mu     7.780e-04   1.098e-04    7.087 1.37e-12 ***
+## omega  5.883e-05   1.818e-06   32.366  < 2e-16 ***
+## alpha1 2.212e-01   1.967e-02   11.245  < 2e-16 ***
+## alpha2 3.873e-01   2.368e-02   16.354  < 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Log Likelihood:
+##  20748    normalized:  3.152 
+## 
+## Description:
+##  Sat Feb 27 13:39:37 2021 by user:  
+## 
+## 
+## Standardised Residuals Tests:
+##                                 Statistic p-Value 
+##  Jarque-Bera Test   R    Chi^2  2657      0       
+##  Shapiro-Wilk Test  R    W      NA        NA      
+##  Ljung-Box Test     R    Q(10)  21.61     0.01721 
+##  Ljung-Box Test     R    Q(15)  34.45     0.002941
+##  Ljung-Box Test     R    Q(20)  38.39     0.007933
+##  Ljung-Box Test     R^2  Q(10)  362.7     0       
+##  Ljung-Box Test     R^2  Q(15)  546.8     0       
+##  Ljung-Box Test     R^2  Q(20)  713.2     0       
+##  LM Arch Test       R    TR^2   428.5     0       
+## 
+## Information Criterion Statistics:
+##    AIC    BIC    SIC   HQIC 
+## -6.303 -6.299 -6.303 -6.302
+\end{verbatim}
+
+\textbf{Plot the result}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sp500_return <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{vol =} \KeywordTok{volatility}\NormalTok{(fit1),}
+         \DataTypeTok{resid.st =} \KeywordTok{residuals}\NormalTok{(fit1) }\OperatorTok{/}\StringTok{ }\NormalTok{vol) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{as_tsibble}\NormalTok{(}\DataTypeTok{index =}\NormalTok{ date, }\DataTypeTok{regular =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{p1 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(vol)}
+\NormalTok{p2 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(resid.st)  }
+\NormalTok{p3 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ACF}\NormalTok{(resid.st) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p4 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{PACF}\NormalTok{(resid.st) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p5 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ACF}\NormalTok{(resid.st}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p6 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{PACF}\NormalTok{(resid.st}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{bookdown-demo_files/figure-latex/plot2-1.pdf}
+\caption{\label{fig:plot2}(a) Estimated volatility \(\hat{\sigma_t}\), (b) the standardized residual \(\hat{\epsilon_t}\), (c) sample ACF of \(\hat{\epsilon_t}\), (d) sample PACF of \(\hat{\epsilon_t}\), (e) sample ACF of \(\hat{\epsilon_t^2}\), (d) sample PACF of \(\hat{\epsilon_t^2}\), in the ARCH(2) model for daily returns of adjusted closing prices of the S\&P500 Index from January 4, 1995 to February 25, 2021.}
+\end{figure}
+
+\newpage
+
+\begin{itemize}
+\tightlist
+\item
+  Assuming that \(\epsilon_t\) are iid, standard normal, we get the fitted model as follows:
+\end{itemize}
+
+\[X_t = 0.0007804_{(1.098e-04)} + Y_t, \text{  }Y_t=\sigma_t\epsilon_t,\]
+
+\[\sigma_t^2=0.00005883_{(1.818e-06)}+0.2212_{(1.967e-02)}Y_{t-1}^2 + 0.3873_{(2.368e-02)}Y_{t-2}^2\]
+
+where the standard errors of the parameters are given in the parentheses.
+
+\begin{itemize}
+\tightlist
+\item
+  Both the output and the plot show that the estimated residuals still have conditional heteroscedasticities.
+\item
+  Therefore, the ARCH(2) model is not adequate.
+\end{itemize}
+
+\hypertarget{generalized-arch-garch-models}{%
+\section{Generalized ARCH (GARCH) Models}\label{generalized-arch-garch-models}}
+
+\begin{itemize}
+\item
+  Although the ARCH model is simple, it often requires many parameters to adequately describe the volatility process of an asset return.
+\item
+  Bollerslev (1986) proposes a useful extension known as the generalized ARCH (GARCH) model.
+\item
+  The ARCH model has been generalized to allow the variance to depend on past values of \(Y_t^2\) as well as on past values of \(\sigma^2_t.\)
+\item
+  A model for \(Y_t\) satisfying Equations \ref{eq:1} is said to follow a \textbf{generalized ARCH (or GARCH) model} of order \((m,s)\) (\(GARCH(m,s)\)) when the local conditional variance is given by
+\end{itemize}
+
+\begin{equation} \label{eq:3}
+\sigma_t^2 =\alpha_0+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-i}^2,
+\end{equation}
 
 \hypertarget{references-2}{%
 \section{References:}\label{references-2}}
@@ -4123,7 +4382,7 @@ where \(\mu_t\) is the mean of \(X_t\) conditional on observed data \(\mathcal{F
 \item
   Chatfield, C., \& Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
 \item
-  Tsay, R. S. (2005). Analysis of financial time series (Vol. 543). John wiley \& sons.
+  Tsay, R. S. (2010). Analysis of Financial Time Series. John Wiley \& Sons..
   \newpage
 \end{itemize}
 

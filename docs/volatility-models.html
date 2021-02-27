@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-02-26" />
+<meta name="date" content="2021-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -257,7 +257,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="volatility-models.html"><a href="volatility-models.html"><i class="fa fa-check"></i><b>4</b> Volatility Models</a><ul>
 <li class="chapter" data-level="4.1" data-path="volatility-models.html"><a href="volatility-models.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
 <li class="chapter" data-level="4.2" data-path="volatility-models.html"><a href="volatility-models.html#structure-of-a-model-for-asset-returns"><i class="fa fa-check"></i><b>4.2</b> Structure of a Model for Asset Returns</a></li>
-<li class="chapter" data-level="4.3" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.3</b> References:</a></li>
+<li class="chapter" data-level="4.3" data-path="volatility-models.html"><a href="volatility-models.html#model-building"><i class="fa fa-check"></i><b>4.3</b> Model Building</a></li>
+<li class="chapter" data-level="4.4" data-path="volatility-models.html"><a href="volatility-models.html#testing-for-arch-effect"><i class="fa fa-check"></i><b>4.4</b> Testing for ARCH Effect</a></li>
+<li class="chapter" data-level="4.5" data-path="volatility-models.html"><a href="volatility-models.html#autoregressive-conditional-heteroskedastic-arch-models"><i class="fa fa-check"></i><b>4.5</b> Autoregressive Conditional Heteroskedastic (ARCH) Models</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="volatility-models.html"><a href="volatility-models.html#example-building-an-arch-model"><i class="fa fa-check"></i><b>4.5.1</b> Example: Building an ARCH Model</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="volatility-models.html"><a href="volatility-models.html#generalized-arch-garch-models"><i class="fa fa-check"></i><b>4.6</b> Generalized ARCH (GARCH) Models</a></li>
+<li class="chapter" data-level="4.7" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.7</b> References:</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html"><i class="fa fa-check"></i><b>5</b> Multivariate Time Series Modeliing</a><ul>
 <li class="chapter" data-level="5.1" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html#references-3"><i class="fa fa-check"></i><b>5.1</b> References:</a></li>
@@ -377,7 +383,7 @@ Figure 4.1: Daily returns of the adjusted closing prices of the Standard &amp; P
 <p><strong>Example</strong></p>
 <ul>
 <li>Let <span class="math inline">\(P_t\)</span> be the adjusted closing prices of the S&amp;P500 at the <span class="math inline">\(t\)</span>th trading day.</li>
-<li>Let <span class="math inline">\(Y_t\)</span> be the dialy returns of the S&amp;P500 Index at each day as shown in Figure <a href="volatility-models.html#fig:sp500">4.1</a>.</li>
+<li>Let <span class="math inline">\(Y_t\)</span> be the daily returns of the S&amp;P500 Index at each day as shown in Figure <a href="volatility-models.html#fig:sp500">4.1</a>.</li>
 <li>The basic idea in volatility modelling is that the return series <span class="math inline">\(\{Y_t\}\)</span> has very few serial correlations, but it is a dependent series.</li>
 <li>Consider the sample ACFs and PACFs of <span class="math inline">\(Y_t\)</span>, <span class="math inline">\(|Y_t|\)</span> and <span class="math inline">\(Y_t^2\)</span> (Figure <a href="volatility-models.html#fig:acf">4.2</a>)</li>
 </ul>
@@ -418,17 +424,199 @@ However, squared (and absolute) returns are, which is good news! This is because
 <span class="math display">\[\phi(B)X_t=\theta(B)Y_t,\]</span></li>
 </ul>
 <p>where <span class="math inline">\(\phi(B)\)</span> and <span class="math inline">\(\theta(B)\)</span> are polynomials of <span class="math inline">\(B\)</span> with order <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, respectively.
-- Let <span class="math inline">\(\mathcal{F}_t\)</span>, the set of observed data upto time <span class="math inline">\(t\)</span>, (i.e. <span class="math inline">\(\{X_1,X_2,\dots, X_t\}\)</span>).
+- Let <span class="math inline">\(\mathcal{F}_t\)</span>, the set of observed data up to time <span class="math inline">\(t\)</span>, (i.e. <span class="math inline">\(\{X_1,X_2,\dots, X_t\}\)</span>).
 - Then the observation <span class="math inline">\(X_t\)</span> can be written as
 <span class="math display">\[X_t=\mu_t+Y_t,\]</span>
 where <span class="math inline">\(\mu_t\)</span> is the mean of <span class="math inline">\(X_t\)</span> conditional on observed data <span class="math inline">\(\mathcal{F}_{t-1},\)</span></p>
 <p><span class="math display">\[\mu_t=E(X_t|\mathcal{F}_{t-1})= \phi(B)X_t-(\theta(B)-1)Y_t\]</span></p>
+<p>and the innovation series <span class="math inline">\(Y_t\)</span> has mean 0 and conditional variance</p>
+<p><span class="math display">\[\sigma_t^2=Var(X_t|\mathcal{F}_{t-1})=Var(Y_t|\mathcal{F}_{t-1})\]</span>
+- The conditional heteroscedastic models of this chapter are concerned with the evolution of <span class="math inline">\(\sigma_t^2\)</span> over time.
+- The model for <span class="math inline">\(\mu_t\)</span> is referred to as the mean equation for <span class="math inline">\(X_t\)</span> and the model for <span class="math inline">\(\sigma^2_t\)</span> is the volatility equation for <span class="math inline">\(X_t.\)</span></p>
+<!--
+- A classical linear regression model assumes that the innovation series $Y_t$  has a constant variance.
+- The fundamental idea in GARCH is to add a second equation to the standard regression model, the conditional variance equation. 
+
+-->
+</div>
+<div id="model-building" class="section level2">
+<h2><span class="header-section-number">4.3</span> Model Building</h2>
+<!--Tsay: Analysis of financial ts pg 113-->
+<p>The process of building a volatility model for an asset return series consists of four main steps <span class="citation">(Tsay <a href="#ref-tsay2010analysis">2010</a>)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>Specify a mean equation by testing for serial dependence in the data and, if necessary, building an econometric model (e.g., an ARMA model) for the return series to remove any linear dependence.</li>
+<li>Use the residuals of the mean equation to test for ARCH effects.</li>
+<li>Specify a volatility model if ARCH effects are statistically significant, and perform a joint estimation of the mean and volatility equations.</li>
+<li>Check the fitted model carefully and refine it if necessary.</li>
+</ol>
+</div>
+<div id="testing-for-arch-effect" class="section level2">
+<h2><span class="header-section-number">4.4</span> Testing for ARCH Effect</h2>
+<ul>
+<li>Let <span class="math inline">\(Y_t = X_t − \mu_t\)</span> be the residuals of the mean equation.</li>
+<li>The squared series <span class="math inline">\(Y_t^2\)</span> is then used to check for <strong>conditional heteroscedasticity</strong> (also known as the <strong>ARCH effects</strong>).</li>
+<li>Volatility clustering implies a strong autocorrelation in squared series.</li>
+<li>There are two statistical tests for conditional heteroscedasticity
+<ol style="list-style-type: decimal">
+<li><p>Method 1: Apply the usual Ljung–Box statistics <span class="math inline">\(Q(m)\)</span> to the <span class="math inline">\(Y_t^2\)</span> (McLeod and Li, 1983).</p>
+<ul>
+<li>The null hypothesis is that the first <span class="math inline">\(m\)</span> lags of ACF of the <span class="math inline">\(Y_t^2\)</span> series are zero.</li>
+</ul></li>
+<li><p>Method 2: The Lagrange multiplier test of Engle (1982).</p></li>
+</ol></li>
+</ul>
+</div>
+<div id="autoregressive-conditional-heteroskedastic-arch-models" class="section level2">
+<h2><span class="header-section-number">4.5</span> Autoregressive Conditional Heteroskedastic (ARCH) Models</h2>
+<ul>
+<li><p>ARCH model of Engle (1982) is the first model that provides a systematic framework for volatility modeling.</p></li>
+<li><p>Main idea:</p>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(Y_t\)</span> is serially uncorrelated, but dependent, (b) the dependence of <span class="math inline">\(Y_t\)</span> can be described by a simple quadratic function of its lagged values.</li>
+</ol></li>
+<li><p>To better describe the idea, we represents <span class="math inline">\(Y_t\)</span> having a zero means in the form</p></li>
+</ul>
+<p><span class="math display">\[\begin{equation} \label{eq:1}
+Y_t=\sigma_t\epsilon_t,
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation} \label{eq:2}
+\sigma_t^2 =\alpha_0+\alpha_1Y_{t-1}^2+\dots+\alpha_mY_{t-m}^2,
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\{\epsilon_t\}\)</span> denotes is a sequence of iid random variables with mean zero and variance 1.</p>
+<ul>
+<li><span class="math inline">\(\sigma_t\)</span> can be thought of as the local conditional standard deviation of the process.</li>
+<li><span class="math inline">\(\alpha_0&gt;0\)</span>, and <span class="math inline">\(\alpha_i\geq0\)</span> for <span class="math inline">\(i &gt; 0\)</span>. - To ensure that the unconditional variance of <span class="math inline">\(Y_t\)</span> is finite, coefficients <span class="math inline">\(\alpha_i\)</span> must satisfy some regularity conditions.</li>
+<li>The <span class="math inline">\(\epsilon_t\)</span> may follow the standard normal or a standardized Student-t or a generalized error distribution.</li>
+</ul>
+<!--From the structure of the model, it is seen that large past squared shocks {a2 }m t−i i=1
+imply a large conditional variance σt2 for the innovation at . Consequently, at tends to assume a large value (in modulus). This means that, under the ARCH framework, large shocks tend to be followed by another large shock. Here I use the word tend because a large variance does not necessarily produce a large realization. It only says that the probability of obtaining a large variate is greater than that of a smaller variance. This feature is similar to the volatility clustering observed in asset returns.-->
+<ul>
+<li>A model for <span class="math inline">\(Y_t\)</span> satisfying Equations  and  is called an <strong>autoregressive conditional heteroskedastic model</strong> of order <span class="math inline">\(m\)</span> (<span class="math inline">\(ARCH(m)\)</span>)</li>
+<li>Note that Equation  does not include an ‘error’ term and therefore does not define a stochastic process.</li>
+<li><p>The ARCH model allows for volatility clustering as the conditional variance <span class="math inline">\(\sigma_t^2\)</span> in Equation  depends on the lagged squared innovations <span class="math inline">\(Y^2_{t−1}\)</span>. A large (positive or negative) residual at time <span class="math inline">\(t − 1\)</span> implies that <span class="math inline">\(Y^2_{t−1}\)</span> is large and consequently the conditional variance <span class="math inline">\(\sigma_t^2\)</span> will be large as <span class="math inline">\(\alpha_i ≥ 0\)</span>. Thereby, large shocks tend to be followed by large shocks (in absolute terms) and small shocks tend to be followed by small shocks (in absolute terms). This is the feature we call <strong>volatility clustering</strong>.</p></li>
+<li><p>However, large variance does not necessarily produce a large <strong>realization</strong>. It only says that the <strong>probability</strong> of obtaining a large variate is greater than that of a smaller variance.</p></li>
+</ul>
+<div id="example-building-an-arch-model" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> Example: Building an ARCH Model</h3>
+<ul>
+<li><p>Let’s apply the modeling procedure to build a simple ARCH model for the daily returns, <span class="math inline">\(Y_t,\)</span> of adjusted closing prices of the S&amp;P500 index.</p></li>
+<li>Figure <a href="volatility-models.html#fig:sp500">4.1</a> shows the daily return series from January 4, 1995 to February 25, 2021.</li>
+<li>The sample ACF and PACF of the squared returns in the bottom panel of Figure <a href="volatility-models.html#fig:acf">4.2</a>, show the existence of conditional heteroscedasticity.</li>
+<li>If an ARCH effect is found to be significant, one can use the PACF of <span class="math inline">\(Y_t^2\)</span> to determine the ARCH order.</li>
+<li><p>We consider an ARCH(2) model with the following specification for the daily return series</p></li>
+</ul>
+<p><span class="math display">\[X_t=\mu+Y_t,\]</span>
+<span class="math display">\[Y_t=\sigma_t\epsilon_t,\]</span>
+<span class="math display">\[\sigma_t^2=\alpha_0+\alpha_1Y_{t-1}^2 + \alpha_2Y_{t-2}^2.\]</span></p>
+<ul>
+<li>We use the R function <code>garchFit</code> in the R package <code>fGarch</code> to estimate the model.</li>
+</ul>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1"><span class="co"># install.packages(&quot;fGarch&quot;)</span></a>
+<a class="sourceLine" id="cb89-2" title="2"><span class="kw">library</span>(fGarch)</a>
+<a class="sourceLine" id="cb89-3" title="3">fit1 &lt;-<span class="st"> </span><span class="kw">garchFit</span>(<span class="op">~</span><span class="kw">garch</span>(<span class="dv">2</span>,<span class="dv">0</span>), <span class="dt">data =</span>sp500_return<span class="op">$</span>daily.returns)</a>
+<a class="sourceLine" id="cb89-4" title="4"><span class="kw">summary</span>(fit1)</a></code></pre></div>
+<pre><code>## 
+## Title:
+##  GARCH Modelling 
+## 
+## Call:
+##  garchFit(formula = ~garch(2, 0), data = sp500_return$daily.returns) 
+## 
+## Mean and Variance Equation:
+##  data ~ garch(2, 0)
+## &lt;environment: 0x7fadb53fae90&gt;
+##  [data = sp500_return$daily.returns]
+## 
+## Conditional Distribution:
+##  norm 
+## 
+## Coefficient(s):
+##         mu       omega      alpha1      alpha2  
+## 7.7804e-04  5.8828e-05  2.2118e-01  3.8733e-01  
+## 
+## Std. Errors:
+##  based on Hessian 
+## 
+## Error Analysis:
+##         Estimate  Std. Error  t value Pr(&gt;|t|)    
+## mu     7.780e-04   1.098e-04    7.087 1.37e-12 ***
+## omega  5.883e-05   1.818e-06   32.366  &lt; 2e-16 ***
+## alpha1 2.212e-01   1.967e-02   11.245  &lt; 2e-16 ***
+## alpha2 3.873e-01   2.368e-02   16.354  &lt; 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Log Likelihood:
+##  20748    normalized:  3.152 
+## 
+## Description:
+##  Sat Feb 27 13:39:26 2021 by user:  
+## 
+## 
+## Standardised Residuals Tests:
+##                                 Statistic p-Value 
+##  Jarque-Bera Test   R    Chi^2  2657      0       
+##  Shapiro-Wilk Test  R    W      NA        NA      
+##  Ljung-Box Test     R    Q(10)  21.61     0.01721 
+##  Ljung-Box Test     R    Q(15)  34.45     0.002941
+##  Ljung-Box Test     R    Q(20)  38.39     0.007933
+##  Ljung-Box Test     R^2  Q(10)  362.7     0       
+##  Ljung-Box Test     R^2  Q(15)  546.8     0       
+##  Ljung-Box Test     R^2  Q(20)  713.2     0       
+##  LM Arch Test       R    TR^2   428.5     0       
+## 
+## Information Criterion Statistics:
+##    AIC    BIC    SIC   HQIC 
+## -6.303 -6.299 -6.303 -6.302</code></pre>
+<p><strong>Plot the result</strong></p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">sp500_return &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb91-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vol =</span> <span class="kw">volatility</span>(fit1),</a>
+<a class="sourceLine" id="cb91-3" title="3">         <span class="dt">resid.st =</span> <span class="kw">residuals</span>(fit1) <span class="op">/</span><span class="st"> </span>vol) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb91-4" title="4"><span class="st">  </span><span class="kw">as_tsibble</span>(<span class="dt">index =</span> date, <span class="dt">regular =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb91-5" title="5"></a>
+<a class="sourceLine" id="cb91-6" title="6">p1 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(vol)</a>
+<a class="sourceLine" id="cb91-7" title="7">p2 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(resid.st)  </a>
+<a class="sourceLine" id="cb91-8" title="8">p3 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ACF</span>(resid.st) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a>
+<a class="sourceLine" id="cb91-9" title="9">p4 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">PACF</span>(resid.st) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a>
+<a class="sourceLine" id="cb91-10" title="10">p5 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ACF</span>(resid.st<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a>
+<a class="sourceLine" id="cb91-11" title="11">p6 &lt;-<span class="st"> </span>sp500_return <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">PACF</span>(resid.st<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a></code></pre></div>
+<div class="figure"><span id="fig:plot2"></span>
+<img src="bookdown-demo_files/figure-html/plot2-1.png" alt="(a) Estimated volatility $\hat{\sigma_t}$, (b) the standardized residual $\hat{\epsilon_t}$, (c) sample ACF of $\hat{\epsilon_t}$,  (d) sample PACF of $\hat{\epsilon_t}$, (e) sample ACF of $\hat{\epsilon_t^2}$,  (d) sample PACF of $\hat{\epsilon_t^2}$, in the ARCH(2) model for daily returns of adjusted closing prices of the S&amp;P500 Index from January 4, 1995 to February 25, 2021." width="672" />
+<p class="caption">
+Figure 4.3: (a) Estimated volatility <span class="math inline">\(\hat{\sigma_t}\)</span>, (b) the standardized residual <span class="math inline">\(\hat{\epsilon_t}\)</span>, (c) sample ACF of <span class="math inline">\(\hat{\epsilon_t}\)</span>, (d) sample PACF of <span class="math inline">\(\hat{\epsilon_t}\)</span>, (e) sample ACF of <span class="math inline">\(\hat{\epsilon_t^2}\)</span>, (d) sample PACF of <span class="math inline">\(\hat{\epsilon_t^2}\)</span>, in the ARCH(2) model for daily returns of adjusted closing prices of the S&amp;P500 Index from January 4, 1995 to February 25, 2021.
+</p>
+</div>
+<div style="page-break-after: always;"></div>
+<ul>
+<li>Assuming that <span class="math inline">\(\epsilon_t\)</span> are iid, standard normal, we get the fitted model as follows:</li>
+</ul>
+<p><span class="math display">\[X_t = 0.0007804_{(1.098e-04)} + Y_t, \text{  }Y_t=\sigma_t\epsilon_t,\]</span></p>
+<p><span class="math display">\[\sigma_t^2=0.00005883_{(1.818e-06)}+0.2212_{(1.967e-02)}Y_{t-1}^2 + 0.3873_{(2.368e-02)}Y_{t-2}^2\]</span></p>
+<p>where the standard errors of the parameters are given in the parentheses.</p>
+<ul>
+<li>Both the output and the plot show that the estimated residuals still have conditional heteroscedasticities.</li>
+<li>Therefore, the ARCH(2) model is not adequate.</li>
+</ul>
+</div>
+</div>
+<div id="generalized-arch-garch-models" class="section level2">
+<h2><span class="header-section-number">4.6</span> Generalized ARCH (GARCH) Models</h2>
+<ul>
+<li><p>Although the ARCH model is simple, it often requires many parameters to adequately describe the volatility process of an asset return.</p></li>
+<li><p>Bollerslev (1986) proposes a useful extension known as the generalized ARCH (GARCH) model.</p></li>
+<li><p>The ARCH model has been generalized to allow the variance to depend on past values of <span class="math inline">\(Y_t^2\)</span> as well as on past values of <span class="math inline">\(\sigma^2_t.\)</span></p></li>
+<li><p>A model for <span class="math inline">\(Y_t\)</span> satisfying Equations  is said to follow a <strong>generalized ARCH (or GARCH) model</strong> of order <span class="math inline">\((m,s)\)</span> (<span class="math inline">\(GARCH(m,s)\)</span>) when the local conditional variance is given by</p></li>
+</ul>
+<p><span class="math display">\[\begin{equation} \label{eq:3}
+\sigma_t^2 =\alpha_0+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-i}^2,
+\end{equation}\]</span></p>
 </div>
 <div id="references-2" class="section level2">
-<h2><span class="header-section-number">4.3</span> References:</h2>
+<h2><span class="header-section-number">4.7</span> References:</h2>
 <ul>
 <li><p>Chatfield, C., &amp; Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.</p></li>
-<li><p>Tsay, R. S. (2005). Analysis of financial time series (Vol. 543). John wiley &amp; sons.
+<li><p>Tsay, R. S. (2010). Analysis of Financial Time Series. John Wiley &amp; Sons..
 </p></li>
 </ul>
 
@@ -438,6 +626,9 @@ where <span class="math inline">\(\mu_t\)</span> is the mean of <span class="mat
 <div id="refs" class="references">
 <div id="ref-chatfield2019analysis">
 <p>Chatfield, Chris, and Haipeng Xing. 2019. <em>The Analysis of Time Series: An Introduction with R</em>. CRC press.</p>
+</div>
+<div id="ref-tsay2010analysis">
+<p>Tsay, Ruey S. 2010. <em>Analysis of Financial Time Series</em>. John Wiley &amp; Sons.</p>
 </div>
 </div>
             </section>

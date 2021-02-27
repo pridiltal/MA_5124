@@ -23,3 +23,7 @@ PerformanceAnalytics
 TTR
 quantmod
 tidyquant
+timeDate
+timeSeries
+fBasics
+fGarch

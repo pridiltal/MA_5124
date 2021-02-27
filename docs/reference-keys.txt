@@ -1,5 +1,6 @@
 fig:sp500
 fig:acf
+fig:plot2
 intro
 arima-models
 stationarity-and-differencing
@@ -152,6 +153,11 @@ references-1
 volatility-models
 introduction-1
 structure-of-a-model-for-asset-returns
+model-building
+testing-for-arch-effect
+autoregressive-conditional-heteroskedastic-arch-models
+example-building-an-arch-model
+generalized-arch-garch-models
 references-2
 multivariate-time-series-modeliing
 references-3
