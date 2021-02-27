@@ -254,7 +254,7 @@ summary(fit1)
 ```{r plot, echo=TRUE}
 sp500_return <- sp500_return %>%
   mutate(vol = volatility(fit1),
-         resid.st = residuals(fit1) / vol) %>%
+         resid.st = residuals(fit1, standardize=T)) %>%
   as_tsibble(index = date, regular = FALSE)
 
 p1 <- sp500_return %>% autoplot(vol)
@@ -395,7 +395,7 @@ summary(fit2)
 ```{r plot3, echo=TRUE}
 sp500_return <- sp500_return %>%
   mutate(vol = volatility(fit2),
-         resid.st = residuals(fit2) / vol) %>%
+         resid.st = residuals(fit2, standardize=T)) %>%
   as_tsibble(index = date, regular = FALSE)
 
 p1 <- sp500_return %>% autoplot(vol)
@@ -416,9 +416,20 @@ p +
   plot_annotation(tag_levels = 'a')
 ```
 
+```{r}
+## predict -
+   predict(fit2, n.ahead = 10)
+   predict(fit2, n.ahead = 10,mse="uncond")
 
+## predict with plotting: critical values = +- 2
+
+   predict(fit2, n.ahead = 10, plot=TRUE, crit_val=2)
+
+
+```
 - Now the model is adequate as the standardized residuals in the fitted $GARCH(1,1)$ model show little conditional heteroscedasticity.
 
+## The ARMA-GARCH Models
 
 ## References:
 
