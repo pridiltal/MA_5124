@@ -3941,7 +3941,7 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 
 \pagenumbering{arabic}
 
-\textbf{This chapter is heavily based on Chapter 12 of \citet{chatfield2019analysis}.}
+\textbf{This chapter is heavily based on Chapter 12 of \citet{chatfield2019analysis} and Chapter 3 of \citet{tsay2010analysis} .}
 
 \hypertarget{introduction-1}{%
 \section{Introduction}\label{introduction-1}}
@@ -4372,8 +4372,219 @@ where the standard errors of the parameters are given in the parentheses.
 \end{itemize}
 
 \begin{equation} \label{eq:3}
-\sigma_t^2 =\alpha_0+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-i}^2,
+\sigma_t^2 =\alpha_0+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2,
 \end{equation}
+
+where \(\{\epsilon_t\}\) is a sequence of iid random variables with mean 0 and variance 1, \(\alpha_0>0,\) \(\alpha_i\geq0,\) \(\beta_j\geq0,\) and
+\(\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_j)<1.\)
+
+\begin{itemize}
+\item
+  Here, \(\alpha_i=0\) for \(i>m\) and \(\beta_j =0\) for \(j>s.\)
+\item
+  The constraint on \(\alpha_i+\beta_j\) implies that the unconditional variance of \(Y_t\) is finite, whereas its conditional variance \(\sigma_t^2\) evolves over time.
+\item
+  \(\epsilon_t\) is often assumed to follow a standard normal or standardized Student-t distribution or generalized error distribution.
+\item
+  Equation \ref{eq:3} reduces to a pure ARCH(\(m\)) model if \(s = 0\) (i.e.~GARCH(\(m,0\))).
+\item
+  The \(\alpha_i\) and \(\beta_j\) are known as ARCH and GARCH parameters, respectively.
+\end{itemize}
+
+To understand properties of GARCH models, it is informative to use the following representation.
+
+\begin{itemize}
+\item
+  Let \(\eta_t = Y_t^2 − \sigma_t^2.\)
+\item
+  Then \(\sigma_t^2= Y_t^2 −\eta_t.\)
+  -By plugging \(\sigma_{t-1}^2= Y_{t-1}^2 −\eta_{t-1}\) (\(i=0,\dots,s\)) into Equation \ref{eq:3}, we get the GARCH model as
+  \begin{equation} \label{eq:4}
+  Y_t^2 =\alpha_0+\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)Y_{t-i}^2+\eta_t-\sum_{j=1}^s\beta_j\eta_{t-j}.
+  \end{equation}
+\item
+  It is easy to check that \(\{\eta_t \}\) is a martingale difference series {[}i.e., \(E(\eta_t ) = 0\) and \(cov(\eta_t , \eta_{t-j} ) = 0\) for \(j\geq 1\){]}.
+\item
+  However, \(\{\eta_t \}\) in general is not an iid sequence.
+\item
+  Equation \ref{eq:4} is an ARMA form for the squared series \(Y_t^2\).
+\item
+  Therefore, a GARCH model can be regarded as an application of the ARMA idea to the squared series \(Y_t^2\).
+\end{itemize}
+
+\textbf{GARCH(\(1,1\)) model}
+
+\begin{itemize}
+\tightlist
+\item
+  The \(GARCH(1,1)\) model is often used to fit financial time series.
+\item
+  The properties of GARCH models can easily be understood by focusing
+  on the simplest \(GARCH(1,1)\) model with
+\end{itemize}
+
+\[\sigma_t^2 = \alpha_0+\alpha_1Y_{t-1}^2 + \beta_1\sigma_{t-1}^2, \text{  } 0\leq\alpha_1, \beta_1\leq 1, (\alpha_1+\beta_1)<1.\]
+- The model implies that a large \(Y_t^2\) or \(\sigma_{t-1}^2\) will lead to a large \(\sigma_{t}^2\), which in turn will give rise to a large \(Y_t^2=\sigma_t^2\epsilon_t^2.\)
+- This again generate the well-known behaviour of volatility clustering in financial time series.
+
+\hypertarget{prediction-of-volatilities}{%
+\subsection{Prediction of volatilities}\label{prediction-of-volatilities}}
+
+\begin{itemize}
+\tightlist
+\item
+  Both ARCH and GARCH models do not affect point forecasts of the original observed variables.
+\item
+  Therefore, it is difficult to make a fair comparison of the forecasting abilities of different models for changing variance.
+\item
+  Therefore, both the modeling aspect (understanding the changing structure of a series), and the assessment of risk, are more important than their ability to make point forecasts.
+\item
+  Forecasts of a GARCH model are similar to those of an ARMA model.
+\item
+  Consider the GARCH(1,1) model.
+\item
+  Let the forecast origin is \(h\).
+\item
+  For 1-step ahead forecast, we have
+\end{itemize}
+
+\[\sigma_{h+1}^2 = \alpha_0+\alpha_1Y_h^2+\beta_1\sigma_h^2\]
+where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
+
+\begin{itemize}
+\tightlist
+\item
+  Then, 1-step ahead forecast is
+\end{itemize}
+
+\[\sigma_{h}^2(1) = \alpha_0+\alpha_1Y_h^2+\beta_1\sigma_h^2.\]
+- For multistep-ahead forecasts, we use \(Y_t^2 = \sigma_t^2\epsilon_t^2.\)
+- Then the volatility equation can be written as
+
+\[\sigma_{t+1}^2 = \alpha_0+(\alpha_1+\beta_1)\sigma_t^2+\alpha_1\sigma_t^2(\epsilon_t^2-1).\]
+- When \(t = h + 1\), we get,
+
+\[\sigma_{h+2}^2 = \alpha_0+(\alpha_1+\beta_1)\sigma_{h+1}^2+\alpha_1\sigma_{h+1}^2(\epsilon_{h+1}^2-1).\]
+- Since \(E(\epsilon_{h+1}^2-1|\mathcal{F}_t)=0\), the 2-step-ahead volatility forecast at the forecast origin \(h\) satisfies the equation
+
+\[\sigma_{h}^2(2) = \alpha_0+(\alpha_1+\beta_1)\sigma_h^2(1).\]
+
+\begin{itemize}
+\item
+  In general, we can write
+  \[\sigma_{h}^2(k) = \alpha_0+(\alpha_1+\beta_1)\sigma_h^2(k-1), \quad k>1.\]
+\item
+  This result is similar to an ARMA(1,1) model with AR polynomial \(1 − (\alpha_1 + \beta_1)B\).
+\end{itemize}
+
+\hypertarget{example-building-a-garch-model}{%
+\subsection{Example: Building a GARCH Model}\label{example-building-a-garch-model}}
+
+\begin{itemize}
+\tightlist
+\item
+  Let's apply the modeling procedure to build a \(GARCH(1,1)\) model for the daily returns, \(Y_t,\) of adjusted closing prices of the S\&P500 index.
+\item
+  Figure \ref{fig:sp500} shows the daily return series from January 4, 1995 to February 25, 2021.
+\item
+  The sample ACF and PACF of the squared returns in the bottom panel of Figure \ref{fig:acf}, show the existence of conditional heteroscedasticity.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# install.packages("fGarch")}
+\KeywordTok{library}\NormalTok{(fGarch)}
+\NormalTok{fit2 <-}\StringTok{ }\KeywordTok{garchFit}\NormalTok{(}\OperatorTok{~}\KeywordTok{garch}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DataTypeTok{data =}\NormalTok{sp500_return}\OperatorTok{$}\NormalTok{daily.returns)}
+\KeywordTok{summary}\NormalTok{(fit2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Title:
+##  GARCH Modelling 
+## 
+## Call:
+##  garchFit(formula = ~garch(1, 1), data = sp500_return$daily.returns) 
+## 
+## Mean and Variance Equation:
+##  data ~ garch(1, 1)
+## <environment: 0x7ff02db5eac0>
+##  [data = sp500_return$daily.returns]
+## 
+## Conditional Distribution:
+##  norm 
+## 
+## Coefficient(s):
+##         mu       omega      alpha1       beta1  
+## 7.2933e-04  2.1055e-06  1.2134e-01  8.6479e-01  
+## 
+## Std. Errors:
+##  based on Hessian 
+## 
+## Error Analysis:
+##         Estimate  Std. Error  t value Pr(>|t|)    
+## mu     7.293e-04   9.722e-05    7.502 6.28e-14 ***
+## omega  2.106e-06   2.656e-07    7.927 2.22e-15 ***
+## alpha1 1.213e-01   8.705e-03   13.940  < 2e-16 ***
+## beta1  8.648e-01   8.885e-03   97.335  < 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Log Likelihood:
+##  21322    normalized:  3.239 
+## 
+## Description:
+##  Sat Feb 27 16:30:14 2021 by user:  
+## 
+## 
+## Standardised Residuals Tests:
+##                                 Statistic p-Value 
+##  Jarque-Bera Test   R    Chi^2  1195      0       
+##  Shapiro-Wilk Test  R    W      NA        NA      
+##  Ljung-Box Test     R    Q(10)  21.65     0.01699 
+##  Ljung-Box Test     R    Q(15)  30.7      0.009632
+##  Ljung-Box Test     R    Q(20)  34.98     0.0202  
+##  Ljung-Box Test     R^2  Q(10)  12.97     0.2255  
+##  Ljung-Box Test     R^2  Q(15)  16.83     0.329   
+##  Ljung-Box Test     R^2  Q(20)  17.81     0.5999  
+##  LM Arch Test       R    TR^2   13.93     0.3055  
+## 
+## Information Criterion Statistics:
+##    AIC    BIC    SIC   HQIC 
+## -6.478 -6.473 -6.478 -6.476
+\end{verbatim}
+
+\textbf{Plot the result}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sp500_return <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{vol =} \KeywordTok{volatility}\NormalTok{(fit2),}
+         \DataTypeTok{resid.st =} \KeywordTok{residuals}\NormalTok{(fit2) }\OperatorTok{/}\StringTok{ }\NormalTok{vol) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{as_tsibble}\NormalTok{(}\DataTypeTok{index =}\NormalTok{ date, }\DataTypeTok{regular =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{p1 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(vol)}
+\NormalTok{p2 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(resid.st)  }
+\NormalTok{p3 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ACF}\NormalTok{(resid.st) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p4 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{PACF}\NormalTok{(resid.st) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p5 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ACF}\NormalTok{(resid.st}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\NormalTok{p6 <-}\StringTok{ }\NormalTok{sp500_return }\OperatorTok{%>%}\StringTok{ }\KeywordTok{PACF}\NormalTok{(resid.st}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{bookdown-demo_files/figure-latex/plot4-1.pdf}
+\caption{\label{fig:plot4}(a) Estimated volatility \(\hat{\sigma_t}\), (b) the standardized residual \(\hat{\epsilon_t}\), (c) sample ACF of \(\hat{\epsilon_t}\), (d) sample PACF of \(\hat{\epsilon_t}\), (e) sample ACF of \(\hat{\epsilon_t^2}\), (d) sample PACF of \(\hat{\epsilon_t^2}\), in the GARCH(1,1) model for daily returns of adjusted closing prices of the S\&P500 Index from January 4, 1995 to February 25, 2021.}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  Now the model is adequate as the standardized residuals in the fitted \(GARCH(1,1)\) model show little conditional heteroscedasticity.
+\end{itemize}
 
 \hypertarget{references-2}{%
 \section{References:}\label{references-2}}

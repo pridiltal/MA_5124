@@ -1,6 +1,7 @@
 fig:sp500
 fig:acf
 fig:plot2
+fig:plot4
 intro
 arima-models
 stationarity-and-differencing
@@ -158,6 +159,8 @@ testing-for-arch-effect
 autoregressive-conditional-heteroskedastic-arch-models
 example-building-an-arch-model
 generalized-arch-garch-models
+prediction-of-volatilities
+example-building-a-garch-model
 references-2
 multivariate-time-series-modeliing
 references-3

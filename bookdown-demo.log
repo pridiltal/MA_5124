@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.20)  27 FEB 2021 14:21
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.20)  27 FEB 2021 16:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1235,10 +1235,10 @@ Chapter 4.
 ]
 File: bookdown-demo_files/figure-latex/sp500-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/sp500-1.pdf>
-[2]
+[2] [3]
 File: bookdown-demo_files/figure-latex/acf-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/acf-1.pdf>
-[3] [4] [5]
+[4] [5]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 23.10004pt, for example:
@@ -1276,7 +1276,16 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-11.10004pt}.
 
-[9] [10]
+[9] [10] [11] [12] [13]
+File: bookdown-demo_files/figure-latex/plot4-1.pdf Graphic file (type pdf)
+<use bookdown-demo_files/figure-latex/plot4-1.pdf>
+
+Underfull \hbox (badness 1163) in paragraph at lines 4586--4587
+[]\TU/lmr/m/n/9 Now the model is adequate as the standardized residuals in the 
+fitted
+ []
+
+[14]
 Chapter 5.
 (./bookdown-demo.bbl [1
 
@@ -1290,12 +1299,12 @@ Package rerunfilecheck Info: File `bookdown-demo.out' has not changed.
 (rerunfilecheck)             Checksum: A0048A33F2C1585D19E6EB83839DB402;6377.
  ) 
 Here is how much of TeX's memory you used:
- 18010 strings out of 478931
- 337034 string characters out of 5865316
- 839761 words of memory out of 5000000
- 37503 multiletter control sequences out of 15000+600000
+ 18020 strings out of 478931
+ 337370 string characters out of 5865316
+ 841300 words of memory out of 5000000
+ 37512 multiletter control sequences out of 15000+600000
  410970 words of font info for 102 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 98i,12n,122p,618b,516s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 98i,12n,122p,618b,541s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on bookdown-demo.pdf (105 pages).
+Output written on bookdown-demo.pdf (109 pages).
