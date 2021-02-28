@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-02-27" />
+<meta name="date" content="2021-02-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -401,7 +401,7 @@ Figure 4.2: Sample ACF (left) and sample PACF (right) of various functions of th
 </p>
 </div>
 <ul>
-<li>Sample ACFs the returns <span class="math inline">\(Y_t\)</span> suggest no significant serial correlations except for small ones at lags 1, 3 and 5.</li>
+<li>Sample ACFs of the returns <span class="math inline">\(Y_t\)</span> suggest no significant serial correlations except for small ones at lags 1, 3 and 5.</li>
 <li>However, the sample ACFs of <span class="math inline">\(|Y_t|\)</span> and <span class="math inline">\(Y_t^2\)</span>, show strong dependence over all lags.</li>
 <li>Important feature: the returns may seem serially uncorrelated, but it is dependent.</li>
 <li>This is a common observations for daily returns series</li>
@@ -430,16 +430,20 @@ However, squared (and absolute) returns are, which is good news! This is because
 <li>Let <span class="math inline">\(X_t\)</span> follow an <span class="math inline">\(ARMA(p,q)\)</span> model,
 <span class="math display">\[\phi(B)X_t=\theta(B)Y_t,\]</span></li>
 </ul>
-<p>where <span class="math inline">\(\phi(B)\)</span> and <span class="math inline">\(\theta(B)\)</span> are polynomials of <span class="math inline">\(B\)</span> with order <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, respectively.
-- Let <span class="math inline">\(\mathcal{F}_t\)</span>, the set of observed data up to time <span class="math inline">\(t\)</span>, (i.e. <span class="math inline">\(\{X_1,X_2,\dots, X_t\}\)</span>).
-- Then the observation <span class="math inline">\(X_t\)</span> can be written as
+<p>where <span class="math inline">\(\phi(B)\)</span> and <span class="math inline">\(\theta(B)\)</span> are polynomials of <span class="math inline">\(B\)</span> with order <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, respectively.</p>
+<ul>
+<li><p>Let <span class="math inline">\(\mathcal{F}_t\)</span>, the set of observed data up to time <span class="math inline">\(t\)</span>, (i.e. <span class="math inline">\(\{X_1,X_2,\dots, X_t\}\)</span>).</p></li>
+<li><p>Then the observation <span class="math inline">\(X_t\)</span> can be written as
 <span class="math display">\[X_t=\mu_t+Y_t,\]</span>
-where <span class="math inline">\(\mu_t\)</span> is the mean of <span class="math inline">\(X_t\)</span> conditional on observed data <span class="math inline">\(\mathcal{F}_{t-1},\)</span></p>
+where <span class="math inline">\(\mu_t\)</span> is the mean of <span class="math inline">\(X_t\)</span> conditional on observed data <span class="math inline">\(\mathcal{F}_{t-1},\)</span></p></li>
+</ul>
 <p><span class="math display">\[\mu_t=E(X_t|\mathcal{F}_{t-1})= \phi(B)X_t-(\theta(B)-1)Y_t\]</span></p>
 <p>and the innovation series <span class="math inline">\(Y_t\)</span> has mean 0 and conditional variance</p>
-<p><span class="math display">\[\sigma_t^2=Var(X_t|\mathcal{F}_{t-1})=Var(Y_t|\mathcal{F}_{t-1})\]</span>
-- The conditional heteroscedastic models of this chapter are concerned with the evolution of <span class="math inline">\(\sigma_t^2\)</span> over time.
-- The model for <span class="math inline">\(\mu_t\)</span> is referred to as the mean equation for <span class="math inline">\(X_t\)</span> and the model for <span class="math inline">\(\sigma^2_t\)</span> is the volatility equation for <span class="math inline">\(X_t.\)</span></p>
+<p><span class="math display">\[\sigma_t^2=Var(X_t|\mathcal{F}_{t-1})=Var(Y_t|\mathcal{F}_{t-1})\]</span></p>
+<ul>
+<li>The conditional heteroscedastic models of this chapter are concerned with the evolution of <span class="math inline">\(\sigma_t^2\)</span> over time.</li>
+<li>The model for <span class="math inline">\(\mu_t\)</span> is referred to as the mean equation for <span class="math inline">\(X_t\)</span> and the model for <span class="math inline">\(\sigma^2_t\)</span> is the volatility equation for <span class="math inline">\(X_t.\)</span></li>
+</ul>
 <!--
 - A classical linear regression model assumes that the innovation series $Y_t$  has a constant variance.
 - The fundamental idea in GARCH is to add a second equation to the standard regression model, the conditional variance equation. 
@@ -479,7 +483,9 @@ where <span class="math inline">\(\mu_t\)</span> is the mean of <span class="mat
 <li><p>ARCH model of Engle (1982) is the first model that provides a systematic framework for volatility modeling.</p></li>
 <li><p>Main idea:</p>
 <ol style="list-style-type: lower-alpha">
-<li><span class="math inline">\(Y_t\)</span> is serially uncorrelated, but dependent, (b) the dependence of <span class="math inline">\(Y_t\)</span> can be described by a simple quadratic function of its lagged values.</li>
+<li><span class="math inline">\(Y_t\)</span> is serially uncorrelated, but dependent,<br />
+</li>
+<li>the dependence of <span class="math inline">\(Y_t\)</span> can be described by a simple quadratic function of its lagged values.</li>
 </ol></li>
 <li><p>To better describe the idea, we represents <span class="math inline">\(Y_t\)</span> having a zero means in the form</p></li>
 </ul>
@@ -492,7 +498,8 @@ Y_t=\sigma_t\epsilon_t,
 <p>where <span class="math inline">\(\{\epsilon_t\}\)</span> denotes is a sequence of iid random variables with mean zero and variance 1.</p>
 <ul>
 <li><span class="math inline">\(\sigma_t\)</span> can be thought of as the local conditional standard deviation of the process.</li>
-<li><span class="math inline">\(\alpha_0&gt;0\)</span>, and <span class="math inline">\(\alpha_i\geq0\)</span> for <span class="math inline">\(i &gt; 0\)</span>. - To ensure that the unconditional variance of <span class="math inline">\(Y_t\)</span> is finite, coefficients <span class="math inline">\(\alpha_i\)</span> must satisfy some regularity conditions.</li>
+<li><span class="math inline">\(\alpha_0&gt;0\)</span>, and <span class="math inline">\(\alpha_i\geq0\)</span> for <span class="math inline">\(i &gt; 0\)</span>.</li>
+<li>To ensure that the unconditional variance of <span class="math inline">\(Y_t\)</span> is finite, coefficients <span class="math inline">\(\alpha_i\)</span> must satisfy some regularity conditions.</li>
 <li>The <span class="math inline">\(\epsilon_t\)</span> may follow the standard normal or a standardized Student-t or a generalized error distribution.</li>
 </ul>
 <!--From the structure of the model, it is seen that large past squared shocks {a2 }m t−i i=1
@@ -506,7 +513,7 @@ imply a large conditional variance σt2 for the innovation at . Consequently, at
 <div id="example-building-an-arch-model" class="section level3">
 <h3><span class="header-section-number">4.5.1</span> Example: Building an ARCH Model</h3>
 <ul>
-<li><p>Let’s apply the modeling procedure to build a simple ARCH model for the daily returns, <span class="math inline">\(Y_t,\)</span> of adjusted closing prices of the S&amp;P500 index.</p></li>
+<li><p>Let’s apply the modeling procedure to build a simple ARCH model for the daily returns, <span class="math inline">\(X_t,\)</span>, of adjusted closing prices of the S&amp;P500 index.</p></li>
 <li>Figure <a href="volatility-models.html#fig:sp500">4.1</a> shows the daily return series from January 4, 1995 to February 25, 2021.</li>
 <li>The sample ACF and PACF of the squared returns in the bottom panel of Figure <a href="volatility-models.html#fig:acf">4.2</a>, show the existence of conditional heteroscedasticity.</li>
 <li>If an ARCH effect is found to be significant, one can use the PACF of <span class="math inline">\(Y_t^2\)</span> to determine the ARCH order.</li>
@@ -630,15 +637,19 @@ Figure 4.3: (a) Estimated volatility <span class="math inline">\(\hat{\sigma_t}\
 <p>To understand properties of GARCH models, it is informative to use the following representation.</p>
 <ul>
 <li>Let <span class="math inline">\(\eta_t = Y_t^2 − \sigma_t^2.\)</span></li>
-<li><p>Then <span class="math inline">\(\sigma_t^2= Y_t^2 −\eta_t.\)</span>
--By plugging <span class="math inline">\(\sigma_{t-1}^2= Y_{t-1}^2 −\eta_{t-1}\)</span> (<span class="math inline">\(i=0,\dots,s\)</span>) into Equation , we get the GARCH model as
-<span class="math display">\[\begin{equation} \label{eq:4}
+<li>Then <span class="math inline">\(\sigma_t^2= Y_t^2 −\eta_t.\)</span></li>
+<li>By plugging <span class="math inline">\(\sigma_{t-1}^2= Y_{t-1}^2 −\eta_{t-1}\)</span> (<span class="math inline">\(i=0,\dots,s\)</span>) into Equation , we get the GARCH model as</li>
+</ul>
+<p><span class="math display">\[\begin{equation} \label{eq:4}
 Y_t^2 =\alpha_0+\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)Y_{t-i}^2+\eta_t-\sum_{j=1}^s\beta_j\eta_{t-j}.
-\end{equation}\]</span></p></li>
+\end{equation}\]</span></p>
+<ul>
 <li>It is easy to check that <span class="math inline">\(\{\eta_t \}\)</span> is a martingale difference series [i.e., <span class="math inline">\(E(\eta_t ) = 0\)</span> and <span class="math inline">\(cov(\eta_t , \eta_{t-j} ) = 0\)</span> for <span class="math inline">\(j\geq 1\)</span>].</li>
 <li>However, <span class="math inline">\(\{\eta_t \}\)</span> in general is not an iid sequence.</li>
 <li>Equation  is an ARMA form for the squared series <span class="math inline">\(Y_t^2\)</span>.</li>
-<li><p>Therefore, a GARCH model can be regarded as an application of the ARMA idea to the squared series <span class="math inline">\(Y_t^2\)</span>.</p></li>
+<li>Therefore, a GARCH model can be regarded as an application of the ARMA idea to the squared series <span class="math inline">\(Y_t^2\)</span>.</li>
+<li>Therefore, the same invertibility and stationary assumptions of ARMA models apply to GARCh models.</li>
+<li>For example, <span class="math inline">\(Y_t\)</span> is covariance stationary, if all roots of <span class="math inline">\(1-\sum_{j=1}^{max(m,s)}(\alpha_j+\beta_j)z^j=0\)</span> lie outside the unit circle.</li>
 </ul>
 <p><strong>GARCH(<span class="math inline">\(1,1\)</span>) model</strong></p>
 <ul>
@@ -646,9 +657,11 @@ Y_t^2 =\alpha_0+\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)Y_{t-i}^2+\eta_t-\sum_{j=
 <li>The properties of GARCH models can easily be understood by focusing
 on the simplest <span class="math inline">\(GARCH(1,1)\)</span> model with</li>
 </ul>
-<p><span class="math display">\[\sigma_t^2 = \alpha_0+\alpha_1Y_{t-1}^2 + \beta_1\sigma_{t-1}^2, \text{  } 0\leq\alpha_1, \beta_1\leq 1, (\alpha_1+\beta_1)&lt;1.\]</span>
-- The model implies that a large <span class="math inline">\(Y_t^2\)</span> or <span class="math inline">\(\sigma_{t-1}^2\)</span> will lead to a large <span class="math inline">\(\sigma_{t}^2\)</span>, which in turn will give rise to a large <span class="math inline">\(Y_t^2=\sigma_t^2\epsilon_t^2.\)</span>
-- This again generate the well-known behaviour of volatility clustering in financial time series.</p>
+<p><span class="math display">\[\sigma_t^2 = \alpha_0+\alpha_1Y_{t-1}^2 + \beta_1\sigma_{t-1}^2, \text{  } 0\leq\alpha_1, \beta_1\leq 1, (\alpha_1+\beta_1)&lt;1.\]</span></p>
+<ul>
+<li>The model implies that a large <span class="math inline">\(Y_t^2\)</span> or <span class="math inline">\(\sigma_{t-1}^2\)</span> will lead to a large <span class="math inline">\(\sigma_{t}^2\)</span>, which in turn will give rise to a large <span class="math inline">\(Y_t^2=\sigma_t^2\epsilon_t^2.\)</span></li>
+<li>This again generate the well-known behaviour of volatility clustering in financial time series.</li>
+</ul>
 <div id="prediction-of-volatilities" class="section level3">
 <h3><span class="header-section-number">4.6.1</span> Prediction of volatilities</h3>
 <ul>
@@ -665,9 +678,11 @@ where <span class="math inline">\(Y_h\)</span> and <span class="math inline">\(\
 <ul>
 <li>Then, 1-step ahead forecast is</li>
 </ul>
-<p><span class="math display">\[\sigma_{h}^2(1) = \alpha_0+\alpha_1Y_h^2+\beta_1\sigma_h^2.\]</span>
-- For multistep-ahead forecasts, we use <span class="math inline">\(Y_t^2 = \sigma_t^2\epsilon_t^2.\)</span>
-- Then the volatility equation can be written as</p>
+<p><span class="math display">\[\sigma_{h}^2(1) = \alpha_0+\alpha_1Y_h^2+\beta_1\sigma_h^2.\]</span></p>
+<ul>
+<li>For multistep-ahead forecasts, we use <span class="math inline">\(Y_t^2 = \sigma_t^2\epsilon_t^2.\)</span></li>
+<li>Then the volatility equation can be written as</li>
+</ul>
 <p><span class="math display">\[\sigma_{t+1}^2 = \alpha_0+(\alpha_1+\beta_1)\sigma_t^2+\alpha_1\sigma_t^2(\epsilon_t^2-1).\]</span>
 - When <span class="math inline">\(t = h + 1\)</span>, we get,</p>
 <p><span class="math display">\[\sigma_{h+2}^2 = \alpha_0+(\alpha_1+\beta_1)\sigma_{h+1}^2+\alpha_1\sigma_{h+1}^2(\epsilon_{h+1}^2-1).\]</span>
@@ -682,7 +697,7 @@ where <span class="math inline">\(Y_h\)</span> and <span class="math inline">\(\
 <div id="example-building-a-garch-model" class="section level3">
 <h3><span class="header-section-number">4.6.2</span> Example: Building a GARCH Model</h3>
 <ul>
-<li>Let’s apply the modeling procedure to build a <span class="math inline">\(GARCH(1,1)\)</span> model for the daily returns, <span class="math inline">\(Y_t,\)</span> of adjusted closing prices of the S&amp;P500 index.</li>
+<li>Let’s apply the modeling procedure to build a <span class="math inline">\(GARCH(1,1)\)</span> model for the daily returns, <span class="math inline">\(X_t\)</span>, of adjusted closing prices of the S&amp;P500 index.</li>
 <li>Figure <a href="volatility-models.html#fig:sp500">4.1</a> shows the daily return series from January 4, 1995 to February 25, 2021.</li>
 <li>The sample ACF and PACF of the squared returns in the bottom panel of Figure <a href="volatility-models.html#fig:acf">4.2</a>, show the existence of conditional heteroscedasticity.</li>
 </ul>
@@ -778,21 +793,21 @@ Figure 4.4: (a) Estimated volatility <span class="math inline">\(\hat{\sigma_t}\
 <ul>
 <li>The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models discussed in Chapter 3.</li>
 <li>Let <span class="math inline">\(X_t\)</span> follows an ARMA model with GARCH innovations.</li>
-<li>Then, it yeilds the following <span class="math inline">\(ARMA(p,q)-GARCH(m,s)\)</span> model for <span class="math inline">\((X_t, \sigma_t):\)</span></li>
+<li>Then, it yields the following <span class="math inline">\(ARMA(p,q)-GARCH(m,s)\)</span> model for <span class="math inline">\((X_t, \sigma_t):\)</span></li>
 </ul>
 <p><span class="math display">\[X_t=\mu+\sum_{i=1}^p\phi_iX_{t-i}+\sum_{j=1}^q\theta_jY_{t-j} + Y_t, \quad Y_t=\sigma_t\epsilon_t,\]</span></p>
 <p><span class="math display">\[\sigma^2_t=\alpha_0+
 \sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2.\]</span></p>
 <ul>
 <li>The <span class="math inline">\(\epsilon_t\)</span> are iid standard normal or Student-t random variables.</li>
-<li>The second equation can be replaced by other volatility models so that different spects of volatilities can be characterized.</li>
+<li>The second equation can be replaced by other volatility models so that different aspects of volatilities can be characterized.</li>
 </ul>
 <div id="example-building-an-arma-garch-model" class="section level3">
 <h3><span class="header-section-number">4.7.1</span> Example: Building an ARMA-GARCH Model</h3>
 <ul>
-<li>Let’s apply the modeling procedure to build an <span class="math inline">\(ARMA(1,1)-GARCH(1,1)\)</span> model for the daily returns, <span class="math inline">\(Y_t,\)</span> of adjusted closing prices of the S&amp;P500 index</li>
+<li>Let’s apply the modeling procedure to build an <span class="math inline">\(ARMA(1,1)-GARCH(1,1)\)</span> model for the daily returns, <span class="math inline">\(X_t,\)</span> of adjusted closing prices of the S&amp;P500 index</li>
 </ul>
-<p><span class="math display">\[X_t = \mu + \phi X_{t-1}+\theta Y_{t-1},\]</span>
+<p><span class="math display">\[X_t = \mu + \phi X_{t-1}+\theta Y_{t-1} + Y_t,\]</span>
 <span class="math display">\[Y_t= \sigma_t\epsilon_t,\]</span></p>
 <p><span class="math display">\[\sigma_t^2=\alpha_0+\alpha Y_{t-1}^2+\beta\sigma_{t-1}^2.\]</span></p>
 <ul>

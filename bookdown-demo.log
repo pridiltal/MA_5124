@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.20)  27 FEB 2021 20:49
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.20)  28 FEB 2021 11:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1239,13 +1239,9 @@ File: bookdown-demo_files/figure-latex/sp500-1.pdf Graphic file (type pdf)
 File: bookdown-demo_files/figure-latex/acf-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/acf-1.pdf>
 [4] [5]
+Underfull \hbox (badness 10000) in paragraph at lines 4196--4198
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 23.10004pt, for example:
-(fancyhdr)                \setlength{\headheight}{23.10004pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-11.10004pt}.
+ []
 
 [6]
 
@@ -1257,8 +1253,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-11.10004pt}.
 
 [7]
-File: bookdown-demo_files/figure-latex/plot2-1.pdf Graphic file (type pdf)
-<use bookdown-demo_files/figure-latex/plot2-1.pdf>
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 23.10004pt, for example:
@@ -1268,6 +1262,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-11.10004pt}.
 
 [8]
+File: bookdown-demo_files/figure-latex/plot2-1.pdf Graphic file (type pdf)
+<use bookdown-demo_files/figure-latex/plot2-1.pdf>
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 23.10004pt, for example:
@@ -1280,16 +1276,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 File: bookdown-demo_files/figure-latex/plot4-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/plot4-1.pdf>
 
-Underfull \hbox (badness 1163) in paragraph at lines 4584--4585
+Underfull \hbox (badness 1163) in paragraph at lines 4622--4623
 []\TU/lmr/m/n/9 Now the model is adequate as the standardized residuals in the 
 fitted
  []
 
+[14]
 File: bookdown-demo_files/figure-latex/unnamed-chunk-45-1.pdf Graphic file (typ
 e pdf)
 <use bookdown-demo_files/figure-latex/unnamed-chunk-45-1.pdf>
-[14] [15]
-Overfull \hbox (51.90009pt too wide) in paragraph at lines 4712--4712
+[15]
+Overfull \hbox (51.90009pt too wide) in paragraph at lines 4750--4750
 []\TU/lmtt/m/n/9 ##  garchFit(formula = ~arma(1, 1) + garch(1, 1), data = sp500
 _return$daily.returns)[] 
  []
@@ -1313,10 +1310,10 @@ Package rerunfilecheck Info: File `bookdown-demo.out' has not changed.
 Here is how much of TeX's memory you used:
  18035 strings out of 478931
  338040 string characters out of 5865316
- 840958 words of memory out of 5000000
+ 841958 words of memory out of 5000000
  37525 multiletter control sequences out of 15000+600000
  410970 words of font info for 102 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 98i,12n,122p,618b,541s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 98i,12n,122p,618b,516s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on bookdown-demo.pdf (115 pages).

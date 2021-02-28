@@ -115,7 +115,7 @@ p6<- data %>% PACF(sqyt) %>% autoplot()
   (p5|p6)
 ```
 
-  - Sample ACFs the returns $Y_t$ suggest no significant serial correlations except for small ones at lags 1, 3 and 5.
+  - Sample ACFs of the returns $Y_t$ suggest no significant serial correlations except for small ones at lags 1, 3 and 5.
   - However, the sample ACFs of $|Y_t|$ and  $Y_t^2$, show strong dependence over all lags.
   - Important feature: the returns may seem serially uncorrelated, but it is dependent.
   - This is a common observations for daily returns series
@@ -147,8 +147,11 @@ However, squared (and absolute) returns are, which is good news! This is because
 - Let $X_t$ follow an $ARMA(p,q)$ model,
 $$\phi(B)X_t=\theta(B)Y_t,$$
 
+
 where $\phi(B)$ and $\theta(B)$ are polynomials of $B$ with order $p$ and $q$, respectively.
+
 - Let $\mathcal{F}_t$, the set of observed data up to time $t$, (i.e. $\{X_1,X_2,\dots, X_t\}$).
+
 - Then the observation $X_t$ can be written as 
 $$X_t=\mu_t+Y_t,$$
 where $\mu_t$ is the mean of $X_t$ conditional on observed data $\mathcal{F}_{t-1},$
@@ -158,6 +161,7 @@ $$\mu_t=E(X_t|\mathcal{F}_{t-1})= \phi(B)X_t-(\theta(B)-1)Y_t$$
 and  the innovation series $Y_t$ has mean 0 and conditional variance
 
 $$\sigma_t^2=Var(X_t|\mathcal{F}_{t-1})=Var(Y_t|\mathcal{F}_{t-1})$$
+
 - The conditional heteroscedastic models of this chapter are concerned with the evolution of  $\sigma_t^2$ over time.
 - The model for $\mu_t$ is referred to as the mean equation for $X_t$ and the model for $\sigma^2_t$ is the volatility equation for $X_t.$
 
@@ -197,7 +201,8 @@ The process of building a volatility model for an asset return series consists o
 
 -  Main idea:  
    
-   (a) $Y_t$ is serially uncorrelated, but dependent,    (b) the dependence of $Y_t$ can be described by a simple quadratic function of its lagged values. 
+   (a) $Y_t$ is serially uncorrelated, but dependent,     
+   (b) the dependence of $Y_t$ can be described by a simple quadratic function of its lagged values. 
 
 - To better describe the idea, we represents $Y_t$ having a zero means in the form 
 
@@ -212,7 +217,8 @@ Y_t=\sigma_t\epsilon_t,
 where $\{\epsilon_t\}$ denotes is a sequence of iid random variables with mean zero and variance 1. 
 
 - $\sigma_t$ can be thought of as the local conditional standard deviation of the process.
-- $\alpha_0>0$, and $\alpha_i\geq0$ for $i > 0$. - To ensure that the unconditional variance of $Y_t$ is finite, coefficients $\alpha_i$ must satisfy some regularity conditions. 
+- $\alpha_0>0$, and $\alpha_i\geq0$ for $i > 0$.
+- To ensure that the unconditional variance of $Y_t$ is finite, coefficients $\alpha_i$ must satisfy some regularity conditions. 
 - The $\epsilon_t$ may  follow the standard normal or a standardized Student-t or a generalized error distribution.
 
 <!--From the structure of the model, it is seen that large past squared shocks {a2 }m t−i i=1
@@ -226,7 +232,7 @@ imply a large conditional variance σt2 for the innovation at . Consequently, at
 
 ### Example: Building an ARCH Model
 
-- Let's apply the modeling procedure to build a simple ARCH model for the daily returns, $Y_t,$ of adjusted closing prices of the S&P500 index.
+- Let's apply the modeling procedure to build a simple ARCH model for the daily returns, $X_t,$, of adjusted closing prices of the S&P500 index.
 
 - Figure \@ref(fig:sp500) shows the daily return series from January 4, 1995 to February 25, 2021.
 - The sample ACF and PACF of the squared returns in the bottom panel of Figure \@ref(fig:acf), show the existence of conditional heteroscedasticity.
@@ -320,7 +326,8 @@ To understand properties of GARCH models, it is informative to use the following
 
 - Let $\eta_t = Y_t^2 − \sigma_t^2.$ 
 - Then $\sigma_t^2= Y_t^2 −\eta_t.$
--By plugging $\sigma_{t-1}^2= Y_{t-1}^2 −\eta_{t-1}$ ($i=0,\dots,s$) into Equation \ref{eq:3}, we get the GARCH model as 
+- By plugging $\sigma_{t-1}^2= Y_{t-1}^2 −\eta_{t-1}$ ($i=0,\dots,s$) into Equation \ref{eq:3}, we get the GARCH model as 
+
 \begin{equation} \label{eq:4}
 Y_t^2 =\alpha_0+\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)Y_{t-i}^2+\eta_t-\sum_{j=1}^s\beta_j\eta_{t-j}.
 \end{equation}
@@ -330,6 +337,8 @@ Y_t^2 =\alpha_0+\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)Y_{t-i}^2+\eta_t-\sum_{j=
 - However, $\{\eta_t \}$ in general is not an iid sequence.
 - Equation \ref{eq:4} is an ARMA form for the squared series $Y_t^2$.
 - Therefore, a GARCH model can be regarded as an application of the ARMA idea to the squared series $Y_t^2$. 
+- Therefore, the same invertibility and stationary assumptions of ARMA models apply to GARCh models.
+- For example, $Y_t$ is covariance stationary, if all roots of $1-\sum_{j=1}^{max(m,s)}(\alpha_j+\beta_j)z^j=0$ lie outside the unit circle.
 
 
 **GARCH($1,1$) model**
@@ -339,6 +348,7 @@ Y_t^2 =\alpha_0+\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)Y_{t-i}^2+\eta_t-\sum_{j=
 on the simplest $GARCH(1,1)$ model with
 
 $$\sigma_t^2 = \alpha_0+\alpha_1Y_{t-1}^2 + \beta_1\sigma_{t-1}^2, \text{  } 0\leq\alpha_1, \beta_1\leq 1, (\alpha_1+\beta_1)<1.$$
+
 - The model implies that a large $Y_t^2$ or $\sigma_{t-1}^2$ will lead to a large $\sigma_{t}^2$, which in turn will give rise to a large $Y_t^2=\sigma_t^2\epsilon_t^2.$
 - This again generate the well-known behaviour of volatility clustering in financial time series. 
 
@@ -358,6 +368,7 @@ where $Y_h$ and $\sigma_h^2$ are known at the time index $h$.
 - Then, 1-step ahead forecast is  
 
 $$\sigma_{h}^2(1) = \alpha_0+\alpha_1Y_h^2+\beta_1\sigma_h^2.$$
+
 - For multistep-ahead forecasts, we use $Y_t^2 = \sigma_t^2\epsilon_t^2.$ 
 - Then the volatility equation can be written as
 
@@ -376,7 +387,7 @@ $$\sigma_{h}^2(k) = \alpha_0+(\alpha_1+\beta_1)\sigma_h^2(k-1), \quad k>1.$$
 
 ### Example: Building a GARCH Model
 
-- Let's apply the modeling procedure to build a $GARCH(1,1)$ model for the daily returns, $Y_t,$ of adjusted closing prices of the S&P500 index.
+- Let's apply the modeling procedure to build a $GARCH(1,1)$ model for the daily returns, $X_t$, of adjusted closing prices of the S&P500 index.
 - Figure \@ref(fig:sp500) shows the daily return series from January 4, 1995 to February 25, 2021.
 - The sample ACF and PACF of the squared returns in the bottom panel of Figure \@ref(fig:acf), show the existence of conditional heteroscedasticity.
 
@@ -435,7 +446,7 @@ predict(fit2, n.ahead = 10, plot=TRUE, conf=.95)
 
 - The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models  discussed in Chapter 3.
 - Let $X_t$ follows an ARMA model with GARCH innovations.
-- Then, it yeilds the following $ARMA(p,q)-GARCH(m,s)$ model for $(X_t, \sigma_t):$
+- Then, it yields the following $ARMA(p,q)-GARCH(m,s)$ model for $(X_t, \sigma_t):$
 
 $$X_t=\mu+\sum_{i=1}^p\phi_iX_{t-i}+\sum_{j=1}^q\theta_jY_{t-j} + Y_t, \quad Y_t=\sigma_t\epsilon_t,$$
 
@@ -443,13 +454,13 @@ $$\sigma^2_t=\alpha_0+
 \sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2.$$
 
 - The $\epsilon_t$ are iid standard normal or Student-t random variables. 
-- The second equation can be replaced by other volatility models so that different spects of volatilities can be characterized.
+- The second equation can be replaced by other volatility models so that different aspects of volatilities can be characterized.
 
 ### Example: Building an ARMA-GARCH Model
 
-- Let's apply the modeling procedure to build an $ARMA(1,1)-GARCH(1,1)$ model for the daily returns, $Y_t,$ of adjusted closing prices of the S&P500 index
+- Let's apply the modeling procedure to build an $ARMA(1,1)-GARCH(1,1)$ model for the daily returns, $X_t,$ of adjusted closing prices of the S&P500 index
 
-$$X_t = \mu + \phi X_{t-1}+\theta Y_{t-1},$$
+$$X_t = \mu + \phi X_{t-1}+\theta Y_{t-1} + Y_t,$$
 $$Y_t= \sigma_t\epsilon_t,$$
 
 $$\sigma_t^2=\alpha_0+\alpha Y_{t-1}^2+\beta\sigma_{t-1}^2.$$

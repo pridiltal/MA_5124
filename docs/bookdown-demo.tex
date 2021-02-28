@@ -123,7 +123,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-02-27}
+\date{2021-02-28}
 
 \begin{document}
 \maketitle
@@ -4088,7 +4088,7 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 \begin{itemize}
 \tightlist
 \item
-  Sample ACFs the returns \(Y_t\) suggest no significant serial correlations except for small ones at lags 1, 3 and 5.
+  Sample ACFs of the returns \(Y_t\) suggest no significant serial correlations except for small ones at lags 1, 3 and 5.
 \item
   However, the sample ACFs of \(|Y_t|\) and \(Y_t^2\), show strong dependence over all lags.
 \item
@@ -4109,18 +4109,29 @@ ETS(A,\(A_d\),A) & ARIMA(1,0,\(m+1\))(0,1,0)\(_m\) &\tabularnewline
 \end{itemize}
 
 where \(\phi(B)\) and \(\theta(B)\) are polynomials of \(B\) with order \(p\) and \(q\), respectively.
-- Let \(\mathcal{F}_t\), the set of observed data up to time \(t\), (i.e.~\(\{X_1,X_2,\dots, X_t\}\)).
-- Then the observation \(X_t\) can be written as
-\[X_t=\mu_t+Y_t,\]
-where \(\mu_t\) is the mean of \(X_t\) conditional on observed data \(\mathcal{F}_{t-1},\)
+
+\begin{itemize}
+\item
+  Let \(\mathcal{F}_t\), the set of observed data up to time \(t\), (i.e.~\(\{X_1,X_2,\dots, X_t\}\)).
+\item
+  Then the observation \(X_t\) can be written as
+  \[X_t=\mu_t+Y_t,\]
+  where \(\mu_t\) is the mean of \(X_t\) conditional on observed data \(\mathcal{F}_{t-1},\)
+\end{itemize}
 
 \[\mu_t=E(X_t|\mathcal{F}_{t-1})= \phi(B)X_t-(\theta(B)-1)Y_t\]
 
 and the innovation series \(Y_t\) has mean 0 and conditional variance
 
 \[\sigma_t^2=Var(X_t|\mathcal{F}_{t-1})=Var(Y_t|\mathcal{F}_{t-1})\]
-- The conditional heteroscedastic models of this chapter are concerned with the evolution of \(\sigma_t^2\) over time.
-- The model for \(\mu_t\) is referred to as the mean equation for \(X_t\) and the model for \(\sigma^2_t\) is the volatility equation for \(X_t.\)
+
+\begin{itemize}
+\tightlist
+\item
+  The conditional heteroscedastic models of this chapter are concerned with the evolution of \(\sigma_t^2\) over time.
+\item
+  The model for \(\mu_t\) is referred to as the mean equation for \(X_t\) and the model for \(\sigma^2_t\) is the volatility equation for \(X_t.\)
+\end{itemize}
 
 \hypertarget{model-building}{%
 \section{Model Building}\label{model-building}}
@@ -4182,7 +4193,9 @@ The process of building a volatility model for an asset return series consists o
   \def\labelenumi{(\alph{enumi})}
   \tightlist
   \item
-    \(Y_t\) is serially uncorrelated, but dependent, (b) the dependence of \(Y_t\) can be described by a simple quadratic function of its lagged values.
+    \(Y_t\) is serially uncorrelated, but dependent,\\
+  \item
+    the dependence of \(Y_t\) can be described by a simple quadratic function of its lagged values.
   \end{enumerate}
 \item
   To better describe the idea, we represents \(Y_t\) having a zero means in the form
@@ -4203,7 +4216,9 @@ where \(\{\epsilon_t\}\) denotes is a sequence of iid random variables with mean
 \item
   \(\sigma_t\) can be thought of as the local conditional standard deviation of the process.
 \item
-  \(\alpha_0>0\), and \(\alpha_i\geq0\) for \(i > 0\). - To ensure that the unconditional variance of \(Y_t\) is finite, coefficients \(\alpha_i\) must satisfy some regularity conditions.
+  \(\alpha_0>0\), and \(\alpha_i\geq0\) for \(i > 0\).
+\item
+  To ensure that the unconditional variance of \(Y_t\) is finite, coefficients \(\alpha_i\) must satisfy some regularity conditions.
 \item
   The \(\epsilon_t\) may follow the standard normal or a standardized Student-t or a generalized error distribution.
 \end{itemize}
@@ -4224,7 +4239,7 @@ where \(\{\epsilon_t\}\) denotes is a sequence of iid random variables with mean
 
 \begin{itemize}
 \item
-  Let's apply the modeling procedure to build a simple ARCH model for the daily returns, \(Y_t,\) of adjusted closing prices of the S\&P500 index.
+  Let's apply the modeling procedure to build a simple ARCH model for the daily returns, \(X_t,\), of adjusted closing prices of the S\&P500 index.
 \item
   Figure \ref{fig:sp500} shows the daily return series from January 4, 1995 to February 25, 2021.
 \item
@@ -4394,14 +4409,21 @@ where \(\{\epsilon_t\}\) is a sequence of iid random variables with mean 0 and v
 To understand properties of GARCH models, it is informative to use the following representation.
 
 \begin{itemize}
+\tightlist
 \item
   Let \(\eta_t = Y_t^2 − \sigma_t^2.\)
 \item
   Then \(\sigma_t^2= Y_t^2 −\eta_t.\)
-  -By plugging \(\sigma_{t-1}^2= Y_{t-1}^2 −\eta_{t-1}\) (\(i=0,\dots,s\)) into Equation \ref{eq:3}, we get the GARCH model as
-  \begin{equation} \label{eq:4}
-  Y_t^2 =\alpha_0+\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)Y_{t-i}^2+\eta_t-\sum_{j=1}^s\beta_j\eta_{t-j}.
-  \end{equation}
+\item
+  By plugging \(\sigma_{t-1}^2= Y_{t-1}^2 −\eta_{t-1}\) (\(i=0,\dots,s\)) into Equation \ref{eq:3}, we get the GARCH model as
+\end{itemize}
+
+\begin{equation} \label{eq:4}
+Y_t^2 =\alpha_0+\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)Y_{t-i}^2+\eta_t-\sum_{j=1}^s\beta_j\eta_{t-j}.
+\end{equation}
+
+\begin{itemize}
+\tightlist
 \item
   It is easy to check that \(\{\eta_t \}\) is a martingale difference series {[}i.e., \(E(\eta_t ) = 0\) and \(cov(\eta_t , \eta_{t-j} ) = 0\) for \(j\geq 1\){]}.
 \item
@@ -4410,6 +4432,10 @@ To understand properties of GARCH models, it is informative to use the following
   Equation \ref{eq:4} is an ARMA form for the squared series \(Y_t^2\).
 \item
   Therefore, a GARCH model can be regarded as an application of the ARMA idea to the squared series \(Y_t^2\).
+\item
+  Therefore, the same invertibility and stationary assumptions of ARMA models apply to GARCh models.
+\item
+  For example, \(Y_t\) is covariance stationary, if all roots of \(1-\sum_{j=1}^{max(m,s)}(\alpha_j+\beta_j)z^j=0\) lie outside the unit circle.
 \end{itemize}
 
 \textbf{GARCH(\(1,1\)) model}
@@ -4424,8 +4450,14 @@ To understand properties of GARCH models, it is informative to use the following
 \end{itemize}
 
 \[\sigma_t^2 = \alpha_0+\alpha_1Y_{t-1}^2 + \beta_1\sigma_{t-1}^2, \text{  } 0\leq\alpha_1, \beta_1\leq 1, (\alpha_1+\beta_1)<1.\]
-- The model implies that a large \(Y_t^2\) or \(\sigma_{t-1}^2\) will lead to a large \(\sigma_{t}^2\), which in turn will give rise to a large \(Y_t^2=\sigma_t^2\epsilon_t^2.\)
-- This again generate the well-known behaviour of volatility clustering in financial time series.
+
+\begin{itemize}
+\tightlist
+\item
+  The model implies that a large \(Y_t^2\) or \(\sigma_{t-1}^2\) will lead to a large \(\sigma_{t}^2\), which in turn will give rise to a large \(Y_t^2=\sigma_t^2\epsilon_t^2.\)
+\item
+  This again generate the well-known behaviour of volatility clustering in financial time series.
+\end{itemize}
 
 \hypertarget{prediction-of-volatilities}{%
 \subsection{Prediction of volatilities}\label{prediction-of-volatilities}}
@@ -4458,8 +4490,14 @@ where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
 \end{itemize}
 
 \[\sigma_{h}^2(1) = \alpha_0+\alpha_1Y_h^2+\beta_1\sigma_h^2.\]
-- For multistep-ahead forecasts, we use \(Y_t^2 = \sigma_t^2\epsilon_t^2.\)
-- Then the volatility equation can be written as
+
+\begin{itemize}
+\tightlist
+\item
+  For multistep-ahead forecasts, we use \(Y_t^2 = \sigma_t^2\epsilon_t^2.\)
+\item
+  Then the volatility equation can be written as
+\end{itemize}
 
 \[\sigma_{t+1}^2 = \alpha_0+(\alpha_1+\beta_1)\sigma_t^2+\alpha_1\sigma_t^2(\epsilon_t^2-1).\]
 - When \(t = h + 1\), we get,
@@ -4483,7 +4521,7 @@ where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
 \begin{itemize}
 \tightlist
 \item
-  Let's apply the modeling procedure to build a \(GARCH(1,1)\) model for the daily returns, \(Y_t,\) of adjusted closing prices of the S\&P500 index.
+  Let's apply the modeling procedure to build a \(GARCH(1,1)\) model for the daily returns, \(X_t\), of adjusted closing prices of the S\&P500 index.
 \item
   Figure \ref{fig:sp500} shows the daily return series from January 4, 1995 to February 25, 2021.
 \item
@@ -4607,7 +4645,7 @@ where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
 \item
   Let \(X_t\) follows an ARMA model with GARCH innovations.
 \item
-  Then, it yeilds the following \(ARMA(p,q)-GARCH(m,s)\) model for \((X_t, \sigma_t):\)
+  Then, it yields the following \(ARMA(p,q)-GARCH(m,s)\) model for \((X_t, \sigma_t):\)
 \end{itemize}
 
 \[X_t=\mu+\sum_{i=1}^p\phi_iX_{t-i}+\sum_{j=1}^q\theta_jY_{t-j} + Y_t, \quad Y_t=\sigma_t\epsilon_t,\]
@@ -4620,7 +4658,7 @@ where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
 \item
   The \(\epsilon_t\) are iid standard normal or Student-t random variables.
 \item
-  The second equation can be replaced by other volatility models so that different spects of volatilities can be characterized.
+  The second equation can be replaced by other volatility models so that different aspects of volatilities can be characterized.
 \end{itemize}
 
 \hypertarget{example-building-an-arma-garch-model}{%
@@ -4629,10 +4667,10 @@ where \(Y_h\) and \(\sigma_h^2\) are known at the time index \(h\).
 \begin{itemize}
 \tightlist
 \item
-  Let's apply the modeling procedure to build an \(ARMA(1,1)-GARCH(1,1)\) model for the daily returns, \(Y_t,\) of adjusted closing prices of the S\&P500 index
+  Let's apply the modeling procedure to build an \(ARMA(1,1)-GARCH(1,1)\) model for the daily returns, \(X_t,\) of adjusted closing prices of the S\&P500 index
 \end{itemize}
 
-\[X_t = \mu + \phi X_{t-1}+\theta Y_{t-1},\]
+\[X_t = \mu + \phi X_{t-1}+\theta Y_{t-1} + Y_t,\]
 \[Y_t= \sigma_t\epsilon_t,\]
 
 \[\sigma_t^2=\alpha_0+\alpha Y_{t-1}^2+\beta\sigma_{t-1}^2.\]
