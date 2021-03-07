@@ -214,7 +214,7 @@ Y_t=\sigma_t\epsilon_t,
 \sigma_t^2 =\alpha_0+\alpha_1Y_{t-1}^2+\dots+\alpha_mY_{t-m}^2,
 \end{equation}
 
-where $\{\epsilon_t\}$ denotes is a sequence of iid random variables with mean zero and variance 1. 
+where $\{\epsilon_t\}$ is a sequence of iid random variables with mean zero and variance 1. 
 
 - $\sigma_t$ can be thought of as the local conditional standard deviation of the process.
 - $\alpha_0>0$, and $\alpha_i\geq0$ for $i > 0$.
@@ -310,7 +310,7 @@ where the standard errors of the parameters are given in the parentheses.
 \end{equation}
 
 where $\{\epsilon_t\}$ is a sequence of iid random variables with mean 0 and variance 1, $\alpha_0>0,$ $\alpha_i\geq0,$ $\beta_j\geq0,$ and
-$\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_j)<1.$ 
+$\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)<1.$ 
 
 - Here, $\alpha_i=0$ for $i>m$ and $\beta_j =0$ for $j>s.$
 
@@ -349,7 +349,7 @@ on the simplest $GARCH(1,1)$ model with
 
 $$\sigma_t^2 = \alpha_0+\alpha_1Y_{t-1}^2 + \beta_1\sigma_{t-1}^2, \text{  } 0\leq\alpha_1, \beta_1\leq 1, (\alpha_1+\beta_1)<1.$$
 
-- The model implies that a large $Y_t^2$ or $\sigma_{t-1}^2$ will lead to a large $\sigma_{t}^2$, which in turn will give rise to a large $Y_t^2=\sigma_t^2\epsilon_t^2.$
+- The model implies that a large $Y_{t-1}^2$ or $\sigma_{t-1}^2$ will lead to a large $\sigma_{t}^2$, which in turn will give rise to a large $Y_t^2=\sigma_t^2\epsilon_t^2.$
 - This again generate the well-known behaviour of volatility clustering in financial time series. 
 
 ### Prediction of volatilities
@@ -444,7 +444,7 @@ predict(fit2, n.ahead = 10, plot=TRUE, conf=.95)
 ## The ARMA-GARCH Models
 
 
-- The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models  discussed in Chapter 3.
+- The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models  discussed in Chapter 2.
 - Let $X_t$ follows an ARMA model with GARCH innovations.
 - Then, it yields the following $ARMA(p,q)-GARCH(m,s)$ model for $(X_t, \sigma_t):$
 
@@ -506,6 +506,147 @@ p +
 
 \newpage
 
+## Other ARCH-Type Models
+
+- There are many other types of ARCH models.
+- It is important to use the context and any background theory, when choosing between different models for changing variance.
+
+### The Integrated GARCH (IGARCH) model
+
+<!-- IGARCH. Integrated Generalized Autoregressive Conditional heteroskedasticity (IGARCH) is a restricted version of the GARCH model, where the persistent parameters sum up to one, and imports a unit root in the GARCH process. -->
+
+<!--- In many financial time series empirical analyses, the volatility of asset returns are highly persistent, as the $\alpha+\beta$ values in the fitted GARCh(1,1) models are very close to one-->
+
+- The GARCH model becomes an IGARCH mode, if the AR polynomial of the GARCH representation in Equation \ref{eq:4} has a unit root. 
+- Similar to ARIMA models, in IGARCH models the impact of past squared shocks $\eta_{t−i} = Y_{t-i}^2 −\sigma_{t-i}^2$ for $i>0$ on $Y_t^2$ is persistent.
+- The IGARCH(1,1) model is of the form
+
+$$Y_t=\sigma_t\epsilon_t,$$
+$$\sigma_t^2=\alpha+\beta\sigma_{t-1}^2+(1-\beta)Y_{t-1}^2,$$
+
+
+where $\{\epsilon_t\}$ is a sequence of iid random variables with mean zero and variance 1 and $0<\beta<1.$
+
+- More generally, model for $Y_t$ satisfying  Equations \ref{eq:1} is said to follow a  **Integrated GARCH model** of order $(m,s)$  ($IGARCH(m,s)$) when the local conditional variance is given by
+
+\begin{equation} \label{eq:5}
+\sigma_t^2 =\alpha_0+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2,
+\end{equation}
+
+where $\{\epsilon_t\}$ is a sequence of iid random variables with mean 0 and variance 1, with
+$\sum_{i=1}^{m}\alpha_i+\sum_{j=1}^{s}\beta_j=1.$ 
+
+<!--Tsay page 141 - There is a major difference between the two models GARCH(1,1) and IGARCH(1,1).-->
+
+- Due to the above condition, the unconditional variance of $Y_t$, hence that of $X_t$ , is not defined under  $IGARCH(1,1)$ model. 
+- Under certain conditions, the IGARCH models are strictly stationary but not weakly stationary as they do not have the first two moments.
+- When $\alpha1 + \beta1 = 1$, 
+$$\sigma^2_h(k )=\sigma^2_h(1 )+(k −1)\alpha_0,\quad k\geq1,$$
+where h is the forecast origin.
+
+<!--tsay page 141-->
+- As a result, the effect of $\sigma^2_h(1 )$ on future volatilities is also persistent, and the volatility forecasts generates a straight line with slope $\alpha_0$.
+- When $\alpha_0 = 0$, the volatility forecasts are simply $\sigma_h^2(1)$ for all forecast horizons;
+<!-- internet powerpoint
+
+strict stationarity does not imply weak stationarity
+Cauchy process which does not have moments.  A process could be drawn from an iid Cauchy distribution and therefore be strongly stationary but not weakly stationary.  
+Constant data generating process that is constant over time with finite first and second moments, then strong stationarity will imply weak stationarity.  
+Weak stationarity does not imply strong stationarity. 
+most distributions are characterized by more parameters than the mean and variance and thus weak stationarity allows that other moments depend on t.  
+The special case is a normal distribution which is fully characterized by its mean and variance and thus weak stationarity plus normality will imply strong stationarity.
+-->
+
+<!--https://matzc.github.io/tmseries/lecture9.html#part3-->
+
+
+<!-- two r packages, rugarch vs fgatch https://www.r-bloggers.com/2019/01/problems-in-estimating-garch-parameters-in-r-part-2-rugarch/-->
+
+\newpage
+
+**Example in R**
+
+```{r echo=TRUE, eval = FALSE}
+# For univariate GARCH models)
+library(rugarch) 
+spec3 <- ugarchspec(
+  variance.model=list(model="iGARCH",
+                      garchOrder=c(1,1)),
+  mean.model=list(armaOrder=c(0,0),
+                  include.mean=FALSE),
+  distribution.model="norm",
+  fixed.pars=list(omega=0))
+fit <- ugarchfit(spec3, 
+       data = sp500_return$daily.returns)
+summary(fit)
+fit
+plot(fit,which="all")
+```
+
+- Useful materials: [The `rugarch` package vignette](https://cran.r-project.org/web/packages/rugarch/vignettes/Introduction_to_the_rugarch_package.pdf)
+
+## Asymmetry in Volatility
+
+<!--https://asymmetryobservations.com/definitions/asymmetric-volatility/-->
+
+- Some equity markets show asymmetry in their volatility clusters
+- Asymmetric Volatility is when the volatility of a market or stock is higher when a market is in a downtrend and volatility tends to be lower in an uptrend.
+- There may be a range of causes of asymmetric volatility, but factors such as leverage, panic selling, and serial correlation are often some of the drivers.
+- The asymmetric GARCH models are employed to capture the asymmetric characteristics of volatility.
+
+## The exponential GARCH model
+
+- In 1991, Nelson proposed the **Exponential GARCH** model to allow for asymmetric effects between positive and negative asset returns.
+- An $EGARCH(h,k)$ model can be written as
+
+$$Y_t=\sigma_t\epsilon_t,$$
+ \begin{equation} \label{eq:6}
+log(\sigma_t^2) =\alpha_0+\sum_{i=1}^h\beta_ilog(\sigma_{t-i}^2)+ \sum_{j=1}^kf_j(\epsilon_{t-j})
+\end{equation}
+
+
+
+where the $\{\epsilon_t\}$ is a sequence of iid random variables with mean 0 and variance 1, and $f_j(\epsilon)=\alpha_j\epsilon+\gamma_j(|\epsilon|-E|\epsilon|)$
+
+<!--It can be seen that the random variable $f_j(\epsilon_t)$ is the sum of two 0 mean random variables $\alpha_j\epsilon_t$ and $\gamma_j(|\epsilon_t|-E|\epsilon_t|)$ -->
+
+- Both $\epsilon_t$ and $|\epsilon_t|-E|\epsilon_t|$ are zero-mean iid sequences with continuous distributions.
+- Therefore, $E[f_j(\epsilon_t)]=0$
+- The asymmetry of $f_j(\epsilon_t)$ can easily be seen by rewriting it as
+
+\[
+    f_j(\epsilon_t)= 
+\begin{cases}
+    (\alpha_j+\gamma_j)\epsilon_t-\gamma_jE|\epsilon_t|,& \text{if } \epsilon_t\geq 0\\
+    (\alpha_j-\gamma_j)\epsilon_t-\gamma_jE|\epsilon_t|,& \text{if } \epsilon_t< 0
+\end{cases}
+\]
+
+- This shows the asymmetry of the volatility response to positive and negative returns.
+- The model differs from the GARCH model in several ways
+   -  First, it uses logged conditional variance to relax the positiveness constraint of model coefficients.
+   -  Second, the use of $f_j(\epsilon_t)$ enables the model to respond asymmetrically to positive and negative lagged values of $Y_t.$
+- Some additional properties of the EGARCH model can be found in Nelson (1991).
+   
+## Stochastic Volatility Models
+
+- The formulae for $\sigma_t^2$ in all GARCH type models are deterministic as there is no "error" term in either equation.
+- An alternative approach to ARCH or GARCH models is to assume that $\sigma_t$ follows a **Stochastic process**.
+- This can be usually done by modelling $log(\sigma_t^2)$ or $log(\sigma_t)$ to ensure that $\sigma_t^2$ remains positive.
+- Example: Let $log(\sigma_t^2)=h_t$ and $h_t$ follows an AR process with an "error" component that is independent of the $\{\epsilon_t\}$ in the innovation series $\{Y_t\}$,
+
+$$Y_t=\sigma_t\epsilon_t, \quad \sigma_t^2=e^{h_t},$$
+
+$$h_t=\phi_0+\phi_1h_{t-1}+\dots+\phi_ph_{t-p}+\eta_t,$$
+
+
+which has $AP(p)$ dynamics for $log\sigma_t^2.$
+
+- These type of models are called **stochastic volatility** or **Stochastic variance models**.
+- The $\epsilon_t$ and $\eta_t$ are assumed to be independent normally distributed random variables with $\epsilon_t\sim N(0,1)$ and $\eta_t\sim N(0,\sigma^2)$
+- In certain cases, it is more reasonable to assume that $\sigma_t$ changes stochastically through time rather than deterministically.
+   - Example: During a sudden change in volatility in financial market due to a special event such as a war involving oil producing countries
+   
 ## References:
 
 - Chatfield, C., & Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.

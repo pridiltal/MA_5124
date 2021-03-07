@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-02-28" />
+<meta name="date" content="2021-03-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -269,7 +269,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.7" data-path="volatility-models.html"><a href="volatility-models.html#the-arma-garch-models"><i class="fa fa-check"></i><b>4.7</b> The ARMA-GARCH Models</a><ul>
 <li class="chapter" data-level="4.7.1" data-path="volatility-models.html"><a href="volatility-models.html#example-building-an-arma-garch-model"><i class="fa fa-check"></i><b>4.7.1</b> Example: Building an ARMA-GARCH Model</a></li>
 </ul></li>
-<li class="chapter" data-level="4.8" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.8</b> References:</a></li>
+<li class="chapter" data-level="4.8" data-path="volatility-models.html"><a href="volatility-models.html#other-arch-type-models"><i class="fa fa-check"></i><b>4.8</b> Other ARCH-Type Models</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="volatility-models.html"><a href="volatility-models.html#the-integrated-garch-igarch-model"><i class="fa fa-check"></i><b>4.8.1</b> The Integrated GARCH (IGARCH) model</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="volatility-models.html"><a href="volatility-models.html#asymmetry-in-volatility"><i class="fa fa-check"></i><b>4.9</b> Asymmetry in Volatility</a></li>
+<li class="chapter" data-level="4.10" data-path="volatility-models.html"><a href="volatility-models.html#the-exponential-garch-model"><i class="fa fa-check"></i><b>4.10</b> The exponential GARCH model</a></li>
+<li class="chapter" data-level="4.11" data-path="volatility-models.html"><a href="volatility-models.html#stochastic-volatility-models"><i class="fa fa-check"></i><b>4.11</b> Stochastic Volatility Models</a></li>
+<li class="chapter" data-level="4.12" data-path="volatility-models.html"><a href="volatility-models.html#references-2"><i class="fa fa-check"></i><b>4.12</b> References:</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html"><i class="fa fa-check"></i><b>5</b> Multivariate Time Series Modeliing</a><ul>
 <li class="chapter" data-level="5.1" data-path="multivariate-time-series-modeliing.html"><a href="multivariate-time-series-modeliing.html#references-3"><i class="fa fa-check"></i><b>5.1</b> References:</a></li>
@@ -495,7 +501,7 @@ Y_t=\sigma_t\epsilon_t,
 <p><span class="math display">\[\begin{equation} \label{eq:2}
 \sigma_t^2 =\alpha_0+\alpha_1Y_{t-1}^2+\dots+\alpha_mY_{t-m}^2,
 \end{equation}\]</span></p>
-<p>where <span class="math inline">\(\{\epsilon_t\}\)</span> denotes is a sequence of iid random variables with mean zero and variance 1.</p>
+<p>where <span class="math inline">\(\{\epsilon_t\}\)</span> is a sequence of iid random variables with mean zero and variance 1.</p>
 <ul>
 <li><span class="math inline">\(\sigma_t\)</span> can be thought of as the local conditional standard deviation of the process.</li>
 <li><span class="math inline">\(\alpha_0&gt;0\)</span>, and <span class="math inline">\(\alpha_i\geq0\)</span> for <span class="math inline">\(i &gt; 0\)</span>.</li>
@@ -659,7 +665,7 @@ on the simplest <span class="math inline">\(GARCH(1,1)\)</span> model with</li>
 </ul>
 <p><span class="math display">\[\sigma_t^2 = \alpha_0+\alpha_1Y_{t-1}^2 + \beta_1\sigma_{t-1}^2, \text{  } 0\leq\alpha_1, \beta_1\leq 1, (\alpha_1+\beta_1)&lt;1.\]</span></p>
 <ul>
-<li>The model implies that a large <span class="math inline">\(Y_t^2\)</span> or <span class="math inline">\(\sigma_{t-1}^2\)</span> will lead to a large <span class="math inline">\(\sigma_{t}^2\)</span>, which in turn will give rise to a large <span class="math inline">\(Y_t^2=\sigma_t^2\epsilon_t^2.\)</span></li>
+<li>The model implies that a large <span class="math inline">\(Y_{t-1}^2\)</span> or <span class="math inline">\(\sigma_{t-1}^2\)</span> will lead to a large <span class="math inline">\(\sigma_{t}^2\)</span>, which in turn will give rise to a large <span class="math inline">\(Y_t^2=\sigma_t^2\epsilon_t^2.\)</span></li>
 <li>This again generate the well-known behaviour of volatility clustering in financial time series.</li>
 </ul>
 <div id="prediction-of-volatilities" class="section level3">
@@ -791,7 +797,7 @@ Figure 4.4: (a) Estimated volatility <span class="math inline">\(\hat{\sigma_t}\
 <div id="the-arma-garch-models" class="section level2">
 <h2><span class="header-section-number">4.7</span> The ARMA-GARCH Models</h2>
 <ul>
-<li>The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models discussed in Chapter 3.</li>
+<li>The dynamics of asset returns and their volatility can be modeled by combining GARCH models with the linear time series models discussed in Chapter 2.</li>
 <li>Let <span class="math inline">\(X_t\)</span> follows an ARMA model with GARCH innovations.</li>
 <li>Then, it yields the following <span class="math inline">\(ARMA(p,q)-GARCH(m,s)\)</span> model for <span class="math inline">\((X_t, \sigma_t):\)</span></li>
 </ul>
@@ -894,8 +900,142 @@ Figure 4.5: (a) Estimated volatility <span class="math inline">\(\hat{\sigma_t}\
 <div style="page-break-after: always;"></div>
 </div>
 </div>
+<div id="other-arch-type-models" class="section level2">
+<h2><span class="header-section-number">4.8</span> Other ARCH-Type Models</h2>
+<ul>
+<li>There are many other types of ARCH models.</li>
+<li>It is important to use the context and any background theory, when choosing between different models for changing variance.</li>
+</ul>
+<div id="the-integrated-garch-igarch-model" class="section level3">
+<h3><span class="header-section-number">4.8.1</span> The Integrated GARCH (IGARCH) model</h3>
+<!-- IGARCH. Integrated Generalized Autoregressive Conditional heteroskedasticity (IGARCH) is a restricted version of the GARCH model, where the persistent parameters sum up to one, and imports a unit root in the GARCH process. -->
+<!--- In many financial time series empirical analyses, the volatility of asset returns are highly persistent, as the $\alpha+\beta$ values in the fitted GARCh(1,1) models are very close to one-->
+<ul>
+<li>The GARCH model becomes an IGARCH mode, if the AR polynomial of the GARCH representation in Equation  has a unit root.</li>
+<li>Similar to ARIMA models, in IGARCH models the impact of past squared shocks <span class="math inline">\(\eta_{t−i} = Y_{t-i}^2 −\sigma_{t-i}^2\)</span> for <span class="math inline">\(i&gt;0\)</span> on <span class="math inline">\(Y_t^2\)</span> is persistent.</li>
+<li>The IGARCH(1,1) model is of the form</li>
+</ul>
+<p><span class="math display">\[Y_t=\sigma_t\epsilon_t,\]</span>
+<span class="math display">\[\sigma_t^2=\alpha+\beta\sigma_{t-1}^2+(1-\beta)Y_{t-1}^2,\]</span></p>
+<p>where <span class="math inline">\(\{\epsilon_t\}\)</span> is a sequence of iid random variables with mean zero and variance 1 and <span class="math inline">\(0&lt;\beta&lt;1.\)</span></p>
+<ul>
+<li>More generally, model for <span class="math inline">\(Y_t\)</span> satisfying Equations  is said to follow a <strong>Integrated GARCH model</strong> of order <span class="math inline">\((m,s)\)</span> (<span class="math inline">\(IGARCH(m,s)\)</span>) when the local conditional variance is given by</li>
+</ul>
+<p><span class="math display">\[\begin{equation} \label{eq:5}
+\sigma_t^2 =\alpha_0+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2,
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\{\epsilon_t\}\)</span> is a sequence of iid random variables with mean 0 and variance 1, with
+<span class="math inline">\(\sum_{i=1}^{m}\alpha_i+\sum_{j=1}^{s}\beta_j=1.\)</span></p>
+<!--Tsay page 141 - There is a major difference between the two models GARCH(1,1) and IGARCH(1,1).-->
+<ul>
+<li>Due to the above condition, the unconditional variance of <span class="math inline">\(Y_t\)</span>, hence that of <span class="math inline">\(X_t\)</span> , is not defined under <span class="math inline">\(IGARCH(1,1)\)</span> model.</li>
+<li>Under certain conditions, the IGARCH models are strictly stationary but not weakly stationary as they do not have the first two moments.</li>
+<li>When <span class="math inline">\(\alpha1 + \beta1 = 1\)</span>,
+<span class="math display">\[\sigma^2_h(k )=\sigma^2_h(1 )+(k −1)\alpha_0,\quad k\geq1,\]</span>
+where h is the forecast origin.</li>
+</ul>
+<!--tsay page 141-->
+<ul>
+<li>As a result, the effect of <span class="math inline">\(\sigma^2_h(1 )\)</span> on future volatilities is also persistent, and the volatility forecasts generates a straight line with slope <span class="math inline">\(\alpha_0\)</span>.</li>
+<li>When <span class="math inline">\(\alpha_0 = 0\)</span>, the IGARCH(1,1) model. In this case, the volatility forecasts are simply σh2(1) for all forecast horizons;
+<!-- internet powerpoint
+
+strict stationarity does not imply weak stationarity
+Cauchy process which does not have moments.  A process could be drawn from an iid Cauchy distribution and therefore be strongly stationary but not weakly stationary.  
+Constant data generating process that is constant over time with finite first and second moments, then strong stationarity will imply weak stationarity.  
+Weak stationarity does not imply strong stationarity. 
+most distributions are characterized by more parameters than the mean and variance and thus weak stationarity allows that other moments depend on t.  
+The special case is a normal distribution which is fully characterized by its mean and variance and thus weak stationarity plus normality will imply strong stationarity.
+--></li>
+</ul>
+<!--https://matzc.github.io/tmseries/lecture9.html#part3-->
+<div style="page-break-after: always;"></div>
+<p><strong>Example in R</strong></p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="co"># For univariate GARCH models)</span></a>
+<a class="sourceLine" id="cb99-2" title="2"><span class="kw">library</span>(rugarch) </a>
+<a class="sourceLine" id="cb99-3" title="3">spec3 &lt;-<span class="st"> </span><span class="kw">ugarchspec</span>(</a>
+<a class="sourceLine" id="cb99-4" title="4">  <span class="dt">variance.model=</span><span class="kw">list</span>(<span class="dt">model=</span><span class="st">&quot;iGARCH&quot;</span>,</a>
+<a class="sourceLine" id="cb99-5" title="5">                      <span class="dt">garchOrder=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb99-6" title="6">  <span class="dt">mean.model=</span><span class="kw">list</span>(<span class="dt">armaOrder=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb99-7" title="7">                  <span class="dt">include.mean=</span><span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb99-8" title="8">  <span class="dt">distribution.model=</span><span class="st">&quot;norm&quot;</span>,</a>
+<a class="sourceLine" id="cb99-9" title="9">  <span class="dt">fixed.pars=</span><span class="kw">list</span>(<span class="dt">omega=</span><span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb99-10" title="10">fit &lt;-<span class="st"> </span><span class="kw">ugarchfit</span>(spec3, </a>
+<a class="sourceLine" id="cb99-11" title="11">       <span class="dt">data =</span> sp500_return<span class="op">$</span>daily.returns)</a>
+<a class="sourceLine" id="cb99-12" title="12"><span class="kw">summary</span>(fit)</a>
+<a class="sourceLine" id="cb99-13" title="13">fit</a>
+<a class="sourceLine" id="cb99-14" title="14"><span class="kw">plot</span>(fit,<span class="dt">which=</span><span class="st">&quot;all&quot;</span>)</a></code></pre></div>
+<ul>
+<li>Useful materials: <a href="https://cran.r-project.org/web/packages/rugarch/vignettes/Introduction_to_the_rugarch_package.pdf">The <code>rugarch</code> package vignette</a></li>
+</ul>
+</div>
+</div>
+<div id="asymmetry-in-volatility" class="section level2">
+<h2><span class="header-section-number">4.9</span> Asymmetry in Volatility</h2>
+<!--https://asymmetryobservations.com/definitions/asymmetric-volatility/-->
+<ul>
+<li>Some equity markets show asymmetry in their volatility clusters</li>
+<li>Asymmetric Volatility is when the volatility of a market or stock is higher when a market is in a downtrend and volatility tends to be lower in an uptrend.</li>
+<li>There may be a range of causes of asymmetric volatility, but factors such as leverage, panic selling, and serial correlation are often some of the drivers.</li>
+<li>The asymmetric GARCH models are employed to capture the asymmetric characteristics of volatility.</li>
+</ul>
+</div>
+<div id="the-exponential-garch-model" class="section level2">
+<h2><span class="header-section-number">4.10</span> The exponential GARCH model</h2>
+<ul>
+<li>In 1991, Nelson proposed the <strong>Exponential GARCH</strong> model to allow for asymmetric effects between positive and negative asset returns.</li>
+<li>An <span class="math inline">\(EGARCH(h,k)\)</span> model can be written as</li>
+</ul>
+<p><span class="math display">\[Y_t=\sigma_t\epsilon_t,\]</span>
+<span class="math display">\[\begin{equation} \label{eq:6}
+log(\sigma_t^2) =\alpha_0+\sum_{i=1}^h\beta_ilog(\sigma_{t-i}^2)+ \sum_{j=1}^kf_j(\epsilon_{t-j})
+\end{equation}\]</span></p>
+<p>where the <span class="math inline">\(\{\epsilon_t\}\)</span> is a sequence of iid random variables with mean 0 and variance 1, and <span class="math inline">\(f_j(\epsilon)=\alpha_j\epsilon+\gamma_j(|\epsilon|-E|\epsilon|)\)</span></p>
+<!--It can be seen that the random variable $f_j(\epsilon_t)$ is the sum of two 0 mean random variables $\alpha_j\epsilon_t$ and $\gamma_j(|\epsilon_t|-E|\epsilon_t|)$ -->
+<ul>
+<li>Both <span class="math inline">\(\epsilon_t\)</span> and <span class="math inline">\(|\epsilon_t|-E|\epsilon_t|\)</span> are zero-mean iid sequences with continuous distributions.</li>
+<li>Therefore, <span class="math inline">\(E[f_j(\epsilon_t)]=0\)</span></li>
+<li>The asymmetry of <span class="math inline">\(f_j(\epsilon_t)\)</span> can easily be seen by rewriting it as</li>
+</ul>
+<p><span class="math display">\[
+    f_j(\epsilon_t)= 
+\begin{cases}
+    (\alpha_j+\gamma_j)\epsilon_t-\gamma_jE|\epsilon_t|,&amp; \text{if } \epsilon_t\geq 0\\
+    (\alpha_j-\gamma_j)\epsilon_t-\gamma_jE|\epsilon_t|,&amp; \text{if } \epsilon_t&lt; 0
+\end{cases}
+\]</span></p>
+<ul>
+<li>This shows the asymmetry of the volatility response to positive and negative returns.</li>
+<li>The model differs from the GARCH model in several ways
+<ul>
+<li>First, it uses logged conditional variance to relax the positiveness constraint of model coefficients.</li>
+<li>Second, the use of <span class="math inline">\(f_j(\epsilon_t)\)</span> enables the model to respond asymmetrically to positive and negative lagged values of <span class="math inline">\(Y_t.\)</span></li>
+</ul></li>
+<li>Some additional properties of the EGARCH model can be found in Nelson (1991).</li>
+</ul>
+</div>
+<div id="stochastic-volatility-models" class="section level2">
+<h2><span class="header-section-number">4.11</span> Stochastic Volatility Models</h2>
+<ul>
+<li>The formulae for <span class="math inline">\(\sigma_t^2\)</span> in all GARCH type models are deterministic as there is no “error” term in either equation.</li>
+<li>An alternative approach to ARCH or GARCH models is to assume that <span class="math inline">\(\sigma_t\)</span> follows a <strong>Stochastic process</strong>.</li>
+<li>This can be usually done by modelling <span class="math inline">\(log(\sigma_t^2)\)</span> or <span class="math inline">\(log(\sigma_t)\)</span> to ensure that <span class="math inline">\(\sigma_t^2\)</span> remains positive.</li>
+<li>Example: Let <span class="math inline">\(log(\sigma_t^2)=h_t\)</span> and <span class="math inline">\(h_t\)</span> follows an AR process with an “error” component that is independent of the <span class="math inline">\(\{\epsilon_t\}\)</span> in the innovation series <span class="math inline">\(\{Y_t\}\)</span>,</li>
+</ul>
+<p><span class="math display">\[Y_t=\sigma_t\epsilon_t, \quad \sigma_t^2=e^{h_t},\]</span></p>
+<p><span class="math display">\[h_t=\phi_0+\phi_1h_{t-1}+\dots+\phi_ph_{t-p}+\eta_t,\]</span></p>
+<p>which has <span class="math inline">\(AP(p)\)</span> dynamics for <span class="math inline">\(log\sigma_t^2.\)</span></p>
+<ul>
+<li>These type of models are called <strong>stochastic volatility</strong> or <strong>Stochastic variance models</strong>.</li>
+<li>The <span class="math inline">\(\epsilon_t\)</span> and <span class="math inline">\(\eta_t\)</span> are assumed to be independent normally distributed random variables with <span class="math inline">\(\epsilon_t\sim N(0,1)\)</span> and <span class="math inline">\(\eta_t\sim N(0,\sigma^2)\)</span></li>
+<li>In certain cases, it is more reasonable to assume that <span class="math inline">\(\sigma_t\)</span> changes stochastically through time rather than deterministically.
+<ul>
+<li>Example: During a sudden change in volatility in financial market due to a special event such as a war involving oil producing countries</li>
+</ul></li>
+</ul>
+</div>
 <div id="references-2" class="section level2">
-<h2><span class="header-section-number">4.8</span> References:</h2>
+<h2><span class="header-section-number">4.12</span> References:</h2>
 <ul>
 <li><p>Chatfield, C., &amp; Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.</p></li>
 <li><p>Tsay, R. S. (2010). Analysis of Financial Time Series. John Wiley &amp; Sons..

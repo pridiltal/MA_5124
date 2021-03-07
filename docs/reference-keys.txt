@@ -164,6 +164,11 @@ prediction-of-volatilities
 example-building-a-garch-model
 the-arma-garch-models
 example-building-an-arma-garch-model
+other-arch-type-models
+the-integrated-garch-igarch-model
+asymmetry-in-volatility
+the-exponential-garch-model
+stochastic-volatility-models
 references-2
 multivariate-time-series-modeliing
 references-3

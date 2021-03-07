@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.20)  28 FEB 2021 11:22
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.2.20)  6 MAR 2021 21:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -585,6 +585,9 @@ LaTeX Warning: Label `eq:2' multiply defined.
 
 
 LaTeX Warning: Label `eq:3' multiply defined.
+
+
+LaTeX Warning: Label `eq:5' multiply defined.
 
 )
 \openout1 = `bookdown-demo.aux'.
@@ -1253,6 +1256,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-11.10004pt}.
 
 [7]
+Underfull \vbox (badness 1189) has occurred while \output is active []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 23.10004pt, for example:
@@ -1294,26 +1299,28 @@ _return$daily.returns)[]
 [16]
 File: bookdown-demo_files/figure-latex/plotag2-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/plotag2-1.pdf>
-[17] [18] [19] [20
-
-]
+[17] [18]
+Missing character: There is no σ in font [lmroman9-regular]:mapping=tex-text;!
+[19] [20] [21] [22]
 Chapter 5.
-(./bookdown-demo.bbl [1] [2
+(./bookdown-demo.bbl [1
+
+] [2
 
 ]) [3] (./bookdown-demo.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `bookdown-demo.out' has not changed.
-(rerunfilecheck)             Checksum: E650B8982290D0E69AD2CDFBFF342B6F;6543.
+(rerunfilecheck)             Checksum: 5FA8BDC301ACC1AE76C5D4588E2CDDE3;7293.
  ) 
 Here is how much of TeX's memory you used:
- 18035 strings out of 478931
- 338040 string characters out of 5865316
- 841958 words of memory out of 5000000
- 37525 multiletter control sequences out of 15000+600000
+ 18041 strings out of 478931
+ 338189 string characters out of 5865316
+ 843091 words of memory out of 5000000
+ 37531 multiletter control sequences out of 15000+600000
  410970 words of font info for 102 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  98i,12n,122p,618b,516s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on bookdown-demo.pdf (115 pages).
+Output written on bookdown-demo.pdf (117 pages).
