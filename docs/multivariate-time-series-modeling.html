@@ -280,7 +280,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html"><i class="fa fa-check"></i><b>5</b> Multivariate Time Series Modeling</a><ul>
 <li class="chapter" data-level="5.1" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#introduction-2"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
 <li class="chapter" data-level="5.2" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#the-cross-correlation-function"><i class="fa fa-check"></i><b>5.2</b> The Cross-Correlation Function</a></li>
-<li class="chapter" data-level="5.3" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#references-3"><i class="fa fa-check"></i><b>5.3</b> References:</a></li>
+<li class="chapter" data-level="5.3" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#vector-autoregressive-models"><i class="fa fa-check"></i><b>5.3</b> Vector Autoregressive Models</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#var1-models"><i class="fa fa-check"></i><b>5.3.1</b> Var(1) models</a></li>
+<li class="chapter" data-level="5.3.2" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#varp-models"><i class="fa fa-check"></i><b>5.3.2</b> VAR(p) models</a></li>
+<li class="chapter" data-level="5.3.3" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#vector-arma-models"><i class="fa fa-check"></i><b>5.3.3</b> Vector ARMA models</a></li>
+<li class="chapter" data-level="5.3.4" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#vector-arima-models"><i class="fa fa-check"></i><b>5.3.4</b> Vector ARIMA models</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#fitting-var-and-varma-models"><i class="fa fa-check"></i><b>5.4</b> Fitting VAR and VARMA models</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#forecasting-1"><i class="fa fa-check"></i><b>5.4.1</b> Forecasting</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#references-3"><i class="fa fa-check"></i><b>5.5</b> References:</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-4.html"><a href="references-4.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -302,6 +311,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="multivariate-time-series-modeling" class="section level1">
 <h1><span class="header-section-number">Chapter 5</span> Multivariate Time Series Modeling</h1>
+<!-- very important :" Chatfield book data and R code available here: http://www.ams.sunysb.edu/~xing/tsRbook/functions.html
+http://www.ams.sunysb.edu/~xing/tsRbook/data.html
+-->
 
 <p><strong>This chapter is heavily based on Chapter 13 of <span class="citation">Chatfield and Xing (<a href="#ref-chatfield2019analysis">2019</a>)</span> and <span class="citation">Tsay (<a href="#ref-tsay2013multivariate">2013</a>)</span> .</strong></p>
 <div id="introduction-2" class="section level2">
@@ -348,20 +360,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p><span class="math display">\[\gamma_{ij}(k)= \text{Cov}(X_{it},X_{j,t+k} )= \text{Cov}(X_{j,t+k}, X_{it} ) = \gamma_{ij}(-k),\]</span></p>
 <p>we have
-<span class="math display">\[\Gamma(k)=\Gamma^T(-k), \quad k=0, \pm1, \pm2, \dots.\]</span>
-- The diagonal terms, <span class="math inline">\(\gamma_{ii}(k)\)</span>, are auto- rather than cross- covariances, and therefore have the property of being an even function of lags.</p>
+<span class="math display">\[\Gamma(k)=\Gamma^T(-k), \quad k=0, \pm1, \pm2, \dots.\]</span></p>
+<ul>
+<li>The diagonal terms, <span class="math inline">\(\gamma_{ii}(k)\)</span>, are auto- rather than cross- covariances, and therefore have the property of being an even function of lags.</li>
+</ul>
 <p><strong>Cross-correlation</strong></p>
 <ul>
 <li>Let <span class="math inline">\(R(k)\)</span> be the <strong>cross-correlation matrix function</strong> of the process.</li>
 <li>The <span class="math inline">\((i,j)\)</span>the element of <span class="math inline">\(R(k)\)</span> is given by</li>
 </ul>
 <p><span class="math display">\[\rho_{ij}(k)= \text{Corr}(X_{j,t+k}, X_{it} )=\gamma_{ij}(k)/\sigma_i\sigma_j\]</span>
-where <span class="math inline">\(\sigma_i\)</span> is the standard deviations of <span class="math inline">\(X_{it}\)</span> (this can also be expressed as <span class="math inline">\(\sqrt{\gamma_{ii}(0)}.\)</span>)
-- When <span class="math inline">\(k&gt;0\)</span>, the correlation coefficient measures the linear dependence of <span class="math inline">\(X_{j, t+k}\)</span> on <span class="math inline">\(X_{it},\)</span> which occurs after time <span class="math inline">\(t\)</span>.
-- If <span class="math inline">\(\rho_{ij}(k)\neq0\)</span> and <span class="math inline">\(k&gt;0\)</span>, the series <span class="math inline">\(X_{it}\)</span> leads the series <span class="math inline">\(X_{jt}\)</span> at lag <span class="math inline">\(k\)</span>.
-- Furthermore, we can write
-<span class="math display">\[R(K)=R^T(-k), \quad \quad k=0, \pm1, \pm2, \dots.\]</span>
-- Therefore, in practice, it is enough to consider the cross-correlation matrices <span class="math inline">\(R(k)\)</span> for <span class="math inline">\(k&gt;0\)</span>.</p>
+where <span class="math inline">\(\sigma_i\)</span> is the standard deviations of <span class="math inline">\(X_{it}\)</span> (this can also be expressed as <span class="math inline">\(\sqrt{\gamma_{ii}(0)}.\)</span>)</p>
+<ul>
+<li>When <span class="math inline">\(k&gt;0\)</span>, the correlation coefficient measures the linear dependence of <span class="math inline">\(X_{j, t+k}\)</span> on <span class="math inline">\(X_{it},\)</span> which occurs after time <span class="math inline">\(t\)</span>.</li>
+<li>If <span class="math inline">\(\rho_{ij}(k)\neq0\)</span> and <span class="math inline">\(k&gt;0\)</span>, the series <span class="math inline">\(X_{it}\)</span> leads the series <span class="math inline">\(X_{jt}\)</span> at lag <span class="math inline">\(k\)</span>.</li>
+<li><p>Furthermore, we can write
+<span class="math display">\[R(K)=R^T(-k), \quad \quad k=0, \pm1, \pm2, \dots.\]</span></p></li>
+<li><p>Therefore, in practice, it is enough to consider the cross-correlation matrices <span class="math inline">\(R(k)\)</span> for <span class="math inline">\(k&gt;0\)</span>.</p></li>
+</ul>
 <p><strong>Sample cross-correlation coefficient</strong></p>
 <ul>
 <li>Let <span class="math inline">\(T\)</span> be the total number of observations collected on the <span class="math inline">\(m\)</span> variables over the same time period.</li>
@@ -375,7 +391,7 @@ where <span class="math inline">\(\sigma_i\)</span> is the standard deviations o
 \end{cases}
 \]</span></p>
 <ul>
-<li>The <strong>sample cross-correlation</strong> coefiicient of <span class="math inline">\(X_i\)</span> and <span class="math inline">\(X_j\)</span> at lag <span class="math inline">\(k\)</span> is given by
+<li>The <strong>sample cross-correlation</strong> coefficient of <span class="math inline">\(X_i\)</span> and <span class="math inline">\(X_j\)</span> at lag <span class="math inline">\(k\)</span> is given by
 <span class="math display">\[\gamma_{ij}(k)=c_{ij}(k)/s_is_j\]</span>
 where <span class="math inline">\(s_i=\sqrt{c_{ii}(0)}\)</span> is the sample standard deviation of observations on the <span class="math inline">\(i\)</span>th variable.</li>
 </ul>
@@ -385,6 +401,13 @@ where <span class="math inline">\(s_i=\sqrt{c_{ii}(0)}\)</span> is the sample st
 
 The Nasdaq Composite (ticker symbol ^IXIC) is a stock market index that includes almost all stocks listed on the Nasdaq stock market. Along with the Dow Jones Industrial Average and S&P 500 Index, it is one of the three most-followed stock market indices in the United States.
 -->
+<p><em>Example</em></p>
+<ul>
+<li>Consider the daily returns of adjusted closing prices of the Standard &amp; Poor’s 500 (S&amp;P500), the Dow Jones Industrial Average and the Nasdaq Composite indices from January 4, 1995 to February 25, 2021 (Figure <a href="multivariate-time-series-modeling.html#fig:stock">5.1</a>).</li>
+<li>These three market indices characterize the performance of the U.S. stock market from different perspectives and therefore they should be highly correlated.
+<!--
+- Figure \@ref(fig:ccf) shows their sample correlations at lag $k=0,1,\dots, 25.$--></li>
+</ul>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" title="1"><span class="co"># Tidy financial analysis </span></a>
 <a class="sourceLine" id="cb100-2" title="2"><span class="kw">library</span>(tidyquant)</a>
 <a class="sourceLine" id="cb100-3" title="3"></a>
@@ -470,12 +493,15 @@ The Nasdaq Composite (ticker symbol ^IXIC) is a stock market index that includes
 <a class="sourceLine" id="cb106-29" title="29"></a>
 <a class="sourceLine" id="cb106-30" title="30">p1 <span class="op">/</span><span class="st"> </span>p2<span class="op">/</span><span class="st"> </span>p3</a></code></pre></div>
 <div class="figure"><span id="fig:stock"></span>
-<img src="bookdown-demo_files/figure-html/stock-1.png" alt="Daily returns of  adjusted closing prices of the Standard &amp; Poor's 500 (S&amp;P500), the Dow Jones Indutrial Average and the Nasdaq Composite indices  from January 4, 1995 to February 25, 2021" width="672" />
+<img src="bookdown-demo_files/figure-html/stock-1.png" alt="Daily returns of adjusted closing prices of the Standard &amp; Poor's 500 (S&amp;P500), the Dow Jones Indutrial Average and the Nasdaq Composite indices  from January 4, 1995 to February 25, 2021" width="672" />
 <p class="caption">
 Figure 5.1: Daily returns of adjusted closing prices of the Standard &amp; Poor’s 500 (S&amp;P500), the Dow Jones Indutrial Average and the Nasdaq Composite indices from January 4, 1995 to February 25, 2021
 </p>
 </div>
 <p><strong>A function of computing sample cross correlation</strong></p>
+<ul>
+<li>We use the <code>ccm</code> function of the <code>MTS</code> package in R to obtain the cross-correlation plots for a dataset.</li>
+</ul>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" title="1"><span class="kw">library</span>(MTS)</a>
 <a class="sourceLine" id="cb107-2" title="2">data &lt;-<span class="st"> </span><span class="kw">full_join</span>(sp500_return, dji_return, <span class="dt">by=</span> <span class="st">&quot;date&quot;</span> )</a>
 <a class="sourceLine" id="cb107-3" title="3">data &lt;-<span class="st"> </span><span class="kw">full_join</span>(data, nasdaq_return, <span class="dt">by =</span><span class="st">&quot;date&quot;</span> )</a>
@@ -484,13 +510,275 @@ Figure 5.1: Daily returns of adjusted closing prices of the Standard &amp; Poor�
 <a class="sourceLine" id="cb107-6" title="6">ret &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb107-7" title="7"><span class="st">   </span><span class="kw">select</span>(sp500, dji, nasdaq) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb107-8" title="8"><span class="st">   </span><span class="kw">as.matrix</span>()</a>
-<a class="sourceLine" id="cb107-9" title="9"><span class="kw">MTSplot</span>(ret)</a></code></pre></div>
+<a class="sourceLine" id="cb107-9" title="9">MTS<span class="op">::</span><span class="kw">MTSplot</span>(ret)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ccf-1.png" width="672" /></p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" title="1"><span class="kw">ccm</span>(ret, <span class="dt">lags =</span> <span class="dv">25</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" title="1">MTS<span class="op">::</span><span class="kw">ccm</span>(ret, <span class="dt">lags =</span> <span class="dv">25</span>)</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ccf-2.png" width="672" /><img src="bookdown-demo_files/figure-html/ccf-3.png" width="672" /></p>
+<ul>
+<li>The concurrent interdependence of the three series are very strong.</li>
+<li>However, the lead-lag effect among the three series is relatively weak.</li>
+</ul>
+</div>
+<div id="vector-autoregressive-models" class="section level2">
+<h2><span class="header-section-number">5.3</span> Vector Autoregressive Models</h2>
+<ul>
+<li>The most commonly used multivariate time series model is the vector autoregressive (VAR) model.</li>
+<li>To study the properties of VAR(p) models, we start with the simple VAR(1) model.</li>
+</ul>
+<div id="var1-models" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Var(1) models</h3>
+<ul>
+<li>Consider <span class="math inline">\(m\)</span>-variate multivariate process, <span class="math inline">\(\{\mathbf{X}_t\}\)</span>, where <span class="math inline">\(\mathbf{X}_t^T=(X_{1t}, X_{2t}, \dots, X_{mt}).\)</span></li>
+<li>For simplicity, we restrict the attention to the case <span class="math inline">\(m=2.\)</span></li>
+<li>For stationary series, we may, without loss of generality, assume the variables have been scaled to have zero mean.</li>
+<li>Now the model allows the values of <span class="math inline">\(X_{1t}\)</span> and <span class="math inline">\(X_{2t}\)</span> to depend linearly on the values of both series at time <span class="math inline">\((t-1_).\)</span></li>
+<li>The resulting model for the two series then consist of two equations</li>
+</ul>
+<p><span class="math display">\[
+\begin{cases}
+    X_{1t} = \phi_{11}X_{1,t-1}+ \phi_{12}X_{2,t-1}+\epsilon_{1t}\\
+   X_{2t} = \phi_{21}X_{1,t-1}+ \phi_{22}X_{2,t-1}+\epsilon_{2t}\\
+\end{cases}
+\]</span>
+where <span class="math inline">\(\{\phi_{ij}\}\)</span> are constants.</p>
+<ul>
+<li>The two error terms, <span class="math inline">\(\epsilon_{1t}\)</span> and <span class="math inline">\(\epsilon_{2t}\)</span> are usually assumed to be white noise, but are often allowed to be correlated contemporaneously.</li>
+<li>Note: If coefficients, <span class="math inline">\(\phi_{12} = \phi_{21}=0\)</span>, then <span class="math inline">\(X_{1t}\)</span> and <span class="math inline">\(X_{2t}\)</span> are not dynamically correlated.</li>
+<li>If one of <span class="math inline">\(\phi_{12}\)</span> and <span class="math inline">\(\phi_{21}\)</span> is not zero, say <span class="math inline">\(\phi_{12}=0\)</span> and <span class="math inline">\(\phi_{21}\neq 0,\)</span> then <span class="math inline">\(X_{1t}\)</span> does not depend on the lagged values of <span class="math inline">\(X_{2t}\)</span>.</li>
+<li><p>Then the system of equations reduces to
+<span class="math display">\[
+\begin{cases}
+  X_{1t} = \phi_{11}X_{1,t-1}+\epsilon_{1t}\\
+ X_{2t} = \phi_{21}X_{1,t-1}+ \phi_{22}X_{2,t-1}+\epsilon_{2t}.
+\end{cases}
+\]</span></p></li>
+<li>This indicates that, while <span class="math inline">\(X_{2t}\)</span> depends on the lagged value of <span class="math inline">\(X_{1t},\)</span> there is no feedback from <span class="math inline">\(X_{2t}\)</span> to <span class="math inline">\(X_{1t}.\)</span></li>
+<li><p>That is, any causality goes only in one direction and therefore <span class="math inline">\(X_{1t}\)</span> can be considered as the <em>input</em> and <span class="math inline">\(X_{2t}\)</span> can be considered as the <em>output.</em></p></li>
+</ul>
+<p><strong>Vector Form</strong></p>
+<ul>
+<li>The system of equation can be written in vector form as</li>
+</ul>
+<p><span class="math display">\[\mathbf{X}_t=\Phi\mathbf{X}_{t-1}+\mathbf{\epsilon}_t\]</span></p>
+<p>where <span class="math inline">\(\mathbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})\)</span> and</p>
+<p><span class="math display">\[
+\Phi=
+\begin{pmatrix}
+  \phi_{11} &amp;  \phi_{12}\\ 
+   \phi_{21} &amp;  \phi_{22}
+\end{pmatrix}.
+\]</span></p>
+<ul>
+<li>The above equation looks like and AR(1)
+model except that <span class="math inline">\(\mathbf{X}_t\)</span> and <span class="math inline">\(\mathbf{\epsilon}_t\)</span> are now vectors instead of scalars.</li>
+<li>Since <span class="math inline">\(\mathbf{X}_t\)</span> depends on <span class="math inline">\(\mathbf{X}_{t-1}\)</span>, this model is called a <strong>vector autoregressive model</strong> of order 1 (VAR(1)).</li>
+<li>The above equation can also be expressed as</li>
+</ul>
+<p><span class="math display">\[(I-\Phi B)\mathbf{X}_t=\mathbf{\epsilon}_t\]</span>
+where <span class="math inline">\(B\)</span> is the backward shift operator, and <span class="math inline">\(I\)</span> is the <span class="math inline">\((2\times2)\)</span> identity matrix and <span class="math inline">\(\Phi B\)</span> represents the operator matrix</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+  \phi_{11}B &amp;  \phi_{12}B\\ 
+   \phi_{21}B &amp;  \phi_{22}B
+\end{pmatrix}.
+\]</span></p>
+<ul>
+<li>The necessary and sufficient condition for the stationarity of <span class="math inline">\(\mathbf{X}_t\)</span> is that the roots of the determinant of <span class="math inline">\(I-\Phi B\)</span> lie outside the unit circle.</li>
+</ul>
+</div>
+<div id="varp-models" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> VAR(p) models</h3>
+<ul>
+<li>The above VAR(1) model can be generalized from two to <span class="math inline">\(m\)</span> variables and from first0order auto-regression to <span class="math inline">\(p\)</span>th order.</li>
+<li>A VAR model of order <span class="math inline">\(p\)</span> (<span class="math inline">\(VAR(p)\)</span>) can be written in the form</li>
+</ul>
+<p><span class="math display">\[\Phi(B)\mathbf{X}_t=\mathbf{\epsilon}_t\]</span></p>
+<p>where <span class="math inline">\(\mathbf{X}_t\)</span> is a <span class="math inline">\((m\times1)\)</span> vector of observed variables, and <span class="math inline">\(\Phi\)</span> is a matrix polynomial of order <span class="math inline">\(p\)</span> in the backward shift operator <span class="math inline">\(B\)</span> such that</p>
+<p><span class="math display">\[\Phi(B)=I-\Phi_1B-\dots-\Phi_pB^p,\]</span></p>
+<p>where <span class="math inline">\(I\)</span> is the <span class="math inline">\((m\times m)\)</span> identity matrix and <span class="math inline">\(\Phi_1, \Phi_2, \dots, \Phi_p\)</span> are <span class="math inline">\((m\times m)\)</span> matrices of parameters.</p>
+<ul>
+<li>Since we restrict attention to stationary processes, without loss of generality, we assume the variables have been scaled to have zero mean.</li>
+<li>The condition for stationarity is that the roots of the equation</li>
+</ul>
+<p><span class="math display">\[\text{determinant}\{\Phi(x)\}=|I-\Phi_1x-\Phi_2x^2-\dots-\Phi_px^p|=0,\]</span></p>
+<p>should lie outside the unit circle.</p>
+<ul>
+<li>Let <span class="math inline">\(\mathbf{\epsilon}_t = (\epsilon_{1t}, \epsilon_{2t}, \dots, \epsilon_{mt})\)</span> denote and <span class="math inline">\((m\times 1)\)</span> vector of random variables.</li>
+<li>This multivariate time series is called a <strong>multivariate white noise</strong> if it is stationary with zero mean vector <span class="math inline">\(\mathbf{0}\)</span>, and if the values of <span class="math inline">\(\mathbf{\epsilon}_t\)</span> at different times are uncorrelated.</li>
+<li>Then the <span class="math inline">\((m\times m)\)</span> matrix of the cross-covariances of the elements of <span class="math inline">\(\mathbf{\epsilon}_t\)</span> with that of <span class="math inline">\(\mathbf{\epsilon}_{t+j}\)</span> is given by</li>
+</ul>
+<p><span class="math display">\[
+\text{Cov}(\mathbf{\epsilon}_t, \mathbf{\epsilon}_{t+j})
+\begin{cases}
+    \Gamma_0 &amp; j=0\\
+   0_m &amp; j\neq0,
+\end{cases}
+\]</span></p>
+<p>where <span class="math inline">\(\Gamma_0\)</span> denotes a <span class="math inline">\((m\times m)\)</span> symmetric positive-definite matrix and <span class="math inline">\(0_m\)</span>
+denotes an <span class="math inline">\((m\times m)\)</span> matrix of zeros.</p>
+<ul>
+<li>Therefore, each component of <span class="math inline">\(\mathbf{\epsilon}_t\)</span> behaves like univariate white noise.</li>
+<li>Further, <span class="math inline">\(\Gamma_0\)</span>, the covariance matrix at lag zero, does not need to be diagonal, as an innovation at a particular time point could affect more than one measured variable at that time point.</li>
+<li>Therefore, we allow the components of <span class="math inline">\(\mathbf{\epsilon}_t\)</span> to be contemporaneously correlated.</li>
+</ul>
+</div>
+<div id="vector-arma-models" class="section level3">
+<h3><span class="header-section-number">5.3.3</span> Vector ARMA models</h3>
+<ul>
+<li>A in the univariate case, the VAR models can also be generalized to include moving average (MA) terms as</li>
+</ul>
+<p><span class="math display">\[\Phi(B)\mathbf{X}_t=\Theta(B)\mathbf{\epsilon}_t\]</span></p>
+<p>where
+<span class="math display">\[\Theta(B)=I+\Theta_1 B-\dots-\Theta_qB^p,\]</span></p>
+<p>is a matrix polynomial of order <span class="math inline">\(q\)</span> in the backward shift operator <span class="math inline">\(B\)</span> and <span class="math inline">\(\Theta_1, \Theta_2,\dots, \Theta_q\)</span> are <span class="math inline">\((m\times m)\)</span> matrices of parameters.</p>
+<ul>
+<li>Then <span class="math inline">\(\mathbf{X}_t\)</span> follows a <strong>vector ARMA</strong> (VARMA) model of order <span class="math inline">\((p,q).\)</span></li>
+<li>The necessary and sufficient condition for the stationarity of <span class="math inline">\(\mathbf{X}_t\)</span> is that the roots of the determinant of <span class="math inline">\(I-\Phi B\)</span> lie outside the unit circle.</li>
+<li>The condition for invertibility is that the roots of the equation</li>
+</ul>
+<p><span class="math display">\[\text{determinant}\{\Theta(x)\}=|I+\Theta_1x+\Theta_2x^2+\dots+\Theta_px^q|=0,\]</span>
+lies outside the unit circle.</p>
+</div>
+<div id="vector-arima-models" class="section level3">
+<h3><span class="header-section-number">5.3.4</span> Vector ARIMA models</h3>
+<ul>
+<li>If <span class="math inline">\(\Phi(b)\)</span> includes a factor of the form <span class="math inline">\(I(1-B),\)</span> then the model is not stationary and deal with the first differences of the components of <span class="math inline">\(\mathbf{X}_t\)</span>.</li>
+<li>Such a model is called a <strong>vector ARIMA</strong> (VARIMA) model.</li>
+<li>However, in practice, it may not be optimal to difference each component of <span class="math inline">\(\mathbf{X}_t\)</span> in the same way and should consider the possible presence of co-integration before differencing multivariate data.</li>
+<li>VARMA models can be generalized further by adding terms, involving additional exogenous variables to the right hand side of the equation and they are known as VARIMAX models.</li>
+</ul>
+</div>
+</div>
+<div id="fitting-var-and-varma-models" class="section level2">
+<h2><span class="header-section-number">5.4</span> Fitting VAR and VARMA models</h2>
+<ul>
+<li>The process involves assessing the order <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> of the model, estimating the parameter matrices and estimating the variance-covariance matrix of the noise components.</li>
+</ul>
+<div id="forecasting-1" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> Forecasting</h3>
+<ul>
+<li>Forecasts can be computed for VAR, VARMA and VARIMA models by a natural extension of methods used for univariate ARIMA models.</li>
+<li>Minimum mean square error (MMSE) forecasts can be obtained by replacing
+<ul>
+<li>future values of white noise with zeros</li>
+<li>future values of <span class="math inline">\(\mathbf{X}_t\)</span> with MMSE forecasts</li>
+<li>present and past values of <span class="math inline">\(\mathbf{X}_t\)</span> with the observed values</li>
+<li>present and past values of <span class="math inline">\(\epsilon_t\)</span> with the one step head forecast residuals.</li>
+</ul></li>
+</ul>
+<p><strong>Example- Analysis of macro-economic series</strong></p>
+<p>Here we consider the U.S. quarterly gross domestic product (gdp), the civilian unemployment rate (unrate) and consumer price index (cpi) for all urban consumers from the first quarter of 1948 to the third quarter of 2017.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1">data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;macrots.csv&quot;</span> ))</a>
+<a class="sourceLine" id="cb109-2" title="2">data<span class="op">$</span>quarter &lt;-<span class="st"> </span><span class="kw">as.Date</span>(data<span class="op">$</span>quarter)</a>
+<a class="sourceLine" id="cb109-3" title="3">data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb109-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>X) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb109-5" title="5"><span class="st">  </span><span class="kw">as_tsibble</span>(<span class="dt">index =</span> <span class="st">&quot;quarter&quot;</span>) </a>
+<a class="sourceLine" id="cb109-6" title="6">p1&lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(gdp) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb109-7" title="7"><span class="st">  </span><span class="kw">xlab</span> (<span class="st">&quot;Quarter&quot;</span>)</a>
+<a class="sourceLine" id="cb109-8" title="8">p2&lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(unrate) <span class="op">+</span></a>
+<a class="sourceLine" id="cb109-9" title="9"><span class="st">  </span><span class="kw">xlab</span> (<span class="st">&quot;Quarter&quot;</span>)</a>
+<a class="sourceLine" id="cb109-10" title="10">p3&lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(cpi)<span class="op">+</span></a>
+<a class="sourceLine" id="cb109-11" title="11"><span class="st">  </span><span class="kw">xlab</span> (<span class="st">&quot;Quarter&quot;</span>)</a>
+<a class="sourceLine" id="cb109-12" title="12">p1<span class="op">/</span>p2<span class="op">/</span>p3</a></code></pre></div>
+<div class="figure"><span id="fig:readmacrots"></span>
+<img src="bookdown-demo_files/figure-html/readmacrots-1.png" alt="Time series plot of GDP, unemployment rate and CPI" width="672" />
+<p class="caption">
+Figure 5.2: Time series plot of GDP, unemployment rate and CPI
+</p>
+</div>
+<ul>
+<li>All the series display some level of nonstationarity (Figure <a href="multivariate-time-series-modeling.html#fig:readmacrots">5.2</a>).</li>
+<li>Therefore we transform the data by calculating the rate of change or difference for each series (Figure <a href="multivariate-time-series-modeling.html#fig:trans">5.3</a>).</li>
+</ul>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" title="1">n&lt;-<span class="kw">nrow</span>(data)</a>
+<a class="sourceLine" id="cb110-2" title="2"><span class="co"># Change rate of GDP</span></a>
+<a class="sourceLine" id="cb110-3" title="3">data<span class="op">$</span>gdprate &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>,<span class="kw">diff</span>(data<span class="op">$</span>gdp)<span class="op">*</span><span class="dv">100</span><span class="op">/</span>data<span class="op">$</span>gdp[<span class="dv">1</span><span class="op">:</span>(n<span class="dv">-1</span>)])</a>
+<a class="sourceLine" id="cb110-4" title="4"><span class="co"># The difference of unemployment rate</span></a>
+<a class="sourceLine" id="cb110-5" title="5">data<span class="op">$</span>unemdiff &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>,<span class="kw">diff</span>(data<span class="op">$</span>unrate))</a>
+<a class="sourceLine" id="cb110-6" title="6"><span class="co"># Measure of inflation</span></a>
+<a class="sourceLine" id="cb110-7" title="7">data<span class="op">$</span>cpirate &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>,<span class="kw">diff</span>(data<span class="op">$</span>cpi)<span class="op">*</span><span class="dv">100</span><span class="op">/</span>data<span class="op">$</span>cpi[<span class="dv">1</span><span class="op">:</span>(n<span class="dv">-1</span>)])</a>
+<a class="sourceLine" id="cb110-8" title="8"></a>
+<a class="sourceLine" id="cb110-9" title="9">p1&lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(gdprate) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb110-10" title="10"><span class="st">  </span><span class="kw">xlab</span> (<span class="st">&quot;Quarter&quot;</span>)</a>
+<a class="sourceLine" id="cb110-11" title="11">p2&lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(unemdiff) <span class="op">+</span></a>
+<a class="sourceLine" id="cb110-12" title="12"><span class="st">  </span><span class="kw">xlab</span> (<span class="st">&quot;Quarter&quot;</span>)</a>
+<a class="sourceLine" id="cb110-13" title="13">p3&lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>(cpirate)<span class="op">+</span></a>
+<a class="sourceLine" id="cb110-14" title="14"><span class="st">  </span><span class="kw">xlab</span> (<span class="st">&quot;Quarter&quot;</span>)</a>
+<a class="sourceLine" id="cb110-15" title="15">p1<span class="op">/</span>p2<span class="op">/</span>p3</a></code></pre></div>
+<div class="figure"><span id="fig:trans"></span>
+<img src="bookdown-demo_files/figure-html/trans-1.png" alt="Time series plot of the difference series" width="672" />
+<p class="caption">
+Figure 5.3: Time series plot of the difference series
+</p>
+</div>
+<ul>
+<li>The scatterplot matrix in Figure <a href="multivariate-time-series-modeling.html#fig:scattermatrix">5.4</a> shows the cross-sectional dependence of the three series.</li>
+<li>Figure <a href="multivariate-time-series-modeling.html#fig:scattermatrix">5.4</a> shows a concurrent regression relationship between <code>gdprate</code> and <code>unemdiff</code>, <code>gdprate</code> and <code>cpirate</code>, respectively.</li>
+</ul>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1"><span class="kw">library</span>(GGally)</a>
+<a class="sourceLine" id="cb111-2" title="2"><span class="kw">ggpairs</span>(data[,<span class="dv">5</span><span class="op">:</span><span class="dv">7</span>])</a></code></pre></div>
+<div class="figure"><span id="fig:scattermatrix"></span>
+<img src="bookdown-demo_files/figure-html/scattermatrix-1.png" alt="Scatterplot matrix" width="672" />
+<p class="caption">
+Figure 5.4: Scatterplot matrix
+</p>
+</div>
+<ul>
+<li>Then we check the sample cross-correlations to see whether there are any lead or lag effects among the three series (Figure <a href="#fig:ccf2"><strong>??</strong></a>.</li>
+</ul>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" title="1">data2 &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb112-2" title="2"><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb112-3" title="3"><span class="st">   </span><span class="kw">select</span>(<span class="st">&quot;gdprate&quot;</span>, <span class="st">&quot;unemdiff&quot;</span>, <span class="st">&quot;cpirate&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb112-4" title="4"><span class="st">   </span><span class="kw">as.matrix</span>() </a>
+<a class="sourceLine" id="cb112-5" title="5">data2 &lt;-<span class="st"> </span>data2[<span class="op">-</span><span class="dv">1</span>,]</a>
+<a class="sourceLine" id="cb112-6" title="6">MTS<span class="op">::</span><span class="kw">ccm</span>(data2, <span class="dt">lags =</span> <span class="dv">25</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/ccf2-1.png" width="672" /><img src="bookdown-demo_files/figure-html/ccf2-2.png" width="672" /></p>
+<ul>
+<li>First, we consider a VAR(1) model for <span class="math inline">\(\mathbf{X}_t\)</span>.</li>
+<li>We use the <code>VARMA</code> function in the <code>MTS</code> R package.</li>
+</ul>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" title="1">var1_fit &lt;-<span class="st"> </span>MTS<span class="op">::</span><span class="kw">VARMA</span>(data2, <span class="dt">p=</span><span class="dv">1</span>, <span class="dt">q=</span><span class="dv">0</span>, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, <span class="dt">details =</span> F)</a></code></pre></div>
+<pre><code>## Number of parameters:  9 
+## initial estimates:  0.7327 0.1979 0.251 -0.077 0.3654 0.1182 0.2389 0.2681 0.5174 
+## Par. lower-bounds:  0.6185 -0.1504 0.0784 -0.1156 0.2477 0.0599 0.1651 0.0429 0.4058 
+## Par. upper-bounds:  0.8469 0.5463 0.4237 -0.0384 0.483 0.1765 0.3127 0.4933 0.629 
+## Final   Estimates:  0.7115 0.1508 0.2786 -0.06924 0.3811 0.1073 0.2309 0.2544 0.5149 
+## 
+## Coefficient(s):
+##           Estimate  Std. Error  t value Pr(&gt;|t|)    
+## gdprate    0.71155     0.05652   12.590  &lt; 2e-16 ***
+## unemdiff   0.15075     0.17319    0.870 0.384046    
+## cpirate    0.27860     0.08492    3.281 0.001035 ** 
+## gdprate   -0.06924     0.01926   -3.595 0.000324 ***
+## unemdiff   0.38114     0.05902    6.458 1.06e-10 ***
+## cpirate    0.10733     0.02894    3.709 0.000208 ***
+## gdprate    0.23086     0.03713    6.217 5.07e-10 ***
+## unemdiff   0.25437     0.11379    2.235 0.025392 *  
+## cpirate    0.51490     0.05580    9.228  &lt; 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## --- 
+## Estimates in matrix form: 
+## AR coefficient matrix 
+## AR( 1 )-matrix 
+##         [,1]  [,2]  [,3]
+## [1,]  0.7115 0.151 0.279
+## [2,] -0.0692 0.381 0.107
+## [3,]  0.2309 0.254 0.515
+##   
+## Residuals cov-matrix: 
+##         [,1]     [,2]    [,3]
+## [1,]  1.0500 -0.16146 0.20992
+## [2,] -0.1615  0.12194 0.00262
+## [3,]  0.2099  0.00262 0.45331
+## ---- 
+## aic=  -3.138 
+## bic=  -3.02</code></pre>
+</div>
 </div>
 <div id="references-3" class="section level2">
-<h2><span class="header-section-number">5.3</span> References:</h2>
+<h2><span class="header-section-number">5.5</span> References:</h2>
 <ul>
 <li><p>Chatfield, C., &amp; Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.</p></li>
 <li><p>Tsay, R. S. (2013). Multivariate time series analysis: with R and financial applications. John Wiley &amp; Sons.</p></li>

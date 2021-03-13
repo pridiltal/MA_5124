@@ -4,6 +4,9 @@ fig:plot2
 fig:plot4
 fig:plotag2
 fig:stock
+fig:readmacrots
+fig:trans
+fig:scattermatrix
 intro
 arima-models
 stationarity-and-differencing
@@ -174,4 +177,11 @@ references-2
 multivariate-time-series-modeling
 introduction-2
 the-cross-correlation-function
+vector-autoregressive-models
+var1-models
+varp-models
+vector-arma-models
+vector-arima-models
+fitting-var-and-varma-models
+forecasting-1
 references-3

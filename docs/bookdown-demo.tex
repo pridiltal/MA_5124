@@ -5074,7 +5074,12 @@ which has \(AP(p)\) dynamics for \(log\sigma_t^2.\)
 
 we have
 \[\Gamma(k)=\Gamma^T(-k), \quad k=0, \pm1, \pm2, \dots.\]
-- The diagonal terms, \(\gamma_{ii}(k)\), are auto- rather than cross- covariances, and therefore have the property of being an even function of lags.
+
+\begin{itemize}
+\tightlist
+\item
+  The diagonal terms, \(\gamma_{ii}(k)\), are auto- rather than cross- covariances, and therefore have the property of being an even function of lags.
+\end{itemize}
 
 \textbf{Cross-correlation}
 
@@ -5088,11 +5093,18 @@ we have
 
 \[\rho_{ij}(k)= \text{Corr}(X_{j,t+k}, X_{it} )=\gamma_{ij}(k)/\sigma_i\sigma_j\]
 where \(\sigma_i\) is the standard deviations of \(X_{it}\) (this can also be expressed as \(\sqrt{\gamma_{ii}(0)}.\))
-- When \(k>0\), the correlation coefficient measures the linear dependence of \(X_{j, t+k}\) on \(X_{it},\) which occurs after time \(t\).
-- If \(\rho_{ij}(k)\neq0\) and \(k>0\), the series \(X_{it}\) leads the series \(X_{jt}\) at lag \(k\).
-- Furthermore, we can write
-\[R(K)=R^T(-k), \quad \quad k=0, \pm1, \pm2, \dots.\]
-- Therefore, in practice, it is enough to consider the cross-correlation matrices \(R(k)\) for \(k>0\).
+
+\begin{itemize}
+\item
+  When \(k>0\), the correlation coefficient measures the linear dependence of \(X_{j, t+k}\) on \(X_{it},\) which occurs after time \(t\).
+\item
+  If \(\rho_{ij}(k)\neq0\) and \(k>0\), the series \(X_{it}\) leads the series \(X_{jt}\) at lag \(k\).
+\item
+  Furthermore, we can write
+  \[R(K)=R^T(-k), \quad \quad k=0, \pm1, \pm2, \dots.\]
+\item
+  Therefore, in practice, it is enough to consider the cross-correlation matrices \(R(k)\) for \(k>0\).
+\end{itemize}
 
 \textbf{Sample cross-correlation coefficient}
 
@@ -5115,9 +5127,19 @@ where \(\sigma_i\) is the standard deviations of \(X_{it}\) (this can also be ex
 \begin{itemize}
 \tightlist
 \item
-  The \textbf{sample cross-correlation} coefiicient of \(X_i\) and \(X_j\) at lag \(k\) is given by
+  The \textbf{sample cross-correlation} coefficient of \(X_i\) and \(X_j\) at lag \(k\) is given by
   \[\gamma_{ij}(k)=c_{ij}(k)/s_is_j\]
   where \(s_i=\sqrt{c_{ii}(0)}\) is the sample standard deviation of observations on the \(i\)th variable.
+\end{itemize}
+
+\emph{Example}
+
+\begin{itemize}
+\tightlist
+\item
+  Consider the daily returns of adjusted closing prices of the Standard \& Poor's 500 (S\&P500), the Dow Jones Industrial Average and the Nasdaq Composite indices from January 4, 1995 to February 25, 2021 (Figure \ref{fig:stock}).
+\item
+  These three market indices characterize the performance of the U.S. stock market from different perspectives and therefore they should be highly correlated.
 \end{itemize}
 
 \begin{Shaded}
@@ -5241,6 +5263,12 @@ where \(\sigma_i\) is the standard deviations of \(X_{it}\) (this can also be ex
 
 \textbf{A function of computing sample cross correlation}
 
+\begin{itemize}
+\tightlist
+\item
+  We use the \texttt{ccm} function of the \texttt{MTS} package in R to obtain the cross-correlation plots for a dataset.
+\end{itemize}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(MTS)}
@@ -5251,7 +5279,7 @@ where \(\sigma_i\) is the standard deviations of \(X_{it}\) (this can also be ex
 \NormalTok{ret <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }
 \StringTok{   }\KeywordTok{select}\NormalTok{(sp500, dji, nasdaq) }\OperatorTok{%>%}
 \StringTok{   }\KeywordTok{as.matrix}\NormalTok{()}
-\KeywordTok{MTSplot}\NormalTok{(ret)}
+\NormalTok{MTS}\OperatorTok{::}\KeywordTok{MTSplot}\NormalTok{(ret)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5259,11 +5287,416 @@ where \(\sigma_i\) is the standard deviations of \(X_{it}\) (this can also be ex
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ccm}\NormalTok{(ret, }\DataTypeTok{lags =} \DecValTok{25}\NormalTok{)}
+\NormalTok{MTS}\OperatorTok{::}\KeywordTok{ccm}\NormalTok{(ret, }\DataTypeTok{lags =} \DecValTok{25}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{bookdown-demo_files/figure-latex/ccf-2.pdf} \includegraphics{bookdown-demo_files/figure-latex/ccf-3.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  The concurrent interdependence of the three series are very strong.
+\item
+  However, the lead-lag effect among the three series is relatively weak.
+\end{itemize}
+
+\hypertarget{vector-autoregressive-models}{%
+\section{Vector Autoregressive Models}\label{vector-autoregressive-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  The most commonly used multivariate time series model is the vector autoregressive (VAR) model.
+\item
+  To study the properties of VAR(p) models, we start with the simple VAR(1) model.
+\end{itemize}
+
+\hypertarget{var1-models}{%
+\subsection{Var(1) models}\label{var1-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Consider \(m\)-variate multivariate process, \(\{\mathbf{X}_t\}\), where \(\mathbf{X}_t^T=(X_{1t}, X_{2t}, \dots, X_{mt}).\)
+\item
+  For simplicity, we restrict the attention to the case \(m=2.\)
+\item
+  For stationary series, we may, without loss of generality, assume the variables have been scaled to have zero mean.
+\item
+  Now the model allows the values of \(X_{1t}\) and \(X_{2t}\) to depend linearly on the values of both series at time \((t-1_).\)
+\item
+  The resulting model for the two series then consist of two equations
+\end{itemize}
+
+\[
+\begin{cases}
+    X_{1t} = \phi_{11}X_{1,t-1}+ \phi_{12}X_{2,t-1}+\epsilon_{1t}\\
+   X_{2t} = \phi_{21}X_{1,t-1}+ \phi_{22}X_{2,t-1}+\epsilon_{2t}\\
+\end{cases}
+\]
+where \(\{\phi_{ij}\}\) are constants.
+
+\begin{itemize}
+\item
+  The two error terms, \(\epsilon_{1t}\) and \(\epsilon_{2t}\) are usually assumed to be white noise, but are often allowed to be correlated contemporaneously.
+\item
+  Note: If coefficients, \(\phi_{12} = \phi_{21}=0\), then \(X_{1t}\) and \(X_{2t}\) are not dynamically correlated.
+\item
+  If one of \(\phi_{12}\) and \(\phi_{21}\) is not zero, say \(\phi_{12}=0\) and \(\phi_{21}\neq 0,\) then \(X_{1t}\) does not depend on the lagged values of \(X_{2t}\).
+\item
+  Then the system of equations reduces to
+  \[
+  \begin{cases}
+    X_{1t} = \phi_{11}X_{1,t-1}+\epsilon_{1t}\\
+   X_{2t} = \phi_{21}X_{1,t-1}+ \phi_{22}X_{2,t-1}+\epsilon_{2t}.
+  \end{cases}
+  \]
+\item
+  This indicates that, while \(X_{2t}\) depends on the lagged value of \(X_{1t},\) there is no feedback from \(X_{2t}\) to \(X_{1t}.\)
+\item
+  That is, any causality goes only in one direction and therefore \(X_{1t}\) can be considered as the \emph{input} and \(X_{2t}\) can be considered as the \emph{output.}
+\end{itemize}
+
+\textbf{Vector Form}
+
+\begin{itemize}
+\tightlist
+\item
+  The system of equation can be written in vector form as
+\end{itemize}
+
+\[\mathbf{X}_t=\Phi\mathbf{X}_{t-1}+\mathbf{\epsilon}_t\]
+
+where \(\mathbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})\) and
+
+\[
+\Phi=
+\begin{pmatrix}
+  \phi_{11} &  \phi_{12}\\ 
+   \phi_{21} &  \phi_{22}
+\end{pmatrix}.
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  The above equation looks like and AR(1)
+  model except that \(\mathbf{X}_t\) and \(\mathbf{\epsilon}_t\) are now vectors instead of scalars.
+\item
+  Since \(\mathbf{X}_t\) depends on \(\mathbf{X}_{t-1}\), this model is called a \textbf{vector autoregressive model} of order 1 (VAR(1)).
+\item
+  The above equation can also be expressed as
+\end{itemize}
+
+\[(I-\Phi B)\mathbf{X}_t=\mathbf{\epsilon}_t\]
+where \(B\) is the backward shift operator, and \(I\) is the \((2\times2)\) identity matrix and \(\Phi B\) represents the operator matrix
+
+\[
+\begin{pmatrix}
+  \phi_{11}B &  \phi_{12}B\\ 
+   \phi_{21}B &  \phi_{22}B
+\end{pmatrix}.
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  The necessary and sufficient condition for the stationarity of \(\mathbf{X}_t\) is that the roots of the determinant of \(I-\Phi B\) lie outside the unit circle.
+\end{itemize}
+
+\hypertarget{varp-models}{%
+\subsection{VAR(p) models}\label{varp-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  The above VAR(1) model can be generalized from two to \(m\) variables and from first0order auto-regression to \(p\)th order.
+\item
+  A VAR model of order \(p\) (\(VAR(p)\)) can be written in the form
+\end{itemize}
+
+\[\Phi(B)\mathbf{X}_t=\mathbf{\epsilon}_t\]
+
+where \(\mathbf{X}_t\) is a \((m\times1)\) vector of observed variables, and \(\Phi\) is a matrix polynomial of order \(p\) in the backward shift operator \(B\) such that
+
+\[\Phi(B)=I-\Phi_1B-\dots-\Phi_pB^p,\]
+
+where \(I\) is the \((m\times m)\) identity matrix and \(\Phi_1, \Phi_2, \dots, \Phi_p\) are \((m\times m)\) matrices of parameters.
+
+\begin{itemize}
+\tightlist
+\item
+  Since we restrict attention to stationary processes, without loss of generality, we assume the variables have been scaled to have zero mean.
+\item
+  The condition for stationarity is that the roots of the equation
+\end{itemize}
+
+\[\text{determinant}\{\Phi(x)\}=|I-\Phi_1x-\Phi_2x^2-\dots-\Phi_px^p|=0,\]
+
+should lie outside the unit circle.
+
+\begin{itemize}
+\tightlist
+\item
+  Let \(\mathbf{\epsilon}_t = (\epsilon_{1t}, \epsilon_{2t}, \dots, \epsilon_{mt})\) denote and \((m\times 1)\) vector of random variables.
+\item
+  This multivariate time series is called a \textbf{multivariate white noise} if it is stationary with zero mean vector \(\mathbf{0}\), and if the values of \(\mathbf{\epsilon}_t\) at different times are uncorrelated.
+\item
+  Then the \((m\times m)\) matrix of the cross-covariances of the elements of \(\mathbf{\epsilon}_t\) with that of \(\mathbf{\epsilon}_{t+j}\) is given by
+\end{itemize}
+
+\[
+\text{Cov}(\mathbf{\epsilon}_t, \mathbf{\epsilon}_{t+j})
+\begin{cases}
+    \Gamma_0 & j=0\\
+   0_m & j\neq0,
+\end{cases}
+\]
+
+where \(\Gamma_0\) denotes a \((m\times m)\) symmetric positive-definite matrix and \(0_m\)
+denotes an \((m\times m)\) matrix of zeros.
+
+\begin{itemize}
+\tightlist
+\item
+  Therefore, each component of \(\mathbf{\epsilon}_t\) behaves like univariate white noise.
+\item
+  Further, \(\Gamma_0\), the covariance matrix at lag zero, does not need to be diagonal, as an innovation at a particular time point could affect more than one measured variable at that time point.
+\item
+  Therefore, we allow the components of \(\mathbf{\epsilon}_t\) to be contemporaneously correlated.
+\end{itemize}
+
+\hypertarget{vector-arma-models}{%
+\subsection{Vector ARMA models}\label{vector-arma-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  A in the univariate case, the VAR models can also be generalized to include moving average (MA) terms as
+\end{itemize}
+
+\[\Phi(B)\mathbf{X}_t=\Theta(B)\mathbf{\epsilon}_t\]
+
+where
+\[\Theta(B)=I+\Theta_1 B-\dots-\Theta_qB^p,\]
+
+is a matrix polynomial of order \(q\) in the backward shift operator \(B\) and \(\Theta_1, \Theta_2,\dots, \Theta_q\) are \((m\times m)\) matrices of parameters.
+
+\begin{itemize}
+\tightlist
+\item
+  Then \(\mathbf{X}_t\) follows a \textbf{vector ARMA} (VARMA) model of order \((p,q).\)
+\item
+  The necessary and sufficient condition for the stationarity of \(\mathbf{X}_t\) is that the roots of the determinant of \(I-\Phi B\) lie outside the unit circle.
+\item
+  The condition for invertibility is that the roots of the equation
+\end{itemize}
+
+\[\text{determinant}\{\Theta(x)\}=|I+\Theta_1x+\Theta_2x^2+\dots+\Theta_px^q|=0,\]
+lies outside the unit circle.
+
+\hypertarget{vector-arima-models}{%
+\subsection{Vector ARIMA models}\label{vector-arima-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  If \(\Phi(b)\) includes a factor of the form \(I(1-B),\) then the model is not stationary and deal with the first differences of the components of \(\mathbf{X}_t\).
+\item
+  Such a model is called a \textbf{vector ARIMA} (VARIMA) model.
+\item
+  However, in practice, it may not be optimal to difference each component of \(\mathbf{X}_t\) in the same way and should consider the possible presence of co-integration before differencing multivariate data.
+\item
+  VARMA models can be generalized further by adding terms, involving additional exogenous variables to the right hand side of the equation and they are known as VARIMAX models.
+\end{itemize}
+
+\hypertarget{fitting-var-and-varma-models}{%
+\section{Fitting VAR and VARMA models}\label{fitting-var-and-varma-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  The process involves assessing the order \(p\) and \(q\) of the model, estimating the parameter matrices and estimating the variance-covariance matrix of the noise components.
+\end{itemize}
+
+\hypertarget{forecasting-1}{%
+\subsection{Forecasting}\label{forecasting-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Forecasts can be computed for VAR, VARMA and VARIMA models by a natural extension of methods used for univariate ARIMA models.
+\item
+  Minimum mean square error (MMSE) forecasts can be obtained by replacing
+
+  \begin{itemize}
+  \tightlist
+  \item
+    future values of white noise with zeros
+  \item
+    future values of \(\mathbf{X}_t\) with MMSE forecasts
+  \item
+    present and past values of \(\mathbf{X}_t\) with the observed values
+  \item
+    present and past values of \(\epsilon_t\) with the one step head forecast residuals.
+  \end{itemize}
+\end{itemize}
+
+\textbf{Example- Analysis of macro-economic series}
+
+Here we consider the U.S. quarterly gross domestic product (gdp), the civilian unemployment rate (unrate) and consumer price index (cpi) for all urban consumers from the first quarter of 1948 to the third quarter of 2017.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(here}\OperatorTok{::}\KeywordTok{here}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"macrots.csv"}\NormalTok{ ))}
+\NormalTok{data}\OperatorTok{$}\NormalTok{quarter <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(data}\OperatorTok{$}\NormalTok{quarter)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{X) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{as_tsibble}\NormalTok{(}\DataTypeTok{index =} \StringTok{"quarter"}\NormalTok{) }
+\NormalTok{p1<-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(gdp) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{xlab}\NormalTok{ (}\StringTok{"Quarter"}\NormalTok{)}
+\NormalTok{p2<-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(unrate) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{ (}\StringTok{"Quarter"}\NormalTok{)}
+\NormalTok{p3<-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(cpi)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{ (}\StringTok{"Quarter"}\NormalTok{)}
+\NormalTok{p1}\OperatorTok{/}\NormalTok{p2}\OperatorTok{/}\NormalTok{p3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{bookdown-demo_files/figure-latex/readmacrots-1.pdf}
+\caption{\label{fig:readmacrots}Time series plot of GDP, unemployment rate and CPI}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  All the series display some level of nonstationarity (Figure \ref{fig:readmacrots}).
+\item
+  Therefore we transform the data by calculating the rate of change or difference for each series (Figure \ref{fig:trans}).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n<-}\KeywordTok{nrow}\NormalTok{(data)}
+\CommentTok{# Change rate of GDP}
+\NormalTok{data}\OperatorTok{$}\NormalTok{gdprate <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OtherTok{NA}\NormalTok{,}\KeywordTok{diff}\NormalTok{(data}\OperatorTok{$}\NormalTok{gdp)}\OperatorTok{*}\DecValTok{100}\OperatorTok{/}\NormalTok{data}\OperatorTok{$}\NormalTok{gdp[}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\DecValTok{-1}\NormalTok{)])}
+\CommentTok{# The difference of unemployment rate}
+\NormalTok{data}\OperatorTok{$}\NormalTok{unemdiff <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OtherTok{NA}\NormalTok{,}\KeywordTok{diff}\NormalTok{(data}\OperatorTok{$}\NormalTok{unrate))}
+\CommentTok{# Measure of inflation}
+\NormalTok{data}\OperatorTok{$}\NormalTok{cpirate <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OtherTok{NA}\NormalTok{,}\KeywordTok{diff}\NormalTok{(data}\OperatorTok{$}\NormalTok{cpi)}\OperatorTok{*}\DecValTok{100}\OperatorTok{/}\NormalTok{data}\OperatorTok{$}\NormalTok{cpi[}\DecValTok{1}\OperatorTok{:}\NormalTok{(n}\DecValTok{-1}\NormalTok{)])}
+
+\NormalTok{p1<-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(gdprate) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{xlab}\NormalTok{ (}\StringTok{"Quarter"}\NormalTok{)}
+\NormalTok{p2<-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(unemdiff) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{ (}\StringTok{"Quarter"}\NormalTok{)}
+\NormalTok{p3<-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(cpirate)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{ (}\StringTok{"Quarter"}\NormalTok{)}
+\NormalTok{p1}\OperatorTok{/}\NormalTok{p2}\OperatorTok{/}\NormalTok{p3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{bookdown-demo_files/figure-latex/trans-1.pdf}
+\caption{\label{fig:trans}Time series plot of the difference series}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  The scatterplot matrix in Figure \ref{fig:scattermatrix} shows the cross-sectional dependence of the three series.
+\item
+  Figure \ref{fig:scattermatrix} shows a concurrent regression relationship between \texttt{gdprate} and \texttt{unemdiff}, \texttt{gdprate} and \texttt{cpirate}, respectively.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(GGally)}
+\KeywordTok{ggpairs}\NormalTok{(data[,}\DecValTok{5}\OperatorTok{:}\DecValTok{7}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{bookdown-demo_files/figure-latex/scattermatrix-1.pdf}
+\caption{\label{fig:scattermatrix}Scatterplot matrix}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  Then we check the sample cross-correlations to see whether there are any lead or lag effects among the three series (Figure \ref{fig:ccf2}.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data2 <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{as_tibble}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{   }\KeywordTok{select}\NormalTok{(}\StringTok{"gdprate"}\NormalTok{, }\StringTok{"unemdiff"}\NormalTok{, }\StringTok{"cpirate"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{   }\KeywordTok{as.matrix}\NormalTok{() }
+\NormalTok{data2 <-}\StringTok{ }\NormalTok{data2[}\OperatorTok{-}\DecValTok{1}\NormalTok{,]}
+\NormalTok{MTS}\OperatorTok{::}\KeywordTok{ccm}\NormalTok{(data2, }\DataTypeTok{lags =} \DecValTok{25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/ccf2-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/ccf2-2.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  First, we consider a VAR(1) model for \(\mathbf{X}_t\).
+\item
+  We use the \texttt{VARMA} function in the \texttt{MTS} R package.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{var1_fit <-}\StringTok{ }\NormalTok{MTS}\OperatorTok{::}\KeywordTok{VARMA}\NormalTok{(data2, }\DataTypeTok{p=}\DecValTok{1}\NormalTok{, }\DataTypeTok{q=}\DecValTok{0}\NormalTok{, }\DataTypeTok{include.mean =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{details =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of parameters:  9 
+## initial estimates:  0.7327 0.1979 0.251 -0.077 0.3654 0.1182 0.2389 0.2681 0.5174 
+## Par. lower-bounds:  0.6185 -0.1504 0.0784 -0.1156 0.2477 0.0599 0.1651 0.0429 0.4058 
+## Par. upper-bounds:  0.8469 0.5463 0.4237 -0.0384 0.483 0.1765 0.3127 0.4933 0.629 
+## Final   Estimates:  0.7115 0.1508 0.2786 -0.06924 0.3811 0.1073 0.2309 0.2544 0.5149 
+## 
+## Coefficient(s):
+##           Estimate  Std. Error  t value Pr(>|t|)    
+## gdprate    0.71155     0.05652   12.590  < 2e-16 ***
+## unemdiff   0.15075     0.17319    0.870 0.384046    
+## cpirate    0.27860     0.08492    3.281 0.001035 ** 
+## gdprate   -0.06924     0.01926   -3.595 0.000324 ***
+## unemdiff   0.38114     0.05902    6.458 1.06e-10 ***
+## cpirate    0.10733     0.02894    3.709 0.000208 ***
+## gdprate    0.23086     0.03713    6.217 5.07e-10 ***
+## unemdiff   0.25437     0.11379    2.235 0.025392 *  
+## cpirate    0.51490     0.05580    9.228  < 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## --- 
+## Estimates in matrix form: 
+## AR coefficient matrix 
+## AR( 1 )-matrix 
+##         [,1]  [,2]  [,3]
+## [1,]  0.7115 0.151 0.279
+## [2,] -0.0692 0.381 0.107
+## [3,]  0.2309 0.254 0.515
+##   
+## Residuals cov-matrix: 
+##         [,1]     [,2]    [,3]
+## [1,]  1.0500 -0.16146 0.20992
+## [2,] -0.1615  0.12194 0.00262
+## [3,]  0.2099  0.00262 0.45331
+## ---- 
+## aic=  -3.138 
+## bic=  -3.02
+\end{verbatim}
 
 \hypertarget{references-3}{%
 \section{References:}\label{references-3}}

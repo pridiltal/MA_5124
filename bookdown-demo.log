@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.3.13)  13 MAR 2021 13:30
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.3.13)  13 MAR 2021 19:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1316,34 +1316,112 @@ Underfull \hbox (badness 2409) in paragraph at lines 5068--5070
 [2] [3] [4]
 File: bookdown-demo_files/figure-latex/stock-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/stock-1.pdf>
-[5]
 File: bookdown-demo_files/figure-latex/ccf-1.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/ccf-1.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[5] [6]
 File: bookdown-demo_files/figure-latex/ccf-2.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/ccf-2.pdf>
 File: bookdown-demo_files/figure-latex/ccf-3.pdf Graphic file (type pdf)
 <use bookdown-demo_files/figure-latex/ccf-3.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 5266--5267
+Underfull \hbox (badness 10000) in paragraph at lines 5294--5295
 [][]
  []
 
-[6] (./bookdown-demo.bbl [7] [8
 
-]) [9] (./bookdown-demo.aux)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[7] [8]
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+[9]
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+Missing character: There is no 𝜖 in font [lmroman9-bold]:mapping=tex-text;!
+[10] [11]
+File: bookdown-demo_files/figure-latex/readmacrots-1.pdf Graphic file (type pdf
+)
+<use bookdown-demo_files/figure-latex/readmacrots-1.pdf>
+[12]
+File: bookdown-demo_files/figure-latex/trans-1.pdf Graphic file (type pdf)
+<use bookdown-demo_files/figure-latex/trans-1.pdf>
+[13]
+File: bookdown-demo_files/figure-latex/scattermatrix-1.pdf Graphic file (type p
+df)
+<use bookdown-demo_files/figure-latex/scattermatrix-1.pdf>
+
+LaTeX Warning: Reference `fig:ccf2' on page 14 undefined on input line 5631.
+
+File: bookdown-demo_files/figure-latex/ccf2-1.pdf Graphic file (type pdf)
+<use bookdown-demo_files/figure-latex/ccf2-1.pdf>
+File: bookdown-demo_files/figure-latex/ccf2-2.pdf Graphic file (type pdf)
+<use bookdown-demo_files/figure-latex/ccf2-2.pdf>
+
+Underfull \hbox (badness 10000) in paragraph at lines 5645--5646
+[][]
+ []
+
+
+Underfull \vbox (badness 1082) has occurred while \output is active []
+
+[14]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[15] [16]
+Overfull \hbox (51.90012pt too wide) in paragraph at lines 5699--5699
+[]\TU/lmtt/m/n/9 ## initial estimates:  0.7327 0.1979 0.251 -0.077 0.3654 0.118
+2 0.2389 0.2681 0.5174[] 
+ []
+
+
+Overfull \hbox (66.0751pt too wide) in paragraph at lines 5699--5699
+[]\TU/lmtt/m/n/9 ## Par. lower-bounds:  0.6185 -0.1504 0.0784 -0.1156 0.2477 0.
+0599 0.1651 0.0429 0.4058[] 
+ []
+
+
+Overfull \hbox (51.9001pt too wide) in paragraph at lines 5699--5699
+[]\TU/lmtt/m/n/9 ## Par. upper-bounds:  0.8469 0.5463 0.4237 -0.0384 0.483 0.17
+65 0.3127 0.4933 0.629[] 
+ []
+
+
+Overfull \hbox (66.07513pt too wide) in paragraph at lines 5699--5699
+[]\TU/lmtt/m/n/9 ## Final   Estimates:  0.7115 0.1508 0.2786 -0.06924 0.3811 0.
+1073 0.2309 0.2544 0.5149[] 
+ []
+
+(./bookdown-demo.bbl [17] [18
+
+]) [19] (./bookdown-demo.aux)
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `bookdown-demo.out' has not changed.
-(rerunfilecheck)             Checksum: 88B0C9E42D6CDA5867AB592381EBE089;7614.
+(rerunfilecheck)             Checksum: A96234CC19A80235BA854D6331A609B0;8022.
  ) 
 Here is how much of TeX's memory you used:
- 18067 strings out of 478931
- 339256 string characters out of 5865316
- 847722 words of memory out of 5000000
- 37553 multiletter control sequences out of 15000+600000
+ 18108 strings out of 478931
+ 340822 string characters out of 5865316
+ 850702 words of memory out of 5000000
+ 37589 multiletter control sequences out of 15000+600000
  410970 words of font info for 102 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  98i,12n,122p,618b,516s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on bookdown-demo.pdf (123 pages).
+Output written on bookdown-demo.pdf (133 pages).

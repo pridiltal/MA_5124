@@ -1,5 +1,9 @@
 # Multivariate Time Series Modeling
 
+<!-- very important :" Chatfield book data and R code available here: http://www.ams.sunysb.edu/~xing/tsRbook/functions.html
+http://www.ams.sunysb.edu/~xing/tsRbook/data.html
+-->
+
 ```{r setup5, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
 options(digits=4, width=60)
@@ -54,6 +58,7 @@ $$\gamma_{ij}(k)= \text{Cov}(X_{it},X_{j,t+k} )= \text{Cov}(X_{j,t+k}, X_{it} ) 
 
 we have 
 $$\Gamma(k)=\Gamma^T(-k), \quad k=0, \pm1, \pm2, \dots.$$
+
 - The diagonal terms, $\gamma_{ii}(k)$, are auto- rather than cross- covariances, and therefore have the property of being an even function of lags.
 
 
@@ -64,10 +69,12 @@ $$\Gamma(k)=\Gamma^T(-k), \quad k=0, \pm1, \pm2, \dots.$$
 
 $$\rho_{ij}(k)= \text{Corr}(X_{j,t+k}, X_{it} )=\gamma_{ij}(k)/\sigma_i\sigma_j$$
 where $\sigma_i$  is the standard deviations of $X_{it}$ (this can also be expressed as $\sqrt{\gamma_{ii}(0)}.$)
+
 - When $k>0$, the correlation coefficient measures the linear dependence of $X_{j, t+k}$ on $X_{it},$ which occurs after time $t$.
 - If $\rho_{ij}(k)\neq0$ and $k>0$, the series $X_{it}$ leads the series $X_{jt}$ at lag $k$.
 - Furthermore, we can write 
 $$R(K)=R^T(-k), \quad \quad k=0, \pm1, \pm2, \dots.$$
+
 - Therefore, in practice, it is enough to consider the cross-correlation matrices $R(k)$ for $k>0$.
 
 **Sample cross-correlation coefficient**
@@ -96,9 +103,10 @@ The Nasdaq Composite (ticker symbol ^IXIC) is a stock market index that includes
 
 *Example*
 
-- Consider the daily returns of adjusted closing prices of the Standard & Poor's 500 (S&P500), the Dow Jones Industrial Average and the Nasdaq Composite indices  from January 4, 1995 to February 25, 2021 (Figure \@ref(fig:stock) .
+- Consider the daily returns of adjusted closing prices of the Standard & Poor's 500 (S&P500), the Dow Jones Industrial Average and the Nasdaq Composite indices  from January 4, 1995 to February 25, 2021 (Figure \@ref(fig:stock)).
 - These three market indices characterize the performance of the U.S. stock market from different perspectives and therefore they should be highly correlated.
-- Figure \@ref(fig:ccf) shows their sample correlations at lag $k=0,1,\dots, 25.$
+<!--
+- Figure \@ref(fig:ccf) shows their sample correlations at lag $k=0,1,\dots, 25.$-->
 
 
 ```{r stock, cache=TRUE, echo=TRUE, fig.cap="Daily returns of adjusted closing prices of the Standard & Poor's 500 (S&P500), the Dow Jones Indutrial Average and the Nasdaq Composite indices  from January 4, 1995 to February 25, 2021"}
@@ -150,6 +158,8 @@ p1 / p2/ p3
 
 **A function of computing sample cross correlation**
 
+-  We use the `ccm` function of the `MTS` package in R to obtain the cross-correlation plots for a dataset.
+
 ```{r ccf, echo=TRUE, results='hide',fig.keep='all'}
 library(MTS)
 data <- full_join(sp500_return, dji_return, by= "date" )
@@ -159,13 +169,227 @@ colnames(data) <- c("date", "sp500", "dji", "nasdaq")
 ret <- data %>% 
    select(sp500, dji, nasdaq) %>%
    as.matrix()
-MTSplot(ret)
-ccm(ret, lags = 25)
+MTS::MTSplot(ret)
+MTS::ccm(ret, lags = 25)
 ```
 
 - The concurrent interdependence of the three series are very strong.
-- However, the lead-lag effect among the three series is relativey weak.
+- However, the lead-lag effect among the three series is relatively weak.
 
+## Vector Autoregressive Models
+
+- The most commonly used multivariate time series model is the vector autoregressive (VAR) model. 
+- To study the properties of VAR(p) models, we start with the simple VAR(1) model.
+
+### Var(1) models
+
+- Consider $m$-variate multivariate process, $\{\mathbf{X}_t\}$, where $\mathbf{X}_t^T=(X_{1t}, X_{2t}, \dots, X_{mt}).$
+- For simplicity, we restrict the attention to the case $m=2.$
+- For stationary series, we may, without loss of generality, assume the variables have been scaled to have zero mean.
+- Now the model allows the values of $X_{1t}$ and $X_{2t}$ to depend linearly on the values of both series at time $(t-1_).$
+- The resulting model for the two series then consist of two equations
+
+\[
+\begin{cases}
+    X_{1t} = \phi_{11}X_{1,t-1}+ \phi_{12}X_{2,t-1}+\epsilon_{1t}\\
+   X_{2t} = \phi_{21}X_{1,t-1}+ \phi_{22}X_{2,t-1}+\epsilon_{2t}\\
+\end{cases}
+\]
+where $\{\phi_{ij}\}$ are constants.
+
+- The two error terms, $\epsilon_{1t}$ and $\epsilon_{2t}$ are usually assumed to be white noise, but are often allowed to be correlated contemporaneously.
+- Note: If coefficients, $\phi_{12} = \phi_{21}=0$, then  $X_{1t}$ and $X_{2t}$ are not dynamically correlated.
+- If one of $\phi_{12}$ and  $\phi_{21}$ is not zero, say  $\phi_{12}=0$ and  $\phi_{21}\neq 0,$ then $X_{1t}$ does not depend on the lagged values of $X_{2t}$.
+- Then the system of equations reduces to 
+\[
+\begin{cases}
+    X_{1t} = \phi_{11}X_{1,t-1}+\epsilon_{1t}\\
+   X_{2t} = \phi_{21}X_{1,t-1}+ \phi_{22}X_{2,t-1}+\epsilon_{2t}.
+\end{cases}
+\]
+
+- This indicates that, while $X_{2t}$ depends on the lagged value of $X_{1t},$ there is no feedback from $X_{2t}$  to $X_{1t}.$
+- That is, any causality goes only in one direction and  therefore $X_{1t}$ can be considered as the *input* and   $X_{2t}$ can be considered as the *output.*
+
+**Vector Form**
+
+- The system of equation can be written in vector form as 
+
+$$\mathbf{X}_t=\Phi\mathbf{X}_{t-1}+\mathbf{\epsilon}_t$$
+
+
+where $\mathbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})$ and 
+
+\[
+\Phi=
+\begin{pmatrix}
+  \phi_{11} &  \phi_{12}\\ 
+   \phi_{21} &  \phi_{22}
+\end{pmatrix}.
+\]
+
+- The above equation looks like and AR(1)
+ model except that $\mathbf{X}_t$ and $\mathbf{\epsilon}_t$ are now vectors instead of scalars.
+- Since $\mathbf{X}_t$ depends on $\mathbf{X}_{t-1}$, this model is called a **vector autoregressive model** of order 1 (VAR(1)).
+- The above equation can also be expressed as
+
+$$(I-\Phi B)\mathbf{X}_t=\mathbf{\epsilon}_t$$
+ where $B$ is  the backward shift operator, and $I$ is the $(2\times2)$ identity matrix and  $\Phi B$ represents the operator matrix
+ 
+ \[
+\begin{pmatrix}
+  \phi_{11}B &  \phi_{12}B\\ 
+   \phi_{21}B &  \phi_{22}B
+\end{pmatrix}.
+\]
+
+- The necessary and sufficient condition for the stationarity of $\mathbf{X}_t$  is that the roots of the determinant of $I-\Phi B$ lie outside the unit circle.
+
+### VAR(p) models
+
+- The above VAR(1) model can be generalized from two to $m$ variables and from first0order auto-regression to $p$th order.
+- A VAR model of order $p$ ($VAR(p)$) can be written in the form
+
+$$\Phi(B)\mathbf{X}_t=\mathbf{\epsilon}_t$$
+
+where $\mathbf{X}_t$ is a $(m\times1)$ vector of observed variables, and $\Phi$ is a matrix polynomial of order $p$ in the backward shift operator $B$ such that
+
+$$\Phi(B)=I-\Phi_1B-\dots-\Phi_pB^p,$$
+
+where $I$ is the $(m\times m)$ identity matrix and $\Phi_1, \Phi_2, \dots, \Phi_p$ are $(m\times m)$  matrices of parameters.
+
+- Since we restrict attention to stationary processes, without loss of generality, we assume the variables have been scaled to have zero mean.
+- The condition for stationarity is that the roots of the equation
+
+$$\text{determinant}\{\Phi(x)\}=|I-\Phi_1x-\Phi_2x^2-\dots-\Phi_px^p|=0,$$
+
+should lie outside the unit circle.
+
+- Let $\mathbf{\epsilon}_t = (\epsilon_{1t}, \epsilon_{2t}, \dots, \epsilon_{mt})$ denote and $(m\times 1)$ vector of random variables.
+- This multivariate time series is called a **multivariate white noise** if it is stationary with zero mean vector $\mathbf{0}$, and if the values of $\mathbf{\epsilon}_t$ at different times are uncorrelated.
+- Then the $(m\times m)$ matrix of the cross-covariances of the elements of  $\mathbf{\epsilon}_t$ with that of $\mathbf{\epsilon}_{t+j}$ is given by
+
+\[
+\text{Cov}(\mathbf{\epsilon}_t, \mathbf{\epsilon}_{t+j})
+\begin{cases}
+    \Gamma_0 & j=0\\
+   0_m & j\neq0,
+\end{cases}
+\]
+
+where $\Gamma_0$ denotes a $(m\times m)$ symmetric positive-definite matrix and $0_m$
+ denotes an $(m\times m)$ matrix of zeros.
+ 
+- Therefore, each component of $\mathbf{\epsilon}_t$ behaves like univariate white noise.
+- Further, $\Gamma_0$, the covariance matrix at lag zero, does not need to be diagonal, as an innovation at a particular time point could affect more than one measured variable at that time point. 
+- Therefore, we allow the components of $\mathbf{\epsilon}_t$ to be contemporaneously correlated.
+
+### Vector ARMA models
+
+- A in the univariate case, the VAR models can also be generalized to include moving average (MA) terms as
+
+$$\Phi(B)\mathbf{X}_t=\Theta(B)\mathbf{\epsilon}_t$$
+
+where 
+$$\Theta(B)=I+\Theta_1 B-\dots-\Theta_qB^p,$$
+
+is a matrix polynomial of order $q$ in the backward shift operator $B$ and $\Theta_1, \Theta_2,\dots, \Theta_q$ are $(m\times m)$ matrices of parameters.
+
+- Then $\mathbf{X}_t$ follows a **vector ARMA** (VARMA) model of order $(p,q).$
+- The necessary and sufficient condition for the stationarity of $\mathbf{X}_t$  is that the roots of the determinant of $I-\Phi B$ lie outside the unit circle.
+- The condition for invertibility is that the roots of the equation
+
+$$\text{determinant}\{\Theta(x)\}=|I+\Theta_1x+\Theta_2x^2+\dots+\Theta_px^q|=0,$$
+lies outside the unit circle. 
+
+### Vector ARIMA models
+
+- If $\Phi(b)$ includes a factor of the form $I(1-B),$ then the model is not stationary and deal with the first differences of the components of $\mathbf{X}_t$.
+- Such a model is called a **vector ARIMA** (VARIMA) model.
+- However, in practice, it may not be optimal to difference each component of $\mathbf{X}_t$ in the same way and should consider the possible presence of co-integration before differencing multivariate data.
+- VARMA models can be generalized further by adding terms, involving additional exogenous variables to the right hand side of the equation and they are known as VARIMAX models.
+
+## Fitting VAR and VARMA models
+
+- The process involves assessing the order $p$ and $q$ of the model, estimating the parameter matrices and estimating the variance-covariance matrix of the noise components.
+
+### Forecasting
+
+- Forecasts can be computed for VAR, VARMA and VARIMA models by a natural extension of methods used for univariate ARIMA models.
+- Minimum mean square error (MMSE) forecasts can be obtained by replacing
+    - future values of white noise with zeros
+    - future values of $\mathbf{X}_t$ with MMSE forecasts
+    - present and past values of  $\mathbf{X}_t$  with the observed values 
+    - present and past values of  $\epsilon_t$  with  the  one step head forecast residuals.
+
+**Example- Analysis of macro-economic series**
+
+Here we consider the U.S. quarterly gross domestic product (gdp), the civilian unemployment rate (unrate) and consumer price index (cpi)  for all urban consumers from the first quarter of 1948 to the third quarter of 2017.
+
+```{r readmacrots, echo=TRUE, fig.cap= "Time series plot of GDP, unemployment rate and CPI"}
+data <- read.csv(here::here("data", "macrots.csv" ))
+data$quarter <- as.Date(data$quarter)
+data <- data %>%
+  select(-X) %>%
+  as_tsibble(index = "quarter") 
+p1<- data %>% autoplot(gdp) + 
+  xlab ("Quarter")
+p2<- data %>% autoplot(unrate) +
+  xlab ("Quarter")
+p3<- data %>% autoplot(cpi)+
+  xlab ("Quarter")
+p1/p2/p3
+```
+
+
+- All the series display some level of nonstationarity (Figure \@ref(fig:readmacrots)).
+- Therefore we transform the data by calculating the rate of change or difference for each series (Figure \@ref(fig:trans)).
+
+```{r trans, echo=TRUE, fig.cap="Time series plot of the difference series"}
+n<-nrow(data)
+# Change rate of GDP
+data$gdprate <- c(NA,diff(data$gdp)*100/data$gdp[1:(n-1)])
+# The difference of unemployment rate
+data$unemdiff <- c(NA,diff(data$unrate))
+# Measure of inflation
+data$cpirate <- c(NA,diff(data$cpi)*100/data$cpi[1:(n-1)])
+
+p1<- data %>% autoplot(gdprate) + 
+  xlab ("Quarter")
+p2<- data %>% autoplot(unemdiff) +
+  xlab ("Quarter")
+p3<- data %>% autoplot(cpirate)+
+  xlab ("Quarter")
+p1/p2/p3
+```
+
+
+- The scatterplot matrix in Figure \@ref(fig:scattermatrix) shows the cross-sectional dependence of the three series.
+- Figure \@ref(fig:scattermatrix) shows a concurrent regression relationship between `gdprate` and `unemdiff`, `gdprate` and `cpirate`, respectively.
+
+```{r scattermatrix, warning=FALSE, message=FALSE, results='hide',fig.keep='all', fig.cap="Scatterplot matrix", echo=TRUE}
+library(GGally)
+ggpairs(data[,5:7])
+
+```
+
+- Then we check  the sample cross-correlations to see whether there are any lead or lag effects among the three series (Figure \@ref(fig:ccf2).
+
+```{r ccf2, echo=TRUE, results='hide',fig.keep='all', fig.height=10}
+data2 <- data %>% 
+  as_tibble() %>%
+   select("gdprate", "unemdiff", "cpirate") %>%
+   as.matrix() 
+data2 <- data2[-1,]
+MTS::ccm(data2, lags = 25)
+```
+
+- First, we consider a VAR(1) model for $\mathbf{X}_t$.
+- We use the `VARMA` function in the `MTS` R package.
+
+```{r var1, echo=TRUE}
+var1_fit <- MTS::VARMA(data2, p=1, q=0, include.mean = FALSE, details = F)
+```
 
 
 ## References:
