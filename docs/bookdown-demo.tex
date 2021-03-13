@@ -123,7 +123,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-03-06}
+\date{2021-03-13}
 
 \begin{document}
 \maketitle
@@ -4391,7 +4391,7 @@ where the standard errors of the parameters are given in the parentheses.
 \end{equation}
 
 where \(\{\epsilon_t\}\) is a sequence of iid random variables with mean 0 and variance 1, \(\alpha_0>0,\) \(\alpha_i\geq0,\) \(\beta_j\geq0,\) and
-\(\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_j)<1.\)
+\(\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)<1.\)
 
 \begin{itemize}
 \item
@@ -4834,7 +4834,7 @@ where \(\{\epsilon_t\}\) is a sequence of iid random variables with mean 0 and v
 \item
   As a result, the effect of \(\sigma^2_h(1 )\) on future volatilities is also persistent, and the volatility forecasts generates a straight line with slope \(\alpha_0\).
 \item
-  When \(\alpha_0 = 0\), the IGARCH(1,1) model. In this case, the volatility forecasts are simply σh2(1) for all forecast horizons;
+  When \(\alpha_0 = 0\), the volatility forecasts are simply \(\sigma_h^2(1)\) for all forecast horizons;
 \end{itemize}
 
 \newpage

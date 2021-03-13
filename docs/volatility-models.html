@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-03-06" />
+<meta name="date" content="2021-03-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -632,7 +632,7 @@ Figure 4.3: (a) Estimated volatility <span class="math inline">\(\hat{\sigma_t}\
 \sigma_t^2 =\alpha_0+\sum_{i=1}^m\alpha_iY_{t-i}^2+\sum_{j=1}^s\beta_j\sigma_{t-j}^2,
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(\{\epsilon_t\}\)</span> is a sequence of iid random variables with mean 0 and variance 1, <span class="math inline">\(\alpha_0&gt;0,\)</span> <span class="math inline">\(\alpha_i\geq0,\)</span> <span class="math inline">\(\beta_j\geq0,\)</span> and
-<span class="math inline">\(\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_j)&lt;1.\)</span></p>
+<span class="math inline">\(\sum_{i=1}^{max(m,s)}(\alpha_i+\beta_i)&lt;1.\)</span></p>
 <ul>
 <li><p>Here, <span class="math inline">\(\alpha_i=0\)</span> for <span class="math inline">\(i&gt;m\)</span> and <span class="math inline">\(\beta_j =0\)</span> for <span class="math inline">\(j&gt;s.\)</span></p></li>
 <li><p>The constraint on <span class="math inline">\(\alpha_i+\beta_j\)</span> implies that the unconditional variance of <span class="math inline">\(Y_t\)</span> is finite, whereas its conditional variance <span class="math inline">\(\sigma_t^2\)</span> evolves over time.</p></li>
@@ -937,7 +937,7 @@ where h is the forecast origin.</li>
 <!--tsay page 141-->
 <ul>
 <li>As a result, the effect of <span class="math inline">\(\sigma^2_h(1 )\)</span> on future volatilities is also persistent, and the volatility forecasts generates a straight line with slope <span class="math inline">\(\alpha_0\)</span>.</li>
-<li>When <span class="math inline">\(\alpha_0 = 0\)</span>, the IGARCH(1,1) model. In this case, the volatility forecasts are simply σh2(1) for all forecast horizons;
+<li>When <span class="math inline">\(\alpha_0 = 0\)</span>, the volatility forecasts are simply <span class="math inline">\(\sigma_h^2(1)\)</span> for all forecast horizons;
 <!-- internet powerpoint
 
 strict stationarity does not imply weak stationarity
@@ -949,6 +949,7 @@ The special case is a normal distribution which is fully characterized by its me
 --></li>
 </ul>
 <!--https://matzc.github.io/tmseries/lecture9.html#part3-->
+<!-- two r packages, rugarch vs fgatch https://www.r-bloggers.com/2019/01/problems-in-estimating-garch-parameters-in-r-part-2-rugarch/-->
 <div style="page-break-after: always;"></div>
 <p><strong>Example in R</strong></p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="co"># For univariate GARCH models)</span></a>
