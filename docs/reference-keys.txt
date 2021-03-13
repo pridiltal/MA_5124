@@ -3,6 +3,7 @@ fig:acf
 fig:plot2
 fig:plot4
 fig:plotag2
+fig:stock
 intro
 arima-models
 stationarity-and-differencing
@@ -170,5 +171,7 @@ asymmetry-in-volatility
 the-exponential-garch-model
 stochastic-volatility-models
 references-2
-multivariate-time-series-modeliing
+multivariate-time-series-modeling
+introduction-2
+the-cross-correlation-function
 references-3
