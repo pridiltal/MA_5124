@@ -123,7 +123,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-03-13}
+\date{2021-03-14}
 
 \begin{document}
 \maketitle
@@ -5017,7 +5017,7 @@ which has \(AP(p)\) dynamics for \(log\sigma_t^2.\)
   \item
     Model building process is more difficult for multivariate than univariate models
   \item
-    More variables to measure (More change of mistakes in the data)
+    More variables to measure (More chance of mistakes in the data)
   \item
     More parameters to estimate
   \item
@@ -5047,7 +5047,7 @@ which has \(AP(p)\) dynamics for \(log\sigma_t^2.\)
 \begin{itemize}
 \tightlist
 \item
-  Let \(\mathbf{\mu}_t\) be the vector of \textbf{mean} values of \(\{\mathbf{X}_t\}\) at time t.
+  Let \(\symbf{\mu}_t\) be the vector of \textbf{mean} values of \(\{\mathbf{X}_t\}\) at time t.
 \item
   Then its \(i\)th component is \(\mu_{it}=E(X_{it})\).
 \item
@@ -5055,7 +5055,7 @@ which has \(AP(p)\) dynamics for \(log\sigma_t^2.\)
 \item
   A multivariate process is said to be \textbf{second-order stationary} if the mean and the cross-covariance matrices at different lags do not depend on time.
 \item
-  Then \(\mathbf{\mu}_t\) will be a constant (say \(\mathbf{\mu}\)) and \(\Gamma(t,t+k)\) will be a function of the lag \(k\) only ( \(\Gamma(k)\)).
+  Then \(\symbf{\mu}_t\) will be a constant (say \(\symbf{\mu}\)) and \(\Gamma(t,t+k)\) will be a function of the lag \(k\) only ( \(\Gamma(k)\)).
 \item
   Then \(\gamma_{ij}(k)\), the \((i,j)\)th element of (\(\Gamma(k)\)) can be written as
 \end{itemize}
@@ -5077,6 +5077,8 @@ we have
 
 \begin{itemize}
 \tightlist
+\item
+  It is not an even function of lag.
 \item
   The diagonal terms, \(\gamma_{ii}(k)\), are auto- rather than cross- covariances, and therefore have the property of being an even function of lags.
 \end{itemize}
@@ -5313,7 +5315,7 @@ where \(\sigma_i\) is the standard deviations of \(X_{it}\) (this can also be ex
 \end{itemize}
 
 \hypertarget{var1-models}{%
-\subsection{Var(1) models}\label{var1-models}}
+\subsection{VAR(1) models}\label{var1-models}}
 
 \begin{itemize}
 \tightlist
@@ -5366,9 +5368,9 @@ where \(\{\phi_{ij}\}\) are constants.
   The system of equation can be written in vector form as
 \end{itemize}
 
-\[\mathbf{X}_t=\Phi\mathbf{X}_{t-1}+\mathbf{\epsilon}_t\]
+\[\mathbf{X}_t=\Phi\mathbf{X}_{t-1}+\symbf{\epsilon}_t\]
 
-where \(\mathbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})\) and
+where \(\symbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})\) and
 
 \[
 \Phi=
@@ -5382,14 +5384,14 @@ where \(\mathbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})\) and
 \tightlist
 \item
   The above equation looks like and AR(1)
-  model except that \(\mathbf{X}_t\) and \(\mathbf{\epsilon}_t\) are now vectors instead of scalars.
+  model except that \(\mathbf{X}_t\) and \(\symbf{\epsilon}_t\) are now vectors instead of scalars.
 \item
   Since \(\mathbf{X}_t\) depends on \(\mathbf{X}_{t-1}\), this model is called a \textbf{vector autoregressive model} of order 1 (VAR(1)).
 \item
   The above equation can also be expressed as
 \end{itemize}
 
-\[(I-\Phi B)\mathbf{X}_t=\mathbf{\epsilon}_t\]
+\[(I-\Phi B)\mathbf{X}_t=\symbf{\epsilon}_t\]
 where \(B\) is the backward shift operator, and \(I\) is the \((2\times2)\) identity matrix and \(\Phi B\) represents the operator matrix
 
 \[
@@ -5411,12 +5413,12 @@ where \(B\) is the backward shift operator, and \(I\) is the \((2\times2)\) iden
 \begin{itemize}
 \tightlist
 \item
-  The above VAR(1) model can be generalized from two to \(m\) variables and from first0order auto-regression to \(p\)th order.
+  The above VAR(1) model can be generalized from two to \(m\) variables and from first-order auto-regression to \(p\)th order.
 \item
   A VAR model of order \(p\) (\(VAR(p)\)) can be written in the form
 \end{itemize}
 
-\[\Phi(B)\mathbf{X}_t=\mathbf{\epsilon}_t\]
+\[\Phi(B)\mathbf{X}_t=\symbf{\epsilon}_t\]
 
 where \(\mathbf{X}_t\) is a \((m\times1)\) vector of observed variables, and \(\Phi\) is a matrix polynomial of order \(p\) in the backward shift operator \(B\) such that
 
@@ -5439,15 +5441,15 @@ should lie outside the unit circle.
 \begin{itemize}
 \tightlist
 \item
-  Let \(\mathbf{\epsilon}_t = (\epsilon_{1t}, \epsilon_{2t}, \dots, \epsilon_{mt})\) denote and \((m\times 1)\) vector of random variables.
+  Let \(\symbf{\epsilon}_t = (\epsilon_{1t}, \epsilon_{2t}, \dots, \epsilon_{mt})\) denote and \((m\times 1)\) vector of random variables.
 \item
-  This multivariate time series is called a \textbf{multivariate white noise} if it is stationary with zero mean vector \(\mathbf{0}\), and if the values of \(\mathbf{\epsilon}_t\) at different times are uncorrelated.
+  This multivariate time series is called a \textbf{multivariate white noise} if it is stationary with zero mean vector \(\mathbf{0}\), and if the values of \(\symbf{\epsilon}_t\) at different times are uncorrelated.
 \item
-  Then the \((m\times m)\) matrix of the cross-covariances of the elements of \(\mathbf{\epsilon}_t\) with that of \(\mathbf{\epsilon}_{t+j}\) is given by
+  Then the \((m\times m)\) matrix of the cross-covariances of the elements of \(\symbf{\epsilon}_t\) with that of \(\symbf{\epsilon}_{t+j}\) is given by
 \end{itemize}
 
 \[
-\text{Cov}(\mathbf{\epsilon}_t, \mathbf{\epsilon}_{t+j})
+\text{Cov}(\symbf{\epsilon}_t, \symbf{\epsilon}_{t+j})
 \begin{cases}
     \Gamma_0 & j=0\\
    0_m & j\neq0,
@@ -5460,11 +5462,11 @@ denotes an \((m\times m)\) matrix of zeros.
 \begin{itemize}
 \tightlist
 \item
-  Therefore, each component of \(\mathbf{\epsilon}_t\) behaves like univariate white noise.
+  Therefore, each component of \(\symbf{\epsilon}_t\) behaves like univariate white noise.
 \item
   Further, \(\Gamma_0\), the covariance matrix at lag zero, does not need to be diagonal, as an innovation at a particular time point could affect more than one measured variable at that time point.
 \item
-  Therefore, we allow the components of \(\mathbf{\epsilon}_t\) to be contemporaneously correlated.
+  Therefore, we allow the components of \(\symbf{\epsilon}_t\) to be contemporaneously correlated.
 \end{itemize}
 
 \hypertarget{vector-arma-models}{%
@@ -5473,10 +5475,10 @@ denotes an \((m\times m)\) matrix of zeros.
 \begin{itemize}
 \tightlist
 \item
-  A in the univariate case, the VAR models can also be generalized to include moving average (MA) terms as
+  As in the univariate case, the VAR models can also be generalized to include moving average (MA) terms as
 \end{itemize}
 
-\[\Phi(B)\mathbf{X}_t=\Theta(B)\mathbf{\epsilon}_t\]
+\[\Phi(B)\mathbf{X}_t=\Theta(B)\symbf{\epsilon}_t\]
 
 where
 \[\Theta(B)=I+\Theta_1 B-\dots-\Theta_qB^p,\]
@@ -5502,7 +5504,7 @@ lies outside the unit circle.
 \begin{itemize}
 \tightlist
 \item
-  If \(\Phi(b)\) includes a factor of the form \(I(1-B),\) then the model is not stationary and deal with the first differences of the components of \(\mathbf{X}_t\).
+  If \(\Phi(B)\) includes a factor of the form \(I(1-B),\) then the model is not stationary and deal with the first differences of the components of \(\mathbf{X}_t\).
 \item
   Such a model is called a \textbf{vector ARIMA} (VARIMA) model.
 \item
@@ -5697,6 +5699,92 @@ Here we consider the U.S. quarterly gross domestic product (gdp), the civilian u
 ## aic=  -3.138 
 ## bic=  -3.02
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{MTS}\OperatorTok{::}\KeywordTok{ccm}\NormalTok{(var1_fit}\OperatorTok{$}\NormalTok{residuals, }\DataTypeTok{lags =} \DecValTok{25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/var1plot-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/var1plot-2.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  We further consider fitting a VARMA model to the series \(\mathbf{X}_t\).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#VARMA(1,1)}
+\NormalTok{varma11_fit <-}\StringTok{ }\NormalTok{MTS}\OperatorTok{::}\KeywordTok{VARMA}\NormalTok{(data2, }\DataTypeTok{p=}\DecValTok{1}\NormalTok{, }\DataTypeTok{q=}\DecValTok{1}\NormalTok{, }\DataTypeTok{include.mean =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{details =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of parameters:  18 
+## initial estimates:  1.167 1.089 -0.3236 -0.1116 0.4118 0.1927 0.1568 0.118 0.7276 -0.899 -1.604 0.4924 0.0041 -0.1953 -0.138 -0.0868 -0.1691 -0.4191 
+## Par. lower-bounds:  0.9623 0.4671 -0.6495 -0.1855 0.1865 0.0748 0.0196 -0.3005 0.5085 -1.158 -2.351 0.1116 -0.0896 -0.4657 -0.2758 -0.2609 -0.6712 -0.6751 
+## Par. upper-bounds:  1.371 1.712 0.0023 -0.0377 0.6371 0.3107 0.2941 0.5364 0.9467 -0.64 -0.8567 0.8731 0.0978 0.075 -2e-04 0.0873 0.3331 -0.1632 
+## Final   Estimates:  1.332 1.373 -0.5913 -0.129 0.3544 0.2297 0.1203 0.1012 0.7905 -1.019 -1.758 0.7369 0.02455 -0.0837 -0.1993 -0.1026 -0.2638 -0.4717 
+## 
+## Coefficient(s):
+##           Estimate  Std. Error  t value Pr(>|t|)    
+## gdprate    1.33178     0.11647   11.434  < 2e-16 ***
+## unemdiff   1.37330     0.36526    3.760 0.000170 ***
+## cpirate   -0.59130     0.19045   -3.105 0.001904 ** 
+## gdprate   -0.12900     0.04815   -2.679 0.007388 ** 
+## unemdiff   0.35437     0.13210    2.683 0.007304 ** 
+## cpirate    0.22966     0.07780    2.952 0.003160 ** 
+## gdprate    0.12026     0.04966    2.422 0.015455 *  
+## unemdiff   0.10122     0.16779    0.603 0.546348    
+## cpirate    0.79055     0.08226    9.611  < 2e-16 ***
+##           -1.01903     0.13581   -7.503 6.24e-14 ***
+##           -1.75792     0.43938   -4.001 6.31e-05 ***
+##            0.73690     0.22074    3.338 0.000843 ***
+##            0.02455     0.05988    0.410 0.681827    
+##           -0.08370     0.14973   -0.559 0.576135    
+##           -0.19928     0.08924   -2.233 0.025548 *  
+##           -0.10262     0.06640   -1.545 0.122233    
+##           -0.26379     0.23668   -1.115 0.265059    
+##           -0.47173     0.10349   -4.558 5.16e-06 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## --- 
+## Estimates in matrix form: 
+## AR coefficient matrix 
+## AR( 1 )-matrix 
+##        [,1]  [,2]   [,3]
+## [1,]  1.332 1.373 -0.591
+## [2,] -0.129 0.354  0.230
+## [3,]  0.120 0.101  0.791
+## MA coefficient matrix 
+## MA( 1 )-matrix 
+##         [,1]   [,2]   [,3]
+## [1,]  1.0190 1.7579 -0.737
+## [2,] -0.0245 0.0837  0.199
+## [3,]  0.1026 0.2638  0.472
+##   
+## Residuals cov-matrix: 
+##         [,1]     [,2]     [,3]
+## [1,]  0.8230 -0.17354  0.14418
+## [2,] -0.1735  0.11549 -0.01724
+## [3,]  0.1442 -0.01724  0.38361
+## ---- 
+## aic=  -3.637 
+## bic=  -3.402
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{MTS}\OperatorTok{::}\KeywordTok{ccm}\NormalTok{(varma11_fit}\OperatorTok{$}\NormalTok{residuals, }\DataTypeTok{lags =} \DecValTok{25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/varma11plot-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/varma11plot-2.pdf}
+
+\newpage
 
 \hypertarget{references-3}{%
 \section{References:}\label{references-3}}

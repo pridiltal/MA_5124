@@ -2,6 +2,8 @@
 
 <!-- very important :" Chatfield book data and R code available here: http://www.ams.sunysb.edu/~xing/tsRbook/functions.html
 http://www.ams.sunysb.edu/~xing/tsRbook/data.html
+
+Tsay data and R codes: https://faculty.chicagobooth.edu/ruey-s-tsay/research/multivariate-time-series-analysis-with-r-and-financial-applications
 -->
 
 ```{r setup5, include=FALSE}
@@ -27,7 +29,7 @@ library(tidyverse)
      - Improve the accuracy of prediction
 - Challengers with Multivariate models
    - Model building process is more difficult for multivariate than univariate models
-   - More variables to measure (More change of mistakes in the data)
+   - More variables to measure (More chance of mistakes in the data)
    - More parameters to estimate
    - Wider pool of candidate models
    - More vulnerable to specification than simpler univariate models.
@@ -42,11 +44,11 @@ library(tidyverse)
 
 **Cross-covariance**
 
-- Let $\mathbf{\mu}_t$ be the vector of **mean** values of $\{\mathbf{X}_t\}$ at time t.
+- Let $\symbf{\mu}_t$ be the vector of **mean** values of $\{\mathbf{X}_t\}$ at time t.
 - Then its $i$th component is $\mu_{it}=E(X_{it})$.
 - Let $\Gamma(t,t+k)$ be the **cross-covariance matrix** of $\mathbf{X}_t$ and $\mathbf{X}_{t+k}$ such that its $(i,j)$th  element is the cross-covariance coefficient of $X_{it}$ and $X_{j, t+k}.$
 - A multivariate process is said to be **second-order stationary** if  the mean and the cross-covariance matrices at different lags do not depend on time.
-- Then $\mathbf{\mu}_t$ will be a constant (say $\mathbf{\mu}$) and $\Gamma(t,t+k)$ will be a function of the lag $k$ only ( $\Gamma(k)$).
+- Then $\symbf{\mu}_t$ will be a constant (say $\symbf{\mu}$) and $\Gamma(t,t+k)$ will be a function of the lag $k$ only ( $\Gamma(k)$).
 - Then $\gamma_{ij}(k)$, the $(i,j)$th element of ($\Gamma(k)$) can be written as 
 
 $$\gamma_{ij}(k)=\text{Cov}(X_{it},X_{j,t+k} )= E[(X_{it}-\mu_i)(X_{j,t+k}-\mu_j)]$$
@@ -59,6 +61,7 @@ $$\gamma_{ij}(k)= \text{Cov}(X_{it},X_{j,t+k} )= \text{Cov}(X_{j,t+k}, X_{it} ) 
 we have 
 $$\Gamma(k)=\Gamma^T(-k), \quad k=0, \pm1, \pm2, \dots.$$
 
+- It is not an even function of lag.
 - The diagonal terms, $\gamma_{ii}(k)$, are auto- rather than cross- covariances, and therefore have the property of being an even function of lags.
 
 
@@ -181,7 +184,7 @@ MTS::ccm(ret, lags = 25)
 - The most commonly used multivariate time series model is the vector autoregressive (VAR) model. 
 - To study the properties of VAR(p) models, we start with the simple VAR(1) model.
 
-### Var(1) models
+### VAR(1) models
 
 - Consider $m$-variate multivariate process, $\{\mathbf{X}_t\}$, where $\mathbf{X}_t^T=(X_{1t}, X_{2t}, \dots, X_{mt}).$
 - For simplicity, we restrict the attention to the case $m=2.$
@@ -215,10 +218,10 @@ where $\{\phi_{ij}\}$ are constants.
 
 - The system of equation can be written in vector form as 
 
-$$\mathbf{X}_t=\Phi\mathbf{X}_{t-1}+\mathbf{\epsilon}_t$$
+$$\mathbf{X}_t=\Phi\mathbf{X}_{t-1}+\symbf{\epsilon}_t$$
 
 
-where $\mathbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})$ and 
+where $\symbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})$ and 
 
 \[
 \Phi=
@@ -229,11 +232,11 @@ where $\mathbf{\epsilon}_t^T=(\epsilon_{1t},\epsilon_{2t})$ and
 \]
 
 - The above equation looks like and AR(1)
- model except that $\mathbf{X}_t$ and $\mathbf{\epsilon}_t$ are now vectors instead of scalars.
+ model except that $\mathbf{X}_t$ and $\symbf{\epsilon}_t$ are now vectors instead of scalars.
 - Since $\mathbf{X}_t$ depends on $\mathbf{X}_{t-1}$, this model is called a **vector autoregressive model** of order 1 (VAR(1)).
 - The above equation can also be expressed as
 
-$$(I-\Phi B)\mathbf{X}_t=\mathbf{\epsilon}_t$$
+$$(I-\Phi B)\mathbf{X}_t=\symbf{\epsilon}_t$$
  where $B$ is  the backward shift operator, and $I$ is the $(2\times2)$ identity matrix and  $\Phi B$ represents the operator matrix
  
  \[
@@ -247,10 +250,10 @@ $$(I-\Phi B)\mathbf{X}_t=\mathbf{\epsilon}_t$$
 
 ### VAR(p) models
 
-- The above VAR(1) model can be generalized from two to $m$ variables and from first0order auto-regression to $p$th order.
+- The above VAR(1) model can be generalized from two to $m$ variables and from first-order auto-regression to $p$th order.
 - A VAR model of order $p$ ($VAR(p)$) can be written in the form
 
-$$\Phi(B)\mathbf{X}_t=\mathbf{\epsilon}_t$$
+$$\Phi(B)\mathbf{X}_t=\symbf{\epsilon}_t$$
 
 where $\mathbf{X}_t$ is a $(m\times1)$ vector of observed variables, and $\Phi$ is a matrix polynomial of order $p$ in the backward shift operator $B$ such that
 
@@ -265,12 +268,12 @@ $$\text{determinant}\{\Phi(x)\}=|I-\Phi_1x-\Phi_2x^2-\dots-\Phi_px^p|=0,$$
 
 should lie outside the unit circle.
 
-- Let $\mathbf{\epsilon}_t = (\epsilon_{1t}, \epsilon_{2t}, \dots, \epsilon_{mt})$ denote and $(m\times 1)$ vector of random variables.
-- This multivariate time series is called a **multivariate white noise** if it is stationary with zero mean vector $\mathbf{0}$, and if the values of $\mathbf{\epsilon}_t$ at different times are uncorrelated.
-- Then the $(m\times m)$ matrix of the cross-covariances of the elements of  $\mathbf{\epsilon}_t$ with that of $\mathbf{\epsilon}_{t+j}$ is given by
+- Let $\symbf{\epsilon}_t = (\epsilon_{1t}, \epsilon_{2t}, \dots, \epsilon_{mt})$ denote and $(m\times 1)$ vector of random variables.
+- This multivariate time series is called a **multivariate white noise** if it is stationary with zero mean vector $\mathbf{0}$, and if the values of $\symbf{\epsilon}_t$ at different times are uncorrelated.
+- Then the $(m\times m)$ matrix of the cross-covariances of the elements of  $\symbf{\epsilon}_t$ with that of $\symbf{\epsilon}_{t+j}$ is given by
 
 \[
-\text{Cov}(\mathbf{\epsilon}_t, \mathbf{\epsilon}_{t+j})
+\text{Cov}(\symbf{\epsilon}_t, \symbf{\epsilon}_{t+j})
 \begin{cases}
     \Gamma_0 & j=0\\
    0_m & j\neq0,
@@ -280,15 +283,15 @@ should lie outside the unit circle.
 where $\Gamma_0$ denotes a $(m\times m)$ symmetric positive-definite matrix and $0_m$
  denotes an $(m\times m)$ matrix of zeros.
  
-- Therefore, each component of $\mathbf{\epsilon}_t$ behaves like univariate white noise.
+- Therefore, each component of $\symbf{\epsilon}_t$ behaves like univariate white noise.
 - Further, $\Gamma_0$, the covariance matrix at lag zero, does not need to be diagonal, as an innovation at a particular time point could affect more than one measured variable at that time point. 
-- Therefore, we allow the components of $\mathbf{\epsilon}_t$ to be contemporaneously correlated.
+- Therefore, we allow the components of $\symbf{\epsilon}_t$ to be contemporaneously correlated.
 
 ### Vector ARMA models
 
-- A in the univariate case, the VAR models can also be generalized to include moving average (MA) terms as
+- As in the univariate case, the VAR models can also be generalized to include moving average (MA) terms as
 
-$$\Phi(B)\mathbf{X}_t=\Theta(B)\mathbf{\epsilon}_t$$
+$$\Phi(B)\mathbf{X}_t=\Theta(B)\symbf{\epsilon}_t$$
 
 where 
 $$\Theta(B)=I+\Theta_1 B-\dots-\Theta_qB^p,$$
@@ -304,7 +307,7 @@ lies outside the unit circle.
 
 ### Vector ARIMA models
 
-- If $\Phi(b)$ includes a factor of the form $I(1-B),$ then the model is not stationary and deal with the first differences of the components of $\mathbf{X}_t$.
+- If $\Phi(B)$ includes a factor of the form $I(1-B),$ then the model is not stationary and deal with the first differences of the components of $\mathbf{X}_t$.
 - Such a model is called a **vector ARIMA** (VARIMA) model.
 - However, in practice, it may not be optimal to difference each component of $\mathbf{X}_t$ in the same way and should consider the possible presence of co-integration before differencing multivariate data.
 - VARMA models can be generalized further by adding terms, involving additional exogenous variables to the right hand side of the equation and they are known as VARIMAX models.
@@ -390,6 +393,51 @@ MTS::ccm(data2, lags = 25)
 ```{r var1, echo=TRUE}
 var1_fit <- MTS::VARMA(data2, p=1, q=0, include.mean = FALSE, details = F)
 ```
+
+```{r var1plot, echo=TRUE, results='hide',fig.keep='all'}
+MTS::ccm(var1_fit$residuals, lags = 25)
+
+```
+
+
+- We further consider fitting a VARMA model to the series $\mathbf{X}_t$.
+
+```{r varma11, echo=TRUE}
+#VARMA(1,1)
+varma11_fit <- MTS::VARMA(data2, p=1, q=1, include.mean = FALSE, details = F)
+```
+
+```{r varma11plot, echo=TRUE, results='hide',fig.keep='all'}
+MTS::ccm(varma11_fit$residuals, lags = 25)
+```
+
+
+\newpage
+
+## Granger Causality Tests
+
+
+https://www.econometrics-with-r.org/14-5-apatadlm.html#eq:gdpgradl22
+
+Time Series Forecasting using Granger’s Causality and Vector Auto-regressive Model: https://towardsdatascience.com/granger-causality-and-vector-auto-regressive-model-for-time-series-forecasting-3226a64889a6
+
+in MTS package
+
+GrangerTest(X,p=1,include.mean=T,locInput=c(1))
+
+## Cointegration
+
+https://www.econometrics-with-r.org/16-3-cointegration.html
+
+https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegration
+
+https://www.zeileis.org/teaching/AER/Ch-TimeSeries.pdf
+
+Cointegrated Augmented Dickey Fuller Test for Pairs Trading Evaluation in R: https://www.quantstart.com/articles/Cointegrated-Augmented-Dickey-Fuller-Test-for-Pairs-Trading-Evaluation-in-R/
+
+
+
+Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/
 
 
 ## References:
