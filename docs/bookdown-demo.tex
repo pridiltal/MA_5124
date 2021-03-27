@@ -6308,7 +6308,7 @@ Consider the the relation between 3-month treasury bills, U.S. 10-years treasury
 \item
   If \(\theta\) is unknown, it must be estimated before the unit root test can be applied.
 \item
-  This can be done by first estimating the conintegrating coneeficient \(\theta\) by OLS estimation of the regression
+  This can be done by first estimating the cointegrating coefficient \(\theta\) by OLS estimation of the regression
 \end{itemize}
 
 \[Y_t = \alpha+\theta X_t+z_t.\]
@@ -6318,10 +6318,10 @@ Consider the the relation between 3-month treasury bills, U.S. 10-years treasury
 \item
   In the second step, a Dickey-Fuller \(t\)-test (with an intercept but no time trend) is used to test for a unit root in the residual from this regression, \(\hat{z_t}.\)
 \item
-  This two-step procedure is called the Engle-Grnager Ausgmented Dickey-Fuller test for cointegration or \textbf{EG-ADF test}.
+  This two-step procedure is called the Engle-Granger Augmented Dickey-Fuller test for cointegration or \textbf{EG-ADF test}.
 \end{itemize}
 
-\textbf{Extensions to Multiple Conintegrated Variables}
+\textbf{Extensions to Multiple Cointegrated Variables}
 
 \begin{itemize}
 \tightlist
@@ -6341,7 +6341,29 @@ Consider the the relation between 3-month treasury bills, U.S. 10-years treasury
 \begin{itemize}
 \tightlist
 \item
-  In the previo
+  In the previous chapters, we eliminated the stochastic trend in an \(I(1)\) series \(Y_t\) by computing its first difference, \(\Delta Y_t.\)
+\item
+  The problem created by stochastic trends were then avoided by using \(\Delta Y_t\) instead of \(Y_t\) in time series regression.
+\item
+  However, if \(X_t\) and \(Y_t\) are cointegrated, there is another way to eliminate the common trend from the difference.
+\item
+  Because the term \(Y_t - \theta X_t\) is stationary, it too can be used in regression analysis.
+\item
+  In fact, if \(X_t\) and \(Y_t\) are cointegrated, the first differences of \(X_t\) and \(Y_t\) can be modeled using a VAR, augmented by including \(Y_{t-1} - \theta X_{t-1}\) as an additional regressor:
+\end{itemize}
+
+\[\Delta Y_t = \beta_{10} +\beta_{11}\Delta Y_{t-1}+\dots+\beta_{1p}\Delta Y_{t-p}+\gamma{11}\Delta X_{t-1}+\dots+\gamma_{1p}\Delta X_{t-p}+\alpha_1(Y_{t-1}-\theta X_{t-1}) + u_{1t}\]
+
+\[\Delta X_t = \beta_{20} +\beta_{21}\Delta Y_{t-1}+\dots+\beta_{2p}\Delta Y_{t-p}+\gamma{21}\Delta X_{t-1}+\dots+\gamma_{2p}\Delta X_{t-p}+\alpha_2(Y_{t-1}-\theta X_{t-1}) + u_{2t}\]
+
+\begin{itemize}
+\tightlist
+\item
+  The term \(Y_t - \theta X_t\) is called the \textbf{error correction term}.
+\item
+  The combined model in the above two equations is called a \textbf{vector error correction model (VECM)}.
+\item
+  In a VECM, past values of \(Y_t - \theta X_t\), help to predict future values of \(\Delta Y_t\) and/or \(\Delta X_t\).
 \end{itemize}
 
 \hypertarget{references-3}{%

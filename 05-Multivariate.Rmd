@@ -636,14 +636,14 @@ $Y_t-\theta X_t$ is nonstationary [$I(1)$].
 #### Testing for cointegration when $\theta$ is unknown
 
 - If $\theta$ is unknown, it must be estimated before the unit root test can be applied. 
-- This can be done by first estimating the conintegrating coneeficient $\theta$ by OLS estimation of the regression
+- This can be done by first estimating the cointegrating coefficient $\theta$ by OLS estimation of the regression
 
  $$Y_t = \alpha+\theta X_t+z_t.$$
 
 - In the second step, a Dickey-Fuller $t$-test (with an intercept but no time trend) is used to test for a unit root in the residual from this regression, $\hat{z_t}.$
-- This two-step procedure is called the Engle-Grnager Ausgmented Dickey-Fuller test for cointegration or **EG-ADF test**.
+- This two-step procedure is called the Engle-Granger Augmented Dickey-Fuller test for cointegration or **EG-ADF test**.
 
-**Extensions to Multiple Conintegrated Variables**
+**Extensions to Multiple Cointegrated Variables**
 
 - If there are three variables, $Y_t$, $X_{1t}$ and $X_{2t}$, each of which is $I(1)$, then they are cointegrated with cointegrating coefficients $\theta_1$ and $\theta_2$ if $Y_t-\theta_1 X_{1t} -\theta_2X_{2t}$ is stationary.
 - When there are three or more variables, there can be multiple cointegrating relationships.
@@ -652,7 +652,20 @@ $Y_t-\theta X_t$ is nonstationary [$I(1)$].
 
 ### Vector Error Correction Models
 
-- In the previo
+- In the previous chapters, we eliminated the stochastic trend in an $I(1)$ series $Y_t$ by computing its first difference, $\Delta Y_t.$
+- The problem created by stochastic trends were then avoided by using $\Delta Y_t$ instead of $Y_t$ in time series regression.
+- However, if $X_t$ and $Y_t$ are cointegrated, there is another way to eliminate the common trend from the difference.
+- Because the term $Y_t - \theta X_t$ is stationary, it too can be used in regression analysis.
+- In fact, if $X_t$ and $Y_t$ are cointegrated, the first differences of $X_t$ and $Y_t$ can be modeled using a VAR, augmented by including $Y_{t-1} - \theta X_{t-1}$ as an additional regressor:
+
+$$\Delta Y_t = \beta_{10} +\beta_{11}\Delta Y_{t-1}+\dots+\beta_{1p}\Delta Y_{t-p}+\gamma{11}\Delta X_{t-1}+\dots+\gamma_{1p}\Delta X_{t-p}+\alpha_1(Y_{t-1}-\theta X_{t-1}) + u_{1t}$$
+
+$$\Delta X_t = \beta_{20} +\beta_{21}\Delta Y_{t-1}+\dots+\beta_{2p}\Delta Y_{t-p}+\gamma{21}\Delta X_{t-1}+\dots+\gamma_{2p}\Delta X_{t-p}+\alpha_2(Y_{t-1}-\theta X_{t-1}) + u_{2t}$$
+
+
+- The term $Y_t - \theta X_t$ is called the **error correction term**.
+- The combined model in the above two equations is called a **vector error correction model (VECM)**.
+- In a VECM, past values of $Y_t - \theta X_t$, help to predict future values of $\Delta Y_t$ and/or $\Delta X_t$.
 
 <!--
 

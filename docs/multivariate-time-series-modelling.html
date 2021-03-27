@@ -1217,14 +1217,14 @@ The term spread measures the difference between the coupons, or interest rates, 
 <h4><span class="header-section-number">5.6.1.2</span> Testing for cointegration when <span class="math inline">\(\theta\)</span> is unknown</h4>
 <ul>
 <li>If <span class="math inline">\(\theta\)</span> is unknown, it must be estimated before the unit root test can be applied.</li>
-<li>This can be done by first estimating the conintegrating coneeficient <span class="math inline">\(\theta\)</span> by OLS estimation of the regression</li>
+<li>This can be done by first estimating the cointegrating coefficient <span class="math inline">\(\theta\)</span> by OLS estimation of the regression</li>
 </ul>
 <p><span class="math display">\[Y_t = \alpha+\theta X_t+z_t.\]</span></p>
 <ul>
 <li>In the second step, a Dickey-Fuller <span class="math inline">\(t\)</span>-test (with an intercept but no time trend) is used to test for a unit root in the residual from this regression, <span class="math inline">\(\hat{z_t}.\)</span></li>
-<li>This two-step procedure is called the Engle-Grnager Ausgmented Dickey-Fuller test for cointegration or <strong>EG-ADF test</strong>.</li>
+<li>This two-step procedure is called the Engle-Granger Augmented Dickey-Fuller test for cointegration or <strong>EG-ADF test</strong>.</li>
 </ul>
-<p><strong>Extensions to Multiple Conintegrated Variables</strong></p>
+<p><strong>Extensions to Multiple Cointegrated Variables</strong></p>
 <ul>
 <li>If there are three variables, <span class="math inline">\(Y_t\)</span>, <span class="math inline">\(X_{1t}\)</span> and <span class="math inline">\(X_{2t}\)</span>, each of which is <span class="math inline">\(I(1)\)</span>, then they are cointegrated with cointegrating coefficients <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span> if <span class="math inline">\(Y_t-\theta_1 X_{1t} -\theta_2X_{2t}\)</span> is stationary.</li>
 <li>When there are three or more variables, there can be multiple cointegrating relationships.</li>
@@ -1236,7 +1236,18 @@ The term spread measures the difference between the coupons, or interest rates, 
 <div id="vector-error-correction-models" class="section level3">
 <h3><span class="header-section-number">5.6.2</span> Vector Error Correction Models</h3>
 <ul>
-<li>In the previo</li>
+<li>In the previous chapters, we eliminated the stochastic trend in an <span class="math inline">\(I(1)\)</span> series <span class="math inline">\(Y_t\)</span> by computing its first difference, <span class="math inline">\(\Delta Y_t.\)</span></li>
+<li>The problem created by stochastic trends were then avoided by using <span class="math inline">\(\Delta Y_t\)</span> instead of <span class="math inline">\(Y_t\)</span> in time series regression.</li>
+<li>However, if <span class="math inline">\(X_t\)</span> and <span class="math inline">\(Y_t\)</span> are cointegrated, there is another way to eliminate the common trend from the difference.</li>
+<li>Because the term <span class="math inline">\(Y_t - \theta X_t\)</span> is stationary, it too can be used in regression analysis.</li>
+<li>In fact, if <span class="math inline">\(X_t\)</span> and <span class="math inline">\(Y_t\)</span> are cointegrated, the first differences of <span class="math inline">\(X_t\)</span> and <span class="math inline">\(Y_t\)</span> can be modeled using a VAR, augmented by including <span class="math inline">\(Y_{t-1} - \theta X_{t-1}\)</span> as an additional regressor:</li>
+</ul>
+<p><span class="math display">\[\Delta Y_t = \beta_{10} +\beta_{11}\Delta Y_{t-1}+\dots+\beta_{1p}\Delta Y_{t-p}+\gamma{11}\Delta X_{t-1}+\dots+\gamma_{1p}\Delta X_{t-p}+\alpha_1(Y_{t-1}-\theta X_{t-1}) + u_{1t}\]</span></p>
+<p><span class="math display">\[\Delta X_t = \beta_{20} +\beta_{21}\Delta Y_{t-1}+\dots+\beta_{2p}\Delta Y_{t-p}+\gamma{21}\Delta X_{t-1}+\dots+\gamma_{2p}\Delta X_{t-p}+\alpha_2(Y_{t-1}-\theta X_{t-1}) + u_{2t}\]</span></p>
+<ul>
+<li>The term <span class="math inline">\(Y_t - \theta X_t\)</span> is called the <strong>error correction term</strong>.</li>
+<li>The combined model in the above two equations is called a <strong>vector error correction model (VECM)</strong>.</li>
+<li>In a VECM, past values of <span class="math inline">\(Y_t - \theta X_t\)</span>, help to predict future values of <span class="math inline">\(\Delta Y_t\)</span> and/or <span class="math inline">\(\Delta X_t\)</span>.</li>
 </ul>
 <!--
 
