@@ -1,4 +1,4 @@
-# Multivariate Time Series Modeling
+# Multivariate Time Series Modelling
 
 <!-- very important :" Chatfield book data and R code available here: http://www.ams.sunysb.edu/~xing/tsRbook/functions.html
 http://www.ams.sunysb.edu/~xing/tsRbook/data.html
@@ -7,12 +7,13 @@ Tsay data and R codes: https://faculty.chicagobooth.edu/ruey-s-tsay/research/mul
 -->
 
 ```{r setup5, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message=FALSE)
 options(digits=4, width=60)
 library(fpp3)
 library(patchwork)
 library(purrr)
 library(tidyverse)
+library(lubridate)
 
 ```
 
@@ -411,11 +412,75 @@ varma11_fit <- MTS::VARMA(data2, p=1, q=1, include.mean = FALSE, details = F)
 MTS::ccm(varma11_fit$residuals, lags = 25)
 ```
 
+\newpage
+### Order Selection
 
+**If you want some help selecting p and q**
+
+```{r varmaauto, echo=TRUE}
+varma_auto_fit <- MTS::VARMA(data2, include.mean = FALSE, details = F)
+```
+
+```{r varmaautoplot, echo=TRUE, results='hide',fig.keep='all'}
+MTS::ccm(varma_auto_fit$residuals, lags = 25)
+```
+
+\newpage
+
+**Generating a VARMA Process**
+
+```{r echo=TRUE}
+set.seed(1234)
+p1 <- matrix(c(0.2,-0.6,0.3,1,1),2,2)
+sig <- matrix(c(4,0.8,0.8,1),2,2)
+th1 <- matrix(c(-0.5,0,0,-0.6),2,2)
+m1 <- VARMAsim(1000, arlags = c(1), malags = c(1), phi = p1,theta = th1, sigma = sig)
+zt <- m1$series
+head(zt)
+
+
+varma_auto_fit <- MTS::VARMA(zt, include.mean = FALSE, details = F)
+
+VARorder(zt)
+```
 \newpage
 
 ## Granger Causality Tests
 
+- Let $F_t$ be the available information at time $t$
+- Let $F_{-i,t}$ be $F_t$ where all information regarding the the $i$th components, $X_{it}$ removed.
+- Consider the bivariate VAR(1) model 
+
+ \[
+ \begin{pmatrix}
+  X_{1t} \\ 
+   X_{2t} 
+\end{pmatrix} =
+\begin{pmatrix}
+  \phi_{10} \\ 
+  \phi_{20} 
+\end{pmatrix} +
+\begin{pmatrix}
+  \phi_{11} &  \phi_{12}\\ 
+   \phi_{21} &  \phi_{22}
+\end{pmatrix}
+ \begin{pmatrix}
+  X_{1,t-1} \\ 
+   X_{2,t-1} 
+\end{pmatrix} +
+\begin{pmatrix}
+  \epsilon_{1t} \\ 
+  \epsilon_{2t} 
+\end{pmatrix}.
+\]
+
+- Consider the $h$-step ahead forecast $X_t(h)$ based on $F_t$ and the associated forecast error $e_t(h)$.
+- Let $X_{j,t+h}|F_{-i,t}$ be the $h$-step ahead prediction of $X_{j,t+h}$ based on $F_{-i,t}$.
+- Let $e_{j,t+h}|F_{-i,t}$ be the associated forecast error where $i \neq j.$
+- We say that $X_{1t}$ causes $X_{2t}$, if the bivariate forecast for $X_{2t}$ is more accurate than its univariate forecast.
+- That is, $X_{1t}$ causes $X_{2t}$ if
+$$Var[e_{2t}(h)]<Var[e_{2,t+h}|F_{-1,t}].$$
+<!--
 
 https://www.econometrics-with-r.org/14-5-apatadlm.html#eq:gdpgradl22
 
@@ -424,9 +489,75 @@ Time Series Forecasting using Granger’s Causality and Vector Auto-regressive M
 in MTS package
 
 GrangerTest(X,p=1,include.mean=T,locInput=c(1))
+-->
 
+
+### Test for Granger causality
+
+- VAR models can be used to investigate lead-lag behaviour.
+- The bivariate VAR(p) model can be expressed as 
+
+$$x_t = c_1+\sum_{i=1}^p\alpha_{1i}x_{t-i}+ \sum_{i=1}^p\beta_{1i}y_{t-i}+\epsilon_{1t}$$
+
+$$y_t = c_2+\sum_{i=1}^p\alpha_{2i}x_{t-i}+ \sum_{i=1}^p\beta_{2i}y_{t-i}+\epsilon_{2t}$$
+
+- The test for Granger causality from $x$ to $y$ is an F-test for the joint significance of $\alpha_{21},\dots, \alpha_{2p},$ in an OLS regression.
+
+- Similarly, Granger causality from $y$ to $x$ is an F-test for the joint significance of $\beta_{11},\dots, \beta_{1p}$. 
+
+\newpage
+
+**Test for Granger Causality in R**
+
+<!-- https://rdrr.io/cran/lmtest/man/grangertest.html-->
+
+
+```{r echo=TRUE}
+data3 <-  data %>% as_tibble() %>%
+  select("gdprate", "cpirate") %>%
+  as.matrix()
+data3 <- ts(data = data3, start=c(1948,1), frequency = 4 )
+head(data3)
+
+library(lmtest)
+grangertest(gdprate ~ cpirate, order = 3, data = data3)
+grangertest(cpirate ~ gdprate, order = 3, data = data3)
+
+## alternative ways of specifying the same test
+grangertest(data3, order = 3)
+grangertest(data3[, 1], data3[, 2], order = 3)
+
+```
+
+**Using `MTS` package**
+
+Perform VAR(p) and constrained VAR(p) estimations to test the Granger causality. It uses likelihood ratio and asymptotic chi-square.
+
+
+```{r echo=TRUE}
+data3 <-  data %>% as_tibble() %>%
+  select("gdprate", "cpirate") %>%
+  drop_na() %>%
+  as.matrix() 
+MTS::GrangerTest(data3,p=3,include.mean=T,locInput=c(1))
+```
+
+<!-- https://www.diva-portal.org/smash/get/diva2:576024/FULLTEXT01.pdf-->
+
+- Researchers get different results about the causality between inflation and economic growth.
+- Fisher (1993) verifies that causality goes from inflation to economic growth. 
+- Contrary to Fisher, Umaru and Zubariu (2011) examined the causality between inflation and economic growth on Nigeria by using Granger causality test. 
+- The test revealed that GDP causes inflation and not inflation causing GDP.
+- Studies also show that the causality relation can be different in the short run and in the long run. 
+- Datta and Chanda(2011) study on Malaysia, have shown that causality exist between inflation and economic growth in the short run and direction of causality is from inflation to economic growth but in the long run economic growth causes inflation.
+
+
+
+\newpage
 ## Cointegration
 
+
+<!--
 https://www.econometrics-with-r.org/16-3-cointegration.html
 
 https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegration
@@ -439,6 +570,7 @@ Cointegrated Augmented Dickey Fuller Test for Pairs Trading Evaluation in R: htt
 
 Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/
 
+-->
 
 ## References:
 

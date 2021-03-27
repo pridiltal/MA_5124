@@ -174,7 +174,7 @@ asymmetry-in-volatility
 the-exponential-garch-model
 stochastic-volatility-models
 references-2
-multivariate-time-series-modeling
+multivariate-time-series-modelling
 introduction-2
 the-cross-correlation-function
 vector-autoregressive-models
@@ -184,4 +184,8 @@ vector-arma-models
 vector-arima-models
 fitting-var-and-varma-models
 forecasting-1
+order-selection
+granger-causality-tests
+test-for-granger-causality
+cointegration
 references-3

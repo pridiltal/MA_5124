@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-03-14" />
+<meta name="date" content="2021-03-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -289,7 +289,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#fitting-var-and-varma-models"><i class="fa fa-check"></i><b>5.4</b> Fitting VAR and VARMA models</a><ul>
 <li class="chapter" data-level="5.4.1" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#forecasting-1"><i class="fa fa-check"></i><b>5.4.1</b> Forecasting</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#references-3"><i class="fa fa-check"></i><b>5.5</b> References:</a></li>
+<li class="chapter" data-level="5.5" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#granger-causality-tests"><i class="fa fa-check"></i><b>5.5</b> Granger Causality Tests</a></li>
+<li class="chapter" data-level="5.6" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#cointegration"><i class="fa fa-check"></i><b>5.6</b> Cointegration</a></li>
+<li class="chapter" data-level="5.7" data-path="multivariate-time-series-modeling.html"><a href="multivariate-time-series-modeling.html#references-3"><i class="fa fa-check"></i><b>5.7</b> References:</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-4.html"><a href="references-4.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -313,6 +315,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 5</span> Multivariate Time Series Modeling</h1>
 <!-- very important :" Chatfield book data and R code available here: http://www.ams.sunysb.edu/~xing/tsRbook/functions.html
 http://www.ams.sunysb.edu/~xing/tsRbook/data.html
+
+Tsay data and R codes: https://faculty.chicagobooth.edu/ruey-s-tsay/research/multivariate-time-series-analysis-with-r-and-financial-applications
 -->
 
 <p><strong>This chapter is heavily based on Chapter 13 of <span class="citation">Chatfield and Xing (<a href="#ref-chatfield2019analysis">2019</a>)</span> and <span class="citation">Tsay (<a href="#ref-tsay2013multivariate">2013</a>)</span> .</strong></p>
@@ -840,8 +844,23 @@ Figure 5.4: Scatterplot matrix
 <div style="page-break-after: always;"></div>
 </div>
 </div>
+<div id="granger-causality-tests" class="section level2">
+<h2><span class="header-section-number">5.5</span> Granger Causality Tests</h2>
+<p><a href="https://www.econometrics-with-r.org/14-5-apatadlm.html#eq:gdpgradl22" class="uri">https://www.econometrics-with-r.org/14-5-apatadlm.html#eq:gdpgradl22</a></p>
+<p>Time Series Forecasting using Granger’s Causality and Vector Auto-regressive Model: <a href="https://towardsdatascience.com/granger-causality-and-vector-auto-regressive-model-for-time-series-forecasting-3226a64889a6" class="uri">https://towardsdatascience.com/granger-causality-and-vector-auto-regressive-model-for-time-series-forecasting-3226a64889a6</a></p>
+<p>in MTS package</p>
+<p>GrangerTest(X,p=1,include.mean=T,locInput=c(1))</p>
+</div>
+<div id="cointegration" class="section level2">
+<h2><span class="header-section-number">5.6</span> Cointegration</h2>
+<p><a href="https://www.econometrics-with-r.org/16-3-cointegration.html" class="uri">https://www.econometrics-with-r.org/16-3-cointegration.html</a></p>
+<p><a href="https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegration" class="uri">https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegration</a></p>
+<p><a href="https://www.zeileis.org/teaching/AER/Ch-TimeSeries.pdf" class="uri">https://www.zeileis.org/teaching/AER/Ch-TimeSeries.pdf</a></p>
+<p>Cointegrated Augmented Dickey Fuller Test for Pairs Trading Evaluation in R: <a href="https://www.quantstart.com/articles/Cointegrated-Augmented-Dickey-Fuller-Test-for-Pairs-Trading-Evaluation-in-R/" class="uri">https://www.quantstart.com/articles/Cointegrated-Augmented-Dickey-Fuller-Test-for-Pairs-Trading-Evaluation-in-R/</a></p>
+<p>Johansen Test for Cointegrating Time Series Analysis in R :<a href="https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/" class="uri">https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/</a></p>
+</div>
 <div id="references-3" class="section level2">
-<h2><span class="header-section-number">5.5</span> References:</h2>
+<h2><span class="header-section-number">5.7</span> References:</h2>
 <ul>
 <li><p>Chatfield, C., &amp; Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.</p></li>
 <li><p>Tsay, R. S. (2013). Multivariate time series analysis: with R and financial applications. John Wiley &amp; Sons.</p></li>

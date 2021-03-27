@@ -123,7 +123,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-03-14}
+\date{2021-03-27}
 
 \begin{document}
 \maketitle
@@ -4983,8 +4983,8 @@ which has \(AP(p)\) dynamics for \(log\sigma_t^2.\)
   \newpage
 \end{itemize}
 
-\hypertarget{multivariate-time-series-modeling}{%
-\chapter{Multivariate Time Series Modeling}\label{multivariate-time-series-modeling}}
+\hypertarget{multivariate-time-series-modelling}{%
+\chapter{Multivariate Time Series Modelling}\label{multivariate-time-series-modelling}}
 
 \pagenumbering{arabic}
 
@@ -5785,6 +5785,413 @@ Here we consider the U.S. quarterly gross domestic product (gdp), the civilian u
 \includegraphics{bookdown-demo_files/figure-latex/varma11plot-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/varma11plot-2.pdf}
 
 \newpage
+
+\hypertarget{order-selection}{%
+\subsection{Order Selection}\label{order-selection}}
+
+\textbf{If you want some help selecting p and q}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{varma_auto_fit <-}\StringTok{ }\NormalTok{MTS}\OperatorTok{::}\KeywordTok{VARMA}\NormalTok{(data2, }\DataTypeTok{include.mean =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{details =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of parameters:  9 
+## initial estimates:  0.7327 0.1979 0.251 -0.077 0.3654 0.1182 0.2389 0.2681 0.5174 
+## Par. lower-bounds:  0.6185 -0.1504 0.0784 -0.1156 0.2477 0.0599 0.1651 0.0429 0.4058 
+## Par. upper-bounds:  0.8469 0.5463 0.4237 -0.0384 0.483 0.1765 0.3127 0.4933 0.629 
+## Final   Estimates:  0.7115 0.1508 0.2786 -0.06924 0.3811 0.1073 0.2309 0.2544 0.5149 
+## 
+## Coefficient(s):
+##           Estimate  Std. Error  t value Pr(>|t|)    
+## gdprate    0.71155     0.05652   12.590  < 2e-16 ***
+## unemdiff   0.15075     0.17319    0.870 0.384046    
+## cpirate    0.27860     0.08492    3.281 0.001035 ** 
+## gdprate   -0.06924     0.01926   -3.595 0.000324 ***
+## unemdiff   0.38114     0.05902    6.458 1.06e-10 ***
+## cpirate    0.10733     0.02894    3.709 0.000208 ***
+## gdprate    0.23086     0.03713    6.217 5.07e-10 ***
+## unemdiff   0.25437     0.11379    2.235 0.025392 *  
+## cpirate    0.51490     0.05580    9.228  < 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## --- 
+## Estimates in matrix form: 
+## AR coefficient matrix 
+## AR( 1 )-matrix 
+##         [,1]  [,2]  [,3]
+## [1,]  0.7115 0.151 0.279
+## [2,] -0.0692 0.381 0.107
+## [3,]  0.2309 0.254 0.515
+##   
+## Residuals cov-matrix: 
+##         [,1]     [,2]    [,3]
+## [1,]  1.0500 -0.16146 0.20992
+## [2,] -0.1615  0.12194 0.00262
+## [3,]  0.2099  0.00262 0.45331
+## ---- 
+## aic=  -3.138 
+## bic=  -3.02
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{MTS}\OperatorTok{::}\KeywordTok{ccm}\NormalTok{(varma_auto_fit}\OperatorTok{$}\NormalTok{residuals, }\DataTypeTok{lags =} \DecValTok{25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/varmaautoplot-1.pdf} \includegraphics{bookdown-demo_files/figure-latex/varmaautoplot-2.pdf}
+
+\newpage
+
+\textbf{Generating a VARMA Process}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{p1 <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{,}\OperatorTok{-}\FloatTok{0.6}\NormalTok{,}\FloatTok{0.3}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\NormalTok{sig <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\FloatTok{0.8}\NormalTok{,}\FloatTok{0.8}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\NormalTok{th1 <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\FloatTok{0.5}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\OperatorTok{-}\FloatTok{0.6}\NormalTok{),}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\NormalTok{m1 <-}\StringTok{ }\KeywordTok{VARMAsim}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DataTypeTok{arlags =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{), }\DataTypeTok{malags =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{), }\DataTypeTok{phi =}\NormalTok{ p1,}\DataTypeTok{theta =}\NormalTok{ th1, }\DataTypeTok{sigma =}\NormalTok{ sig)}
+\NormalTok{zt <-}\StringTok{ }\NormalTok{m1}\OperatorTok{$}\NormalTok{series}
+\KeywordTok{head}\NormalTok{(zt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         [,1]     [,2]
+## [1,] -2.7473 -2.33168
+## [2,] -3.5389 -1.84248
+## [3,] -0.9314 -0.04607
+## [4,]  2.8290 -0.01222
+## [5,]  0.8131 -2.33142
+## [6,] -3.9268 -3.60356
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{varma_auto_fit <-}\StringTok{ }\NormalTok{MTS}\OperatorTok{::}\KeywordTok{VARMA}\NormalTok{(zt, }\DataTypeTok{include.mean =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{details =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of parameters:  4 
+## initial estimates:  0.4422 0.2961 -0.5508 1.038 
+## Par. lower-bounds:  0.3916 0.2557 -0.5769 1.017 
+## Par. upper-bounds:  0.4927 0.3364 -0.5248 1.059 
+## Final   Estimates:  0.4418 0.2976 -0.5501 1.039 
+## 
+## Coefficient(s):
+##       Estimate  Std. Error  t value Pr(>|t|)    
+## [1,]   0.44176     0.02525    17.50   <2e-16 ***
+## [2,]   0.29755     0.02018    14.74   <2e-16 ***
+## [3,]  -0.55007     0.01299   -42.35   <2e-16 ***
+## [4,]   1.03859     0.01038   100.04   <2e-16 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## --- 
+## Estimates in matrix form: 
+## AR coefficient matrix 
+## AR( 1 )-matrix 
+##        [,1]  [,2]
+## [1,]  0.442 0.298
+## [2,] -0.550 1.039
+##   
+## Residuals cov-matrix: 
+##        [,1]   [,2]
+## [1,] 4.7286 0.9683
+## [2,] 0.9683 1.2513
+## ---- 
+## aic=  1.613 
+## bic=  1.633
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{VARorder}\NormalTok{(zt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## selected order: aic =  6 
+## selected order: bic =  3 
+## selected order: hq =  3 
+## Summary table:  
+##        p   AIC   BIC    HQ      M(p) p-value
+##  [1,]  0 4.642 4.642 4.642    0.0000  0.0000
+##  [2,]  1 1.617 1.637 1.624 2982.6949  0.0000
+##  [3,]  2 1.326 1.365 1.341  293.4415  0.0000
+##  [4,]  3 1.257 1.316 1.279   75.6926  0.0000
+##  [5,]  4 1.250 1.328 1.280   14.4993  0.0059
+##  [6,]  5 1.253 1.351 1.290    4.5802  0.3331
+##  [7,]  6 1.243 1.361 1.288   17.4699  0.0016
+##  [8,]  7 1.244 1.381 1.296    6.9209  0.1401
+##  [9,]  8 1.244 1.401 1.304    7.4485  0.1140
+## [10,]  9 1.249 1.426 1.316    3.2249  0.5209
+## [11,] 10 1.254 1.450 1.328    3.5016  0.4776
+## [12,] 11 1.259 1.475 1.341    2.4851  0.6473
+## [13,] 12 1.266 1.501 1.355    1.1209  0.8909
+## [14,] 13 1.273 1.528 1.370    0.6265  0.9601
+\end{verbatim}
+
+\newpage
+
+\hypertarget{granger-causality-tests}{%
+\section{Granger Causality Tests}\label{granger-causality-tests}}
+
+\begin{itemize}
+\tightlist
+\item
+  Let \(F_t\) be the available information at time \(t\)
+\item
+  Let \(F_{-i,t}\) be \(F_t\) where all information regarding the the \(i\)th components, \(X_{it}\) removed.
+\item
+  Consider the bivariate VAR(1) model
+\end{itemize}
+
+\[
+ \begin{pmatrix}
+  X_{1t} \\ 
+   X_{2t} 
+\end{pmatrix} =
+\begin{pmatrix}
+  \phi_{10} \\ 
+  \phi_{20} 
+\end{pmatrix} +
+\begin{pmatrix}
+  \phi_{11} &  \phi_{12}\\ 
+   \phi_{21} &  \phi_{22}
+\end{pmatrix}
+ \begin{pmatrix}
+  X_{1,t-1} \\ 
+   X_{2,t-1} 
+\end{pmatrix} +
+\begin{pmatrix}
+  \epsilon_{1t} \\ 
+  \epsilon_{2t} 
+\end{pmatrix}.
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  Consider the \(h\)-step ahead forecast \(X_t(h)\) based on \(F_t\) and the associated forecast error \(e_t(h)\).
+\item
+  Let \(X_{j,t+h}|F_{-i,t}\) be the \(h\)-step ahead prediction of \(X_{j,t+h}\) based on \(F_{-i,t}\).
+\item
+  Let \(e_{j,t+h}|F_{-i,t}\) be the associated forecast error where \(i \neq j.\)
+\item
+  We say that \(X_{1t}\) causes \(X_{2t}\), if the bivariate forecast for \(X_{2t}\) is more accurate than its univariate forecast.
+\item
+  That is, \(X_{1t}\) causes \(X_{2t}\) if
+  \[Var[e_{2t}(h)]<Var[e_{2,t+h}|F_{-1,t}].\]
+\end{itemize}
+
+\hypertarget{test-for-granger-causality}{%
+\subsection{Test for Granger causality}\label{test-for-granger-causality}}
+
+\begin{itemize}
+\tightlist
+\item
+  VAR models can be used to investigate lead-lag behaviour.
+\item
+  The bivariate VAR(p) model can be expressed as
+\end{itemize}
+
+\[x_t = c_1+\sum_{i=1}^p\alpha_{1i}x_{t-i}+ \sum_{i=1}^p\beta_{1i}y_{t-i}+\epsilon_{1t}\]
+
+\[y_t = c_2+\sum_{i=1}^p\alpha_{2i}x_{t-i}+ \sum_{i=1}^p\beta_{2i}y_{t-i}+\epsilon_{2t}\]
+
+\begin{itemize}
+\item
+  The test for Granger causality from \(x\) to \(y\) is an F-test for the joint significance of \(\alpha_{21},\dots, \alpha_{2p},\) in an OLS regression.
+\item
+  Similarly, Granger causality from \(y\) to \(x\) is an F-test for the joint significance of \(\beta_{11},\dots, \beta_{1p}\).
+\end{itemize}
+
+\newpage
+
+\textbf{Test for Granger Causality in R}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data3 <-}\StringTok{  }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{as_tibble}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\StringTok{"gdprate"}\NormalTok{, }\StringTok{"cpirate"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{as.matrix}\NormalTok{()}
+\NormalTok{data3 <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ data3, }\DataTypeTok{start=}\KeywordTok{c}\NormalTok{(}\DecValTok{1948}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DataTypeTok{frequency =} \DecValTok{4}\NormalTok{ )}
+\KeywordTok{head}\NormalTok{(data3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      gdprate  cpirate
+## [1,]      NA       NA
+## [2,]  2.5262  2.76596
+## [3,]  2.4185  0.86957
+## [4,]  0.4147 -1.27258
+## [5,] -1.8834 -0.58212
+## [6,] -1.3357  0.04182
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(lmtest)}
+\KeywordTok{grangertest}\NormalTok{(gdprate }\OperatorTok{~}\StringTok{ }\NormalTok{cpirate, }\DataTypeTok{order =} \DecValTok{3}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ data3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Granger causality test
+## 
+## Model 1: gdprate ~ Lags(gdprate, 1:3) + Lags(cpirate, 1:3)
+## Model 2: gdprate ~ Lags(gdprate, 1:3)
+##   Res.Df Df    F Pr(>F)  
+## 1    268                 
+## 2    271 -3 2.35  0.072 .
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{grangertest}\NormalTok{(cpirate }\OperatorTok{~}\StringTok{ }\NormalTok{gdprate, }\DataTypeTok{order =} \DecValTok{3}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ data3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Granger causality test
+## 
+## Model 1: cpirate ~ Lags(cpirate, 1:3) + Lags(gdprate, 1:3)
+## Model 2: cpirate ~ Lags(cpirate, 1:3)
+##   Res.Df Df    F Pr(>F)   
+## 1    268                  
+## 2    271 -3 4.69 0.0033 **
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{## alternative ways of specifying the same test}
+\KeywordTok{grangertest}\NormalTok{(data3, }\DataTypeTok{order =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Granger causality test
+## 
+## Model 1: cpirate ~ Lags(cpirate, 1:3) + Lags(gdprate, 1:3)
+## Model 2: cpirate ~ Lags(cpirate, 1:3)
+##   Res.Df Df    F Pr(>F)   
+## 1    268                  
+## 2    271 -3 4.69 0.0033 **
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{grangertest}\NormalTok{(data3[, }\DecValTok{1}\NormalTok{], data3[, }\DecValTok{2}\NormalTok{], }\DataTypeTok{order =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Granger causality test
+## 
+## Model 1: data3[, 2] ~ Lags(data3[, 2], 1:3) + Lags(data3[, 1], 1:3)
+## Model 2: data3[, 2] ~ Lags(data3[, 2], 1:3)
+##   Res.Df Df    F Pr(>F)   
+## 1    268                  
+## 2    271 -3 4.69 0.0033 **
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\textbf{Using \texttt{MTS} package}
+
+Perform VAR(p) and constrained VAR(p) estimations to test the Granger causality. It uses likelihood ratio and asymptotic chi-square.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data3 <-}\StringTok{  }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{as_tibble}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\StringTok{"gdprate"}\NormalTok{, }\StringTok{"cpirate"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{drop_na}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{as.matrix}\NormalTok{() }
+\NormalTok{MTS}\OperatorTok{::}\KeywordTok{GrangerTest}\NormalTok{(data3,}\DataTypeTok{p=}\DecValTok{3}\NormalTok{,}\DataTypeTok{include.mean=}\NormalTok{T,}\DataTypeTok{locInput=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of targeted zero parameters:  3 
+## Chi-square test for Granger Causality and p-value:  7.065 0.06986 
+## Constant term: 
+## Estimates:  0.7174 0.004604 
+## Std.Error:  0.1149 0.0751 
+## AR coefficient matrix 
+## AR( 1 )-matrix 
+##        [,1]  [,2]
+## [1,] 0.4498 0.000
+## [2,] 0.0924 0.315
+## standard error 
+##        [,1]  [,2]
+## [1,] 0.0600 0.000
+## [2,] 0.0407 0.059
+## AR( 2 )-matrix 
+##        [,1]  [,2]
+## [1,] 0.2053 0.000
+## [2,] 0.0198 0.117
+## standard error 
+##        [,1]   [,2]
+## [1,] 0.0647 0.0000
+## [2,] 0.0429 0.0617
+## AR( 3 )-matrix 
+##         [,1]  [,2]
+## [1,] -0.1135 0.000
+## [2,]  0.0679 0.236
+## standard error 
+##       [,1]   [,2]
+## [1,] 0.060 0.0000
+## [2,] 0.041 0.0575
+##   
+## Residuals cov-mtx: 
+##        [,1]   [,2]
+## [1,] 0.8791 0.1577
+## [2,] 0.1577 0.3619
+##   
+## det(SSE) =  0.2932 
+## AIC =  -1.162 
+## BIC =  -1.045 
+## HQ  =  -1.115
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Researchers get different results about the causality between inflation and economic growth.
+\item
+  Fisher (1993) verifies that causality goes from inflation to economic growth.
+\item
+  Contrary to Fisher, Umaru and Zubariu (2011) examined the causality between inflation and economic growth on Nigeria by using Granger causality test.
+\item
+  The test revealed that GDP causes inflation and not inflation causing GDP.
+\item
+  Studies also show that the causality relation can be different in the short run and in the long run.
+\item
+  Datta and Chanda(2011) study on Malaysia, have shown that causality exist between inflation and economic growth in the short run and direction of causality is from inflation to economic growth but in the long run economic growth causes inflation.
+\end{itemize}
+
+\newpage
+
+\hypertarget{cointegration}{%
+\section{Cointegration}\label{cointegration}}
 
 \hypertarget{references-3}{%
 \section{References:}\label{references-3}}
