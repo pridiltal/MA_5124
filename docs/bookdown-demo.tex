@@ -123,7 +123,7 @@
 
 \title{MA 5124 Financial Time Series Analysis \& Forecasting}
 \author{Dr.~Priyanga D. Talagala}
-\date{2021-03-27}
+\date{2021-03-28}
 
 \begin{document}
 \maketitle
@@ -6175,23 +6175,87 @@ Perform VAR(p) and constrained VAR(p) estimations to test the Granger causality.
 \begin{itemize}
 \tightlist
 \item
-  Researchers get different results about the causality between inflation and economic growth.
+  Different researches show different results about the causality between economic growth and inflation.
 \item
-  Fisher (1993) verifies that causality goes from inflation to economic growth.
+  Fisher (1993) shows that causality goes from inflation to economic growth.
 \item
-  Contrary to Fisher, Umaru and Zubariu (2011) examined the causality between inflation and economic growth on Nigeria by using Granger causality test.
-\item
-  The test revealed that GDP causes inflation and not inflation causing GDP.
+  In contrast to Fisher's findings, Umaru and Zubariu (2011) found that Nigeria's GDP causes inflation and not inflation causing GDP using Granger causality test.
 \item
   Studies also show that the causality relation can be different in the short run and in the long run.
 \item
-  Datta and Chanda(2011) study on Malaysia, have shown that causality exist between inflation and economic growth in the short run and direction of causality is from inflation to economic growth but in the long run economic growth causes inflation.
+  A study conducted by Datta and Chanda(2011) on Malaysia shows that causality exist between inflation and economic growth in the short run and direction of causality is from inflation to economic growth but in the long run economic growth causes inflation.
 \end{itemize}
-
-\newpage
 
 \hypertarget{cointegration}{%
 \section{Cointegration}\label{cointegration}}
+
+\begin{itemize}
+\tightlist
+\item
+  Two or more time series with stochastic trends can move together very closely over the long run.
+\item
+  Two or more time series that have a common stochastic trend are said to be \textbf{cointegrated}.
+\end{itemize}
+
+\textbf{Definition} (\citet{stock2015introduction})
+
+Suppose \(X_t\) and \(Y_t\) are integrated of order one. If, for some coefficient \(\theta\), \(Y_t-\theta X_t\) is integrated of order zero, then \(X_t\) and \(Y_t\) are said to be \textbf{cointegrated}. The coefficient \(\theta\) is called the \textbf{cointegrating coefficient}.
+
+That is, \(X_t\) and \(Y_t\) are \(I(1)\) and if there is a \(\theta\) such that \(Y_t-\theta X_t\) is \(I(0)\), \(X_t\) and \(Y_t\) are cointegrated
+
+\begin{itemize}
+\item
+  Put differently, cointegration of\\
+  \(X_t\) and \(Y_t\) means that \(X_t\) and \(Y_t\) have the same or a common stochastic trend and this trend can be eliminated by taking a specific difference of the series such that the resulting series is stationary.
+\item
+  R functions for cointegration analysis are implemented in the package \texttt{urca}
+\end{itemize}
+
+\textbf{Example}
+
+Consider the the relation between 3-month treasury bills, U.S. 10-years treasury bonds and the spread in their interest rates.
+
+\begin{itemize}
+\tightlist
+\item
+  Interest rates on long-term and short term treasury bonds are closely linked to macroeconomic conditions.
+\item
+  While interest rates on both types of bonds have the same long-run tendencies, they behave quite differently in the short run.
+\item
+  The difference in interest rates of two bonds with distinct maturity is called the term spread.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# AER package Provides functions, data sets,}
+\CommentTok{# examples, and demos for Applied Econometrics }
+\KeywordTok{library}\NormalTok{(AER) }
+\CommentTok{# A quarterly multiple time series from 1947(1) to 2004(4) with 2 variables, GDP and T-bill}
+\KeywordTok{data}\NormalTok{(}\StringTok{"USMacroSW"}\NormalTok{) }
+
+\CommentTok{# tbill: 3-months Treasury bills interest rate }
+\CommentTok{# tbond: 10-years Treasury bonds interest rate}
+\NormalTok{USMacroSW <-}\StringTok{ }\NormalTok{USMacroSW }\OperatorTok{%>%}\StringTok{ }\KeywordTok{as_tsibble}\NormalTok{(}\DataTypeTok{pivot_longer =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(index, tbill, tbond) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{TSpread =}\NormalTok{ tbond }\OperatorTok{-}\StringTok{ }\NormalTok{tbill) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{pivot_longer}\NormalTok{(}\DataTypeTok{cols =}\NormalTok{ tbill}\OperatorTok{:}\NormalTok{TSpread) }
+
+\NormalTok{p <-}\StringTok{ }\NormalTok{USMacroSW }\OperatorTok{%>%}\StringTok{ }\KeywordTok{autoplot}\NormalTok{(value)}
+\KeywordTok{print}\NormalTok{(p)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-50-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  The figure suggests that long-term and short-term interest rates are cointegrated as both interest series seem to have the same long-run behavior.
+\item
+  They share a common stochastic trend.
+\item
+  The term spread, which is obtained by taking the difference between long-term and short-term interest rates, seems to be stationary.
+\end{itemize}
 
 \hypertarget{references-3}{%
 \section{References:}\label{references-3}}
@@ -6199,6 +6263,10 @@ Perform VAR(p) and constrained VAR(p) estimations to test the Granger causality.
 \begin{itemize}
 \item
   Chatfield, C., \& Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
+\item
+  Kleiber, C., \& Zeileis, A. (2008). Applied econometrics with R. Springer Science \& Business Media.
+\item
+  Stock, J. H., \& Watson, M. W. (2015). Introduction to econometrics.
 \item
   Tsay, R. S. (2013). Multivariate time series analysis: with R and financial applications. John Wiley \& Sons.
 \end{itemize}

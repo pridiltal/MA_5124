@@ -544,20 +544,78 @@ MTS::GrangerTest(data3,p=3,include.mean=T,locInput=c(1))
 
 <!-- https://www.diva-portal.org/smash/get/diva2:576024/FULLTEXT01.pdf-->
 
-- Researchers get different results about the causality between inflation and economic growth.
-- Fisher (1993) verifies that causality goes from inflation to economic growth. 
-- Contrary to Fisher, Umaru and Zubariu (2011) examined the causality between inflation and economic growth on Nigeria by using Granger causality test. 
-- The test revealed that GDP causes inflation and not inflation causing GDP.
+- Different researches show different results about the causality between economic growth and inflation.
+- Fisher (1993) shows that causality goes from inflation to economic growth. 
+- In contrast to Fisher's findings, Umaru and Zubariu (2011) found that Nigeria's GDP causes inflation and not inflation causing GDP using Granger causality test. 
 - Studies also show that the causality relation can be different in the short run and in the long run. 
-- Datta and Chanda(2011) study on Malaysia, have shown that causality exist between inflation and economic growth in the short run and direction of causality is from inflation to economic growth but in the long run economic growth causes inflation.
+- A study conducted by Datta and Chanda(2011) on Malaysia shows that causality exist between inflation and economic growth in the short run and direction of causality is from inflation to economic growth but in the long run economic growth causes inflation.
 
-
-
-\newpage
 ## Cointegration
+
+- Two or more time series with stochastic trends can move together very closely  over the long run.
+- Two or more time series that have a common stochastic trend are said to be **cointegrated**.
+
+**Definition** (@stock2015introduction)
+
+Suppose $X_t$ and $Y_t$ are integrated of order one. If, for some coefficient $\theta$, $Y_t-\theta X_t$ is integrated of order zero, then $X_t$ and $Y_t$ are said to be **cointegrated**. The coefficient $\theta$ is called the **cointegrating coefficient**.
+
+That is, $X_t$ and $Y_t$  are $I(1)$ and if there is a $\theta$ such that $Y_t-\theta X_t$ is $I(0)$, $X_t$ and $Y_t$ are cointegrated 
+
+
+- Put differently, cointegration of  
+$X_t$ and $Y_t$ means that  $X_t$ and $Y_t$ have the same or a common stochastic trend and this trend can be eliminated by taking a specific difference of the series such that the resulting series is stationary.
+
+
+- R functions for cointegration analysis are implemented in the package `urca`
+
+
+
+**Example**
+
+Consider the the relation between  3-month treasury bills, U.S. 10-years treasury bonds and the spread in their interest rates.
+
+<!--Long-term Treasury bonds are U.S. government bonds that have maturities longer than 10 years. When you purchase a long-term Treasury bond, you're basically agreeing to loan money to the federal government for an agreed-upon period of time, until the bond reaches maturity
+
+A Treasury Bill (T-Bill) is a short-term debt obligation backed by the U.S. Treasury Department with a maturity of one year or less. ... The longer the maturity date, the higher the interest rate that the T-Bill will pay to the investor.
+
+The term spread measures the difference between the coupons, or interest rates, of two bonds with different maturities or expiration dates. ... If the term spread is positive, the long-term rates are higher than the short-term rates at that point in time and the spread is said to be normal.
+
+-->
+
+- Interest rates on long-term and short term treasury bonds are closely linked to macroeconomic conditions.
+- While interest rates on both types of bonds have the same long-run tendencies, they behave quite differently in the short run. 
+- The difference in interest rates of two bonds with distinct maturity is called the term spread.
+
+```{r echo = TRUE}
+# AER package Provides functions, data sets,
+# examples, and demos for Applied Econometrics 
+library(AER) 
+# A quarterly multiple time series from 1947(1) to 2004(4) with 2 variables, GDP and T-bill
+data("USMacroSW") 
+
+# tbill: 3-months Treasury bills interest rate 
+# tbond: 10-years Treasury bonds interest rate
+USMacroSW <- USMacroSW %>% as_tsibble(pivot_longer = FALSE) %>%
+  select(index, tbill, tbond) %>%
+  mutate(TSpread = tbond - tbill) %>%
+  pivot_longer(cols = tbill:TSpread) 
+
+p <- USMacroSW %>% autoplot(value)
+print(p)
+```
+
+
+<!--Before recessions, the gap between interest rates on long-term bonds and short term bills narrows and consequently the term spread declines drastically towards zero or even becomes negative in times of economic stress. This information might be used to improve GDP growth forecasts of future.-->
+
+- The figure suggests that long-term and short-term interest rates are cointegrated as both interest series seem to have the same long-run behavior.
+- They share a common stochastic trend. 
+- The term spread, which is obtained by taking the difference between long-term and short-term interest rates, seems to be stationary.
+
 
 
 <!--
+
+Applied econometrics with R C Kleiber, A Zeileis  cointegration test 
 https://www.econometrics-with-r.org/16-3-cointegration.html
 
 https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegration
@@ -576,4 +634,9 @@ Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstar
 
 - Chatfield, C., & Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
 
+- Kleiber, C., & Zeileis, A. (2008). Applied econometrics with R. Springer Science & Business Media.
+
+- Stock, J. H., & Watson, M. W. (2015). Introduction to econometrics.
+
 - Tsay, R. S. (2013). Multivariate time series analysis: with R and financial applications. John Wiley & Sons.
+
