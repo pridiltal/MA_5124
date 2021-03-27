@@ -188,4 +188,8 @@ order-selection
 granger-causality-tests
 test-for-granger-causality
 cointegration
+testing-for-cointegration
+testing-for-cointegration-when-theta-is-known
+testing-for-cointegration-when-theta-is-unknown
+vector-error-correction-models
 references-3

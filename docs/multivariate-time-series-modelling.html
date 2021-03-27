@@ -293,7 +293,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.5" data-path="multivariate-time-series-modelling.html"><a href="multivariate-time-series-modelling.html#granger-causality-tests"><i class="fa fa-check"></i><b>5.5</b> Granger Causality Tests</a><ul>
 <li class="chapter" data-level="5.5.1" data-path="multivariate-time-series-modelling.html"><a href="multivariate-time-series-modelling.html#test-for-granger-causality"><i class="fa fa-check"></i><b>5.5.1</b> Test for Granger causality</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="multivariate-time-series-modelling.html"><a href="multivariate-time-series-modelling.html#cointegration"><i class="fa fa-check"></i><b>5.6</b> Cointegration</a></li>
+<li class="chapter" data-level="5.6" data-path="multivariate-time-series-modelling.html"><a href="multivariate-time-series-modelling.html#cointegration"><i class="fa fa-check"></i><b>5.6</b> Cointegration</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="multivariate-time-series-modelling.html"><a href="multivariate-time-series-modelling.html#testing-for-cointegration"><i class="fa fa-check"></i><b>5.6.1</b> Testing for Cointegration</a></li>
+<li class="chapter" data-level="5.6.2" data-path="multivariate-time-series-modelling.html"><a href="multivariate-time-series-modelling.html#vector-error-correction-models"><i class="fa fa-check"></i><b>5.6.2</b> Vector Error Correction Models</a></li>
+</ul></li>
 <li class="chapter" data-level="5.7" data-path="multivariate-time-series-modelling.html"><a href="multivariate-time-series-modelling.html#references-3"><i class="fa fa-check"></i><b>5.7</b> References:</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-4.html"><a href="references-4.html"><i class="fa fa-check"></i>References</a></li>
@@ -1138,6 +1141,7 @@ GrangerTest(X,p=1,include.mean=T,locInput=c(1))
 </div>
 <div id="cointegration" class="section level2">
 <h2><span class="header-section-number">5.6</span> Cointegration</h2>
+<p><strong>This chapter is heavily based on <span class="citation">Stock and Watson (<a href="#ref-stock2015introduction">2015</a>)</span>.</strong></p>
 <ul>
 <li>Two or more time series with stochastic trends can move together very closely over the long run.</li>
 <li>Two or more time series that have a common stochastic trend are said to be <strong>cointegrated</strong>.</li>
@@ -1186,6 +1190,54 @@ The term spread measures the difference between the coupons, or interest rates, 
 <li>They share a common stochastic trend.</li>
 <li>The term spread, which is obtained by taking the difference between long-term and short-term interest rates, seems to be stationary.</li>
 </ul>
+<div id="testing-for-cointegration" class="section level3">
+<h3><span class="header-section-number">5.6.1</span> Testing for Cointegration</h3>
+<ul>
+<li>There are three ways to decide whether two variables can plausibly be modeled as cointegrated
+<ul>
+<li>use expert knowledge and economic theory</li>
+<li>graph the series and check whether they appear to have a common stochastic trend</li>
+<li>perform statistical tests for cointegration</li>
+</ul></li>
+<li>The unit root testing procedures discussed so far can be extended to test for cointegration.</li>
+<li>The insight on which these tests are based is that if two series <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(X_t\)</span> are cointegrated, the series obtained by taking the difference <span class="math inline">\(Y_t-\theta X_t\)</span> must be stationary. - If the series are not cointegrated,<br />
+<span class="math inline">\(Y_t-\theta X_t\)</span> is nonstationary [<span class="math inline">\(I(1)\)</span>].</li>
+<li>The hypothesis that <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(X_t\)</span> are not cointegrated [<em>i.e.</em> <span class="math inline">\(Y_t-\theta X_t\)</span> is <span class="math inline">\(I(1)\)</span> ] therefore can be tested by testing the null hypothesis that <span class="math inline">\(Y_t-\theta X_t\)</span> has a unit root.</li>
+<li>If the hypothesis is rejected, then <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(X_t\)</span> can be modeled as cointegrated.</li>
+<li>The details of this test depend on whether the cointegrating coefficient <span class="math inline">\(\theta\)</span> is known.</li>
+</ul>
+<div id="testing-for-cointegration-when-theta-is-known" class="section level4">
+<h4><span class="header-section-number">5.6.1.1</span> Testing for cointegration when <span class="math inline">\(\theta\)</span> is known</h4>
+<ul>
+<li>In some situations expert knowledge or economic theory can be used to suggest values of <span class="math inline">\(\theta\)</span>.</li>
+<li>When <span class="math inline">\(\theta\)</span> is known, the Dickey-Fuller and DF-GLS unit root tests can be used to test for cointegration by first constructing the series <span class="math inline">\(z_t=Y_t-\theta X_t\)</span> and then testing the null hypothesis that <span class="math inline">\(z_t\)</span> has a unit autoregressive root.</li>
+</ul>
+</div>
+<div id="testing-for-cointegration-when-theta-is-unknown" class="section level4">
+<h4><span class="header-section-number">5.6.1.2</span> Testing for cointegration when <span class="math inline">\(\theta\)</span> is unknown</h4>
+<ul>
+<li>If <span class="math inline">\(\theta\)</span> is unknown, it must be estimated before the unit root test can be applied.</li>
+<li>This can be done by first estimating the conintegrating coneeficient <span class="math inline">\(\theta\)</span> by OLS estimation of the regression</li>
+</ul>
+<p><span class="math display">\[Y_t = \alpha+\theta X_t+z_t.\]</span></p>
+<ul>
+<li>In the second step, a Dickey-Fuller <span class="math inline">\(t\)</span>-test (with an intercept but no time trend) is used to test for a unit root in the residual from this regression, <span class="math inline">\(\hat{z_t}.\)</span></li>
+<li>This two-step procedure is called the Engle-Grnager Ausgmented Dickey-Fuller test for cointegration or <strong>EG-ADF test</strong>.</li>
+</ul>
+<p><strong>Extensions to Multiple Conintegrated Variables</strong></p>
+<ul>
+<li>If there are three variables, <span class="math inline">\(Y_t\)</span>, <span class="math inline">\(X_{1t}\)</span> and <span class="math inline">\(X_{2t}\)</span>, each of which is <span class="math inline">\(I(1)\)</span>, then they are cointegrated with cointegrating coefficients <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span> if <span class="math inline">\(Y_t-\theta_1 X_{1t} -\theta_2X_{2t}\)</span> is stationary.</li>
+<li>When there are three or more variables, there can be multiple cointegrating relationships.</li>
+<li>The EG-ADF procedure for testing a single cointegrating relationship among multiple variables is the same as for the case of two variables, except that the regression equation is modified so that both <span class="math inline">\(X_{1t}\)</span> and <span class="math inline">\(X_{2t}\)</span> are regressors.</li>
+<li>Tests for multiple cointegrating relationships can be performed using the system methods, such as Johansen’s (1988) method.</li>
+</ul>
+</div>
+</div>
+<div id="vector-error-correction-models" class="section level3">
+<h3><span class="header-section-number">5.6.2</span> Vector Error Correction Models</h3>
+<ul>
+<li>In the previo</li>
+</ul>
 <!--
 
 Applied econometrics with R C Kleiber, A Zeileis  cointegration test 
@@ -1202,6 +1254,7 @@ Cointegrated Augmented Dickey Fuller Test for Pairs Trading Evaluation in R: htt
 Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/
 
 -->
+</div>
 </div>
 <div id="references-3" class="section level2">
 <h2><span class="header-section-number">5.7</span> References:</h2>

@@ -552,6 +552,8 @@ MTS::GrangerTest(data3,p=3,include.mean=T,locInput=c(1))
 
 ## Cointegration
 
+**This chapter is heavily based on @stock2015introduction.**
+
 - Two or more time series with stochastic trends can move together very closely  over the long run.
 - Two or more time series that have a common stochastic trend are said to be **cointegrated**.
 
@@ -612,6 +614,45 @@ print(p)
 - The term spread, which is obtained by taking the difference between long-term and short-term interest rates, seems to be stationary.
 
 
+### Testing for Cointegration
+
+- There are three ways to decide whether two variables can plausibly be modeled as cointegrated
+  - use expert knowledge and economic theory
+  - graph the series and check whether they appear to have a common stochastic trend
+  - perform statistical tests for cointegration
+  
+- The unit root testing procedures discussed so far can be extended to test for cointegration.
+- The insight on which these tests are based is that if two series $Y_t$ and $X_t$ are cointegrated, the series obtained by taking the difference  $Y_t-\theta X_t$ must be stationary. - If the series are not cointegrated,  
+$Y_t-\theta X_t$ is nonstationary [$I(1)$].
+- The hypothesis that $Y_t$ and $X_t$ are not cointegrated [*i.e.* $Y_t-\theta X_t$ is $I(1)$ ] therefore can be tested by testing the null hypothesis that $Y_t-\theta X_t$ has a unit root.
+- If the hypothesis is rejected, then $Y_t$ and $X_t$ can be modeled as cointegrated.
+- The details of this test depend on whether the cointegrating coefficient $\theta$ is known.
+  
+#### Testing for cointegration when $\theta$ is known
+
+- In some situations expert knowledge or economic theory can be used to suggest values of $\theta$.
+- When $\theta$ is known, the Dickey-Fuller and DF-GLS unit root tests can be used to test for cointegration by first constructing the series $z_t=Y_t-\theta X_t$ and then testing the null hypothesis that $z_t$ has a unit autoregressive root.
+  
+#### Testing for cointegration when $\theta$ is unknown
+
+- If $\theta$ is unknown, it must be estimated before the unit root test can be applied. 
+- This can be done by first estimating the conintegrating coneeficient $\theta$ by OLS estimation of the regression
+
+ $$Y_t = \alpha+\theta X_t+z_t.$$
+
+- In the second step, a Dickey-Fuller $t$-test (with an intercept but no time trend) is used to test for a unit root in the residual from this regression, $\hat{z_t}.$
+- This two-step procedure is called the Engle-Grnager Ausgmented Dickey-Fuller test for cointegration or **EG-ADF test**.
+
+**Extensions to Multiple Conintegrated Variables**
+
+- If there are three variables, $Y_t$, $X_{1t}$ and $X_{2t}$, each of which is $I(1)$, then they are cointegrated with cointegrating coefficients $\theta_1$ and $\theta_2$ if $Y_t-\theta_1 X_{1t} -\theta_2X_{2t}$ is stationary.
+- When there are three or more variables, there can be multiple cointegrating relationships.
+- The EG-ADF procedure for testing a single cointegrating relationship among multiple variables is the same as for the case of two variables, except that the regression equation is modified so that both $X_{1t}$ and $X_{2t}$ are regressors.
+- Tests for multiple cointegrating relationships can be performed using the system methods, such as Johansen's (1988) method.
+
+### Vector Error Correction Models
+
+- In the previo
 
 <!--
 

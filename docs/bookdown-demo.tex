@@ -6189,6 +6189,8 @@ Perform VAR(p) and constrained VAR(p) estimations to test the Granger causality.
 \hypertarget{cointegration}{%
 \section{Cointegration}\label{cointegration}}
 
+\textbf{This chapter is heavily based on \citet{stock2015introduction}.}
+
 \begin{itemize}
 \tightlist
 \item
@@ -6255,6 +6257,91 @@ Consider the the relation between 3-month treasury bills, U.S. 10-years treasury
   They share a common stochastic trend.
 \item
   The term spread, which is obtained by taking the difference between long-term and short-term interest rates, seems to be stationary.
+\end{itemize}
+
+\hypertarget{testing-for-cointegration}{%
+\subsection{Testing for Cointegration}\label{testing-for-cointegration}}
+
+\begin{itemize}
+\tightlist
+\item
+  There are three ways to decide whether two variables can plausibly be modeled as cointegrated
+
+  \begin{itemize}
+  \tightlist
+  \item
+    use expert knowledge and economic theory
+  \item
+    graph the series and check whether they appear to have a common stochastic trend
+  \item
+    perform statistical tests for cointegration
+  \end{itemize}
+\item
+  The unit root testing procedures discussed so far can be extended to test for cointegration.
+\item
+  The insight on which these tests are based is that if two series \(Y_t\) and \(X_t\) are cointegrated, the series obtained by taking the difference \(Y_t-\theta X_t\) must be stationary. - If the series are not cointegrated,\\
+  \(Y_t-\theta X_t\) is nonstationary {[}\(I(1)\){]}.
+\item
+  The hypothesis that \(Y_t\) and \(X_t\) are not cointegrated {[}\emph{i.e.} \(Y_t-\theta X_t\) is \(I(1)\) {]} therefore can be tested by testing the null hypothesis that \(Y_t-\theta X_t\) has a unit root.
+\item
+  If the hypothesis is rejected, then \(Y_t\) and \(X_t\) can be modeled as cointegrated.
+\item
+  The details of this test depend on whether the cointegrating coefficient \(\theta\) is known.
+\end{itemize}
+
+\hypertarget{testing-for-cointegration-when-theta-is-known}{%
+\subsubsection{\texorpdfstring{Testing for cointegration when \(\theta\) is known}{Testing for cointegration when \textbackslash{}theta is known}}\label{testing-for-cointegration-when-theta-is-known}}
+
+\begin{itemize}
+\tightlist
+\item
+  In some situations expert knowledge or economic theory can be used to suggest values of \(\theta\).
+\item
+  When \(\theta\) is known, the Dickey-Fuller and DF-GLS unit root tests can be used to test for cointegration by first constructing the series \(z_t=Y_t-\theta X_t\) and then testing the null hypothesis that \(z_t\) has a unit autoregressive root.
+\end{itemize}
+
+\hypertarget{testing-for-cointegration-when-theta-is-unknown}{%
+\subsubsection{\texorpdfstring{Testing for cointegration when \(\theta\) is unknown}{Testing for cointegration when \textbackslash{}theta is unknown}}\label{testing-for-cointegration-when-theta-is-unknown}}
+
+\begin{itemize}
+\tightlist
+\item
+  If \(\theta\) is unknown, it must be estimated before the unit root test can be applied.
+\item
+  This can be done by first estimating the conintegrating coneeficient \(\theta\) by OLS estimation of the regression
+\end{itemize}
+
+\[Y_t = \alpha+\theta X_t+z_t.\]
+
+\begin{itemize}
+\tightlist
+\item
+  In the second step, a Dickey-Fuller \(t\)-test (with an intercept but no time trend) is used to test for a unit root in the residual from this regression, \(\hat{z_t}.\)
+\item
+  This two-step procedure is called the Engle-Grnager Ausgmented Dickey-Fuller test for cointegration or \textbf{EG-ADF test}.
+\end{itemize}
+
+\textbf{Extensions to Multiple Conintegrated Variables}
+
+\begin{itemize}
+\tightlist
+\item
+  If there are three variables, \(Y_t\), \(X_{1t}\) and \(X_{2t}\), each of which is \(I(1)\), then they are cointegrated with cointegrating coefficients \(\theta_1\) and \(\theta_2\) if \(Y_t-\theta_1 X_{1t} -\theta_2X_{2t}\) is stationary.
+\item
+  When there are three or more variables, there can be multiple cointegrating relationships.
+\item
+  The EG-ADF procedure for testing a single cointegrating relationship among multiple variables is the same as for the case of two variables, except that the regression equation is modified so that both \(X_{1t}\) and \(X_{2t}\) are regressors.
+\item
+  Tests for multiple cointegrating relationships can be performed using the system methods, such as Johansen's (1988) method.
+\end{itemize}
+
+\hypertarget{vector-error-correction-models}{%
+\subsection{Vector Error Correction Models}\label{vector-error-correction-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  In the previo
 \end{itemize}
 
 \hypertarget{references-3}{%

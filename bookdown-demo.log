@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.3.26)  28 MAR 2021 02:58
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2021.3.26)  28 MAR 2021 03:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1480,10 +1480,7 @@ Underfull \vbox (badness 2689) has occurred while \output is active []
 File: bookdown-demo_files/figure-latex/unnamed-chunk-50-1.pdf Graphic file (typ
 e pdf)
 <use bookdown-demo_files/figure-latex/unnamed-chunk-50-1.pdf>
-
-Underfull \vbox (badness 1817) has occurred while \output is active []
-
-[29] (./bookdown-demo.bbl [30]) [31
+[29] [30] [31] (./bookdown-demo.bbl [32]) [33
 
 ] (./bookdown-demo.aux)
 
@@ -1496,12 +1493,12 @@ Package rerunfilecheck Info: File `bookdown-demo.out' has not changed.
 (rerunfilecheck)             Checksum: 8EB4DB6B7303AB1D3C108BFA42CB6CF0;8323.
  ) 
 Here is how much of TeX's memory you used:
- 18161 strings out of 478922
- 343357 string characters out of 5865756
- 852369 words of memory out of 5000000
- 37640 multiletter control sequences out of 15000+600000
+ 18165 strings out of 478922
+ 343512 string characters out of 5865756
+ 852774 words of memory out of 5000000
+ 37644 multiletter control sequences out of 15000+600000
  410970 words of font info for 102 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  98i,12n,122p,618b,540s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on bookdown-demo.pdf (145 pages).
+Output written on bookdown-demo.pdf (147 pages).
