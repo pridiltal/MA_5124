@@ -7033,6 +7033,102 @@ Further Reading: Pfaff, B. (2008). Analysis of integrated and cointegrated time 
   Tsay, R. S. (2013). Multivariate time series analysis: with R and financial applications. John Wiley \& Sons.
 \end{itemize}
 
+\hypertarget{tutorial}{%
+\chapter*{Tutorial}\label{tutorial}}
+\addcontentsline{toc}{chapter}{Tutorial}
+
+\hypertarget{ma-5124-financial-time-series-analysis-forecasting}{%
+\section*{MA 5124 Financial Time Series Analysis \& Forecasting}\label{ma-5124-financial-time-series-analysis-forecasting}}
+\addcontentsline{toc}{section}{MA 5124 Financial Time Series Analysis \& Forecasting}
+
+\pagenumbering{arabic}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Suppose that \(Y_t\) follows a stationary AR(1) model, \(Y_t = \beta_0 + \beta_1Y_{t - 1} + u_t\).
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Show that the \(h\)-period-ahead forecast of \(Y_t\) is given by
+\end{enumerate}
+
+\[Y_{t+h|t} = \mu_Y + \beta_1^h (Y_t - \mu_Y),\] where \(\mu_Y = \beta_0/(1-\beta_1).\)
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Suppose that \(X_t\) is related to \(Y_t\) by \(X_t = \sum_{i=0}^{\infty}\delta^i Y_{t+i|t}\), where \(|\delta|< 1\). Show that
+  \[X_t = \frac{\mu_Y}{1-\delta}+\frac{Y_t-\mu_Y}{1-\beta_1\delta}.\]
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  One version of the expectations theory of the term structure of interest rates holds that a long-term rate equals the average of the expected values of short-term interest rates into the future, plus a term premium that is \(I(0)\).
+
+  Specifically, let \(Rk_t\) denote a \(k\)-period interest rate, let \(R1_t\) denote a one-period interest rate, and let \(e_t\) denote an \(I(0)\) term premium. Then \(Rk_t=\frac{1}{k}\sum_{i=0}^{k-1}R1_{t+i|t}+e_t\) where \(R1_{t+i|t}\) is the forecast made at date \(t\) of the value of \(R1\) at date \(t + i\). Suppose that \(R1_t\) follows a random walk, so that \(R1_t = R1_{t-1} + u_t\).
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Show that \(Rk_t = R1_t + e_t\).
+\item
+  Show that \(Rk_t\) and \(R1_t\) are cointegrated. What is the cointegrating coefficient?
+\item
+  Now suppose that \(\Delta R1_t = 0.5\Delta R1_{t - 1} + u_t\). How does your answer to (b) change?
+\item
+  Now suppose that \(R1_t = 0.5R1_{t - 1} + u_t\). How does your answer to (b) change?
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  A regression of \(Y_t\) onto current, past, and future values of \(X_t\) yields
+\end{enumerate}
+
+\[Y_t = 3.0 + 1.7X_{t+1} + 0.8X_t - 0.2X_{t-1} + u_t.\]
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Rearrange the regression so that it has the form
+\end{enumerate}
+
+\[Y_t=\beta_0+\theta X_t + \sum_{j=-p}^{p}\delta_j\Delta X_{t-j} + u_t.\] What are the values of \(\theta, \delta_{- 1}, \delta_{0}\), and \(\delta_{1}\)?
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Suppose that \(X_t\) is \(I(1)\) and \(u_t\) is \(I(1)\). Are \(Y\) and \(X\) cointegrated?
+\item
+  Suppose that \(X_t\) is \(I(0)\) and \(u_t\) is \(I(1)\). Are \(Y\) and \(X\) cointegrated?
+\item
+  Suppose that \(X_t\) is \(I(1)\) and \(u_t\) is \(I(0)\). Are \(Y\) and \(X\) cointegrated?
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Consider the cointegrated model \(Y_t = \theta X_t + \nu_{1t}\) and \(X_t = X_{t - 1} + \nu_{2t}\), where \(\nu_{1t}\) and \(\nu_{2t}\) are mean zero serially uncorrelated random variables with \(E(\nu_{1t}\nu_{2j})=0\) for all \(t\) and \(j\). Derive the vector error correction model for \(X\) and \(Y\).
+\end{enumerate}
+
 \bibliography{book.bib,packages.bib}
 
 \end{document}

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>MA 5124 Financial Time Series Analysis &amp; Forecasting</title>
-  <meta name="description" content="MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  <title>Tutorial | MA 5124 Financial Time Series Analysis &amp; Forecasting</title>
+  <meta name="description" content="Tutorial | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  <meta property="og:title" content="Tutorial | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="MA 5124 Financial Time Series Analysis &amp; Forecasting" />
+  <meta name="twitter:title" content="Tutorial | MA 5124 Financial Time Series Analysis &amp; Forecasting" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="intro.html"/>
+<link rel="prev" href="multivariate-time-series-modelling.html"/>
+<link rel="next" href="references-4.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -320,76 +320,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">MA 5124 Financial Time Series Analysis &amp; Forecasting</h1>
-<p class="author"><em>Dr. Priyanga D. Talagala</em></p>
-<p class="date"><em>2021-04-04</em></p>
-</div>
-<div id="course-syllabus" class="section level1 unnumbered">
-<h1>Course Syllabus</h1>
+<div id="tutorial" class="section level1 unnumbered">
+<h1>Tutorial</h1>
+<div id="ma-5124-financial-time-series-analysis-forecasting" class="section level2 unnumbered">
+<h2>MA 5124 Financial Time Series Analysis &amp; Forecasting</h2>
 
-<p><strong>Module Code:</strong> MA 5124</p>
-<p><strong>Title:</strong> Financial Time Series Analysis &amp; Forecasting</p>
-<p><strong>Credits:</strong> 4</p>
-<div id="pre-requiites" class="section level2 unnumbered">
-<h2>Pre-requiites</h2>
-<p>None</p>
-</div>
-<div id="learning-objectives" class="section level2 unnumbered">
-<h2>Learning Objectives</h2>
-<ul>
-<li>The purpose of this course is to provide students with introductory tools for the time series analysis of financial time series.</li>
-<li>Analyze of data series based on stochastic and non stochastic models</li>
-</ul>
-</div>
-<div id="learning-outcomes" class="section level2 unnumbered">
-<h2>Learning Outcomes</h2>
-<ul>
-<li>On successful completion of this course, students will be able to provide more than an introductory treatment of the topics.</li>
-<li>Students are encouraged to pursue further study in this area if they find that the topics covered in this course.</li>
-</ul>
-</div>
-<div id="outline-syllabus" class="section level2 unnumbered">
-<h2>Outline Syllabus</h2>
-<ul>
-<li>Definition and examples of time series</li>
-<li>back-shift and differencing-operators, - strong and weak stationarity, definition of ACF, PACF.</li>
-<li>Definitions and properties of the <span class="math inline">\(MA(q), MA(\infty), AR(p), AR(\infty)\)</span>
-and <span class="math inline">\(ARMA(p,q)\)</span>,in particualr their acf’s</li>
-<li>causal stationarity of AR</li>
-<li>invertibility of MA models and causal stationarity and invertibility of ARMA; - concept of spectral density function and its applications</li>
-<li>definition and properties of integrated <span class="math inline">\(ARIMA(p,d,q)\)</span> processes</li>
-<li>definition and properties of random walks with or without drift.</li>
-<li>Model selection following the AIC and BIC</li>
-<li>brief introduction to linear prediction and calculation of forecasting intervals for normal ARMA models</li>
-<li>point and interval forecasts for normal random walks with or without drift.</li>
-<li>Definition and properties of the VAR (vector autoregressive) model, arrange a univariate time series as a multivariate Markov model.</li>
-<li>Nonlinear properties of financial time series</li>
-<li>definition and properties of the well known ARCH, GARCH etc.</li>
-<li>Cointegration in Single Equations, Modeling and Forecasting Financial Time Series.</li>
-</ul>
-</div>
-<div id="method-of-assessment" class="section level2 unnumbered">
-<h2>Method of Assessment</h2>
-<ul>
-<li>Assignment 30%</li>
-<li>End-semester examination 70%</li>
-</ul>
-</div>
-<div id="lecturer" class="section level2 unnumbered">
-<h2>Lecturer</h2>
-<p>Dr. Priyanga D. Talagala</p>
-</div>
-<div id="schedule" class="section level2 unnumbered">
-<h2>Schedule</h2>
-<p>Lectures:</p>
-<ul>
-<li>Sunday [9.00am -12.00 noon]</li>
-</ul>
-</div>
-<div id="copyright-notice" class="section level2 unnumbered">
-<h2>Copyright Notice</h2>
-<p>My lectures and course materials, including presentations, tests, exams, outlines, and similar materials, are protected by copyright. I am the exclusive owner of copyright in those materials I create. I encourage you to take notes and make copies of course materials for your own educational use. However, you may not, nor may you knowingly allow others to reproduce or distribute lecture notes and course materials publicly without my express written consent.</p>
+<!-- - Stock, J. H., & Watson, M. W. (2015). Introduction to econometrics. Chapter 16 . Question 16.1 , answer manual and book e copies available-->
+<ol style="list-style-type: decimal">
+<li>Suppose that <span class="math inline">\(Y_t\)</span> follows a stationary AR(1) model, <span class="math inline">\(Y_t = \beta_0 + \beta_1Y_{t - 1} + u_t\)</span>.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Show that the <span class="math inline">\(h\)</span>-period-ahead forecast of <span class="math inline">\(Y_t\)</span> is given by</li>
+</ol>
+<p><span class="math display">\[Y_{t+h|t} = \mu_Y + \beta_1^h (Y_t - \mu_Y),\]</span> where <span class="math inline">\(\mu_Y = \beta_0/(1-\beta_1).\)</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Suppose that <span class="math inline">\(X_t\)</span> is related to <span class="math inline">\(Y_t\)</span> by <span class="math inline">\(X_t = \sum_{i=0}^{\infty}\delta^i Y_{t+i|t}\)</span>, where <span class="math inline">\(|\delta|&lt; 1\)</span>. Show that
+<span class="math display">\[X_t = \frac{\mu_Y}{1-\delta}+\frac{Y_t-\mu_Y}{1-\beta_1\delta}.\]</span></li>
+</ol>
+<!-- - Stock, J. H., & Watson, M. W. (2015). Introduction to e2 , answer manual and book e copies available-->
+<ol start="2" style="list-style-type: decimal">
+<li><p>One version of the expectations theory of the term structure of interest rates holds that a long-term rate equals the average of the expected values of short-term interest rates into the future, plus a term premium that is <span class="math inline">\(I(0)\)</span>.</p>
+<p>Specifically, let <span class="math inline">\(Rk_t\)</span> denote a <span class="math inline">\(k\)</span>-period interest rate, let <span class="math inline">\(R1_t\)</span> denote a one-period interest rate, and let <span class="math inline">\(e_t\)</span> denote an <span class="math inline">\(I(0)\)</span> term premium. Then <span class="math inline">\(Rk_t=\frac{1}{k}\sum_{i=0}^{k-1}R1_{t+i|t}+e_t\)</span> where <span class="math inline">\(R1_{t+i|t}\)</span> is the forecast made at date <span class="math inline">\(t\)</span> of the value of <span class="math inline">\(R1\)</span> at date <span class="math inline">\(t + i\)</span>. Suppose that <span class="math inline">\(R1_t\)</span> follows a random walk, so that <span class="math inline">\(R1_t = R1_{t-1} + u_t\)</span>.</p></li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Show that <span class="math inline">\(Rk_t = R1_t + e_t\)</span>.</li>
+<li>Show that <span class="math inline">\(Rk_t\)</span> and <span class="math inline">\(R1_t\)</span> are cointegrated. What is the cointegrating coefficient?</li>
+<li>Now suppose that <span class="math inline">\(\Delta R1_t = 0.5\Delta R1_{t - 1} + u_t\)</span>. How does your answer to (b) change?</li>
+<li>Now suppose that <span class="math inline">\(R1_t = 0.5R1_{t - 1} + u_t\)</span>. How does your answer to (b) change?</li>
+</ol>
+<!-- - Stock, J. H., & Watson, M. W. (2015). Introduction to econometrics. Chapter 16 . Question 16.6 , answer manual and book e copies available-->
+<ol start="3" style="list-style-type: decimal">
+<li>A regression of <span class="math inline">\(Y_t\)</span> onto current, past, and future values of <span class="math inline">\(X_t\)</span> yields</li>
+</ol>
+<p><span class="math display">\[Y_t = 3.0 + 1.7X_{t+1} + 0.8X_t - 0.2X_{t-1} + u_t.\]</span></p>
+<ol style="list-style-type: lower-alpha">
+<li>Rearrange the regression so that it has the form</li>
+</ol>
+<p><span class="math display">\[Y_t=\beta_0+\theta X_t + \sum_{j=-p}^{p}\delta_j\Delta X_{t-j} + u_t.\]</span> What are the values of <span class="math inline">\(\theta, \delta_{- 1}, \delta_{0}\)</span>, and <span class="math inline">\(\delta_{1}\)</span>?</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Suppose that <span class="math inline">\(X_t\)</span> is <span class="math inline">\(I(1)\)</span> and <span class="math inline">\(u_t\)</span> is <span class="math inline">\(I(1)\)</span>. Are <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> cointegrated?</li>
+<li>Suppose that <span class="math inline">\(X_t\)</span> is <span class="math inline">\(I(0)\)</span> and <span class="math inline">\(u_t\)</span> is <span class="math inline">\(I(1)\)</span>. Are <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> cointegrated?</li>
+<li>Suppose that <span class="math inline">\(X_t\)</span> is <span class="math inline">\(I(1)\)</span> and <span class="math inline">\(u_t\)</span> is <span class="math inline">\(I(0)\)</span>. Are <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> cointegrated?</li>
+</ol>
+<!-- - Stock, J. H., & Watson, M. W. (2015). Introduction to econometrics. Chapter 16 . Question 16.10 , answer manual and book e copies available-->
+<ol start="4" style="list-style-type: decimal">
+<li>Consider the cointegrated model <span class="math inline">\(Y_t = \theta X_t + \nu_{1t}\)</span> and <span class="math inline">\(X_t = X_{t - 1} + \nu_{2t}\)</span>, where <span class="math inline">\(\nu_{1t}\)</span> and <span class="math inline">\(\nu_{2t}\)</span> are mean zero serially uncorrelated random variables with <span class="math inline">\(E(\nu_{1t}\nu_{2j})=0\)</span> for all <span class="math inline">\(t\)</span> and <span class="math inline">\(j\)</span>. Derive the vector error correction model for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</li>
+</ol>
 
 </div>
 </div>
@@ -398,8 +374,8 @@ and <span class="math inline">\(ARMA(p,q)\)</span>,in particualr their acf’s</
           </div>
         </div>
       </div>
-
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="multivariate-time-series-modelling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references-4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -430,7 +406,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-Tutorial.Rmd",
 "text": "Edit"
 },
 "history": {

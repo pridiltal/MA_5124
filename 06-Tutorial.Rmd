@@ -1,0 +1,45 @@
+# Tutorial {-}
+## MA 5124 Financial Time Series Analysis & Forecasting {-}
+
+\pagenumbering{arabic}
+
+<!-- - Stock, J. H., & Watson, M. W. (2015). Introduction to econometrics. Chapter 16 . Question 16.1 , answer manual and book e copies available-->
+
+1. Suppose that $Y_t$ follows a stationary AR(1) model, $Y_t = \beta_0 + \beta_1Y_{t - 1} + u_t$. 
+
+  a. Show that the $h$-period-ahead forecast of $Y_t$ is given by
+
+$$Y_{t+h|t} = \mu_Y + \beta_1^h (Y_t - \mu_Y),$$ where $\mu_Y = \beta_0/(1-\beta_1).$
+
+  b. Suppose that $X_t$ is related to $Y_t$ by $X_t = \sum_{i=0}^{\infty}\delta^i Y_{t+i|t}$, where $|\delta|< 1$. Show that 
+  $$X_t = \frac{\mu_Y}{1-\delta}+\frac{Y_t-\mu_Y}{1-\beta_1\delta}.$$
+
+
+<!-- - Stock, J. H., & Watson, M. W. (2015). Introduction to e2 , answer manual and book e copies available-->
+2. One version of the expectations theory of the term structure of interest rates holds that a long-term rate equals the average of the expected values of short-term interest rates into the future, plus a term premium that is $I(0)$. 
+
+   Specifically, let $Rk_t$ denote a $k$-period interest rate, let $R1_t$ denote a one-period interest rate, and let $e_t$ denote an $I(0)$ term premium. Then  $Rk_t=\frac{1}{k}\sum_{i=0}^{k-1}R1_{t+i|t}+e_t$ where $R1_{t+i|t}$ is the forecast made at date $t$ of the value of $R1$ at date $t + i$. Suppose that $R1_t$ follows a random walk, so that $R1_t = R1_{t-1} + u_t$.
+
+  a. Show that $Rk_t = R1_t + e_t$.
+  b. Show that $Rk_t$ and $R1_t$ are cointegrated. What is the cointegrating coefficient?
+  c. Now suppose that $\Delta R1_t = 0.5\Delta R1_{t - 1} + u_t$. How does your answer to (b) change?
+  d. Now suppose that $R1_t = 0.5R1_{t - 1} + u_t$. How does your answer to (b) change?
+  
+  
+<!-- - Stock, J. H., & Watson, M. W. (2015). Introduction to econometrics. Chapter 16 . Question 16.6 , answer manual and book e copies available-->
+3. A regression of $Y_t$ onto current, past, and future values of $X_t$ yields
+
+$$Y_t = 3.0 + 1.7X_{t+1} + 0.8X_t - 0.2X_{t-1} + u_t.$$
+
+   a. Rearrange the regression so that it has the form 
+   
+   $$Y_t=\beta_0+\theta X_t + \sum_{j=-p}^{p}\delta_j\Delta X_{t-j} + u_t.$$ What are the values of $\theta, \delta_{- 1}, \delta_{0}$, and $\delta_{1}$?
+ 
+   b. Suppose that $X_t$ is $I(1)$ and $u_t$ is $I(1)$. Are $Y$ and $X$ cointegrated?
+   c. Suppose that $X_t$ is $I(0)$ and $u_t$ is $I(1)$. Are $Y$ and $X$ cointegrated?
+   d. Suppose that $X_t$ is $I(1)$ and $u_t$ is $I(0)$. Are $Y$ and $X$ cointegrated?
+   
+   
+<!-- - Stock, J. H., & Watson, M. W. (2015). Introduction to econometrics. Chapter 16 . Question 16.10 , answer manual and book e copies available-->
+
+4. Consider the cointegrated model $Y_t = \theta X_t + \nu_{1t}$ and $X_t = X_{t - 1} + \nu_{2t}$, where $\nu_{1t}$ and $\nu_{2t}$ are mean zero serially uncorrelated random variables with $E(\nu_{1t}\nu_{2j})=0$ for all $t$ and $j$. Derive the vector error correction model for $X$ and $Y$.
