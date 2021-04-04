@@ -192,4 +192,5 @@ testing-for-cointegration
 testing-for-cointegration-when-theta-is-known
 testing-for-cointegration-when-theta-is-unknown
 vector-error-correction-models
+estimation-of-cointegrating-coefficient-using-dynamic-ols-estimator-dols
 references-3

@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Priyanga D. Talagala" />
 
 
-<meta name="date" content="2021-03-28" />
+<meta name="date" content="2021-04-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1023,7 +1023,12 @@ GrangerTest(X,p=1,include.mean=T,locInput=c(1))
 </ul>
 <div style="page-break-after: always;"></div>
 <p><strong>Test for Granger Causality in R</strong></p>
-<!-- https://rdrr.io/cran/lmtest/man/grangertest.html-->
+<!-- https://rdrr.io/cran/lmtest/man/grangertest.html
+
+The help page for the grangertest function is pretty clear, it should be of major help.
+https://stats.stackexchange.com/questions/131261/granger-causality-interpretation-using-r/132527
+
+-->
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1">data3 &lt;-<span class="st">  </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb128-2" title="2"><span class="st">  </span><span class="kw">select</span>(<span class="st">&quot;gdprate&quot;</span>, <span class="st">&quot;cpirate&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb128-3" title="3"><span class="st">  </span><span class="kw">as.matrix</span>()</a>
@@ -1137,6 +1142,7 @@ GrangerTest(X,p=1,include.mean=T,locInput=c(1))
 <li>Studies also show that the causality relation can be different in the short run and in the long run.</li>
 <li>A study conducted by Datta and Chanda(2011) on Malaysia shows that causality exist between inflation and economic growth in the short run and direction of causality is from inflation to economic growth but in the long run economic growth causes inflation.</li>
 </ul>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 <div id="cointegration" class="section level2">
@@ -1200,7 +1206,8 @@ The term spread measures the difference between the coupons, or interest rates, 
 <li>perform statistical tests for cointegration</li>
 </ul></li>
 <li>The unit root testing procedures discussed so far can be extended to test for cointegration.</li>
-<li>The insight on which these tests are based is that if two series <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(X_t\)</span> are cointegrated, the series obtained by taking the difference <span class="math inline">\(Y_t-\theta X_t\)</span> must be stationary. - If the series are not cointegrated,<br />
+<li>The insight on which these tests are based is that if two series <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(X_t\)</span> are cointegrated, the series obtained by taking the difference <span class="math inline">\(Y_t-\theta X_t\)</span> must be stationary.</li>
+<li>If the series are not cointegrated,<br />
 <span class="math inline">\(Y_t-\theta X_t\)</span> is nonstationary [<span class="math inline">\(I(1)\)</span>].</li>
 <li>The hypothesis that <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(X_t\)</span> are not cointegrated [<em>i.e.</em> <span class="math inline">\(Y_t-\theta X_t\)</span> is <span class="math inline">\(I(1)\)</span> ] therefore can be tested by testing the null hypothesis that <span class="math inline">\(Y_t-\theta X_t\)</span> has a unit root.</li>
 <li>If the hypothesis is rejected, then <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(X_t\)</span> can be modeled as cointegrated.</li>
@@ -1249,9 +1256,498 @@ The term spread measures the difference between the coupons, or interest rates, 
 <li>The combined model in the above two equations is called a <strong>vector error correction model (VECM)</strong>.</li>
 <li>In a VECM, past values of <span class="math inline">\(Y_t - \theta X_t\)</span>, help to predict future values of <span class="math inline">\(\Delta Y_t\)</span> and/or <span class="math inline">\(\Delta X_t\)</span>.</li>
 </ul>
+<p><strong>Example: Application to Interest Rates</strong></p>
+<ul>
+<li>According to the visual representation, the spread of 10-year and 3-month interest rates looks stationary</li>
+<li><p>It suggests that long-term and short-term interest rates are cointegrated with a cointegration coefficient of <span class="math inline">\(\theta = 1.\)</span></p></li>
+<li>We continue by using formal tests (the ADF and the DF-GLS test) to see whether the individual interest rate series are integrated and if their difference is stationary (for now, we assume that <span class="math inline">\(\theta = 1\)</span> is known).</li>
+<li>Both is conveniently done by using the functions <code>ur.df()</code> for computation of the ADF test and <code>ur.ers()</code> for conducting the DF-GLS test.</li>
+<li>We employ models that include a drift term. (If <code>type</code> argument is set to “none” neither an intercept nor a trend is included in the test regression. If it is set to “drift” an intercept is added and if it is set to “trend” both an intercept and a trend is added.)</li>
+<li><p>We set the maximum lag order to 5
+and use the AIC for selection of the optimal lag length.</p></li>
+</ul>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1"><span class="kw">library</span>(urca)</a>
+<a class="sourceLine" id="cb141-2" title="2"><span class="co"># Test for nonstationarity of 3-month treasury bills using ADF test</span></a>
+<a class="sourceLine" id="cb141-3" title="3"><span class="kw">data</span>(<span class="st">&quot;USMacroSW&quot;</span>) </a>
+<a class="sourceLine" id="cb141-4" title="4">TB3MS &lt;-<span class="st"> </span>USMacroSW[,<span class="st">&quot;tbill&quot;</span>] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.ts</span>()</a>
+<a class="sourceLine" id="cb141-5" title="5"></a>
+<a class="sourceLine" id="cb141-6" title="6">r1 &lt;-<span class="st"> </span><span class="kw">ur.df</span>(<span class="kw">window</span>(TB3MS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)), </a>
+<a class="sourceLine" id="cb141-7" title="7">            <span class="dt">lags =</span> <span class="dv">5</span>, </a>
+<a class="sourceLine" id="cb141-8" title="8">            <span class="dt">selectlags =</span> <span class="st">&quot;AIC&quot;</span>, </a>
+<a class="sourceLine" id="cb141-9" title="9">            <span class="dt">type =</span> <span class="st">&quot;drift&quot;</span>)</a>
+<a class="sourceLine" id="cb141-10" title="10"><span class="kw">summary</span>(r1)</a></code></pre></div>
+<pre><code>## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression drift 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 + 1 + z.diff.lag)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -7.114 -0.386 -0.060  0.481  4.100 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   0.3962     0.1712    2.31   0.0218 * 
+## z.lag.1      -0.0696     0.0279   -2.49   0.0135 * 
+## z.diff.lag1  -0.0953     0.0735   -1.30   0.1964   
+## z.diff.lag2  -0.1906     0.0710   -2.69   0.0079 **
+## z.diff.lag3   0.2386     0.0715    3.34   0.0010 **
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.02 on 182 degrees of freedom
+## Multiple R-squared:  0.165,  Adjusted R-squared:  0.147 
+## F-statistic: 9.01 on 4 and 182 DF,  p-value: 1.16e-06
+## 
+## 
+## Value of test-statistic is: -2.494 3.123 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau2 -3.46 -2.88 -2.57
+## phi1  6.52  4.63  3.81</code></pre>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" title="1"><span class="co"># Test for nonstationarity of 10-years treasury bonds using ADF test</span></a>
+<a class="sourceLine" id="cb143-2" title="2">TB10YS &lt;-<span class="st"> </span>USMacroSW[,<span class="st">&quot;tbond&quot;</span>] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.ts</span>()</a>
+<a class="sourceLine" id="cb143-3" title="3"></a>
+<a class="sourceLine" id="cb143-4" title="4">r1 &lt;-<span class="st"> </span><span class="kw">ur.df</span>(<span class="kw">window</span>(TB10YS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)), </a>
+<a class="sourceLine" id="cb143-5" title="5">            <span class="dt">lags =</span> <span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb143-6" title="6">            <span class="dt">selectlags =</span> <span class="st">&quot;AIC&quot;</span>, </a>
+<a class="sourceLine" id="cb143-7" title="7">            <span class="dt">type =</span> <span class="st">&quot;drift&quot;</span>)</a>
+<a class="sourceLine" id="cb143-8" title="8"><span class="kw">summary</span>(r1)</a></code></pre></div>
+<pre><code>## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression drift 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 + 1 + z.diff.lag)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.676 -0.475 -0.016  0.513  4.581 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)   0.3592     0.1799    2.00    0.047 *
+## z.lag.1      -0.0578     0.0266   -2.17    0.031 *
+## z.diff.lag1  -0.1335     0.0741   -1.80    0.073 .
+## z.diff.lag2  -0.1123     0.0737   -1.52    0.129  
+## z.diff.lag3   0.1665     0.0726    2.29    0.023 *
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.03 on 181 degrees of freedom
+## Multiple R-squared:  0.0999, Adjusted R-squared:  0.08 
+## F-statistic: 5.02 on 4 and 181 DF,  p-value: 0.000733
+## 
+## 
+## Value of test-statistic is: -2.175 2.365 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau2 -3.46 -2.88 -2.57
+## phi1  6.52  4.63  3.81</code></pre>
+<ul>
+<li>Note that the function <code>ur.df()</code> reports two test statistics when there is a drift in the ADF regression.</li>
+<li>The first of which (the one we are interested in here) is the t-statistic for the test that the coefficient on the first lag of the series is 0.</li>
+<li>The second one is the t-statistic for the hypothesis test that the drift term equals 0.</li>
+</ul>
+<p><strong>Test for nonstationarity using DF-GLS test</strong></p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1"><span class="co"># Test for nonstationarity of 3-month treasury bills using DF-GLS test</span></a>
+<a class="sourceLine" id="cb145-2" title="2">r1 &lt;-<span class="st"> </span><span class="kw">ur.ers</span>(<span class="kw">window</span>(TB3MS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb145-3" title="3">             <span class="dt">model =</span> <span class="st">&quot;constant&quot;</span>, </a>
+<a class="sourceLine" id="cb145-4" title="4">             <span class="dt">lag.max =</span> <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb145-5" title="5"><span class="kw">summary</span>(r1)</a></code></pre></div>
+<pre><code>## 
+## ############################################### 
+## # Elliot, Rothenberg and Stock Unit Root Test # 
+## ############################################### 
+## 
+## Test of type DF-GLS 
+## detrending of series with intercept 
+## 
+## 
+## Call:
+## lm(formula = dfgls.form, data = data.dfgls)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -7.295 -0.280  0.109  0.544  3.864 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)   
+## yd.lag       -0.04945    0.02314   -2.14   0.0340 * 
+## yd.diff.lag1 -0.09776    0.07449   -1.31   0.1910   
+## yd.diff.lag2 -0.22004    0.07462   -2.95   0.0036 **
+## yd.diff.lag3  0.24177    0.07600    3.18   0.0017 **
+## yd.diff.lag4  0.00428    0.07681    0.06   0.9556   
+## yd.diff.lag5  0.13176    0.07384    1.78   0.0761 . 
+## yd.diff.lag6  0.08177    0.07367    1.11   0.2686   
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.02 on 179 degrees of freedom
+## Multiple R-squared:  0.17,   Adjusted R-squared:  0.137 
+## F-statistic: 5.22 on 7 and 179 DF,  p-value: 1.93e-05
+## 
+## 
+## Value of test-statistic is: -2.137 
+## 
+## Critical values of DF-GLS are:
+##                  1pct  5pct 10pct
+## critical values -2.58 -1.94 -1.62</code></pre>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" title="1"><span class="co"># Test for nonstationarity of 10-years treasury bonds using DF-GLS test</span></a>
+<a class="sourceLine" id="cb147-2" title="2">r1 &lt;-<span class="st"> </span><span class="kw">ur.ers</span>(<span class="kw">window</span>(TB10YS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb147-3" title="3">             <span class="dt">model =</span> <span class="st">&quot;constant&quot;</span>, </a>
+<a class="sourceLine" id="cb147-4" title="4">             <span class="dt">lag.max =</span> <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb147-5" title="5"><span class="kw">summary</span>(r1)</a></code></pre></div>
+<pre><code>## 
+## ############################################### 
+## # Elliot, Rothenberg and Stock Unit Root Test # 
+## ############################################### 
+## 
+## Test of type DF-GLS 
+## detrending of series with intercept 
+## 
+## 
+## Call:
+## lm(formula = dfgls.form, data = data.dfgls)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.749 -0.346  0.102  0.612  4.565 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## yd.lag        -0.0384     0.0217   -1.77    0.078 .
+## yd.diff.lag1  -0.1494     0.0746   -2.00    0.047 *
+## yd.diff.lag2  -0.1117     0.0754   -1.48    0.140  
+## yd.diff.lag3   0.1583     0.0755    2.10    0.037 *
+## yd.diff.lag4   0.0594     0.0760    0.78    0.435  
+## yd.diff.lag5  -0.0133     0.0751   -0.18    0.860  
+## yd.diff.lag6   0.0510     0.0737    0.69    0.490  
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.03 on 179 degrees of freedom
+## Multiple R-squared:  0.0962, Adjusted R-squared:  0.0609 
+## F-statistic: 2.72 on 7 and 179 DF,  p-value: 0.0104
+## 
+## 
+## Value of test-statistic is: -1.773 
+## 
+## Critical values of DF-GLS are:
+##                  1pct  5pct 10pct
+## critical values -2.58 -1.94 -1.62</code></pre>
+<ul>
+<li><p>We conclude that it is plausible to model both interest rate series as I(1).</p></li>
+<li><p>Next, we apply the ADF and the DF-GLS test to test for nonstationarity of the term spread series, which means we test for non-cointegration of long-term and short-term interest rates.</p></li>
+</ul>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" title="1"><span class="co"># Test if term spread is stationairy </span></a>
+<a class="sourceLine" id="cb149-2" title="2"><span class="co">#(cointegration of interest rates) using ADF</span></a>
+<a class="sourceLine" id="cb149-3" title="3">r1 &lt;-<span class="st"> </span><span class="kw">ur.df</span>(<span class="kw">window</span>(TB10YS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">window</span>(TB3MS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span> ,<span class="dv">1</span>)), </a>
+<a class="sourceLine" id="cb149-4" title="4">            <span class="dt">lags =</span> <span class="dv">6</span>, </a>
+<a class="sourceLine" id="cb149-5" title="5">            <span class="dt">selectlags =</span> <span class="st">&quot;AIC&quot;</span>, </a>
+<a class="sourceLine" id="cb149-6" title="6">            <span class="dt">type =</span> <span class="st">&quot;drift&quot;</span>)</a>
+<a class="sourceLine" id="cb149-7" title="7"><span class="kw">summary</span>(r1)</a></code></pre></div>
+<pre><code>## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression drift 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 + 1 + z.diff.lag)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.6094 -0.1929 -0.0407  0.1737  1.7226 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.2324     0.0483    4.81  3.1e-06 ***
+## z.lag.1      -0.3796     0.0661   -5.74  3.8e-08 ***
+## z.diff.lag   -0.0535     0.0738   -0.73     0.47    
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.359 on 183 degrees of freedom
+## Multiple R-squared:  0.203,  Adjusted R-squared:  0.194 
+## F-statistic: 23.3 on 2 and 183 DF,  p-value: 9.85e-10
+## 
+## 
+## Value of test-statistic is: -5.742 16.49 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau2 -3.46 -2.88 -2.57
+## phi1  6.52  4.63  3.81</code></pre>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" title="1"><span class="co"># test if term spread is stationairy </span></a>
+<a class="sourceLine" id="cb151-2" title="2"><span class="co"># (cointegration of interest rates) using DF-GLS test</span></a>
+<a class="sourceLine" id="cb151-3" title="3">r1 &lt;-<span class="st"> </span><span class="kw">ur.ers</span>(<span class="kw">window</span>(TB10YS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">window</span>(TB3MS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb151-4" title="4">             <span class="dt">model =</span> <span class="st">&quot;constant&quot;</span>, </a>
+<a class="sourceLine" id="cb151-5" title="5">             <span class="dt">lag.max =</span> <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb151-6" title="6"><span class="kw">summary</span>(r1)</a></code></pre></div>
+<pre><code>## 
+## ############################################### 
+## # Elliot, Rothenberg and Stock Unit Root Test # 
+## ############################################### 
+## 
+## Test of type DF-GLS 
+## detrending of series with intercept 
+## 
+## 
+## Call:
+## lm(formula = dfgls.form, data = data.dfgls)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.5303 -0.1333  0.0215  0.1957  1.6996 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)   
+## yd.lag       -0.21283    0.07299   -2.92    0.004 **
+## yd.diff.lag1 -0.19499    0.09027   -2.16    0.032 * 
+## yd.diff.lag2 -0.16075    0.08797   -1.83    0.069 . 
+## yd.diff.lag3 -0.09994    0.08723   -1.15    0.253   
+## yd.diff.lag4 -0.00339    0.08454   -0.04    0.968   
+## yd.diff.lag5 -0.12079    0.07981   -1.51    0.132   
+## yd.diff.lag6 -0.12379    0.07432   -1.67    0.098 . 
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.362 on 179 degrees of freedom
+## Multiple R-squared:  0.206,  Adjusted R-squared:  0.175 
+## F-statistic: 6.64 on 7 and 179 DF,  p-value: 5.41e-07
+## 
+## 
+## Value of test-statistic is: -2.916 
+## 
+## Critical values of DF-GLS are:
+##                  1pct  5pct 10pct
+## critical values -2.58 -1.94 -1.62</code></pre>
+<ul>
+<li>Both tests reject the hypothesis of nonstationarity of the term spread series at the 1% level of significance, which is strong evidence in favor of the hypothesis that the term spread is stationary, implying cointegration of long-term and short-term interest rates.</li>
+<li>Since theory suggests that <span class="math inline">\(\theta = 1\)</span>, there is no need to estimate <span class="math inline">\(\theta\)</span>.</li>
+<li>Therefore, it is not necessary to use the EG-ADF test which allows <span class="math inline">\(\theta\)</span> to be unknown.</li>
+<li>However, since it is instructive to do so, we compute this test statistic. The first-stage OLS regression is</li>
+</ul>
+<p><span class="math display">\[TB10YS_t = \beta_0 + \beta_1 TB3MS_t + z_t\]</span></p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" title="1"><span class="kw">library</span>(dynlm)</a>
+<a class="sourceLine" id="cb153-2" title="2"><span class="co"># Estimate first-stage regression of EG-ADF test</span></a>
+<a class="sourceLine" id="cb153-3" title="3">FS_EGADF &lt;-<span class="st"> </span><span class="kw">dynlm</span>(<span class="kw">window</span>(TB10YS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)) <span class="op">~</span></a>
+<a class="sourceLine" id="cb153-4" title="4"><span class="kw">window</span>(TB3MS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span>, <span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb153-5" title="5">FS_EGADF</a></code></pre></div>
+<pre><code>## 
+## Time series regression with &quot;ts&quot; data:
+## Start = 1957(1), End = 2005(1)
+## 
+## Call:
+## dynlm(formula = window(TB10YS, c(1957, 1), c(2005, 1)) ~ window(TB3MS, 
+##     c(1957, 1), c(2005, 1)))
+## 
+## Coefficients:
+##                           (Intercept)  
+##                                 0.365  
+## window(TB3MS, c(1957, 1), c(2005, 1))  
+##                                 1.044</code></pre>
+<ul>
+<li>Thus, we have</li>
+</ul>
+<p><span class="math display">\[\hat{TB10YS_t} = 0.365  + 1.044 \times TB3MS_t\]</span></p>
+<p>where <span class="math inline">\(\hat{\theta} = 1.044.\)</span></p>
+<ul>
+<li>Next, we take the residual series <span class="math inline">\(\hat{z_t}\)</span> and compute the ADF test statistic.</li>
+</ul>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" title="1"><span class="co"># compute the residuals</span></a>
+<a class="sourceLine" id="cb155-2" title="2">z_hat &lt;-<span class="st"> </span><span class="kw">resid</span>(FS_EGADF)</a>
+<a class="sourceLine" id="cb155-3" title="3"></a>
+<a class="sourceLine" id="cb155-4" title="4"><span class="co"># compute the ADF test statistic</span></a>
+<a class="sourceLine" id="cb155-5" title="5">r1 &lt;-<span class="st"> </span><span class="kw">ur.df</span>(z_hat, <span class="dt">lags =</span> <span class="dv">6</span>, <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">selectlags =</span> <span class="st">&quot;AIC&quot;</span>)</a>
+<a class="sourceLine" id="cb155-6" title="6"><span class="kw">summary</span>(r1)</a></code></pre></div>
+<pre><code>## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression none 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 - 1 + z.diff.lag)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.8904 -0.1775 -0.0307  0.1742  1.8503 
+## 
+## Coefficients:
+##            Estimate Std. Error t value Pr(&gt;|t|)    
+## z.lag.1     -0.4649     0.0712   -6.53  6.3e-10 ***
+## z.diff.lag  -0.0043     0.0737   -0.06     0.95    
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.364 on 184 degrees of freedom
+## Multiple R-squared:  0.234,  Adjusted R-squared:  0.225 
+## F-statistic:   28 on 2 and 184 DF,  p-value: 2.35e-11
+## 
+## 
+## Value of test-statistic is: -6.528 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau1 -2.58 -1.95 -1.62</code></pre>
+<ul>
+<li>Sometimes lower power of the EG-ADF test can be observed due to the estimation of <span class="math inline">\(\theta.\)</span></li>
+<li>When <span class="math inline">\(\theta =1\)</span> is the correct value, we expect the power of the ADF test for a unit root in the residuals series <span class="math inline">\(\hat{z}= TB10YS_t-TB3MS_t\)</span> to be higher than when some estimate <span class="math inline">\(\hat{\theta}\)</span> is used.</li>
+</ul>
+<div id="estimation-of-cointegrating-coefficient-using-dynamic-ols-estimator-dols" class="section level4">
+<h4><span class="header-section-number">5.6.2.1</span> Estimation of Cointegrating coefficient using Dynamic OLS Estimator (DOLS)</h4>
+<ul>
+<li>If <span class="math inline">\(X_t\)</span> and <span class="math inline">\(Y_t\)</span> are cointegrated, then the OLS estimator of the coefficient in the cointegrating regression</li>
+</ul>
+<p><span class="math display">\[Y_t=\alpha +\theta X_t+z_t\]</span></p>
+<p>is consistent.</p>
+<ul>
+<li>However, in general the OLS estimator has a non-normal distribution and therefore the inferences derived from its t-statistics can produce misleading results.
+-There are many other alternative estimators of the cointegrating coefficient, such as <strong>dynamic OLS (DOLS) estimator</strong> (Stock and Watson, 1993).</li>
+<li>The DOLS is a modified version of the above equation that includes, past, present and future values of the change in <span class="math inline">\(X_t:\)</span></li>
+</ul>
+<p><span class="math display">\[Y_t=\beta_0 +\theta X_t+\sum_{j=-p}^{p}\delta_j\Delta X_{t-j}+u_t.\]</span></p>
+<ul>
+<li>Sometime cointegration test can be misleading.</li>
+<li>They can improperly reject the null hypothesis of no cointegration more frequently than they should, and frequently they improperly fail to reject the null hypothesis.</li>
+<li>Therefore, if it important to consider economic theory, institutional knowledge and common sense when estimating and using cointegrating relationships.</li>
+</ul>
+<p><strong>A Vector Error Correction Model</strong></p>
+<ul>
+<li>When <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(X_t\)</span> are cointegrated, then forecasts of <span class="math inline">\(\Delta Y_t\)</span> and <span class="math inline">\(\Delta X_t\)</span> can be improved by augmenting a VAR of <span class="math inline">\(\Delta Y_t\)</span> and <span class="math inline">\(\Delta X_t\)</span> by the lagged value of the error correction term, that is, by computing forecasts using VECM.</li>
+</ul>
+<p><span class="math display">\[\Delta Y_t = \beta_{10} +\beta_{11}\Delta Y_{t-1}+\dots+\beta_{1p}\Delta Y_{t-p}+\gamma{11}\Delta X_{t-1}+\dots+\gamma_{1p}\Delta X_{t-p}+\alpha_1(Y_{t-1}-\theta X_{t-1}) + u_{1t}\]</span></p>
+<p><span class="math display">\[\Delta X_t = \beta_{20} +\beta_{21}\Delta Y_{t-1}+\dots+\beta_{2p}\Delta Y_{t-p}+\gamma{21}\Delta X_{t-1}+\dots+\gamma_{2p}\Delta X_{t-p}+\alpha_2(Y_{t-1}-\theta X_{t-1}) + u_{2t}\]</span></p>
+<ul>
+<li>In the application to the two interest rates, theory suggests that <span class="math inline">\(\theta =1\)</span>.</li>
+<li>The unit root tests also support modelling the two series as cointegrated with a cointegrating coefficient of 1.</li>
+</ul>
+<!--https://www.r-econometrics.com/timeseries/vecintro/-->
+<!-- In the following model, we specify the VECM to include two lags of both series as regressors and choose $\theta = 1$.-->
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" title="1">TB10YS &lt;-<span class="st"> </span><span class="kw">window</span>(TB10YS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span> ,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb157-2" title="2">TB3MS &lt;-<span class="st"> </span><span class="kw">window</span>(TB3MS, <span class="kw">c</span>(<span class="dv">1957</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2005</span> ,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb157-3" title="3"><span class="co"># Set up error correction term</span></a>
+<a class="sourceLine" id="cb157-4" title="4">VECM_ECT &lt;-<span class="st"> </span>TB10YS <span class="op">-</span><span class="st"> </span>TB3MS</a>
+<a class="sourceLine" id="cb157-5" title="5"></a>
+<a class="sourceLine" id="cb157-6" title="6"><span class="co"># Estimate both equations of the VECM using &#39;dynlm()&#39;</span></a>
+<a class="sourceLine" id="cb157-7" title="7">VECM_EQ1 &lt;-<span class="st"> </span><span class="kw">dynlm</span>(<span class="kw">d</span>(TB10YS) <span class="op">~</span><span class="st"> </span><span class="kw">L</span>(<span class="kw">d</span>(TB3MS), <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">L</span>(<span class="kw">d</span>(TB10YS), <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">L</span>(VECM_ECT))</a>
+<a class="sourceLine" id="cb157-8" title="8"><span class="kw">summary</span>(VECM_EQ1)</a></code></pre></div>
+<pre><code>## 
+## Time series regression with &quot;ts&quot; data:
+## Start = 1957(4), End = 2005(1)
+## 
+## Call:
+## dynlm(formula = d(TB10YS) ~ L(d(TB3MS), 1:2) + L(d(TB10YS), 1:2) + 
+##     L(VECM_ECT))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.557 -0.477  0.031  0.599  4.090 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)          0.1908     0.1476    1.29     0.20
+## L(d(TB3MS), 1:2)1   -0.0481     0.2345   -0.20     0.84
+## L(d(TB3MS), 1:2)2   -0.3184     0.2155   -1.48     0.14
+## L(d(TB10YS), 1:2)1  -0.1353     0.2384   -0.57     0.57
+## L(d(TB10YS), 1:2)2   0.1275     0.2192    0.58     0.56
+## L(VECM_ECT)         -0.3242     0.2086   -1.55     0.12
+## 
+## Residual standard error: 1.04 on 184 degrees of freedom
+## Multiple R-squared:  0.0782, Adjusted R-squared:  0.0531 
+## F-statistic: 3.12 on 5 and 184 DF,  p-value: 0.00996</code></pre>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" title="1">VECM_EQ2 &lt;-<span class="st"> </span><span class="kw">dynlm</span>(<span class="kw">d</span>(TB3MS) <span class="op">~</span><span class="st"> </span><span class="kw">L</span>(<span class="kw">d</span>(TB3MS), <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">L</span>(<span class="kw">d</span>(TB10YS), <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">L</span>(VECM_ECT))</a>
+<a class="sourceLine" id="cb159-2" title="2"><span class="kw">summary</span>(VECM_EQ2)</a></code></pre></div>
+<pre><code>## 
+## Time series regression with &quot;ts&quot; data:
+## Start = 1957(4), End = 2005(1)
+## 
+## Call:
+## dynlm(formula = d(TB3MS) ~ L(d(TB3MS), 1:2) + L(d(TB10YS), 1:2) + 
+##     L(VECM_ECT))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.956 -0.381  0.054  0.523  3.776 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)         -0.0167     0.1503   -0.11    0.912  
+## L(d(TB3MS), 1:2)1   -0.1520     0.2388   -0.64    0.525  
+## L(d(TB3MS), 1:2)2   -0.4163     0.2194   -1.90    0.059 .
+## L(d(TB10YS), 1:2)1  -0.0354     0.2427   -0.15    0.884  
+## L(d(TB10YS), 1:2)2   0.1668     0.2232    0.75    0.456  
+## L(VECM_ECT)          0.0156     0.2123    0.07    0.942  
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.06 on 184 degrees of freedom
+## Multiple R-squared:  0.0951, Adjusted R-squared:  0.0705 
+## F-statistic: 3.87 on 5 and 184 DF,  p-value: 0.00235</code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1"><span class="co"># coefficient summaries using HAC standard errors</span></a>
+<a class="sourceLine" id="cb161-2" title="2"><span class="kw">coeftest</span>(VECM_EQ1, <span class="dt">vcov. =</span> <span class="kw">NeweyWest</span>(VECM_EQ1, <span class="dt">prewhite =</span> F, <span class="dt">adjust =</span> T))</a></code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##                    Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)          0.1908     0.1754    1.09     0.28
+## L(d(TB3MS), 1:2)1   -0.0481     0.2521   -0.19     0.85
+## L(d(TB3MS), 1:2)2   -0.3184     0.2740   -1.16     0.25
+## L(d(TB10YS), 1:2)1  -0.1353     0.3302   -0.41     0.68
+## L(d(TB10YS), 1:2)2   0.1275     0.2273    0.56     0.58
+## L(VECM_ECT)         -0.3242     0.2925   -1.11     0.27</code></pre>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1"><span class="kw">coeftest</span>(VECM_EQ2, <span class="dt">vcov. =</span> <span class="kw">NeweyWest</span>(VECM_EQ2, <span class="dt">prewhite =</span> F, <span class="dt">adjust =</span> T))</a></code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##                    Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)         -0.0167     0.1533   -0.11     0.91
+## L(d(TB3MS), 1:2)1   -0.1520     0.3154   -0.48     0.63
+## L(d(TB3MS), 1:2)2   -0.4163     0.3231   -1.29     0.20
+## L(d(TB10YS), 1:2)1  -0.0354     0.3778   -0.09     0.93
+## L(d(TB10YS), 1:2)2   0.1668     0.2675    0.62     0.53
+## L(VECM_ECT)          0.0156     0.2575    0.06     0.95</code></pre>
+<ul>
+<li>If <span class="math inline">\(X_t\)</span> and <span class="math inline">\(Y_t\)</span> are cointegrated, then the DOLS estimator is efficient in large samples.</li>
+<li>Heteroskedasticity, autocorrelation invalidates the usual standard error formulas as well as heteroskedasticity-robust standard errors since these are derived under the assumption that there is no autocorrelation.</li>
+<li>When there is both heteroskedasticity and autocorrelation, heteroskedasticity and autocorrelation-consistent (HAC) standard errors need to be used.</li>
+<li>For example, the t-statistic constructed using DOLS estimator with HAC standard errors has a standard normal distribution in large samples.</li>
+</ul>
+<p>Further Reading: Pfaff, B. (2008). Analysis of integrated and cointegrated time series with R. Springer Science &amp; Business Media.</p>
 <!--
-
-Applied econometrics with R C Kleiber, A Zeileis  cointegration test 
+SEs that are robust to
+autocorrelation as well as to heteroskedasticity
+Thus the two estimated equations of the VECM are -->
+<!-- interpretation : https://stats.stackexchange.com/questions/24072/interpreting-rs-ur-df-dickey-fuller-unit-root-test-results-->
+<!--
+  
+  Applied econometrics with R C Kleiber, A Zeileis  cointegration test 
 https://www.econometrics-with-r.org/16-3-cointegration.html
 
 https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegration
@@ -1259,12 +1755,13 @@ https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegra
 https://www.zeileis.org/teaching/AER/Ch-TimeSeries.pdf
 
 Cointegrated Augmented Dickey Fuller Test for Pairs Trading Evaluation in R: https://www.quantstart.com/articles/Cointegrated-Augmented-Dickey-Fuller-Test-for-Pairs-Trading-Evaluation-in-R/
-
-
-
-Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/
-
+  
+  
+  
+  Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/
+  
 -->
+</div>
 </div>
 </div>
 <div id="references-3" class="section level2">
@@ -1272,6 +1769,7 @@ Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstar
 <ul>
 <li><p>Chatfield, C., &amp; Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.</p></li>
 <li><p>Kleiber, C., &amp; Zeileis, A. (2008). Applied econometrics with R. Springer Science &amp; Business Media.</p></li>
+<li><p>Pfaff, B. (2008). Analysis of integrated and cointegrated time series with R. Springer Science &amp; Business Media.</p></li>
 <li><p>Stock, J. H., &amp; Watson, M. W. (2015). Introduction to econometrics.</p></li>
 <li><p>Tsay, R. S. (2013). Multivariate time series analysis: with R and financial applications. John Wiley &amp; Sons.</p></li>
 </ul>

@@ -509,7 +509,12 @@ $$y_t = c_2+\sum_{i=1}^p\alpha_{2i}x_{t-i}+ \sum_{i=1}^p\beta_{2i}y_{t-i}+\epsil
 
 **Test for Granger Causality in R**
 
-<!-- https://rdrr.io/cran/lmtest/man/grangertest.html-->
+<!-- https://rdrr.io/cran/lmtest/man/grangertest.html
+
+The help page for the grangertest function is pretty clear, it should be of major help.
+https://stats.stackexchange.com/questions/131261/granger-causality-interpretation-using-r/132527
+
+-->
 
 
 ```{r echo=TRUE}
@@ -550,6 +555,7 @@ MTS::GrangerTest(data3,p=3,include.mean=T,locInput=c(1))
 - Studies also show that the causality relation can be different in the short run and in the long run. 
 - A study conducted by Datta and Chanda(2011) on Malaysia shows that causality exist between inflation and economic growth in the short run and direction of causality is from inflation to economic growth but in the long run economic growth causes inflation.
 
+\newpage
 ## Cointegration
 
 **This chapter is heavily based on @stock2015introduction.**
@@ -622,7 +628,8 @@ print(p)
   - perform statistical tests for cointegration
   
 - The unit root testing procedures discussed so far can be extended to test for cointegration.
-- The insight on which these tests are based is that if two series $Y_t$ and $X_t$ are cointegrated, the series obtained by taking the difference  $Y_t-\theta X_t$ must be stationary. - If the series are not cointegrated,  
+- The insight on which these tests are based is that if two series $Y_t$ and $X_t$ are cointegrated, the series obtained by taking the difference  $Y_t-\theta X_t$ must be stationary. 
+- If the series are not cointegrated,  
 $Y_t-\theta X_t$ is nonstationary [$I(1)$].
 - The hypothesis that $Y_t$ and $X_t$ are not cointegrated [*i.e.* $Y_t-\theta X_t$ is $I(1)$ ] therefore can be tested by testing the null hypothesis that $Y_t-\theta X_t$ has a unit root.
 - If the hypothesis is rejected, then $Y_t$ and $X_t$ can be modeled as cointegrated.
@@ -667,9 +674,259 @@ $$\Delta X_t = \beta_{20} +\beta_{21}\Delta Y_{t-1}+\dots+\beta_{2p}\Delta Y_{t-
 - The combined model in the above two equations is called a **vector error correction model (VECM)**.
 - In a VECM, past values of $Y_t - \theta X_t$, help to predict future values of $\Delta Y_t$ and/or $\Delta X_t$.
 
-<!--
+**Example: Application to Interest Rates**
 
-Applied econometrics with R C Kleiber, A Zeileis  cointegration test 
+-  According to the  visual representation, the spread of 10-year and 3-month interest rates looks stationary
+- It suggests that long-term and short-term interest rates are cointegrated with a cointegration coefficient of $\theta = 1.$
+
+- We continue by using formal tests (the ADF and the DF-GLS test) to see whether the individual interest rate series are integrated and if their difference is stationary (for now, we assume that  $\theta = 1$ is known).
+- Both is conveniently done by using the functions `ur.df()` for computation of the ADF test and `ur.ers()` for conducting the DF-GLS test.
+- We employ models that include a drift term. (If `type` argument is set to "none" neither an intercept nor a trend is included in the test regression. If it is set to "drift" an intercept is added and if it is set to "trend" both an intercept and a trend is added.)
+- We set the maximum lag order to  5
+and use the AIC for selection of the optimal lag length.
+
+
+```{r testurcafun, echo = FALSE, eval = FALSE}
+library(fpp3)
+set.seed(123)
+tbl1 <- tibble(
+  date = as.Date("2017-01-01") + 0:99,
+  value = cumsum(rnorm(100))
+)
+
+ as_tsibble(tbl1, index = date) %>%autoplot()
+library(urca)
+
+r1 <- ur.df(tbl1$value, 
+            lags = 5, 
+            selectlags = "AIC", 
+            type = "drift")
+summary(r1)
+
+r2 <- ur.ers(tbl1$value,
+             model = "constant", 
+             lag.max = 6)
+summary(r2)
+
+r3 <- ur.ers(tbl1$value,
+             model = "trend", 
+             lag.max = 6)
+summary(r3)
+
+data(Raotbl3)
+attach(Raotbl3)
+
+tbl2 <- tibble(
+  date = as.Date("2017-01-01") + 0:98,
+  value = Raotbl3$lc
+) 
+lc.df <- ur.df(y=lc, lags=3, type='trend')
+summary(lc.df)
+
+as_tsibble(tbl2, index = date) %>%autoplot()
+
+
+
+r1 <- ur.ers(y=lc,
+             model = "constant", 
+             #model = "trend", 
+             lag.max = 6)
+summary(r1)
+
+
+```
+
+
+```{r echo=TRUE}
+library(urca)
+# Test for nonstationarity of 3-month treasury bills using ADF test
+data("USMacroSW") 
+TB3MS <- USMacroSW[,"tbill"] %>% as.ts()
+
+r1 <- ur.df(window(TB3MS, c(1957, 1), c(2005, 1)), 
+            lags = 5, 
+            selectlags = "AIC", 
+            type = "drift")
+summary(r1)
+```
+
+
+
+
+
+```{r echo=TRUE}
+# Test for nonstationarity of 10-years treasury bonds using ADF test
+TB10YS <- USMacroSW[,"tbond"] %>% as.ts()
+
+r1 <- ur.df(window(TB10YS, c(1957, 1), c(2005, 1)), 
+            lags = 6, 
+            selectlags = "AIC", 
+            type = "drift")
+summary(r1)
+```
+
+- Note that the function `ur.df()` reports two test statistics when there is a drift in the ADF regression. 
+- The first of which (the one we are interested in here) is the  t-statistic for the test that the coefficient on the first lag of the series is 0. 
+- The second one is the  t-statistic for the hypothesis test that the drift term equals 0.
+
+
+**Test for nonstationarity using DF-GLS test**
+
+```{r echo=TRUE}
+# Test for nonstationarity of 3-month treasury bills using DF-GLS test
+r1 <- ur.ers(window(TB3MS, c(1957, 1), c(2005, 1)),
+             model = "constant", 
+             lag.max = 6)
+summary(r1)
+
+```
+
+```{r echo=TRUE}
+# Test for nonstationarity of 10-years treasury bonds using DF-GLS test
+r1 <- ur.ers(window(TB10YS, c(1957, 1), c(2005, 1)),
+             model = "constant", 
+             lag.max = 6)
+summary(r1)
+
+```
+
+- We conclude that it is plausible to model both interest rate series as  I(1).
+
+- Next, we apply the ADF and the DF-GLS test to test for nonstationarity of the term spread series, which means we test for non-cointegration of long-term and short-term interest rates.
+
+
+```{r echo=TRUE}
+# Test if term spread is stationairy 
+#(cointegration of interest rates) using ADF
+r1 <- ur.df(window(TB10YS, c(1957, 1), c(2005, 1)) - window(TB3MS, c(1957, 1), c(2005 ,1)), 
+            lags = 6, 
+            selectlags = "AIC", 
+            type = "drift")
+summary(r1)
+```
+
+```{r echo=TRUE}
+# test if term spread is stationairy 
+# (cointegration of interest rates) using DF-GLS test
+r1 <- ur.ers(window(TB10YS, c(1957, 1), c(2005, 1)) - window(TB3MS, c(1957, 1), c(2005, 1)),
+             model = "constant", 
+             lag.max = 6)
+summary(r1)
+```
+
+- Both tests reject the hypothesis of nonstationarity of the term spread series at the  1% level of significance, which is strong evidence in favor of the hypothesis that the term spread is stationary, implying cointegration of long-term and short-term interest rates.
+- Since theory suggests that $\theta = 1$, there is no need to estimate $\theta$.
+- Therefore, it is not necessary to use the EG-ADF test which allows $\theta$ to be unknown.
+- However, since it is instructive to do so, we compute this test statistic. The first-stage OLS regression is
+
+$$TB10YS_t = \beta_0 + \beta_1 TB3MS_t + z_t$$
+
+```{r echo=TRUE}
+library(dynlm)
+# Estimate first-stage regression of EG-ADF test
+FS_EGADF <- dynlm(window(TB10YS, c(1957, 1), c(2005, 1)) ~
+window(TB3MS, c(1957, 1), c(2005, 1)))
+FS_EGADF
+```
+
+- Thus, we have 
+
+$$\hat{TB10YS_t} = 0.365  + 1.044 \times TB3MS_t$$
+
+where $\hat{\theta} = 1.044.$
+
+
+-  Next, we take the residual series $\hat{z_t}$ and compute the ADF test statistic.
+
+
+```{r echo=TRUE}
+# compute the residuals
+z_hat <- resid(FS_EGADF)
+
+# compute the ADF test statistic
+r1 <- ur.df(z_hat, lags = 6, type = "none", selectlags = "AIC")
+summary(r1)
+```
+
+- Sometimes lower power of the EG-ADF test can be observed due to the estimation of $\theta.$
+- When  $\theta =1$ is the correct value, we expect the power of the ADF test for a unit root in the residuals series $\hat{z}= TB10YS_t-TB3MS_t$ to be higher than when some estimate $\hat{\theta}$ is used.
+
+#### Estimation of Cointegrating coefficient using Dynamic OLS Estimator (DOLS)
+
+- If $X_t$ and $Y_t$ are cointegrated, then the OLS estimator of the coefficient in the cointegrating regression
+
+$$Y_t=\alpha +\theta X_t+z_t$$
+
+is consistent.
+
+- However, in general the OLS estimator has a non-normal distribution and therefore the inferences derived from its t-statistics can produce misleading results.
+-There are many other alternative estimators of the cointegrating coefficient, such as **dynamic OLS (DOLS) estimator** (Stock and Watson, 1993).
+- The DOLS is a modified version of the above equation that includes, past, present and future values of the change in $X_t:$
+
+$$Y_t=\beta_0 +\theta X_t+\sum_{j=-p}^{p}\delta_j\Delta X_{t-j}+u_t.$$
+
+
+- Sometime cointegration test can be misleading.
+- They can improperly reject the null hypothesis of no cointegration more frequently than they should, and frequently they improperly fail to reject the null hypothesis.
+- Therefore, if it important to consider economic theory, institutional knowledge and common sense when estimating and using cointegrating relationships. 
+
+**A Vector Error Correction Model**
+
+- When $Y_t$ and $X_t$ are cointegrated, then forecasts of $\Delta Y_t$ and  $\Delta X_t$ can be improved by augmenting a VAR of $\Delta Y_t$ and  $\Delta X_t$ by the lagged value of the error correction term, that is, by computing forecasts using VECM.
+
+$$\Delta Y_t = \beta_{10} +\beta_{11}\Delta Y_{t-1}+\dots+\beta_{1p}\Delta Y_{t-p}+\gamma{11}\Delta X_{t-1}+\dots+\gamma_{1p}\Delta X_{t-p}+\alpha_1(Y_{t-1}-\theta X_{t-1}) + u_{1t}$$
+
+$$\Delta X_t = \beta_{20} +\beta_{21}\Delta Y_{t-1}+\dots+\beta_{2p}\Delta Y_{t-p}+\gamma{21}\Delta X_{t-1}+\dots+\gamma_{2p}\Delta X_{t-p}+\alpha_2(Y_{t-1}-\theta X_{t-1}) + u_{2t}$$
+
+- In the application to the two interest rates, theory suggests that $\theta =1$.
+- The unit root tests also support modelling the two series as cointegrated with a cointegrating coefficient of 1.
+
+
+<!--https://www.r-econometrics.com/timeseries/vecintro/-->
+
+
+
+<!-- In the following model, we specify the VECM to include two lags of both series as regressors and choose $\theta = 1$.-->
+
+
+
+```{r echo=TRUE}
+
+TB10YS <- window(TB10YS, c(1957, 1), c(2005 ,1))
+TB3MS <- window(TB3MS, c(1957, 1), c(2005 ,1))
+# Set up error correction term
+VECM_ECT <- TB10YS - TB3MS
+
+# Estimate both equations of the VECM using 'dynlm()'
+VECM_EQ1 <- dynlm(d(TB10YS) ~ L(d(TB3MS), 1:2) + L(d(TB10YS), 1:2) + L(VECM_ECT))
+summary(VECM_EQ1)
+VECM_EQ2 <- dynlm(d(TB3MS) ~ L(d(TB3MS), 1:2) + L(d(TB10YS), 1:2) + L(VECM_ECT))
+summary(VECM_EQ2)
+
+# coefficient summaries using HAC standard errors
+coeftest(VECM_EQ1, vcov. = NeweyWest(VECM_EQ1, prewhite = F, adjust = T))
+
+coeftest(VECM_EQ2, vcov. = NeweyWest(VECM_EQ2, prewhite = F, adjust = T))
+
+```
+
+- If $X_t$ and $Y_t$ are cointegrated, then the DOLS estimator is efficient in large samples.
+- Heteroskedasticity, autocorrelation invalidates the usual standard error formulas as well as heteroskedasticity-robust standard errors since these are derived under the assumption that there is no autocorrelation.
+- When there is both heteroskedasticity and autocorrelation, heteroskedasticity and autocorrelation-consistent (HAC) standard errors need to be used.
+- For example, the t-statistic constructed using DOLS estimator with HAC standard errors has a standard normal distribution in large samples. 
+
+Further Reading: Pfaff, B. (2008). Analysis of integrated and cointegrated time series with R. Springer Science & Business Media.
+
+<!--
+SEs that are robust to
+autocorrelation as well as to heteroskedasticity
+Thus the two estimated equations of the VECM are -->
+<!-- interpretation : https://stats.stackexchange.com/questions/24072/interpreting-rs-ur-df-dickey-fuller-unit-root-test-results-->
+  
+  
+<!--
+  
+  Applied econometrics with R C Kleiber, A Zeileis  cointegration test 
 https://www.econometrics-with-r.org/16-3-cointegration.html
 
 https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegration
@@ -677,18 +934,20 @@ https://bookdown.org/ccolonescu/RPoE4/time-series-nonstationarity.html#cointegra
 https://www.zeileis.org/teaching/AER/Ch-TimeSeries.pdf
 
 Cointegrated Augmented Dickey Fuller Test for Pairs Trading Evaluation in R: https://www.quantstart.com/articles/Cointegrated-Augmented-Dickey-Fuller-Test-for-Pairs-Trading-Evaluation-in-R/
-
-
-
-Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/
-
+  
+  
+  
+  Johansen Test for Cointegrating Time Series Analysis in R :https://www.quantstart.com/articles/Johansen-Test-for-Cointegrating-Time-Series-Analysis-in-R/
+  
 -->
-
+  
 ## References:
-
+  
 - Chatfield, C., & Xing, H. (2019). The analysis of time series: an introduction with R. CRC press.
 
 - Kleiber, C., & Zeileis, A. (2008). Applied econometrics with R. Springer Science & Business Media.
+
+- Pfaff, B. (2008). Analysis of integrated and cointegrated time series with R. Springer Science & Business Media.
 
 - Stock, J. H., & Watson, M. W. (2015). Introduction to econometrics.
 
